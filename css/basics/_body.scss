@@ -1,0 +1,21 @@
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: linear-gradient(#fff, $white);
+  box-sizing: border-box;
+  color: $black;
+  font: 20px/1 sans-serif;
+}
+
+body {
+  background: transparentize(#999, .8);
+  margin: 0 auto;
+  max-width: (320/20) + rem;
+  padding: $buffer;
+}

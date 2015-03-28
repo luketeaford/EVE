@@ -1,0 +1,105 @@
+<!doctype html>
+<meta charset=utf-8>
+<meta name=viewport content=width=device-width,initial-scale=1,user-scalable=no>
+<title>EVE - Web Audio Synthesizer by Luke Teaford</title>
+<script src=//use.typekit.net/tpk3tna.js></script>
+<script>try{Typekit.load();}catch(e){}</script>
+<link rel=stylesheet href=css/eve.css>
+
+<header>
+  <h1>Eve</h1>
+</header>
+<hr>
+
+<section id=oscilloscope>
+  <h2>Oscilloscope</h2>
+  <canvas id=scope></canvas>
+</section>
+<hr>
+
+<section id=harmonics>
+  <h2>Harmonic Oscillator</h2>
+  <div>
+    <label>
+      <span>1</span>
+      <input data-program=osc1 data-update=update_osc1 id=osc1 max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>2</span>
+      <input data-program=osc2 data-update=update_osc2 id=osc2 max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>3</span>
+      <input data-program=osc3 data-update=update_osc3 id=osc3 max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>4</span>
+      <input data-program=osc4 data-update=update_osc4 id=osc4 max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>5</span>
+      <input data-program=osc5 data-update=update_osc5 id=osc5 max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>6</span>
+      <input data-program=osc6 data-update=update_osc6 id=osc6 max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>7</span>
+      <input data-program=osc7 data-update=update_osc7 id=osc7 max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>8</span>
+      <input data-program=osc8 data-update=update_osc8 id=osc8 max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+</section>
+<hr>
+
+<section id=vca>
+  <h2>VCA</h2>
+  <div>
+  </div>
+</section>
+<hr>
+
+<section id=octave-shift>
+  <h2>Octave Shift</h2>
+  <div>
+  </div>
+</section>
+<hr>
+
+<div id=keyboard>
+  <!-- Octave one -->
+  <button class=white-key data-note-value=-2100>C</button>
+  <button class=black-key data-note-value=-2000>C#</button>
+  <button class=white-key data-note-value=-1900>D</button>
+  <button class=black-key data-note-value=-1800>D#</button>
+  <button class=white-key data-note-value=-1700>E</button>
+  <button class=white-key data-note-value=-1600>F</button>
+  <button class=black-key data-note-value=-1500>F#</button>
+  <button class=white-key data-note-value=-1400>G</button>
+  <button class=black-key data-note-value=-1300>G#</button>
+  <button class=white-key data-note-value=-1200>A</button>
+  <button class=black-key data-note-value=-1100>A#</button>
+  <button class=white-key data-note-value=-1000>B</button>
+  <!-- Octave two -->
+  <button class=white-key data-note-value=-900>C</button>
+  <button class=black-key data-note-value=-800>C#</button>
+  <button class=white-key data-note-value=-700>D</button>
+  <button class=black-key data-note-value=-600>D#</button>
+  <button class=white-key data-note-value=-500>E</button>
+  <button class=white-key data-note-value=-400>F</button>
+  <button class=black-key data-note-value=-300>F#</button>
+  <button class=white-key data-note-value=-200>G</button>
+  <button class=black-key data-note-value=-100>G#</button>
+  <button class=white-key data-note-value=0>A</button>
+  <button class=black-key data-note-value=100>A#</button>
+  <button class=white-key data-note-value=200>B</button>
+  <button class=white-key data-note-value=300>C</button>
+</div>
+
+<footer>© 2015 Luke Teaford.</footer>
+
+<script src=js/jquery.js></script>
+<script src=js/eve.js></script>

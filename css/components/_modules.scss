@@ -1,0 +1,11 @@
+%module {
+  font-family: $sans;
+  > h2 {
+    position: relative;
+    &.closed {
+      + div {
+        display: none;
+      }
+    }
+  }
+}

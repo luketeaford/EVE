@@ -1,0 +1,42 @@
+// Make up and down only (use transforms)
+@mixin arrow($dir: left, $size: 8, $color: inherit) {
+  border: ($size / 10) + rem solid transparent;
+  content: '';
+  display: inline-block;
+  left: 0;
+  position: absolute;
+  @if $dir == left {
+    border-right-color: $color;
+  } @else if $dir == right {
+    border-left-color: $color;
+  } @else if $dir == top {
+    border-bottom-color: $color;
+  } @else if $dir == up {
+    border-bottom-color: $color;
+  } @else if $dir == bottom {
+    border-top-color: $color;
+  } @else if $dir == down {
+    border-top-color: $color;
+  }
+
+}
+
+
+// USE DATA STATES
+.closed {
+
+  &::before {
+    @include arrow(right);
+    transition: border-color .3s;
+//    transform: rotate(90deg);
+  }
+
+}
+
+.open {
+
+  &::before {
+    @include arrow(bottom);
+  }
+
+}

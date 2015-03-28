@@ -1,0 +1,62 @@
+var gulp = require('gulp'),
+    browsersync = require('browser-sync'),
+    concat = require('gulp-concat'),
+    jslint = require('gulp-jslint'),
+    uglify = require('gulp-uglify'),
+    sass = require('gulp-ruby-sass'),
+
+    scripts = [
+        'js/_license.js',
+        'js/_eve.js',
+        'js/_buildsynth.js',
+        'js/_buildscope.js',
+        'js/_startsynth.js',
+        'js/_gateon.js',
+        'js/_gateoff.js',
+        'js/_setpitch.js',
+        'js/_slidercontrols.js',
+        'js/_oscillatorcontrols.js',
+        'js/_storeprogram.js',
+        'js/_documentready.js'
+    ];
+
+gulp.task('browsersync', function() {
+    browsersync({
+        server: {
+            baseDir: "./"
+        }
+    });
+});
+
+gulp.task('js', function () {
+    return gulp.src(scripts)
+    .pipe(concat('eve.js'))
+    .pipe(gulp.dest('js'))
+    .pipe(jslint({
+        browser: true,
+        devel: true,
+        predef: ['$', 'AudioContext', 'Float32Array', 'Uint8Array']
+    }))
+    .pipe(uglify())
+    .pipe(gulp.dest('eve/js'))
+});
+
+gulp.task('sass', function() {
+    return sass('css/eve.scss', {
+        noCache: true,
+        precision: 11,
+        style: 'compressed'
+    })
+    .on('error', function (err) {
+        console.error(err.message);
+    })
+    .pipe(gulp.dest('css'))
+    .pipe(gulp.dest('eve/css'));
+});
+
+gulp.task('watch', function () {
+    gulp.watch('js/*.js', ['js']);
+    gulp.watch('css/**/*.scss', ['sass']);
+});
+
+gulp.task('default', ['js', 'watch', 'browsersync']);

@@ -1,0 +1,20 @@
+%key {
+  border: none;
+  display: inline-block;
+  font-family: $sans;
+  font-size: .8rem;
+  height: 4rem;
+  width: 2rem;
+}
+
+.white-key {
+  @extend %key;
+  background: $white;
+  color: transparentize($black, .5);
+}
+
+.black-key {
+  @extend %key;
+  background: $black;
+  color: transparentize($white, .5);
+}
