@@ -2,15 +2,17 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var EVE = {
     synth: new AudioContext(),
-
-    master_freq: 440,
-    octave_shift: 0,
     playing: [],
 
-    program: {
+    config: new Config({
+        master_freq: 444,
+        octave_shift: 0
+    }),
+
+    program: new Program({
         name: 'INITIALIZE',
 
-        osc1: 0,
+        osc1: 1,
         osc2: 0,
         osc3: 0,
         osc4: 0,
@@ -19,10 +21,10 @@ var EVE = {
         osc7: 0,
         osc8: 0,
 
-        vca_a: 0,
-        vca_d: 0,
+        vca_a: 0.01,
+        vca_d: 0.4,
         vca_s: 1,
-        vca_r: 0,
+        vca_r: 0.4,
         vca_g: 0,
 
         lfo_amt: 0,
@@ -34,6 +36,6 @@ var EVE = {
         vib_amt: 0,
         vib_rate: 0
 
-    }
+    })
 
 };

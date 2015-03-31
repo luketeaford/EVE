@@ -23,7 +23,7 @@
 
 
 // USE DATA STATES
-.closed {
+[data-state=closed] {
 
   &::before {
     @include arrow(right);
@@ -33,7 +33,7 @@
 
 }
 
-.open {
+[data-state=open] {
 
   &::before {
     @include arrow(bottom);

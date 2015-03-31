@@ -2,6 +2,9 @@ $(document).ready(function () {
     'use strict';
     EVE.build_synth();
 
+    // Module controls
+    $('section').on('click', 'h2', EVE.toggle_module);
+
     // Slider controls
     $('#harmonics').on('mousedown touchstart', 'input', EVE.slider.grab);
 

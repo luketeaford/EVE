@@ -7,6 +7,7 @@ var gulp = require('gulp'),
 
     scripts = [
         'js/_license.js',
+        'js/_models.js',
         'js/_eve.js',
         'js/_buildsynth.js',
         'js/_buildscope.js',
@@ -14,6 +15,7 @@ var gulp = require('gulp'),
         'js/_gateon.js',
         'js/_gateoff.js',
         'js/_setpitch.js',
+        'js/_modulecontrols.js',
         'js/_slidercontrols.js',
         'js/_oscillatorcontrols.js',
         'js/_storeprogram.js',
@@ -35,7 +37,7 @@ gulp.task('js', function () {
     .pipe(jslint({
         browser: true,
         devel: true,
-        predef: ['$', 'AudioContext', 'Float32Array', 'Uint8Array']
+        predef: ['$', 'Backbone', 'AudioContext', 'Float32Array', 'Uint8Array']
     }))
     .pipe(uglify())
     .pipe(gulp.dest('eve/js'))

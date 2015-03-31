@@ -1,6 +1,6 @@
 EVE.set_pitch = function (note_value) {
     'use strict';
-    var pitch = EVE.octave_shift * 1200 + note_value,
+    var pitch = EVE.config.get('octave_shift') * 1200 + note_value,
         i,
         oscx;
 

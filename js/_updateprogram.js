@@ -14,6 +14,7 @@ EVE.update_program = function () {
     // VCA
     EVE.update_vca_gain();
 
+    EVE.update_panel();
 
-    return EVE.update_panel();
+    return;
 };

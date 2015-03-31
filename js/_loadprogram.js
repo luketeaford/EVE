@@ -24,6 +24,7 @@ EVE.load_program = function (patch) {
             "vca_release": 0.1,
             "vca_gain": 0,
         };
-        return EVE.update_program();
+        EVE.update_program();
+        return;
     });
 };

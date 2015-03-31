@@ -1,6 +1,8 @@
 EVE.build_synth = function build_synth() {
     'use strict';
 
+    var master = EVE.config.get('master_freq');
+
     // Master VCA
     EVE.vca = EVE.synth.createGain();
     EVE.vca.connect(EVE.synth.destination);
@@ -48,24 +50,24 @@ EVE.build_synth = function build_synth() {
     EVE.osc8_vca.connect(EVE.harmonic_mix);
 
     // Frequencies
-    EVE.osc1.frequency.value = EVE.master_freq;
-    EVE.osc2.frequency.value = EVE.master_freq * 2;
-    EVE.osc3.frequency.value = EVE.master_freq * 3;
-    EVE.osc4.frequency.value = EVE.master_freq * 4;
-    EVE.osc5.frequency.value = EVE.master_freq * 5;
-    EVE.osc6.frequency.value = EVE.master_freq * 6;
-    EVE.osc7.frequency.value = EVE.master_freq * 7;
-    EVE.osc8.frequency.value = EVE.master_freq * 8;
+    EVE.osc1.frequency.value = master;
+    EVE.osc2.frequency.value = master * 2;
+    EVE.osc3.frequency.value = master * 3;
+    EVE.osc4.frequency.value = master * 4;
+    EVE.osc5.frequency.value = master * 5;
+    EVE.osc6.frequency.value = master * 6;
+    EVE.osc7.frequency.value = master * 7;
+    EVE.osc8.frequency.value = master * 8;
 
-    // Amplitidues (Only useful temporarily)
-    EVE.osc1_vca.gain.value = 0;
-    EVE.osc2_vca.gain.value = 0;
-    EVE.osc3_vca.gain.value = 0;
-    EVE.osc4_vca.gain.value = 0;
-    EVE.osc5_vca.gain.value = 0;
-    EVE.osc6_vca.gain.value = 0;
-    EVE.osc7_vca.gain.value = 0;
-    EVE.osc8_vca.gain.value = 0;
+    // Amplitidues
+    EVE.osc1_vca.gain.value = EVE.program.get('osc1');
+    EVE.osc2_vca.gain.value = EVE.program.get('osc2');
+    EVE.osc3_vca.gain.value = EVE.program.get('osc3');
+    EVE.osc4_vca.gain.value = EVE.program.get('osc4');
+    EVE.osc5_vca.gain.value = EVE.program.get('osc5');
+    EVE.osc6_vca.gain.value = EVE.program.get('osc6');
+    EVE.osc7_vca.gain.value = EVE.program.get('osc7');
+    EVE.osc8_vca.gain.value = EVE.program.get('osc8');
 
     // LFO
     EVE.lfo = EVE.synth.createOscillator();
@@ -76,7 +78,6 @@ EVE.build_synth = function build_synth() {
     // Vibrato
     EVE.vibrato = EVE.synth.createOscillator();
 
-    // Callbacks
     EVE.build_scope();
 
     EVE.build_synth = function () {

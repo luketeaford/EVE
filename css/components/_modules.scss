@@ -2,7 +2,7 @@
   font-family: $sans;
   > h2 {
     position: relative;
-    &.closed {
+    &[data-state=closed] {
       + div {
         display: none;
       }

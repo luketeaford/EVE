@@ -25,5 +25,5 @@ EVE.amp_release = function () {
     EVE.vca.gain.setValueAtTime(vca_release_peak, EVE.synth.currentTime);
 
     // Release
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
+    EVE.vca.gain.setTargetAtTime(EVE.program.get('vca_g'), EVE.synth.currentTime, EVE.program.get('vca_r'));
 };
