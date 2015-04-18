@@ -9,17 +9,6 @@ var gulp = require('gulp'),
         'js/_license.js',
         'js/_models.js',
         'js/_eve.js',
-        'js/_buildsynth.js',
-        'js/_buildscope.js',
-        'js/_startsynth.js',
-        'js/_gateon.js',
-        'js/_gateoff.js',
-        'js/_setpitch.js',
-        'js/_modulecontrols.js',
-        'js/_slidercontrols.js',
-        'js/_oscillatorcontrols.js',
-        'js/_storeprogram.js',
-        'js/_documentready.js'
     ];
 
 gulp.task('browsersync', function() {

@@ -1,8 +1,6 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var EVE = {
-    synth: new AudioContext(),
-    playing: [],
 
     config: new Config({
         master_freq: 444,
@@ -26,15 +24,6 @@ var EVE = {
         vca_s: 1,
         vca_r: 0.4,
         vca_g: 0,
-
-        lfo_amt: 0,
-        lfo_rate: 0,
-
-        trem_amt: 0,
-        trem_rate: 0,
-
-        vib_amt: 0,
-        vib_rate: 0
 
     })
 
