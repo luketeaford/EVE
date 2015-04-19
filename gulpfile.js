@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
 
     scripts = [
-        'js/_license.js',
+    //    'js/_license.js',
         'js/_models.js',
         'js/_eve.js',
     ];
