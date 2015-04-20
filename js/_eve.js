@@ -22,15 +22,12 @@ var EVE = {
         osc7: 0,
         osc8: 0,
 
-        vca_a: 0.01,
+        vca_a: 0.1,
         vca_d: 0.4,
-        vca_s: 1,
+        vca_s: 0.65,
         vca_r: 0.4,
         vca_g: 0
     },
-
-//    harmonicOscs: [],
-//    harmonicVcas: [],
 
     buildButton: document.getElementById('build-button'),
 
@@ -38,5 +35,26 @@ var EVE = {
     now: function now() {
         'use strict';
         return EVE.synth.currentTime;
+    },
+
+    attack: function attack(x) {
+        'use strict';
+        return EVE.synth.currentTime + x;
+    },
+
+    decay: function decay() {
+        'use strict';
+        return;
+    },
+
+    sustain: function sustain() {
+        'use strict';
+        return;
+    },
+
+    release: function release() {
+        'use strict';
+        return;
     }
+
 };

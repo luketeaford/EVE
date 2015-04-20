@@ -22,7 +22,6 @@ EVE.buildSynth = function buildSynth() {
             EVE[osc].type = 'sine';
             EVE[osc].frequency.value = EVE.config.master_freq * j;
             EVE[osc].connect(EVE[vca]);
-            EVE[osc].start(0);
 
             EVE.harmonicOscs.push(EVE[osc]);
             EVE.harmonicVcas.push(EVE[vca]);
@@ -32,6 +31,7 @@ EVE.buildSynth = function buildSynth() {
 
     // Master VCA
     EVE.vca = EVE.synth.createGain();
+    EVE.vca.gain.setValueAtTime(0, EVE.now());
     EVE.vca.connect(EVE.synth.destination);
 
     // Harmonic Oscillator

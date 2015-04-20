@@ -22,15 +22,12 @@ var EVE = {
         osc7: 0,
         osc8: 0,
 
-        vca_a: 0.01,
+        vca_a: 0.1,
         vca_d: 0.4,
-        vca_s: 1,
+        vca_s: 0.65,
         vca_r: 0.4,
         vca_g: 0
     },
-
-//    harmonicOscs: [],
-//    harmonicVcas: [],
 
     buildButton: document.getElementById('build-button'),
 
@@ -38,7 +35,28 @@ var EVE = {
     now: function now() {
         'use strict';
         return EVE.synth.currentTime;
+    },
+
+    attack: function attack(x) {
+        'use strict';
+        return EVE.synth.currentTime + x;
+    },
+
+    decay: function decay() {
+        'use strict';
+        return;
+    },
+
+    sustain: function sustain() {
+        'use strict';
+        return;
+    },
+
+    release: function release() {
+        'use strict';
+        return;
     }
+
 };
 
 EVE.buildSynth = function buildSynth() {
@@ -65,7 +83,6 @@ EVE.buildSynth = function buildSynth() {
             EVE[osc].type = 'sine';
             EVE[osc].frequency.value = EVE.config.master_freq * j;
             EVE[osc].connect(EVE[vca]);
-            EVE[osc].start(0);
 
             EVE.harmonicOscs.push(EVE[osc]);
             EVE.harmonicVcas.push(EVE[vca]);
@@ -75,6 +92,7 @@ EVE.buildSynth = function buildSynth() {
 
     // Master VCA
     EVE.vca = EVE.synth.createGain();
+    EVE.vca.gain.setValueAtTime(0, EVE.now());
     EVE.vca.connect(EVE.synth.destination);
 
     // Harmonic Oscillator
@@ -88,3 +106,56 @@ EVE.buildSynth = function buildSynth() {
 
     return true;
 };
+
+EVE.startSynth = function startSynth() {
+    'use strict';
+    var i;
+    console.log('Start synth called');
+    for (i = 0; i < EVE.config.harmonics; i += 1) {
+        EVE.harmonicOscs[i].start(0);
+    }
+    EVE.startSynth = function startSynth() {
+        console.warn('startSynth already called');
+        return true;
+    };
+    return true;
+};
+
+EVE.gateOn = function gateOn(e) {
+    'use strict';
+    if (e.target.dataset.noteValue) {
+        console.log(e.target.dataset.noteValue);
+        // Attack
+        EVE.vca.gain.linearRampToValueAtTime(1, EVE.attack(EVE.program.vca_a));
+
+        // Decay
+        EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, vca_end_of_attack, TANGUY.program.vca_d);
+
+    }
+};
+
+EVE.gateOff = function gateOff(e) {
+    'use strict';
+    if (e.target.dataset.noteValue) {
+        console.log('gateOff', e.target.dataset.noteValue);
+        EVE.vca.gain.setTargetAtTime(0, EVE.now(), 0.1);
+    }
+};
+
+EVE.calculatePitch = function () {
+    'use strict';
+    console.log('calculatePitch called');
+};
+
+(function documentReady() {
+    'use strict';
+    // SET UP
+    EVE.buildSynth();
+    EVE.startSynth();
+
+    // Actually belongs in this function
+    EVE.keyboard = document.getElementById('keyboard');
+
+    EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
+    EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
+}());
