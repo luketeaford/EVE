@@ -6,7 +6,9 @@ EVE.gateOn = function gateOn(e) {
         EVE.vca.gain.linearRampToValueAtTime(1, EVE.attack(EVE.program.vca_a));
 
         // Decay
-        EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, vca_end_of_attack, TANGUY.program.vca_d);
+        //EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, vca_end_of_attack, EVE.program.vca_d);
 
+        //EVE.keyboard.dispatchEvent(EVE.press);
+        e.target.dispatchEvent(EVE.press);
     }
 };

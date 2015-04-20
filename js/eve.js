@@ -129,8 +129,10 @@ EVE.gateOn = function gateOn(e) {
         EVE.vca.gain.linearRampToValueAtTime(1, EVE.attack(EVE.program.vca_a));
 
         // Decay
-        EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, vca_end_of_attack, TANGUY.program.vca_d);
+        //EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, vca_end_of_attack, EVE.program.vca_d);
 
+        //EVE.keyboard.dispatchEvent(EVE.press);
+        e.target.dispatchEvent(EVE.press);
     }
 };
 
@@ -147,15 +149,29 @@ EVE.calculatePitch = function () {
     console.log('calculatePitch called');
 };
 
+EVE.customEvents = function customEvents() {
+    'use strict';
+    EVE.press = new CustomEvent('press', {
+        bubbles: true
+    });
+};
+
 (function documentReady() {
     'use strict';
+
     // SET UP
     EVE.buildSynth();
     EVE.startSynth();
+    EVE.customEvents();
 
     // Actually belongs in this function
     EVE.keyboard = document.getElementById('keyboard');
 
     EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
     EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
+
+    // Custom events testing
+    EVE.keyboard.addEventListener('press', function (e) {
+        console.log('Set note to', e.target.dataset.noteValue);
+    });
 }());

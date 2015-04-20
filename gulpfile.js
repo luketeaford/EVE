@@ -31,7 +31,14 @@ gulp.task('js', function () {
     .pipe(jslint({
         browser: true,
         devel: true,
-        predef: ['$', 'Backbone', 'AudioContext', 'Float32Array', 'Uint8Array']
+        predef: [
+            '$',
+            'AudioContext',
+            'CustomEvent',
+            'Event',
+            'Float32Array',
+            'Uint8Array'
+        ]
     }))
     .pipe(uglify())
     .pipe(gulp.dest('eve/js'))
