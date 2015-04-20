@@ -35,3 +35,4 @@ EVE is an additive monosynth built with Web Audio.
 * camelCasing even though it's ugly
 * alphabetizing
 * whatever else I think of
+* use editorConfig

@@ -4,12 +4,13 @@ var EVE = {
 
     synth: new AudioContext(),
 
-    config: new Config({
+    config: {
+        harmonics: 8,
         master_freq: 440,
         octave_shift: 0
-    }),
+    },
 
-    program: new Program({
+    program: {
         name: 'INITIALIZE',
 
         osc1: 1,
@@ -26,8 +27,7 @@ var EVE = {
         vca_s: 1,
         vca_r: 0.4,
         vca_g: 0
-
-    }),
+    },
 
     harmonicOscs: [],
     harmonicVcas: [],
@@ -39,50 +39,4 @@ var EVE = {
         'use strict';
         return EVE.synth.currentTime;
     }
-};
-
-EVE.buildSynth = function buildSynth() {
-    'use strict';
-
-    function buildHarmonicOsc(x) {
-        var i,
-            j,
-            osc,
-            vca;
-
-        for (i = 0; i < x; i += 1) {
-            j = i + 1;
-            osc = 'osc' + j;
-            vca = osc + '_vca';
-
-            EVE[vca] = EVE.synth.createGain();
-            EVE[vca].gain.setValueAtTime(1, EVE.now());
-            EVE[vca].connect(EVE.vca);
-
-            EVE[osc] = EVE.synth.createOscillator();
-            EVE[osc].type = 'sine';
-            EVE[osc].frequency.value = EVE.config.get('master_freq') * j;
-            EVE[osc].connect(EVE[vca]);
-            EVE[osc].start(0);
-
-            EVE.harmonicOscs.push(EVE[osc]);
-            EVE.harmonicVcas.push(EVE[vca]);
-        }
-
-    }
-
-    // Master VCA
-    EVE.vca = EVE.synth.createGain();
-    EVE.vca.connect(EVE.synth.destination);
-
-    // Harmonic Oscillator
-    buildHarmonicOsc(8);
-
-    // Prevent twice (sort of...)
-    EVE.buildSynth = function buildSynth() {
-        console.warn('Synth already built');
-        return true;
-    };
-
-    return true;
 };

@@ -7,8 +7,10 @@ var gulp = require('gulp'),
 
     scripts = [
     //    'js/_license.js',
-        'js/_models.js',
+        'js/_backbonemodels.js',
+        'js/_backboneviews.js',
         'js/_eve.js',
+        'js/_buildsynth.js',
     ];
 
 gulp.task('browsersync', function() {
