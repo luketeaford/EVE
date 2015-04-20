@@ -29,8 +29,8 @@ var EVE = {
         vca_g: 0
     },
 
-    harmonicOscs: [],
-    harmonicVcas: [],
+//    harmonicOscs: [],
+//    harmonicVcas: [],
 
     buildButton: document.getElementById('build-button'),
 
@@ -43,6 +43,8 @@ var EVE = {
 
 EVE.buildSynth = function buildSynth() {
     'use strict';
+    EVE.harmonicOscs = [];
+    EVE.harmonicVcas = [];
 
     function buildHarmonicOsc(x) {
         var i,

@@ -1,5 +1,7 @@
 EVE.buildSynth = function buildSynth() {
     'use strict';
+    EVE.harmonicOscs = [];
+    EVE.harmonicVcas = [];
 
     function buildHarmonicOsc(x) {
         var i,
