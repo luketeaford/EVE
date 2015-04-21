@@ -30,6 +30,7 @@ var EVE = {
     },
 
     buildButton: document.getElementById('build-button'),
+    registerButton: document.getElementById('register-button'),
 
     // Experimental time savers
     now: function now() {

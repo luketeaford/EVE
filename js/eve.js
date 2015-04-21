@@ -30,6 +30,7 @@ var EVE = {
     },
 
     buildButton: document.getElementById('build-button'),
+    registerButton: document.getElementById('register-button'),
 
     // Experimental time savers
     now: function now() {
@@ -131,7 +132,6 @@ EVE.gateOn = function gateOn(e) {
         // Decay
         //EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, vca_end_of_attack, EVE.program.vca_d);
 
-        //EVE.keyboard.dispatchEvent(EVE.press);
         e.target.dispatchEvent(EVE.press);
     }
 };
@@ -151,10 +151,19 @@ EVE.calculatePitch = function () {
 
 EVE.customEvents = function customEvents() {
     'use strict';
+    // Would be cool to store the custom events in an object
     EVE.press = new CustomEvent('press', {
         bubbles: true
     });
+
+    EVE.navigate = new CustomEvent('navigate', {
+        bubbles: true
+    });
+
 };
+
+// Try creating a custom event for history state change
+// Dispatch that event and listen for it on window
 
 (function documentReady() {
     'use strict';
@@ -172,6 +181,53 @@ EVE.customEvents = function customEvents() {
 
     // Custom events testing
     EVE.keyboard.addEventListener('press', function (e) {
-        console.log('Set note to', e.target.dataset.noteValue);
+        console.log('Set note via custom event to', e.target.dataset.noteValue);
     });
 }());
+
+EVE.testBuild = function () {
+    'use strict';
+    var x = {
+        page: 'build'
+    };
+    history.pushState(x, '', 'build');
+    window.dispatchEvent(EVE.navigate);
+    console.log('Test build called', history.state.page);
+};
+
+EVE.testRegister = function () {
+    'use strict';
+    var x = {
+        page: 'register'
+    };
+    history.pushState(x, '', 'register');
+    window.dispatchEvent(EVE.navigate);
+    console.log('Test register called', history.state.page);
+};
+
+EVE.historyChange = function () {
+    'use strict';
+    console.log('History pop state going on');
+};
+
+EVE.router = function () {
+    'use strict';
+    console.log('Router activated', history.state.page);
+    switch (history.state.page) {
+    case 'build':
+        console.log('Go to build page');
+        break;
+    case 'register':
+        console.log('Go to registration page');
+        break;
+    default:
+        console.log('404 page, man.');
+    }
+};
+
+// Event listeners
+EVE.buildButton.addEventListener('click', EVE.testBuild);
+EVE.registerButton.addEventListener('click', EVE.testRegister);
+
+window.addEventListener('popstate', EVE.historyChange);
+window.addEventListener('navigate', EVE.router);

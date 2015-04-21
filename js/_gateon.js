@@ -8,7 +8,6 @@ EVE.gateOn = function gateOn(e) {
         // Decay
         //EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, vca_end_of_attack, EVE.program.vca_d);
 
-        //EVE.keyboard.dispatchEvent(EVE.press);
         e.target.dispatchEvent(EVE.press);
     }
 };

@@ -13,7 +13,8 @@ var gulp = require('gulp'),
         'js/_gateon.js',
         'js/_gateoff.js',
         'js/_calculatepitch.js',
-        'js/_temp.js'
+        'js/_temp.js',
+        'js/_router.js'
     ];
 
 gulp.task('browsersync', function() {

@@ -1,9 +1,18 @@
 EVE.customEvents = function customEvents() {
     'use strict';
+    // Would be cool to store the custom events in an object
     EVE.press = new CustomEvent('press', {
         bubbles: true
     });
+
+    EVE.navigate = new CustomEvent('navigate', {
+        bubbles: true
+    });
+
 };
+
+// Try creating a custom event for history state change
+// Dispatch that event and listen for it on window
 
 (function documentReady() {
     'use strict';
@@ -21,6 +30,6 @@ EVE.customEvents = function customEvents() {
 
     // Custom events testing
     EVE.keyboard.addEventListener('press', function (e) {
-        console.log('Set note to', e.target.dataset.noteValue);
+        console.log('Set note via custom event to', e.target.dataset.noteValue);
     });
 }());
