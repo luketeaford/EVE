@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/luketeaford/EVE/issues"
   },
-  "homepage": "https://github.com/luketeaford/EVE"
+  "homepage": "https://github.com/luketeaford/EVE",
+  "devDependencies": {
+    "browser-sync": "^2.6.4",
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-jslint": "^0.2.2",
+    "gulp-ruby-sass": "^1.0.1",
+    "gulp-uglify": "^1.2.0"
+  }
 }
