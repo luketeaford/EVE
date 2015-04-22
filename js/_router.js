@@ -4,7 +4,7 @@ EVE.testBuild = function () {
         page: 'build'
     };
     history.pushState(x, '', 'build');
-    window.dispatchEvent(EVE.navigate);
+    window.dispatchEvent(EVE.events.navigate);
     console.log('Test build called', history.state.page);
 };
 
@@ -14,7 +14,7 @@ EVE.testRegister = function () {
         page: 'register'
     };
     history.pushState(x, '', 'register');
-    window.dispatchEvent(EVE.navigate);
+    window.dispatchEvent(EVE.events.navigate);
     console.log('Test register called', history.state.page);
 };
 
@@ -23,7 +23,7 @@ EVE.historyChange = function () {
     console.log('History pop state going on');
 };
 
-EVE.router = function () {
+EVE.router = function (e) {
     'use strict';
     console.log('Router activated', history.state.page);
     switch (history.state.page) {
@@ -32,6 +32,7 @@ EVE.router = function () {
         break;
     case 'register':
         console.log('Go to registration page');
+        console.dir(e);
         break;
     default:
         console.log('404 page, man.');

@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     scripts = [
     //    'js/_license.js',
         'js/_eve.js',
+        'js/_customevents.js',
         'js/_buildsynth.js',
         'js/_startsynth.js',
         'js/_gateon.js',

@@ -60,6 +60,18 @@ var EVE = {
 
 };
 
+EVE.events = {
+    press: new CustomEvent('press', {
+        bubbles: true
+    }),
+    navigate: new CustomEvent('navigate', {
+        detail: {
+            place: window.location
+        },
+        bubbles: true
+    })
+};
+
 EVE.buildSynth = function buildSynth() {
     'use strict';
     EVE.harmonicOscs = [];
@@ -132,7 +144,7 @@ EVE.gateOn = function gateOn(e) {
         // Decay
         //EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, vca_end_of_attack, EVE.program.vca_d);
 
-        e.target.dispatchEvent(EVE.press);
+        e.target.dispatchEvent(EVE.events.press);
     }
 };
 
@@ -149,29 +161,15 @@ EVE.calculatePitch = function () {
     console.log('calculatePitch called');
 };
 
-EVE.customEvents = function customEvents() {
-    'use strict';
-    // Would be cool to store the custom events in an object
-    EVE.press = new CustomEvent('press', {
-        bubbles: true
-    });
-
-    EVE.navigate = new CustomEvent('navigate', {
-        bubbles: true
-    });
-
-};
-
 // Try creating a custom event for history state change
 // Dispatch that event and listen for it on window
 
 (function documentReady() {
     'use strict';
 
-    // SET UP
+    // Set up
     EVE.buildSynth();
     EVE.startSynth();
-    EVE.customEvents();
 
     // Actually belongs in this function
     EVE.keyboard = document.getElementById('keyboard');
@@ -191,7 +189,7 @@ EVE.testBuild = function () {
         page: 'build'
     };
     history.pushState(x, '', 'build');
-    window.dispatchEvent(EVE.navigate);
+    window.dispatchEvent(EVE.events.navigate);
     console.log('Test build called', history.state.page);
 };
 
@@ -201,7 +199,7 @@ EVE.testRegister = function () {
         page: 'register'
     };
     history.pushState(x, '', 'register');
-    window.dispatchEvent(EVE.navigate);
+    window.dispatchEvent(EVE.events.navigate);
     console.log('Test register called', history.state.page);
 };
 
@@ -210,7 +208,7 @@ EVE.historyChange = function () {
     console.log('History pop state going on');
 };
 
-EVE.router = function () {
+EVE.router = function (e) {
     'use strict';
     console.log('Router activated', history.state.page);
     switch (history.state.page) {
@@ -219,6 +217,7 @@ EVE.router = function () {
         break;
     case 'register':
         console.log('Go to registration page');
+        console.dir(e);
         break;
     default:
         console.log('404 page, man.');
