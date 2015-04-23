@@ -40,8 +40,8 @@ EVE.router = function (e) {
 };
 
 // Event listeners
-EVE.buildButton.addEventListener('click', EVE.testBuild);
-EVE.registerButton.addEventListener('click', EVE.testRegister);
+//EVE.buildButton.addEventListener('click', EVE.testBuild);
+//EVE.registerButton.addEventListener('click', EVE.testRegister);
 
 window.addEventListener('popstate', EVE.historyChange);
 window.addEventListener('navigate', EVE.router);

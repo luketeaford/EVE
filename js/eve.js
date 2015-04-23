@@ -2,6 +2,13 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var EVE = {
 
+    user: {
+        username: 'luketeaford',
+        first: 'Luke',
+        last: 'Teaford',
+        display_name: this.first + ' ' + this.last
+    },
+
     synth: new AudioContext(),
 
     config: {
@@ -58,6 +65,21 @@ var EVE = {
         return;
     }
 
+};
+
+EVE.templates = {
+    nav: function () {
+        'use strict';
+        var nav = document.getElementById('nav'),
+            links = nav.getElementsByTagName('a'),
+            login;
+
+        login = EVE.has_registered ? 'Sign In' : 'Register';
+        login = EVE.user ? 'Hello, ' + EVE.user.username : 'you';
+        links[0].innerText = login;
+        console.log(links);
+        console.log(links[0]);
+    }
 };
 
 EVE.events = {
@@ -168,20 +190,23 @@ EVE.calculatePitch = function () {
 (function documentReady() {
     'use strict';
 
-    // Set up
+    // Set up registration screen
+    EVE.templates.nav();
+
+    // Set up synth
     EVE.buildSynth();
     EVE.startSynth();
 
     // Actually belongs in this function
-    EVE.keyboard = document.getElementById('keyboard');
+    //EVE.keyboard = document.getElementById('keyboard');
 
-    EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
-    EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
+    //EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
+    //EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
 
     // Custom events testing
-    EVE.keyboard.addEventListener('press', function (e) {
-        console.log('Set note via custom event to', e.target.dataset.noteValue);
-    });
+    //EVE.keyboard.addEventListener('press', function (e) {
+    //    console.log('Set note via custom event to', e.target.dataset.noteValue);
+    //});
 }());
 
 EVE.testBuild = function () {
@@ -226,8 +251,8 @@ EVE.router = function (e) {
 };
 
 // Event listeners
-EVE.buildButton.addEventListener('click', EVE.testBuild);
-EVE.registerButton.addEventListener('click', EVE.testRegister);
+//EVE.buildButton.addEventListener('click', EVE.testBuild);
+//EVE.registerButton.addEventListener('click', EVE.testRegister);
 
 window.addEventListener('popstate', EVE.historyChange);
 window.addEventListener('navigate', EVE.router);

@@ -3,11 +3,13 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     jslint = require('gulp-jslint'),
     uglify = require('gulp-uglify'),
+    rename = require('gulp-rename'),
     sass = require('gulp-ruby-sass'),
 
     scripts = [
     //    'js/_license.js',
         'js/_eve.js',
+        'js/templates/*.js',
         'js/_customevents.js',
         'js/_buildsynth.js',
         'js/_startsynth.js',
@@ -43,6 +45,7 @@ gulp.task('js', function () {
         ]
     }))
     .pipe(uglify())
+    .pipe(rename('eve.min.js'))
     .pipe(gulp.dest('eve/js'))
 });
 
