@@ -37,10 +37,10 @@ EVE.buildSynth = function buildSynth() {
     // Harmonic Oscillator
     buildHarmonicOsc(EVE.config.harmonics);
 
-    // Prevent twice (sort of...)
+    // Prevent twice
     EVE.buildSynth = function buildSynth() {
         console.warn('Synth already built');
-        return true;
+        return 'Synth already built';
     };
 
     return true;

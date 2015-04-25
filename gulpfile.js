@@ -3,7 +3,6 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     jslint = require('gulp-jslint'),
     uglify = require('gulp-uglify'),
-    rename = require('gulp-rename'),
     sass = require('gulp-ruby-sass'),
 
     scripts = [
@@ -45,7 +44,6 @@ gulp.task('js', function () {
         ]
     }))
     .pipe(uglify())
-    .pipe(rename('eve.min.js'))
     .pipe(gulp.dest('eve/js'))
 });
 

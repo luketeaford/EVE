@@ -4,8 +4,8 @@
 (function documentReady() {
     'use strict';
 
-    // Set up registration screen
-    EVE.templates.nav();
+    // Set up templates
+    navTemplate();
 
     // Set up synth
     EVE.buildSynth();

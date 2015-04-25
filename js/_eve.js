@@ -3,10 +3,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var EVE = {
 
     user: {
-        username: 'luketeaford',
-        first: 'Luke',
-        last: 'Teaford',
-        display_name: this.first + ' ' + this.last
+        username: 'luketeaford'
     },
 
     synth: new AudioContext(),

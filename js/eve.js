@@ -3,10 +3,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var EVE = {
 
     user: {
-        username: 'luketeaford',
-        first: 'Luke',
-        last: 'Teaford',
-        display_name: this.first + ' ' + this.last
+        username: 'luketeaford'
     },
 
     synth: new AudioContext(),
@@ -67,20 +64,11 @@ var EVE = {
 
 };
 
-EVE.templates = {
-    nav: function () {
-        'use strict';
-        var nav = document.getElementById('nav'),
-            links = nav.getElementsByTagName('a'),
-            login;
-
-        login = EVE.has_registered ? 'Sign In' : 'Register';
-        login = EVE.user ? 'Hello, ' + EVE.user.username : 'you';
-        links[0].innerText = login;
-        console.log(links);
-        console.log(links[0]);
-    }
-};
+function navTemplate() {
+    'use strict';
+    // Figure out what the differences are to the navigation (if any)
+    console.log('Navigation template');
+}
 
 EVE.events = {
     press: new CustomEvent('press', {
@@ -134,10 +122,10 @@ EVE.buildSynth = function buildSynth() {
     // Harmonic Oscillator
     buildHarmonicOsc(EVE.config.harmonics);
 
-    // Prevent twice (sort of...)
+    // Prevent twice
     EVE.buildSynth = function buildSynth() {
         console.warn('Synth already built');
-        return true;
+        return 'Synth already built';
     };
 
     return true;
@@ -146,13 +134,12 @@ EVE.buildSynth = function buildSynth() {
 EVE.startSynth = function startSynth() {
     'use strict';
     var i;
-    console.log('Start synth called');
     for (i = 0; i < EVE.config.harmonics; i += 1) {
         EVE.harmonicOscs[i].start(0);
     }
     EVE.startSynth = function startSynth() {
         console.warn('startSynth already called');
-        return true;
+        return 'Synth can only be started once';
     };
     return true;
 };
@@ -190,8 +177,8 @@ EVE.calculatePitch = function () {
 (function documentReady() {
     'use strict';
 
-    // Set up registration screen
-    EVE.templates.nav();
+    // Set up templates
+    navTemplate();
 
     // Set up synth
     EVE.buildSynth();
