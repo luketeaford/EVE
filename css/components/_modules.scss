@@ -1,12 +1,22 @@
-//TODO figure out if this makes sense
 %module {
   font-family: $sans;
-  > h2 {
-    position: relative;
-    &.closed {
-      + div {
-        display: none;
-      }
+  &[data-state=open] {
+    &::before {
+      @include arrow();
+    }
+    * {
+      transition: opacity .3s;
+    }
+  }
+  &[data-state=closed] {
+    &::before {
+      @include arrow(down);
+    }
+    h2 {
+      display: inline-block;
+    }
+    * {
+      display: none;
     }
   }
 }

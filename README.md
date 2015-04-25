@@ -12,10 +12,11 @@ EVE is an additive monosynth built with Web Audio.
 ###Routing
 * /login
 * /signup
-* /user/sound
+* /help
+* /manual
 * /user/
 * /user/settings
-* /help
+* /user/sounds
 
 ###Browser Support
 * Truly mobile first
@@ -61,4 +62,8 @@ EVE is an additive monosynth built with Web Audio.
 * Add a watch to the gulpfile itself in case it changes, it should stop and rerun
 
 ###HTML
-Probably a better idea to use a pseudo element instead of hr after every section
+* Probably a better idea to use a pseudo element instead of hr after every section
+
+###JavaScript
+* Remember to come up with a consistent pattern for run-once methods like buildSynth
+  * IIFEs are probably the best way to do this

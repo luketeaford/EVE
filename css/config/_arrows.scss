@@ -1,0 +1,14 @@
+@mixin arrow($dir: up, $size: 6, $color: inherit) {
+  border: ($size / 10) + rem solid transparent;
+  border-bottom-color: $color;
+  content: '';
+  position: absolute;
+  transition: transform .3s;
+  @if $dir == up {
+    transform: rotate(0deg);
+  } @else if $dir == down {
+    transform: rotate(180deg);
+  } @else {
+    @error 'Invalid direction: use \'up\' or \'down\' instead of \'#{$dir}\'';
+  }
+}
