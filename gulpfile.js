@@ -11,6 +11,7 @@ var gulp = require('gulp'),
         'js/templates/*.js',
         'js/_customevents.js',
         'js/_buildsynth.js',
+        'js/_buildscope.js',
         'js/_startsynth.js',
         'js/_gateon.js',
         'js/_gateoff.js',
@@ -41,7 +42,8 @@ gulp.task('js', function () {
             'Event',
             'Float32Array',
             'Uint8Array'
-        ]
+        ],
+        todo: true
     }))
     .pipe(uglify())
     .pipe(gulp.dest('eve/js'))

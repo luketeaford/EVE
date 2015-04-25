@@ -59,3 +59,6 @@ EVE is an additive monosynth built with Web Audio.
 
 ###Gulp
 * Add a watch to the gulpfile itself in case it changes, it should stop and rerun
+
+###HTML
+Probably a better idea to use a pseudo element instead of hr after every section

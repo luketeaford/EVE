@@ -9,20 +9,14 @@
 <header>
   <h1>Eve</h1>
 </header>
+<hr>
 
-<nav id=nav>
-  <ul>
-    <li><a href=#register>Register</a>
-    <li><a href=#manual>Manual</a>
-  </ul>
-</nav>
+<section id=oscilloscope>
+  <h2>Oscilloscope</h2>
+  <canvas id=scope></canvas>
+</section>
+<hr>
 
-<!--
-<button id=build-button>Build</button>
-<button id=register-button>Register</button>
--->
-
-<!--
 <section id=harmonics>
   <h2>Harmonic Oscillator</h2>
   <label>
@@ -58,10 +52,10 @@
     <input data-program=osc8 data-update=update_osc8 id=osc8 max=1 min=0 step=0.0001 type=range value=0>
   </label>
 </section>
-
+<hr>
 
 <div id=keyboard>
-  <!-- Octave one --
+  <!-- Octave one -->
   <button class=white-key data-note-value=-2100>C</button>
   <button class=black-key data-note-value=-2000>C#</button>
   <button class=white-key data-note-value=-1900>D</button>
@@ -74,7 +68,7 @@
   <button class=white-key data-note-value=-1200>A</button>
   <button class=black-key data-note-value=-1100>A#</button>
   <button class=white-key data-note-value=-1000>B</button>
-  <!-- Octave two --
+  <!-- Octave two -->
   <button class=white-key data-note-value=-900>C</button>
   <button class=black-key data-note-value=-800>C#</button>
   <button class=white-key data-note-value=-700>D</button>
@@ -89,8 +83,6 @@
   <button class=white-key data-note-value=200>B</button>
   <button class=white-key data-note-value=300>C</button>
 </div>
-
--->
 
 <footer>© 2015 Luke Teaford.</footer>
 
