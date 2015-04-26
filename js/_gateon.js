@@ -15,8 +15,8 @@ EVE.gateOn = function gateOn(e) {
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, 0.1);
 
     // Not used at the moment
-    if (e.target.dataset.noteValue && EVE.program.name < 1) {
-        //e.target.dispatchEvent(EVE.events.press);
+    if (e.target.dataset.noteValue) {
+        e.target.dispatchEvent(EVE.events.press);
         console.log('Go calculate pitch');
     }
 

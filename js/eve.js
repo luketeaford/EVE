@@ -2,10 +2,6 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var EVE = {
 
-    user: {
-        username: 'luketeaford'
-    },
-
     synth: new AudioContext(),
 
     config: {
@@ -32,9 +28,6 @@ var EVE = {
         vca_r: 0.1,
         vca_g: 0
     },
-
-    buildButton: document.getElementById('build-button'),
-    registerButton: document.getElementById('register-button'),
 
     // Experimental time savers
     now: function now() {
@@ -66,8 +59,7 @@ var EVE = {
 
 function navTemplate() {
     'use strict';
-    // Figure out what the differences are to the navigation (if any)
-    console.log('Navigation template');
+    return false;
 }
 
 EVE.events = {
@@ -100,7 +92,7 @@ EVE.buildSynth = function buildSynth() {
             vca = osc + '_vca';
 
             EVE[vca] = EVE.synth.createGain();
-            EVE[vca].gain.setValueAtTime(1, EVE.now());
+            EVE[vca].gain.setValueAtTime(EVE.program[osc], EVE.now());
             EVE[vca].connect(EVE.vca);
 
             EVE[osc] = EVE.synth.createOscillator();
@@ -212,8 +204,8 @@ EVE.gateOn = function gateOn(e) {
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, 0.1);
 
     // Not used at the moment
-    if (e.target.dataset.noteValue && EVE.program.name < 1) {
-        //e.target.dispatchEvent(EVE.events.press);
+    if (e.target.dataset.noteValue) {
+        e.target.dispatchEvent(EVE.events.press);
         console.log('Go calculate pitch');
     }
 
@@ -237,8 +229,14 @@ EVE.gateOff = function gateOff() {
     return ampRelease();
 };
 
-EVE.calculatePitch = function () {
+EVE.calculatePitch = function (note) {
     'use strict';
+    var i;
+
+    for (i = 0; i < EVE.config.harmonics; i += 1) {
+        EVE.harmonicOscs[i].detune.setValueAtTime(note, EVE.synth.currentTime);
+    }
+
     console.log('calculatePitch called');
 };
 
@@ -263,9 +261,10 @@ EVE.calculatePitch = function () {
     EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
 
     // Custom events testing
-    //EVE.keyboard.addEventListener('press', function (e) {
-    //    console.log('Set note via custom event to', e.target.dataset.noteValue);
-    //});
+    EVE.keyboard.addEventListener('press', function (e) {
+        EVE.calculatePitch(e.target.dataset.noteValue);
+        console.log('Set note via custom event to', e.target.dataset.noteValue);
+    });
 
 }());
 

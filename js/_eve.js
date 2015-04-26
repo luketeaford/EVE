@@ -2,10 +2,6 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var EVE = {
 
-    user: {
-        username: 'luketeaford'
-    },
-
     synth: new AudioContext(),
 
     config: {
@@ -32,9 +28,6 @@ var EVE = {
         vca_r: 0.1,
         vca_g: 0
     },
-
-    buildButton: document.getElementById('build-button'),
-    registerButton: document.getElementById('register-button'),
 
     // Experimental time savers
     now: function now() {

@@ -15,7 +15,7 @@ EVE.buildSynth = function buildSynth() {
             vca = osc + '_vca';
 
             EVE[vca] = EVE.synth.createGain();
-            EVE[vca].gain.setValueAtTime(1, EVE.now());
+            EVE[vca].gain.setValueAtTime(EVE.program[osc], EVE.now());
             EVE[vca].connect(EVE.vca);
 
             EVE[osc] = EVE.synth.createOscillator();
