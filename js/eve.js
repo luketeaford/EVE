@@ -27,9 +27,9 @@ var EVE = {
         osc8: 0,
 
         vca_a: 0.1,
-        vca_d: 0.4,
-        vca_s: 0.65,
-        vca_r: 0.4,
+        vca_d: 0.1,
+        vca_s: 0.15,
+        vca_r: 0.1,
         vca_g: 0
     },
 
@@ -197,24 +197,44 @@ EVE.startSynth = function startSynth() {
 
 EVE.gateOn = function gateOn(e) {
     'use strict';
-    if (e.target.dataset.noteValue) {
-        console.log(e.target.dataset.noteValue);
+
+    function ampAttack() {
+        var peak = EVE.synth.currentTime + EVE.program.vca_a;
+
         // Attack
-        EVE.vca.gain.linearRampToValueAtTime(1, EVE.attack(EVE.program.vca_a));
+        EVE.vca.gain.linearRampToValueAtTime(1, peak);
 
         // Decay
-        //EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, vca_end_of_attack, EVE.program.vca_d);
-
-        e.target.dispatchEvent(EVE.events.press);
+        EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d);
     }
+
+    // Set starting point
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, 0.1);
+
+    // Not used at the moment
+    if (e.target.dataset.noteValue && EVE.program.name < 1) {
+        //e.target.dispatchEvent(EVE.events.press);
+        console.log('Go calculate pitch');
+    }
+
+    return ampAttack();
 };
 
-EVE.gateOff = function gateOff(e) {
+EVE.gateOff = function gateOff() {
     'use strict';
-    if (e.target.dataset.noteValue) {
-        console.log('gateOff', e.target.dataset.noteValue);
-        EVE.vca.gain.setTargetAtTime(0, EVE.now(), 0.1);
+
+    function ampRelease() {
+        var releasePeak = EVE.vca.gain.value;
+
+        // Set starting point
+        EVE.vca.gain.setValueAtTime(releasePeak, EVE.synth.currentTime);
+        return EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
     }
+
+    // Prevent decay from acting like second attack
+    EVE.vca.gain.cancelScheduledValues(EVE.synth.currentTime);
+
+    return ampRelease();
 };
 
 EVE.calculatePitch = function () {
@@ -243,9 +263,9 @@ EVE.calculatePitch = function () {
     EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
 
     // Custom events testing
-    EVE.keyboard.addEventListener('press', function (e) {
-        console.log('Set note via custom event to', e.target.dataset.noteValue);
-    });
+    //EVE.keyboard.addEventListener('press', function (e) {
+    //    console.log('Set note via custom event to', e.target.dataset.noteValue);
+    //});
 
 }());
 
