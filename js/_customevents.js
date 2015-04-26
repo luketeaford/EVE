@@ -1,4 +1,7 @@
 EVE.events = {
+    update: new CustomEvent('update', {
+        bubbles: true
+    }),
     press: new CustomEvent('press', {
         bubbles: true
     }),

@@ -63,6 +63,9 @@ function navTemplate() {
 }
 
 EVE.events = {
+    update: new CustomEvent('update', {
+        bubbles: true
+    }),
     press: new CustomEvent('press', {
         bubbles: true
     }),
@@ -240,6 +243,36 @@ EVE.calculatePitch = function (note) {
     console.log('calculatePitch called');
 };
 
+EVE.slider = {
+    grab: function () {
+        'use strict';
+        var prog = this.dataset.program,
+            // Exponential
+            x = this.value * this.value;
+
+
+        // Update program
+        EVE.program[prog] = x;
+
+        // Broadcast change
+        this.dispatchEvent(EVE.events.update);
+    }
+};
+
+(function bindSliders() {
+    'use strict';
+    var harmonics = document.getElementById('harmonics'),
+        inputs = harmonics.getElementsByTagName('input'),
+        i;
+
+    for (i = 0; i < inputs.length; i += 1) {
+        inputs[i].addEventListener('input', EVE.slider.grab);
+    }
+
+    console.log('Sliders bound');
+
+}());
+
 // Try creating a custom event for history state change
 // Dispatch that event and listen for it on window
 
@@ -264,6 +297,10 @@ EVE.calculatePitch = function (note) {
     EVE.keyboard.addEventListener('press', function (e) {
         EVE.calculatePitch(e.target.dataset.noteValue);
         console.log('Set note via custom event to', e.target.dataset.noteValue);
+    });
+
+    document.addEventListener('update', function (e) {
+        console.log('How cool is this?', e);
     });
 
 }());
