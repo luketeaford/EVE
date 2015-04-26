@@ -24,9 +24,7 @@
         console.log('Set note via custom event to', e.target.dataset.noteValue);
     });
 
-    document.addEventListener('update', function (e) {
-        console.log('How cool is this?', e);
-    });
+    document.addEventListener('update', EVE.slider.update);
 
 }());
 

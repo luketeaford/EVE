@@ -246,16 +246,33 @@ EVE.calculatePitch = function (note) {
 EVE.slider = {
     grab: function () {
         'use strict';
-        var prog = this.dataset.program,
-            // Exponential
-            x = this.value * this.value;
-
+        var prog = this.dataset.program;
 
         // Update program
-        EVE.program[prog] = x;
+        EVE.program[prog] = this.value;
 
         // Broadcast change
         this.dispatchEvent(EVE.events.update);
+    },
+
+    update: function (e) {
+        'use strict';
+        var p = e.target.dataset.program;
+
+        switch (p) {
+        // Harmonic Oscillators
+        case 'osc1':
+        case 'osc2':
+        case 'osc3':
+        case 'osc4':
+        case 'osc5':
+        case 'osc6':
+        case 'osc7':
+        case 'osc8':
+            // Exponential
+            EVE[p + '_vca'].gain.setValueAtTime(EVE.program[p] * EVE.program[p], EVE.now());
+            break;
+        }
     }
 };
 
@@ -299,9 +316,7 @@ EVE.slider = {
         console.log('Set note via custom event to', e.target.dataset.noteValue);
     });
 
-    document.addEventListener('update', function (e) {
-        console.log('How cool is this?', e);
-    });
+    document.addEventListener('update', EVE.slider.update);
 
 }());
 
