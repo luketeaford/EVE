@@ -10,13 +10,14 @@
     // Set up synth
     EVE.buildSynth();
     EVE.buildScope();
-    EVE.startSynth();
 
     // Actually belongs in this function
     EVE.keyboard = document.getElementById('keyboard');
 
     EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
+    EVE.keyboard.addEventListener('touchstart', EVE.gateOn);
     EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
+    EVE.keyboard.addEventListener('touchend', EVE.gateOff);
 
     // Custom events testing
     EVE.keyboard.addEventListener('press', function (e) {
