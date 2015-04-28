@@ -22,7 +22,6 @@
 //------------------------------------------------------------------------------
 @import 'basics/_body';// Big blocks (for now)
 @import 'basics/_headings';
-@import 'basics/_hr';
 @import 'basics/_inputs';
 @import 'basics/_buttons';
 //==============================================================================
@@ -30,9 +29,9 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // 03: COMPONENTS - Anything with a class
 //------------------------------------------------------------------------------
-@import 'components/_keys';// Does order matter? This should be after triangles
+@import 'components/_keys';
+@import 'components/_fakehr';
 @import 'components/_modules';
-//@import 'components/_triangles';
 //==============================================================================
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

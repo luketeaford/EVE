@@ -10,4 +10,8 @@ header {
     text-transform: uppercase;
   }
 
+  &::after {
+    @extend %fake-hr;
+  }
+
 }

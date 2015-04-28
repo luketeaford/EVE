@@ -1,5 +1,13 @@
 %module {
   font-family: $sans;
+  &::after {
+    @extend %fake-hr;
+//    background: radial-gradient($black, transparentize($white, 1)) 0 -.9rem no-repeat;
+//    content: '';
+//    display: block;
+//    height: 0.95rem;
+//    margin: .25rem (-$buffer) -.25rem;//TODO make sure buffer makes sense
+  }
   &[data-state=open] {
     &::before {
       @include arrow();
