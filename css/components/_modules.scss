@@ -1,23 +1,18 @@
 %module {
   font-family: $sans;
+  h2 {
+    cursor: pointer;
+  }
   &::after {
     @extend %fake-hr;
-//    background: radial-gradient($black, transparentize($white, 1)) 0 -.9rem no-repeat;
-//    content: '';
-//    display: block;
-//    height: 0.95rem;
-//    margin: .25rem (-$buffer) -.25rem;//TODO make sure buffer makes sense
   }
   &[data-state=open] {
-    &::before {
+    .toggle {
       @include arrow();
-    }
-    * {
-      transition: opacity .3s;
     }
   }
   &[data-state=closed] {
-    &::before {
+    .toggle {
       @include arrow(down);
     }
     h2 {

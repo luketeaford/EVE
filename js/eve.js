@@ -322,7 +322,7 @@ EVE.slider = {
 
 (function collapsibleModules() {
     'use strict';
-    var moduleTitles = document.querySelectorAll('section > h2'),
+    var moduleTitles = document.querySelectorAll('section > h2, .toggle'),
         i;
 
     function collapseMenu() {
