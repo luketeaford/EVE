@@ -1,7 +1,8 @@
 #Eve Web Audio Synthesizer
 
 ##TODO:
-* Fix transform/transition bugs on iOS
+* Get TypeKit fonts working properly in BrowserSync
+* Make buttons unselectable
 * VCA envelope control
 * LFO
 * Delay

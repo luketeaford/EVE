@@ -4,14 +4,15 @@
   content: '';
   display: inline-block;
   position: absolute;
-  transition: transform .3s;
+  -webkit-transition: -webkit-transform .2s;
+  transition: transform .2s;
   -webkit-transform-origin: 50% 15px;
   transform-origin: 50% 15px;
   @if $dir == up {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   } @else if $dir == down {
-    -webkit-transform: (180deg);
+    -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
   } @else {
     @error 'Invalid direction: use \'up\' or \'down\' instead of \'#{$dir}\'';
