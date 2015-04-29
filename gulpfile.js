@@ -18,6 +18,7 @@ var gulp = require('gulp'),
         'js/_calculatepitch.js',
         'js/_sliders.js',
         'js/_temp.js',
+        'js/_collapsemodules.js',
         'js/_router.js'
     ];
 

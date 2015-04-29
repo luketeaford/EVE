@@ -10,9 +10,6 @@ EVE.slider = {
         // Broadcast change
         this.dispatchEvent(EVE.events.update);
 
-        if (x === 1) {
-            console.log('LINEAR UPDATE');
-        }
     },
 
     update: function (e) {
@@ -34,7 +31,6 @@ EVE.slider = {
             break;
         case 'vca_g':
             EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
-            console.log('VCA gain moved!');
             break;
         }
     }

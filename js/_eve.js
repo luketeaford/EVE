@@ -29,6 +29,8 @@ var EVE = {
         vca_g: 0
     },
 
+    keyboard: document.getElementById('keyboard'),
+
     // Experimental time savers
     now: function now() {
         'use strict';

@@ -29,6 +29,8 @@ var EVE = {
         vca_g: 0
     },
 
+    keyboard: document.getElementById('keyboard'),
+
     // Experimental time savers
     now: function now() {
         'use strict';
@@ -215,6 +217,9 @@ EVE.gateOn = function gateOn(e) {
     return EVE.calculatePitch(e.target.dataset.noteValue);
 };
 
+EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
+EVE.keyboard.addEventListener('touchstart', EVE.gateOn);
+
 EVE.gateOff = function gateOff() {
     'use strict';
 
@@ -229,6 +234,9 @@ EVE.gateOff = function gateOff() {
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
     return;
 };
+
+EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
+EVE.keyboard.addEventListener('touchend', EVE.gateOff);
 
 EVE.calculatePitch = function (note) {
     'use strict';
@@ -252,9 +260,6 @@ EVE.slider = {
         // Broadcast change
         this.dispatchEvent(EVE.events.update);
 
-        if (x === 1) {
-            console.log('LINEAR UPDATE');
-        }
     },
 
     update: function (e) {
@@ -276,7 +281,6 @@ EVE.slider = {
             break;
         case 'vca_g':
             EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
-            console.log('VCA gain moved!');
             break;
         }
     }
@@ -295,7 +299,6 @@ EVE.slider = {
 
 // Try creating a custom event for history state change
 // Dispatch that event and listen for it on window
-
 (function documentReady() {
     'use strict';
 
@@ -306,19 +309,11 @@ EVE.slider = {
     EVE.buildSynth();
     EVE.buildScope();
 
-    // Actually belongs in this function
-    EVE.keyboard = document.getElementById('keyboard');
-
-    EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
-    EVE.keyboard.addEventListener('touchstart', EVE.gateOn);
-    EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
-    EVE.keyboard.addEventListener('touchend', EVE.gateOff);
-
     document.addEventListener('update', EVE.slider.update);
 
 }());
 
-(function collapsibleModules() {
+(function collapseModules() {
     'use strict';
     var moduleTitles = document.querySelectorAll('section > h2, .toggle'),
         i;

@@ -1,6 +1,5 @@
 // Try creating a custom event for history state change
 // Dispatch that event and listen for it on window
-
 (function documentReady() {
     'use strict';
 
@@ -11,32 +10,6 @@
     EVE.buildSynth();
     EVE.buildScope();
 
-    // Actually belongs in this function
-    EVE.keyboard = document.getElementById('keyboard');
-
-    EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
-    EVE.keyboard.addEventListener('touchstart', EVE.gateOn);
-    EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
-    EVE.keyboard.addEventListener('touchend', EVE.gateOff);
-
     document.addEventListener('update', EVE.slider.update);
 
-}());
-
-(function collapsibleModules() {
-    'use strict';
-    var moduleTitles = document.querySelectorAll('section > h2, .toggle'),
-        i;
-
-    function collapseMenu() {
-        if (this.parentElement.dataset.state === 'open') {
-            this.parentElement.dataset.state = 'closed';
-        } else {
-            this.parentElement.dataset.state = 'open';
-        }
-    }
-
-    for (i = 0; i < moduleTitles.length; i += 1) {
-        moduleTitles[i].addEventListener('click', collapseMenu);
-    }
 }());

@@ -1,7 +1,10 @@
 #Eve Web Audio Synthesizer
 
 ##TODO:
-* Get TypeKit fonts working properly in BrowserSync
+* Envelope convenience methods
+* Harmonic Osc template with up to 12 harmonics (?)
+* Timbre envelope
 * LFO
+* Waveshaper
 * Delay
 * Reverb

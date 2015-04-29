@@ -12,3 +12,6 @@ EVE.gateOff = function gateOff() {
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
     return;
 };
+
+EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
+EVE.keyboard.addEventListener('touchend', EVE.gateOff);
