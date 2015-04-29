@@ -1,6 +1,8 @@
 EVE.gateOn = function gateOn(e) {
     'use strict';
 
+    // Closures don't make sense for this
+
     function ampAttack() {
         var peak = EVE.synth.currentTime + EVE.program.vca_a;
 

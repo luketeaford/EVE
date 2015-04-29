@@ -4,6 +4,8 @@ EVE.gateOff = function gateOff() {
     function ampRelease() {
         var releasePeak = EVE.vca.gain.value;
 
+        console.log(EVE.program.vca_r);// Remains 0.1
+
         // Set starting point
         EVE.vca.gain.setValueAtTime(releasePeak, EVE.synth.currentTime);
         return EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);

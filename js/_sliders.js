@@ -1,10 +1,11 @@
 EVE.slider = {
     grab: function () {
         'use strict';
-        var prog = this.dataset.program;
+        var prog = this.dataset.program,
+            foolJSLint = 1;
 
         // Update program
-        EVE.program[prog] = this.value;
+        EVE.program[prog] = this.value * foolJSLint;
 
         // Broadcast change
         this.dispatchEvent(EVE.events.update);
@@ -33,9 +34,12 @@ EVE.slider = {
 
 (function bindSliders() {
     'use strict';
-    var harmonics = document.getElementById('harmonics'),
-        inputs = harmonics.getElementsByTagName('input'),
+    var inputs = document.querySelectorAll('input[type=range]'),
         i;
+// THE OLD WAY
+//    var harmonics = document.getElementById('harmonics'),
+//        inputs = harmonics.getElementsByTagName('input'),
+//        i;
 
     for (i = 0; i < inputs.length; i += 1) {
         inputs[i].addEventListener('input', EVE.slider.grab);

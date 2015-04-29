@@ -205,6 +205,8 @@ document.addEventListener('wheel', EVE.startSynth);
 EVE.gateOn = function gateOn(e) {
     'use strict';
 
+    // Closures don't make sense for this
+
     function ampAttack() {
         var peak = EVE.synth.currentTime + EVE.program.vca_a;
 
@@ -233,6 +235,8 @@ EVE.gateOff = function gateOff() {
     function ampRelease() {
         var releasePeak = EVE.vca.gain.value;
 
+        console.log(EVE.program.vca_r);// Remains 0.1
+
         // Set starting point
         EVE.vca.gain.setValueAtTime(releasePeak, EVE.synth.currentTime);
         return EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
@@ -258,10 +262,11 @@ EVE.calculatePitch = function (note) {
 EVE.slider = {
     grab: function () {
         'use strict';
-        var prog = this.dataset.program;
+        var prog = this.dataset.program,
+            foolJSLint = 1;
 
         // Update program
-        EVE.program[prog] = this.value;
+        EVE.program[prog] = this.value * foolJSLint;
 
         // Broadcast change
         this.dispatchEvent(EVE.events.update);
@@ -290,9 +295,12 @@ EVE.slider = {
 
 (function bindSliders() {
     'use strict';
-    var harmonics = document.getElementById('harmonics'),
-        inputs = harmonics.getElementsByTagName('input'),
+    var inputs = document.querySelectorAll('input[type=range]'),
         i;
+// THE OLD WAY
+//    var harmonics = document.getElementById('harmonics'),
+//        inputs = harmonics.getElementsByTagName('input'),
+//        i;
 
     for (i = 0; i < inputs.length; i += 1) {
         inputs[i].addEventListener('input', EVE.slider.grab);
