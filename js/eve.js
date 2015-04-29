@@ -66,9 +66,6 @@ EVE.events = {
     update: new CustomEvent('update', {
         bubbles: true
     }),
-    press: new CustomEvent('press', {
-        bubbles: true
-    }),
     navigate: new CustomEvent('navigate', {
         // Only here to demonstrate how to include arbitrary data
         detail: {
@@ -204,48 +201,33 @@ document.addEventListener('wheel', EVE.startSynth);
 
 EVE.gateOn = function gateOn(e) {
     'use strict';
-
-    // Closures don't make sense for this
-
-    function ampAttack() {
-        var peak = EVE.synth.currentTime + EVE.program.vca_a;
-
-        // Attack
-        EVE.vca.gain.linearRampToValueAtTime(1, peak);
-
-        // Decay
-        EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d);
-    }
+    var peak = EVE.synth.currentTime + EVE.program.vca_a;
 
     // Set starting point
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, 0.1);
 
-    // Not used at the moment
-    if (e.target.dataset.noteValue) {
-        e.target.dispatchEvent(EVE.events.press);
-        console.log('Go calculate pitch');
-    }
+    // Attack
+    EVE.vca.gain.linearRampToValueAtTime(1, peak);
 
-    return ampAttack();
+    // Decay
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d);
+
+    return EVE.calculatePitch(e.target.dataset.noteValue);
 };
 
 EVE.gateOff = function gateOff() {
     'use strict';
 
-    function ampRelease() {
-        var releasePeak = EVE.vca.gain.value;
-
-        console.log(EVE.program.vca_r);// Remains 0.1
-
-        // Set starting point
-        EVE.vca.gain.setValueAtTime(releasePeak, EVE.synth.currentTime);
-        return EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
-    }
+    var releasePeak = EVE.vca.gain.value;
 
     // Prevent decay from acting like second attack
     EVE.vca.gain.cancelScheduledValues(EVE.synth.currentTime);
 
-    return ampRelease();
+    // Set starting point
+    EVE.vca.gain.setValueAtTime(releasePeak, EVE.synth.currentTime);
+
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
+    return;
 };
 
 EVE.calculatePitch = function (note) {
@@ -255,21 +237,24 @@ EVE.calculatePitch = function (note) {
     for (i = 0; i < EVE.config.harmonics; i += 1) {
         EVE.harmonicOscs[i].detune.setValueAtTime(note, EVE.synth.currentTime);
     }
-
-    console.log('calculatePitch called');
+    return;
 };
 
 EVE.slider = {
     grab: function () {
         'use strict';
         var prog = this.dataset.program,
-            foolJSLint = 1;
+            x = this.dataset.curve === 'lin' ? 1 : this.value;
 
         // Update program
-        EVE.program[prog] = this.value * foolJSLint;
+        EVE.program[prog] = this.value * x;
 
         // Broadcast change
         this.dispatchEvent(EVE.events.update);
+
+        if (x === 1) {
+            console.log('LINEAR UPDATE');
+        }
     },
 
     update: function (e) {
@@ -287,7 +272,11 @@ EVE.slider = {
         case 'osc7':
         case 'osc8':
             // Exponential
-            EVE[p + '_vca'].gain.setValueAtTime(EVE.program[p] * EVE.program[p], EVE.now());
+            EVE[p + '_vca'].gain.setValueAtTime(EVE.program[p], EVE.now());
+            break;
+        case 'vca_g':
+            EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
+            console.log('VCA gain moved!');
             break;
         }
     }
@@ -297,16 +286,10 @@ EVE.slider = {
     'use strict';
     var inputs = document.querySelectorAll('input[type=range]'),
         i;
-// THE OLD WAY
-//    var harmonics = document.getElementById('harmonics'),
-//        inputs = harmonics.getElementsByTagName('input'),
-//        i;
 
     for (i = 0; i < inputs.length; i += 1) {
         inputs[i].addEventListener('input', EVE.slider.grab);
     }
-
-    console.log('Sliders bound');
 
 }());
 
@@ -330,12 +313,6 @@ EVE.slider = {
     EVE.keyboard.addEventListener('touchstart', EVE.gateOn);
     EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
     EVE.keyboard.addEventListener('touchend', EVE.gateOff);
-
-    // Custom events testing
-    EVE.keyboard.addEventListener('press', function (e) {
-        EVE.calculatePitch(e.target.dataset.noteValue);
-        console.log('Set note via custom event to', e.target.dataset.noteValue);
-    });
 
     document.addEventListener('update', EVE.slider.update);
 

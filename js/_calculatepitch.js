@@ -5,6 +5,5 @@ EVE.calculatePitch = function (note) {
     for (i = 0; i < EVE.config.harmonics; i += 1) {
         EVE.harmonicOscs[i].detune.setValueAtTime(note, EVE.synth.currentTime);
     }
-
-    console.log('calculatePitch called');
+    return;
 };

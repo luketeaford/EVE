@@ -19,12 +19,6 @@
     EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
     EVE.keyboard.addEventListener('touchend', EVE.gateOff);
 
-    // Custom events testing
-    EVE.keyboard.addEventListener('press', function (e) {
-        EVE.calculatePitch(e.target.dataset.noteValue);
-        console.log('Set note via custom event to', e.target.dataset.noteValue);
-    });
-
     document.addEventListener('update', EVE.slider.update);
 
 }());

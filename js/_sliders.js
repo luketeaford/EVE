@@ -2,13 +2,17 @@ EVE.slider = {
     grab: function () {
         'use strict';
         var prog = this.dataset.program,
-            foolJSLint = 1;
+            x = this.dataset.curve === 'lin' ? 1 : this.value;
 
         // Update program
-        EVE.program[prog] = this.value * foolJSLint;
+        EVE.program[prog] = this.value * x;
 
         // Broadcast change
         this.dispatchEvent(EVE.events.update);
+
+        if (x === 1) {
+            console.log('LINEAR UPDATE');
+        }
     },
 
     update: function (e) {
@@ -26,7 +30,11 @@ EVE.slider = {
         case 'osc7':
         case 'osc8':
             // Exponential
-            EVE[p + '_vca'].gain.setValueAtTime(EVE.program[p] * EVE.program[p], EVE.now());
+            EVE[p + '_vca'].gain.setValueAtTime(EVE.program[p], EVE.now());
+            break;
+        case 'vca_g':
+            EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
+            console.log('VCA gain moved!');
             break;
         }
     }
@@ -36,15 +44,9 @@ EVE.slider = {
     'use strict';
     var inputs = document.querySelectorAll('input[type=range]'),
         i;
-// THE OLD WAY
-//    var harmonics = document.getElementById('harmonics'),
-//        inputs = harmonics.getElementsByTagName('input'),
-//        i;
 
     for (i = 0; i < inputs.length; i += 1) {
         inputs[i].addEventListener('input', EVE.slider.grab);
     }
-
-    console.log('Sliders bound');
 
 }());

@@ -1,18 +1,14 @@
 EVE.gateOff = function gateOff() {
     'use strict';
 
-    function ampRelease() {
-        var releasePeak = EVE.vca.gain.value;
-
-        console.log(EVE.program.vca_r);// Remains 0.1
-
-        // Set starting point
-        EVE.vca.gain.setValueAtTime(releasePeak, EVE.synth.currentTime);
-        return EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
-    }
+    var releasePeak = EVE.vca.gain.value;
 
     // Prevent decay from acting like second attack
     EVE.vca.gain.cancelScheduledValues(EVE.synth.currentTime);
 
-    return ampRelease();
+    // Set starting point
+    EVE.vca.gain.setValueAtTime(releasePeak, EVE.synth.currentTime);
+
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
+    return;
 };
