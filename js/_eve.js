@@ -13,6 +13,7 @@ var EVE = {
     program: {
         name: 'INITIALIZE',
 
+        // Harmonic Oscillator
         osc1: 1,
         osc2: 0,
         osc3: 0,
@@ -22,6 +23,23 @@ var EVE = {
         osc7: 0,
         osc8: 0,
 
+        // Harmonic Envelope (Amounts)
+        env1: 0,
+        env2: 0,
+        env3: 0,
+        env4: 0,
+        env5: 0,
+        env6: 0,
+        env7: 0,
+        env8: 0,
+
+        // Harmonic Envelope
+        env_a: 0.1,
+        env_d: 0.1,
+        env_s: 1,
+        env_r: 0.1,
+
+        // VCA Envelope
         vca_a: 0.1,
         vca_d: 0.1,
         vca_s: 0.15,
@@ -31,30 +49,9 @@ var EVE = {
 
     keyboard: document.getElementById('keyboard'),
 
-    // Experimental time savers
     now: function now() {
         'use strict';
         return EVE.synth.currentTime;
-    },
-
-    attack: function attack(x) {
-        'use strict';
-        return EVE.synth.currentTime + x;
-    },
-
-    decay: function decay() {
-        'use strict';
-        return;
-    },
-
-    sustain: function sustain() {
-        'use strict';
-        return;
-    },
-
-    release: function release() {
-        'use strict';
-        return;
     }
 
 };
