@@ -34,10 +34,10 @@ var EVE = {
         env8: 0,
 
         // Harmonic Envelope
-        env_a: 0.1,
-        env_d: 0.1,
-        env_s: 1,
-        env_r: 0.1,
+        timbre_a: 0.1,
+        timbre_d: 0.1,
+        timbre_s: 1,
+        timbre_r: 0.1,
 
         // VCA Envelope
         vca_a: 0.1,
@@ -205,17 +205,17 @@ EVE.gateOn = function gateOn(e) {
 
     // Harmonic Envelopes
     for (i = 1; i < EVE.config.harmonics + 1; i += 1) {
-        //needs to rise from EVE.program.osc[i] to... ?
+        // Needs to rise from EVE.program.osc[i] to...
+        // amt * 1?
         // Timbre starting point
         EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i], EVE.now(), 0.1);
 
         // Timbre attack NOTE 1 is wrong
-        EVE['osc' + i + '_vca'].gain.linearRampToValueAtTime(EVE.program['osc' + i], EVE.synth.currentTime + EVE.program.env_a);
+        EVE['osc' + i + '_vca'].gain.linearRampToValueAtTime(EVE.program['env' + i], EVE.synth.currentTime + EVE.program.timbre_a);
 
         // Timbre decay
-        EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i], EVE.synth.currentTime + EVE.program.env_a, EVE.program.env_d);
+        EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i], EVE.synth.currentTime + EVE.program.timbre_a, EVE.program.timbre_d);
     }
-
 
     // Set starting point
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, 0.1);
@@ -232,10 +232,26 @@ EVE.gateOn = function gateOn(e) {
 EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
 EVE.keyboard.addEventListener('touchstart', EVE.gateOn);
 
+// TODO only figure out the complicated brackets once
 EVE.gateOff = function gateOff() {
     'use strict';
 
-    var releasePeak = EVE.vca.gain.value;
+    var releasePeak = EVE.vca.gain.value,
+        timbrePeak,
+        i;
+
+    // Harmonic Envelopes
+    for (i = 1; i < EVE.config.harmonics + 1; i += 1) {
+        // Prevent decay from acting like second attack
+        EVE['osc' + i + '_vca'].gain.cancelScheduledValues(EVE.now());
+
+        // Set starting point
+        timbrePeak = EVE['osc' + i + '_vca'].gain.value;
+        EVE['osc' + i + '_vca'].gain.setValueAtTime(timbrePeak, EVE.now());
+
+        // Release back to starting point
+        EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i], EVE.now(), EVE.program.timbre_r);
+    }
 
     // Prevent decay from acting like second attack
     EVE.vca.gain.cancelScheduledValues(EVE.synth.currentTime);

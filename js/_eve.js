@@ -34,10 +34,10 @@ var EVE = {
         env8: 0,
 
         // Harmonic Envelope
-        env_a: 0.1,
-        env_d: 0.1,
-        env_s: 1,
-        env_r: 0.1,
+        timbre_a: 0.1,
+        timbre_d: 0.1,
+        timbre_s: 1,
+        timbre_r: 0.1,
 
         // VCA Envelope
         vca_a: 0.1,
