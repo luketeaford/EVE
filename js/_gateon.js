@@ -1,24 +1,26 @@
 EVE.gateOn = function gateOn(e) {
     'use strict';
     var peak = EVE.synth.currentTime + EVE.program.vca_a,
-        i;
+        i,
+        z = 1;
 
     // Harmonic Envelopes
     for (i = 1; i < EVE.config.harmonics + 1; i += 1) {
-        // Needs to rise from EVE.program.osc[i] to...
-        // amt * 1?
+
         // Timbre starting point
         EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i], EVE.now(), 0.1);
 
-        // Timbre attack NOTE 1 is wrong
-        EVE['osc' + i + '_vca'].gain.linearRampToValueAtTime(EVE.program['env' + i], EVE.synth.currentTime + EVE.program.timbre_a);
+        // Timbre attack
+        // NOTE correct!
+        EVE['osc' + i + '_vca'].gain.linearRampToValueAtTime(EVE.program['osc' + i] + (z * Math.abs(EVE.program['env' + i])), EVE.now() + EVE.program.timbre_a);
 
         // Timbre decay
-        EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i], EVE.synth.currentTime + EVE.program.timbre_a, EVE.program.timbre_d);
+        // NOTE rewrite this tomorrow (something's weird)
+        EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i] * EVE.program.timbre_s, EVE.now() + EVE.program.timbre_a, EVE.program.timbre_d);
     }
 
     // Set starting point
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, 0.1);
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.now(), 0.1);
 
     // Attack
     EVE.vca.gain.linearRampToValueAtTime(1, peak);
