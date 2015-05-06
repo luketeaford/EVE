@@ -30,8 +30,6 @@ EVE.gateOff = function gateOff() {
 
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
 
-    console.log('You did it!');
-
     return;
 };
 
