@@ -198,6 +198,7 @@ document.addEventListener('keydown', EVE.startSynth);
 document.addEventListener('touchstart', EVE.startSynth);
 document.addEventListener('wheel', EVE.startSynth);
 
+// TODO only figure out bracket stuff once
 EVE.gateOn = function gateOn(e) {
     'use strict';
     var peak = EVE.synth.currentTime + EVE.program.vca_a,
@@ -211,12 +212,10 @@ EVE.gateOn = function gateOn(e) {
         EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i], EVE.now(), 0.1);
 
         // Timbre attack
-        // NOTE correct!
         EVE['osc' + i + '_vca'].gain.linearRampToValueAtTime(EVE.program['osc' + i] + (z * Math.abs(EVE.program['env' + i])), EVE.now() + EVE.program.timbre_a);
 
         // Timbre decay
-        // NOTE rewrite this tomorrow (something's weird)
-        EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i] * EVE.program.timbre_s, EVE.now() + EVE.program.timbre_a, EVE.program.timbre_d);
+        EVE['osc' + i + '_vca'].gain.setTargetAtTime(EVE.program['osc' + i] + (EVE.program['env' + i] * EVE.program.timbre_s), EVE.now() + EVE.program.timbre_a, EVE.program.timbre_d);
     }
 
     // Set starting point
