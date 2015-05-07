@@ -44,7 +44,21 @@ var EVE = {
         vca_d: 0.1,
         vca_s: 0.15,
         vca_r: 0.1,
-        vca_g: 0
+        vca_g: 0,
+
+        // LFO Amounts
+        lfo1: 0,
+        lfo2: 0,
+        lfo3: 0,
+        lfo4: 0,
+        lfo5: 0,
+        lfo6: 0,
+        lfo7: 0,
+        lfo8: 0,
+
+        // LFO
+        lfo_rate: 5,
+        lfo_type: 'square'
     },
 
     keyboard: document.getElementById('keyboard'),
@@ -105,13 +119,32 @@ EVE.buildSynth = function buildSynth() {
 
     }
 
+    function buildLfo() {
+        var i;
+
+        EVE.lfo = EVE.synth.createOscillator();
+        EVE.lfo.frequency.value = EVE.program.lfo_rate;
+        EVE.lfo.type = EVE.program.lfo_type;
+
+        for (i = 1; i <= EVE.config.harmonics; i += 1) {
+            EVE['lfo' + i] = EVE.synth.createGain();
+            EVE['lfo' + i].gain.value = EVE.program['lfo' + i];
+            EVE.lfo.connect(EVE['lfo' + i]);
+            EVE['lfo' + i].connect(EVE['osc' + i + '_vca'].gain);
+        }
+    }
+
     // Master VCA
     EVE.vca = EVE.synth.createGain();
     EVE.vca.gain.setValueAtTime(0, EVE.now());
     EVE.vca.connect(EVE.synth.destination);
 
     // Harmonic Oscillator
+    // TODO why pass this in? Would be nicer inside
     buildHarmonicOsc(EVE.config.harmonics);
+
+    // LFO
+    buildLfo();
 
     // Prevent twice
     EVE.buildSynth = function buildSynth() {
@@ -176,9 +209,12 @@ EVE.buildScope = function buildScope() {
 EVE.startSynth = function startSynth() {
     'use strict';
     var i;
+
     for (i = 0; i < EVE.config.harmonics; i += 1) {
         EVE.harmonicOscs[i].start(0);
     }
+
+    EVE.lfo.start(0);
 
     document.removeEventListener('click', startSynth);
     document.removeEventListener('dblclick', startSynth);
@@ -315,11 +351,21 @@ EVE.slider = {
         case 'osc6':
         case 'osc7':
         case 'osc8':
-            // Exponential
             EVE[p + '_vca'].gain.setValueAtTime(EVE.program[p], EVE.now());
             break;
         case 'vca_g':
             EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
+            break;
+        case 'lfo1':
+        case 'lfo2':
+        case 'lfo3':
+        case 'lfo4':
+        case 'lfo5':
+        case 'lfo6':
+        case 'lfo7':
+        case 'lfo8':
+            // TODO probably don't need switch statement...
+            EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
             break;
         }
     }

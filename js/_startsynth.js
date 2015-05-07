@@ -1,9 +1,12 @@
 EVE.startSynth = function startSynth() {
     'use strict';
     var i;
+
     for (i = 0; i < EVE.config.harmonics; i += 1) {
         EVE.harmonicOscs[i].start(0);
     }
+
+    EVE.lfo.start(0);
 
     document.removeEventListener('click', startSynth);
     document.removeEventListener('dblclick', startSynth);

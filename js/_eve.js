@@ -44,7 +44,21 @@ var EVE = {
         vca_d: 0.1,
         vca_s: 0.15,
         vca_r: 0.1,
-        vca_g: 0
+        vca_g: 0,
+
+        // LFO Amounts
+        lfo1: 0,
+        lfo2: 0,
+        lfo3: 0,
+        lfo4: 0,
+        lfo5: 0,
+        lfo6: 0,
+        lfo7: 0,
+        lfo8: 0,
+
+        // LFO
+        lfo_rate: 5,
+        lfo_type: 'square'
     },
 
     keyboard: document.getElementById('keyboard'),

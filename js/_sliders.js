@@ -26,11 +26,21 @@ EVE.slider = {
         case 'osc6':
         case 'osc7':
         case 'osc8':
-            // Exponential
             EVE[p + '_vca'].gain.setValueAtTime(EVE.program[p], EVE.now());
             break;
         case 'vca_g':
             EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
+            break;
+        case 'lfo1':
+        case 'lfo2':
+        case 'lfo3':
+        case 'lfo4':
+        case 'lfo5':
+        case 'lfo6':
+        case 'lfo7':
+        case 'lfo8':
+            // TODO probably don't need switch statement...
+            EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
             break;
         }
     }
