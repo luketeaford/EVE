@@ -39,8 +39,10 @@ EVE.slider = {
         case 'lfo6':
         case 'lfo7':
         case 'lfo8':
-            // TODO probably don't need switch statement...
             EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
+            break;
+        case 'lfo_rate':
+            EVE.lfo.frequency.setValueAtTime(EVE.program[p] * EVE.osc1.frequency.value, EVE.now());
             break;
         }
     }

@@ -17,6 +17,7 @@ var gulp = require('gulp'),
         'js/_gateoff.js',
         'js/_calculatepitch.js',
         'js/_sliders.js',
+        'js/_buttons.js',
         'js/_temp.js',
         'js/_collapsemodules.js',
         'js/_router.js'
