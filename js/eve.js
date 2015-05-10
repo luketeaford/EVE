@@ -240,10 +240,9 @@ EVE.gateOn = function gateOn(e) {
         i,
         vca,
         osc,
-        env,
-        z = 1;
+        env;
 
-    // Harmonic Envelopes (what's wrong?)
+    // Harmonic Envelopes
     for (i = 1; i < EVE.config.harmonics + 1; i += 1) {
 
         vca = EVE['osc' + i + '_vca'];
@@ -254,10 +253,10 @@ EVE.gateOn = function gateOn(e) {
         vca.gain.setTargetAtTime(osc, EVE.now(), 0.1);
 
         // Timbre attack
-        vca.gain.linearRampToValueAtTime(parseFloat(osc) + parseFloat(z * Math.abs(env)), EVE.now() + parseFloat(EVE.program.timbre_a) + 0.1);
+        vca.gain.linearRampToValueAtTime(parseFloat(osc) + parseFloat(env), EVE.now() + parseFloat(EVE.program.timbre_a));
 
         // Timbre decay
-        vca.gain.setTargetAtTime(parseFloat(osc) + parseFloat(env * EVE.program.timbre_s), EVE.now() + parseFloat(EVE.program.timbre_a), EVE.program.timbre_d);
+        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), EVE.now() + parseFloat(EVE.program.timbre_a), EVE.program.timbre_d);
     }
 
     // Set starting point
