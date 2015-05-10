@@ -14,7 +14,7 @@ var EVE = {
         name: 'INITIALIZE',
 
         // Harmonic Oscillator
-        osc1: 1,
+        osc1: 0,
         osc2: 0,
         osc3: 0,
         osc4: 0,
@@ -34,16 +34,16 @@ var EVE = {
         env8: 0,
 
         // Harmonic Envelope
-        timbre_a: 0.1,
-        timbre_d: 0.1,
-        timbre_s: 1,
-        timbre_r: 0.1,
+        timbre_a: 0,
+        timbre_d: 0,
+        timbre_s: 0,
+        timbre_r: 0,
 
         // VCA Envelope
-        vca_a: 0.1,
-        vca_d: 0.1,
-        vca_s: 0.15,
-        vca_r: 0.1,
+        vca_a: 0,
+        vca_d: 0,
+        vca_s: 0,
+        vca_r: 0,
         vca_g: 0,
 
         // LFO Amounts
@@ -57,7 +57,7 @@ var EVE = {
         lfo8: 0,
 
         // LFO
-        lfo_rate: 5,
+        lfo_rate: 4,
         lfo_type: 'square'
     },
 

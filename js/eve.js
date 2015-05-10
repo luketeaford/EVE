@@ -14,7 +14,7 @@ var EVE = {
         name: 'INITIALIZE',
 
         // Harmonic Oscillator
-        osc1: 1,
+        osc1: 0,
         osc2: 0,
         osc3: 0,
         osc4: 0,
@@ -34,16 +34,16 @@ var EVE = {
         env8: 0,
 
         // Harmonic Envelope
-        timbre_a: 0.1,
-        timbre_d: 0.1,
-        timbre_s: 1,
-        timbre_r: 0.1,
+        timbre_a: 0,
+        timbre_d: 0,
+        timbre_s: 0,
+        timbre_r: 0,
 
         // VCA Envelope
-        vca_a: 0.1,
-        vca_d: 0.1,
-        vca_s: 0.15,
-        vca_r: 0.1,
+        vca_a: 0,
+        vca_d: 0,
+        vca_s: 0,
+        vca_r: 0,
         vca_g: 0,
 
         // LFO Amounts
@@ -57,7 +57,7 @@ var EVE = {
         lfo8: 0,
 
         // LFO
-        lfo_rate: 5,
+        lfo_rate: 4,
         lfo_type: 'square'
     },
 
@@ -236,14 +236,14 @@ document.addEventListener('wheel', EVE.startSynth);
 
 EVE.gateOn = function gateOn(e) {
     'use strict';
-    var peak = EVE.synth.currentTime + EVE.program.vca_a,
+    var peak = EVE.synth.currentTime + parseFloat(EVE.program.vca_a),
         i,
         vca,
         osc,
         env,
         z = 1;
 
-    // Harmonic Envelopes
+    // Harmonic Envelopes (what's wrong?)
     for (i = 1; i < EVE.config.harmonics + 1; i += 1) {
 
         vca = EVE['osc' + i + '_vca'];
@@ -254,10 +254,10 @@ EVE.gateOn = function gateOn(e) {
         vca.gain.setTargetAtTime(osc, EVE.now(), 0.1);
 
         // Timbre attack
-        vca.gain.linearRampToValueAtTime(osc + (z * Math.abs(env)), EVE.now() + EVE.program.timbre_a);
+        vca.gain.linearRampToValueAtTime(parseFloat(osc) + parseFloat(z * Math.abs(env)), EVE.now() + parseFloat(EVE.program.timbre_a) + 0.1);
 
         // Timbre decay
-        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), EVE.now() + EVE.program.timbre_a, EVE.program.timbre_d);
+        vca.gain.setTargetAtTime(parseFloat(osc) + parseFloat(env * EVE.program.timbre_s), EVE.now() + parseFloat(EVE.program.timbre_a), EVE.program.timbre_d);
     }
 
     // Set starting point
@@ -380,6 +380,45 @@ EVE.slider = {
 
     for (i = 0; i < inputs.length; i += 1) {
         inputs[i].addEventListener('input', EVE.slider.grab);
+    }
+
+}());
+
+EVE.button = {
+    press: function () {
+        'use strict';
+        var prog = this.dataset.program;
+
+        // Update program
+        EVE.program[prog] = this.value;
+
+        // Broadcast change
+        this.dispatchEvent(EVE.events.update);
+
+    },
+
+    update: function (e) {
+        'use strict';
+        var p = e.target.dataset.program;
+
+        switch (p) {
+        case 'lfo_shape':
+            //TODO fix this
+            EVE.lfo.type = 'triangle';
+            console.log('updating to triangle');
+            break;
+        }
+    }
+};
+
+(function bindButtons() {
+    'use strict';
+    //TODO finish this -- better selector and events
+    var buttons = document.querySelectorAll('input[type=range]'),
+        i;
+
+    for (i = 0; i < buttons.length; i += 1) {
+        buttons[i].addEventListener('click', EVE.button.press);
     }
 
 }());

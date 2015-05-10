@@ -20,6 +20,7 @@ EVE.button = {
             //TODO fix this
             EVE.lfo.type = 'triangle';
             console.log('updating to triangle');
+            break;
         }
     }
 };
