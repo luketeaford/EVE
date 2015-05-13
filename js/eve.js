@@ -160,7 +160,7 @@ EVE.buildScope = function buildScope() {
     var fft = 2048,
         oscope = document.getElementById('scope'),
         ctx = oscope.getContext('2d'),
-        gold = 'rgb(242, 219, 33)',
+        lineColor = 'rgb(53, 56, 55)',
         scopeData = new Uint8Array(fft);
 
     // TODO Could go in buildSynth()...
@@ -179,7 +179,7 @@ EVE.buildScope = function buildScope() {
 
         ctx.clearRect(0, 0, 300, 150);//canvas size
         ctx.lineWidth = 2;
-        ctx.strokeStyle = gold;
+        ctx.strokeStyle = lineColor;
         ctx.beginPath();
         EVE.oscilloscope.getByteTimeDomainData(scopeData);
         for (i = 0; i < fft; i += 1) {
@@ -398,22 +398,17 @@ EVE.button = {
 
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.program;
+        var p = e.target.dataset.shape;
 
-        switch (p) {
-        case 'lfo_shape':
-            //TODO fix this
-            EVE.lfo.type = 'triangle';
-            console.log('updating to triangle');
-            break;
-        }
+        EVE.lfo.type = p;
+        console.log(p);
     }
 };
 
 (function bindButtons() {
     'use strict';
     //TODO finish this -- better selector and events
-    var buttons = document.querySelectorAll('input[type=range]'),
+    var buttons = document.querySelectorAll('.radio'),
         i;
 
     for (i = 0; i < buttons.length; i += 1) {
@@ -435,7 +430,7 @@ EVE.button = {
     EVE.buildScope();
 
     document.addEventListener('update', EVE.slider.update);
-
+    document.addEventListener('update', EVE.button.update);
 }());
 
 (function collapseModules() {

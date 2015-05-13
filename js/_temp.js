@@ -11,5 +11,5 @@
     EVE.buildScope();
 
     document.addEventListener('update', EVE.slider.update);
-
+    document.addEventListener('update', EVE.button.update);
 }());

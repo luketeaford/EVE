@@ -1,7 +1,7 @@
 #oscilloscope {
   @extend %module;
   canvas {
-    background: darken($black, 15%);
+    background: $light-grey;
     margin: 1rem 0;// Probably a bad idea
   }
 }

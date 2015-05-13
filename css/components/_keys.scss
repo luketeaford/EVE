@@ -9,14 +9,14 @@
   -webkit-user-select: none;
 }
 
-.white-key {
+.key {
   @extend %key;
-  background: $white;
-  color: transparentize($black, .5);
+  background: $off-white;
+  color: $light-grey;
 }
 
-.black-key {
+.sharp-key {
   @extend %key;
   background: $black;
-  color: transparentize($white, .5);
+  color: $grey;
 }

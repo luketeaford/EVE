@@ -1,13 +1,22 @@
+//TODO Use classes?
 header {
 
-  h1 {
-    //TODO make variable
-    color: darken($black, 10%);
-    font-family: $bodoni;
+  > h1 {
+    color: $white;
     font-size: 4rem;
-    font-weight: 900;
-    font-weight: 600;
+    font-weight: 100;
+    letter-spacing: .6rem;
     text-transform: uppercase;
+
+    > span {
+      display: block;
+      font-size: .77777777776rem;
+      font-weight: 400;
+      letter-spacing: normal;
+      margin-left: .3rem;
+      text-transform: lowercase;
+    }
+
   }
 
   &::after {

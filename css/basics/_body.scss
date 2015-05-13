@@ -7,14 +7,14 @@
 }
 
 html {
-  background: linear-gradient(#fff, $white);//TODO clean up
+  background: linear-gradient($black, #000);//TODO clean up
   box-sizing: border-box;
-  color: $black;
-  font: 20px/1 sans-serif;//TODO clean up
+  color: $off-white;
+  font: 20px/1 $sans;//TODO clean up and switch to 10px base
 }
 
 body {
-  background: transparentize(#999, .8);
+  background: $dark-grey;
   margin: 0 auto;
   max-width: (320/20) + rem;
   padding: $buffer;//TODO make sure that name makes sense

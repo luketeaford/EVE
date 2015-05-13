@@ -1,10 +1,11 @@
 // Sliders
 label {
+  color: $grey;
   display: block;
   height: 2rem;
   margin: 1rem auto;
   span {
-    border: 3px double $black;
+    border: 3px double $grey;
     border-radius: 2rem;
     display: inline-block;
     font-size: .8rem;
@@ -24,7 +25,7 @@ label {
 
 // Footer
 footer {
-  font-family: $sans;
+  color: $grey;
   font-size: .6rem;
   margin: 2rem auto 1rem;
 }

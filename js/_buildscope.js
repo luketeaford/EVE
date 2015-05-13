@@ -3,7 +3,7 @@ EVE.buildScope = function buildScope() {
     var fft = 2048,
         oscope = document.getElementById('scope'),
         ctx = oscope.getContext('2d'),
-        gold = 'rgb(242, 219, 33)',
+        lineColor = 'rgb(53, 56, 55)',
         scopeData = new Uint8Array(fft);
 
     // TODO Could go in buildSynth()...
@@ -22,7 +22,7 @@ EVE.buildScope = function buildScope() {
 
         ctx.clearRect(0, 0, 300, 150);//canvas size
         ctx.lineWidth = 2;
-        ctx.strokeStyle = gold;
+        ctx.strokeStyle = lineColor;
         ctx.beginPath();
         EVE.oscilloscope.getByteTimeDomainData(scopeData);
         for (i = 0; i < fft; i += 1) {

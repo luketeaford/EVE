@@ -1,4 +1,4 @@
-@mixin arrow($dir: up, $size: 6, $color: inherit) {
+@mixin arrow($dir: up, $size: 6, $color: $light-grey) {
   border: ($size / 10) + rem solid transparent;
   border-bottom-color: $color;
   content: '';

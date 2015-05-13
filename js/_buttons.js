@@ -13,22 +13,17 @@ EVE.button = {
 
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.program;
+        var p = e.target.dataset.shape;
 
-        switch (p) {
-        case 'lfo_shape':
-            //TODO fix this
-            EVE.lfo.type = 'triangle';
-            console.log('updating to triangle');
-            break;
-        }
+        EVE.lfo.type = p;
+        console.log(p);
     }
 };
 
 (function bindButtons() {
     'use strict';
     //TODO finish this -- better selector and events
-    var buttons = document.querySelectorAll('input[type=range]'),
+    var buttons = document.querySelectorAll('.radio'),
         i;
 
     for (i = 0; i < buttons.length; i += 1) {
