@@ -2,6 +2,7 @@
   font-family: $sans;
   h2 {
     cursor: pointer;
+    font-weight: 100;
   }
   &::after {
     @extend %fake-hr;

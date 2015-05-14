@@ -405,6 +405,7 @@ EVE.button = {
     update: function (e) {
         'use strict';
         EVE.lfo1.type = e.target.dataset.shape;
+        console.log('Remember to fix this');
     }
 };
 
