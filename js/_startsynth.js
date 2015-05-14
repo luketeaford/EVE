@@ -6,7 +6,7 @@ EVE.startSynth = function startSynth() {
         EVE.harmonicOscs[i].start(0);
     }
 
-    EVE.lfo.start(0);
+    EVE.lfo1.start(0);
 
     document.removeEventListener('click', startSynth);
     document.removeEventListener('dblclick', startSynth);

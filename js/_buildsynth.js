@@ -8,7 +8,7 @@ EVE.buildSynth = function buildSynth() {
             osc,
             vca;
 
-        for (i = 1; i < (EVE.config.harmonics + 1); i += 1) {
+        for (i = 1; i <= EVE.config.harmonics; i += 1) {
             osc = 'osc' + i;
             vca = osc + '_vca';
 
@@ -30,15 +30,15 @@ EVE.buildSynth = function buildSynth() {
     function buildLfo() {
         var i;
 
-        EVE.lfo = EVE.synth.createOscillator();
-        EVE.lfo.frequency.value = EVE.program.lfo_rate;
-        EVE.lfo.type = EVE.program.lfo_type;
+        EVE.lfo1 = EVE.synth.createOscillator();
+        EVE.lfo1.frequency.value = EVE.program.lfo1_rate;
+        EVE.lfo1.type = EVE.program.lfo1_type;
 
         for (i = 1; i <= EVE.config.harmonics; i += 1) {
-            EVE['lfo' + i] = EVE.synth.createGain();
-            EVE['lfo' + i].gain.value = EVE.program['lfo' + i];
-            EVE.lfo.connect(EVE['lfo' + i]);
-            EVE['lfo' + i].connect(EVE['osc' + i + '_vca'].gain);
+            EVE['osc' + i + '_lfo'] = EVE.synth.createGain();
+            EVE['osc' + i + '_lfo'].gain.value = EVE.program['osc' + i + '_lfo'];
+            EVE.lfo1.connect(EVE['osc' + i + '_lfo']);
+            EVE['osc' + i + '_lfo'].connect(EVE['osc' + i + '_vca'].gain);
         }
     }
 

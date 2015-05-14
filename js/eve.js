@@ -46,19 +46,22 @@ var EVE = {
         vca_r: 0,
         vca_g: 0,
 
-        // LFO Amounts
-        lfo1: 0,
-        lfo2: 0,
-        lfo3: 0,
-        lfo4: 0,
-        lfo5: 0,
-        lfo6: 0,
-        lfo7: 0,
-        lfo8: 0,
+        // LFO 1
+        lfo1_rate: 4,
+        lfo1_type: 'square',
 
-        // LFO
-        lfo_rate: 4,
-        lfo_type: 'square'
+        // LFO 1 Amounts
+        osc1_lfo: 0,
+        osc2_lfo: 0,
+        osc3_lfo: 0,
+        osc4_lfo: 0,
+        osc5_lfo: 0,
+        osc6_lfo: 0,
+        osc7_lfo: 0,
+        osc8_lfo: 0
+
+        // LFO 2
+
     },
 
     keyboard: document.getElementById('keyboard'),
@@ -98,7 +101,7 @@ EVE.buildSynth = function buildSynth() {
             osc,
             vca;
 
-        for (i = 1; i < (EVE.config.harmonics + 1); i += 1) {
+        for (i = 1; i <= EVE.config.harmonics; i += 1) {
             osc = 'osc' + i;
             vca = osc + '_vca';
 
@@ -120,15 +123,15 @@ EVE.buildSynth = function buildSynth() {
     function buildLfo() {
         var i;
 
-        EVE.lfo = EVE.synth.createOscillator();
-        EVE.lfo.frequency.value = EVE.program.lfo_rate;
-        EVE.lfo.type = EVE.program.lfo_type;
+        EVE.lfo1 = EVE.synth.createOscillator();
+        EVE.lfo1.frequency.value = EVE.program.lfo1_rate;
+        EVE.lfo1.type = EVE.program.lfo1_type;
 
         for (i = 1; i <= EVE.config.harmonics; i += 1) {
-            EVE['lfo' + i] = EVE.synth.createGain();
-            EVE['lfo' + i].gain.value = EVE.program['lfo' + i];
-            EVE.lfo.connect(EVE['lfo' + i]);
-            EVE['lfo' + i].connect(EVE['osc' + i + '_vca'].gain);
+            EVE['osc' + i + '_lfo'] = EVE.synth.createGain();
+            EVE['osc' + i + '_lfo'].gain.value = EVE.program['osc' + i + '_lfo'];
+            EVE.lfo1.connect(EVE['osc' + i + '_lfo']);
+            EVE['osc' + i + '_lfo'].connect(EVE['osc' + i + '_vca'].gain);
         }
     }
 
@@ -211,7 +214,7 @@ EVE.startSynth = function startSynth() {
         EVE.harmonicOscs[i].start(0);
     }
 
-    EVE.lfo.start(0);
+    EVE.lfo1.start(0);
 
     document.removeEventListener('click', startSynth);
     document.removeEventListener('dblclick', startSynth);
@@ -240,7 +243,7 @@ EVE.gateOn = function gateOn(e) {
         env;
 
     // Harmonic Envelopes
-    for (i = 1; i < EVE.config.harmonics + 1; i += 1) {
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
 
         vca = EVE['osc' + i + '_vca'];
         osc = EVE.program['osc' + i];
@@ -280,7 +283,7 @@ EVE.gateOff = function gateOff() {
         i;
 
     // Harmonic Envelopes
-    for (i = 1; i < EVE.config.harmonics + 1; i += 1) {
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
 
         vca = EVE['osc' + i + '_vca'];
 
@@ -358,18 +361,18 @@ EVE.slider = {
         case 'vca_g':
             EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
             break;
-        case 'lfo1':
-        case 'lfo2':
-        case 'lfo3':
-        case 'lfo4':
-        case 'lfo5':
-        case 'lfo6':
-        case 'lfo7':
-        case 'lfo8':
+        case 'osc1_lfo':
+        case 'osc2_lfo':
+        case 'osc3_lfo':
+        case 'osc4_lfo':
+        case 'osc5_lfo':
+        case 'osc6_lfo':
+        case 'osc7_lfo':
+        case 'osc8_lfo':
             EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
             break;
         case 'lfo_rate':
-            EVE.lfo.frequency.setValueAtTime(EVE.program[p] * EVE.osc1.frequency.value, EVE.now());
+            EVE.lfo1.frequency.setValueAtTime(EVE.program[p] * EVE.osc1.frequency.value, EVE.now());
             break;
         }
     }
@@ -401,10 +404,7 @@ EVE.button = {
 
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.shape;
-
-        EVE.lfo.type = p;
-        console.log(p);
+        EVE.lfo1.type = e.target.dataset.shape;
     }
 };
 

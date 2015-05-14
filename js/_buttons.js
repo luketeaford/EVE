@@ -13,10 +13,7 @@ EVE.button = {
 
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.shape;
-
-        EVE.lfo.type = p;
-        console.log(p);
+        EVE.lfo1.type = e.target.dataset.shape;
     }
 };
 

@@ -7,7 +7,7 @@ EVE.gateOn = function gateOn(e) {
         env;
 
     // Harmonic Envelopes
-    for (i = 1; i < EVE.config.harmonics + 1; i += 1) {
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
 
         vca = EVE['osc' + i + '_vca'];
         osc = EVE.program['osc' + i];

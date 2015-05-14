@@ -46,19 +46,22 @@ var EVE = {
         vca_r: 0,
         vca_g: 0,
 
-        // LFO Amounts
-        lfo1: 0,
-        lfo2: 0,
-        lfo3: 0,
-        lfo4: 0,
-        lfo5: 0,
-        lfo6: 0,
-        lfo7: 0,
-        lfo8: 0,
+        // LFO 1
+        lfo1_rate: 4,
+        lfo1_type: 'square',
 
-        // LFO
-        lfo_rate: 4,
-        lfo_type: 'square'
+        // LFO 1 Amounts
+        osc1_lfo: 0,
+        osc2_lfo: 0,
+        osc3_lfo: 0,
+        osc4_lfo: 0,
+        osc5_lfo: 0,
+        osc6_lfo: 0,
+        osc7_lfo: 0,
+        osc8_lfo: 0
+
+        // LFO 2
+
     },
 
     keyboard: document.getElementById('keyboard'),
