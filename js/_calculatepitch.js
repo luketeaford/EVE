@@ -1,9 +1,15 @@
 EVE.calculatePitch = function (note) {
     'use strict';
-    var i;
+    var oscs = EVE.harmonicOscs,
+        i;
 
-    for (i = 0; i < EVE.config.harmonics; i += 1) {
-        EVE.harmonicOscs[i].detune.setValueAtTime(note, EVE.synth.currentTime);
+    if (EVE.program.lfo_tracking === 'true') {
+        oscs.push(EVE.lfo);
     }
+
+    for (i = 0; i < oscs.length; i += 1) {
+        oscs[i].detune.setValueAtTime(note, EVE.synth.currentTime);
+    }
+
     return;
 };
