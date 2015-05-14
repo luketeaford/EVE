@@ -93,12 +93,12 @@ EVE.buildSynth = function buildSynth() {
     EVE.harmonicOscs = [];
     EVE.harmonicVcas = [];
 
-    function buildHarmonicOsc(x) {
+    function buildHarmonicOsc() {
         var i,
             osc,
             vca;
 
-        for (i = 1; i < (x + 1); i += 1) {
+        for (i = 1; i < (EVE.config.harmonics + 1); i += 1) {
             osc = 'osc' + i;
             vca = osc + '_vca';
 
@@ -138,8 +138,7 @@ EVE.buildSynth = function buildSynth() {
     EVE.vca.connect(EVE.synth.destination);
 
     // Harmonic Oscillator
-    // TODO why pass this in? Would be nicer inside
-    buildHarmonicOsc(EVE.config.harmonics);
+    buildHarmonicOsc();
 
     // LFO
     buildLfo();
