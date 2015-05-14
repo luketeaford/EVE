@@ -5,13 +5,11 @@ EVE.buildSynth = function buildSynth() {
 
     function buildHarmonicOsc(x) {
         var i,
-            j,
             osc,
             vca;
 
-        for (i = 0; i < x; i += 1) {
-            j = i + 1;
-            osc = 'osc' + j;
+        for (i = 1; i < (x + 1); i += 1) {
+            osc = 'osc' + i;
             vca = osc + '_vca';
 
             EVE[vca] = EVE.synth.createGain();
@@ -20,7 +18,7 @@ EVE.buildSynth = function buildSynth() {
 
             EVE[osc] = EVE.synth.createOscillator();
             EVE[osc].type = 'sine';
-            EVE[osc].frequency.value = EVE.config.master_freq * j;
+            EVE[osc].frequency.value = EVE.config.master_freq * i;
             EVE[osc].connect(EVE[vca]);
 
             EVE.harmonicOscs.push(EVE[osc]);
