@@ -58,10 +58,15 @@ var EVE = {
         osc5_lfo: 0,
         osc6_lfo: 0,
         osc7_lfo: 0,
-        osc8_lfo: 0
+        osc8_lfo: 0,
 
         // LFO 2
+        lfo2_rate: 2,
+        lfo2_type: 'sine',
 
+        // LFO 2 Amounts
+        lfo2_amp: 0,
+        lfo2_pitch: 0
     },
 
     keyboard: document.getElementById('keyboard'),

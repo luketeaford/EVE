@@ -7,6 +7,7 @@ EVE.startSynth = function startSynth() {
     }
 
     EVE.lfo1.start(0);
+    EVE.lfo2.start(0);
 
     document.removeEventListener('click', startSynth);
     document.removeEventListener('dblclick', startSynth);

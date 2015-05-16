@@ -1,16 +1,16 @@
 #Eve Web Audio Synthesizer
 
 ##TODO:
-* Harmonic Osc needs modulation amounts for each channel
+* Harmonic Osc needs modulation amounts moved into each channel
   * lfo (positive and negative)
-* LFO
-  * Same as oscillator frequency at top of range (could be doubled...)
+  * envelope (positive only)
 * LFO 2
-  * Needs to be created
+  * has ranges (slow, medium, high)
   * Should have these destinations:
-    * each harmonic (vca just like LFO 1)
+    * master vca (done)
     * pitch of all oscillators (and LFO)
-    * master vca
-    * waveshaper
+    * each harmonic (vca just like LFO 1)
+
 * Delay
+
 * Reverb

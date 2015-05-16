@@ -58,10 +58,15 @@ var EVE = {
         osc5_lfo: 0,
         osc6_lfo: 0,
         osc7_lfo: 0,
-        osc8_lfo: 0
+        osc8_lfo: 0,
 
         // LFO 2
+        lfo2_rate: 2,
+        lfo2_type: 'sine',
 
+        // LFO 2 Amounts
+        lfo2_amp: 0,
+        lfo2_pitch: 0
     },
 
     keyboard: document.getElementById('keyboard'),
@@ -120,7 +125,7 @@ EVE.buildSynth = function buildSynth() {
 
     }
 
-    function buildLfo() {
+    function buildLfo1() {
         var i;
 
         EVE.lfo1 = EVE.synth.createOscillator();
@@ -135,6 +140,32 @@ EVE.buildSynth = function buildSynth() {
         }
     }
 
+    function buildLfo2() {
+        var i;
+
+        // Basics
+        EVE.lfo2 = EVE.synth.createOscillator();
+        EVE.lfo2.frequency.value = EVE.program.lfo2_rate;
+        EVE.lfo2.type = EVE.program.lfo2_type;
+
+        // Create LFO2 VCAS
+        EVE.lfo2_amp = EVE.synth.createGain();
+        EVE.lfo2_amp.gain.value = EVE.program.lfo2_amp;
+        EVE.lfo2_pitch = EVE.synth.createGain();
+        EVE.lfo2_pitch.gain.value = EVE.program.lfo2_pitch;
+
+        // Connect LFO2 to its VCAS
+        EVE.lfo2.connect(EVE.lfo2_amp);
+        EVE.lfo2.connect(EVE.lfo2_pitch);
+
+        // Connect LFO2 VCAs to their destinations
+        EVE.lfo2_amp.connect(EVE.vca.gain);
+        for (i = 1; i <= EVE.config.harmonics; i += 1) {
+            EVE.lfo2_pitch.connect(EVE['osc' + i].frequency);
+        }
+        EVE.lfo2_pitch.connect(EVE.lfo1.frequency);
+    }
+
     // Master VCA
     EVE.vca = EVE.synth.createGain();
     EVE.vca.gain.setValueAtTime(0, EVE.now());
@@ -144,7 +175,8 @@ EVE.buildSynth = function buildSynth() {
     buildHarmonicOsc();
 
     // LFO
-    buildLfo();
+    buildLfo1();
+    buildLfo2();
 
     // Prevent twice
     EVE.buildSynth = function buildSynth() {
@@ -215,6 +247,7 @@ EVE.startSynth = function startSynth() {
     }
 
     EVE.lfo1.start(0);
+    EVE.lfo2.start(0);
 
     document.removeEventListener('click', startSynth);
     document.removeEventListener('dblclick', startSynth);
