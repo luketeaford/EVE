@@ -39,10 +39,17 @@ EVE.slider = {
         case 'osc6_lfo':
         case 'osc7_lfo':
         case 'osc8_lfo':
+        case 'lfo2_amp':
             EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
             break;
-        case 'lfo_rate':
-            EVE.lfo1.frequency.setValueAtTime(EVE.program[p] * EVE.osc1.frequency.value, EVE.now());
+        case 'lfo1_rate':
+            EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate * EVE.osc1.frequency.value, EVE.now());
+            break;
+        case 'lfo2_rate':
+            EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.osc1.frequency.value, EVE.now());
+            break;
+        case 'lfo2_pitch':
+            EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 440, EVE.now());
             break;
         }
     }

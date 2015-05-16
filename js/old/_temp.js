@@ -3,13 +3,6 @@
 (function documentReady() {
     'use strict';
 
-    // Set up templates
-    navTemplate();
-
-    // Set up synth
-    EVE.buildSynth();
-    EVE.buildScope();
-
     document.addEventListener('update', EVE.slider.update);
     document.addEventListener('update', EVE.button.update);
 }());

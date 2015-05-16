@@ -6,21 +6,23 @@ var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
 
     scripts = [
-    //    'js/_license.js',
+        // LEGAL
+        //'js/_license.js',
+
+        // SYNTH
         'js/_eve.js',
-        'js/templates/*.js',
-        'js/_customevents.js',
-        'js/_buildsynth.js',
-        'js/_buildscope.js',
-        'js/_startsynth.js',
+        'js/_collapse-modules.js',
+        'js/_keyboard.js',
+        'js/_config.js',
+        'js/_program.js',
+        'js/_envelope-helpers.js',
+        'js/_build-synth.js',
+        'js/_build-scope.js',
+        'js/_connect-synth.js',
+        'js/_calculate-pitch.js',
         'js/_gateon.js',
-        'js/_gateoff.js',
-        'js/_calculatepitch.js',
-        'js/_sliders.js',
-        'js/_buttons.js',
-        'js/_temp.js',
-        'js/_collapsemodules.js',
-        'js/_router.js'
+        'js/_gateoff.js'
+
     ];
 
 gulp.task('browsersync', function() {

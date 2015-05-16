@@ -1,4 +1,4 @@
-EVE.buildScope = function buildScope() {
+(function buildScope() {
     'use strict';
     var fft = 2048,
         oscope = document.getElementById('scope'),
@@ -6,12 +6,7 @@ EVE.buildScope = function buildScope() {
         lineColor = 'rgb(53, 56, 55)',
         scopeData = new Uint8Array(fft);
 
-    // TODO Could go in buildSynth()...
-    EVE.oscilloscope = EVE.synth.createAnalyser();
-    EVE.vca.connect(EVE.oscilloscope);
-
-    // Start drawing
-    function draw() {
+    (function draw() {
         var sliceWidth = 300 / fft,// canvas/fft
             x = 0,
             i,
@@ -38,13 +33,7 @@ EVE.buildScope = function buildScope() {
         }
         ctx.lineTo(300, 150 / 2);//canvas size
         ctx.stroke();
-    }
+    }());
 
-    draw();
 
-    EVE.buildScope = function buildScope() {
-        console.warn('buildScope already called');
-        return 'Scope already built';
-    };
-
-};
+}());

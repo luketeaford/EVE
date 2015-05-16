@@ -11,7 +11,7 @@ EVE.gateOn = function gateOn(e) {
 
         vca = EVE['osc' + i + '_vca'];
         osc = EVE.program['osc' + i];
-        env = EVE.program['osc' + i + '_eg'];
+        env = EVE.program['env' + i];
 
         // Timbre starting point
         vca.gain.setTargetAtTime(osc, EVE.now(), 0.1);

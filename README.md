@@ -65,5 +65,7 @@ EVE is an additive monosynth built with Web Audio.
 * Probably a better idea to use a pseudo element instead of hr after every section
 
 ###JavaScript
-* Remember to come up with a consistent pattern for run-once methods like buildSynth
-  * IIFEs are probably the best way to do this
+
+###Ideas
+* Ability to pause/resume
+* second audio context purely for fun -- a VCA click, and a high pitch that quickly rises out of audible range
