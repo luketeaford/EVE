@@ -19,6 +19,7 @@ var gulp = require('gulp'),
         'js/_build-synth.js',
         'js/_build-scope.js',
         'js/_connect-synth.js',
+        'js/_start-synth.js',
         'js/_calculate-pitch.js',
         'js/_gateon.js',
         'js/_gateoff.js'
