@@ -1,3 +1,4 @@
+// TODO Rename this to something more appropriate
 (function buildScope() {
     'use strict';
     var fft = 2048,
@@ -34,6 +35,5 @@
         ctx.lineTo(300, 150 / 2);//canvas size
         ctx.stroke();
     }());
-
 
 }());

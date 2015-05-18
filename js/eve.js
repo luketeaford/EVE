@@ -1,8 +1,12 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var EVE = {
+    oscillators: [],
     synth: new AudioContext()
 };
+
+// QUESTIONABLE BELOW
+EVE.synth.ready = new CustomEvent('ready', {});
 
 (function collapseModules() {
     'use strict';
@@ -97,84 +101,144 @@ EVE.attack = function (x) {
     return EVE.synth.currentTime + x;
 };
 
-(function buildSynth() {
+(function buildOscilloscope() {
     'use strict';
-
-    // Each build should push its oscillators here to start later
-    EVE.oscillators = [];
-
-    (function buildHarmonicOscs() {
-        var i,
-            osc;
-        EVE.harmonicOscs = [];
-        for (i = 1; i <= EVE.config.harmonics; i += 1) {
-            osc = 'osc' + i;
-            EVE[osc] = EVE.synth.createOscillator();
-            EVE[osc].frequency.value = EVE.config.masterFreq * i;
-            EVE[osc].type = 'sine';
-            EVE.harmonicOscs.push(EVE[osc]);
-            EVE.oscillators.push(EVE[osc]);
-        }
-    }());
-
-    (function buildHarmonicVcas() {
-        var i,
-            osc,
-            vca;
-        EVE.harmonicVcas = [];
-        for (i = 1; i <= EVE.config.harmonics; i += 1) {
-            osc = 'osc' + i;
-            vca = osc + '_vca';
-            EVE[vca] = EVE.synth.createGain();
-            EVE[vca].gain.setValueAtTime(EVE.program[osc], EVE.now());
-            EVE.harmonicVcas.push(EVE[vca]);
-        }
-    }());
-
-    (function buildLfo1() {
-        EVE.lfo1 = EVE.synth.createOscillator();
-        EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate, EVE.now());
-        EVE.lfo1.type = EVE.program.lfo1_type;
-        EVE.oscillators.push(EVE.lfo1);
-    }());
-
-    (function buildLfo1Vcas() {
-        var i,
-            osc,
-            lfo;
-        for (i = 1; i <= EVE.config.harmonics; i += 1) {
-            osc = 'osc' + i;
-            lfo = osc + '_lfo';
-            EVE[lfo] = EVE.synth.createGain();
-            EVE[lfo].gain.setValueAtTime(EVE.program[lfo], EVE.now());
-        }
-    }());
-
-    (function buildLfo2() {
-        EVE.lfo2 = EVE.synth.createOscillator();
-        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate, EVE.now());
-        EVE.lfo2.type = EVE.program.lfo2_type;
-        EVE.oscillators.push(EVE.lfo2);
-    }());
-
-    (function buildLfo2Vcas() {
-        EVE.lfo2_amp = EVE.synth.createGain();
-        EVE.lfo2_amp.gain.setValueAtTime(EVE.program.lfo2_amp, EVE.now());
-        EVE.lfo2_pitch = EVE.synth.createGain();
-        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch, EVE.now());
-    }());
-
-    (function buildVca() {
-        EVE.vca = EVE.synth.createGain();
-        EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
-    }());
-
-    (function buildOscilloscope() {
-        EVE.oscilloscope = EVE.synth.createAnalyser();
-    }());
-
+    EVE.oscilloscope = EVE.synth.createAnalyser();
 }());
 
+(function buildHarmonicOscs() {
+    'use strict';
+    var i,
+        osc;
+    EVE.harmonicOscs = [];
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        osc = 'osc' + i;
+        EVE[osc] = EVE.synth.createOscillator();
+        EVE[osc].frequency.value = EVE.config.masterFreq * i;
+        EVE[osc].type = 'sine';
+        EVE.harmonicOscs.push(EVE[osc]);
+        EVE.oscillators.push(EVE[osc]);
+    }
+}());
+
+(function buildHarmonicVcas() {
+    'use strict';
+    var i,
+        osc,
+        vca;
+    EVE.harmonicVcas = [];
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        osc = 'osc' + i;
+        vca = osc + '_vca';
+        EVE[vca] = EVE.synth.createGain();
+        EVE[vca].gain.setValueAtTime(EVE.program[osc], EVE.now());
+        EVE.harmonicVcas.push(EVE[vca]);
+    }
+    // Broadcast ready event
+    document.dispatchEvent(EVE.synth.ready);
+}());
+
+// Listen for a build complete event, then connect
+function connectHarmonicOscs() {
+    'use strict';
+    var i,
+        osc,
+        vca;
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        osc = 'osc' + i;
+        vca = osc + '_vca';
+        EVE[osc].connect(EVE[vca]);
+        EVE[vca].connect(EVE.vca);
+    }
+    console.log('harmonics connected');
+}
+
+// TODO Rename this...
+(function bindConnectEvents() {
+    'use strict';
+    document.addEventListener('EVE.synth.ready', connectHarmonicOscs);
+}());
+
+(function buildLfo1() {
+    'use strict';
+    EVE.lfo1 = EVE.synth.createOscillator();
+    EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate, EVE.now());
+    EVE.lfo1.type = EVE.program.lfo1_type;
+    EVE.oscillators.push(EVE.lfo1);
+}());
+
+(function buildLfo1Vcas() {
+    'use strict';
+    var i,
+        osc,
+        lfo;
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        osc = 'osc' + i;
+        lfo = osc + '_lfo';
+        EVE[lfo] = EVE.synth.createGain();
+        EVE[lfo].gain.setValueAtTime(EVE.program[lfo], EVE.now());
+    }
+}());
+
+(function connectLfo1() {
+    'use strict';
+    var i,
+        osc,
+        lfo,
+        vca;
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        osc = 'osc' + i;
+        lfo = osc + '_lfo';
+        vca = osc + '_vca';
+        EVE.lfo1.connect(EVE[lfo]);
+        EVE[lfo].connect(EVE[vca].gain);
+    }
+}());
+
+(function buildLfo2() {
+    'use strict';
+    EVE.lfo2 = EVE.synth.createOscillator();
+    EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate, EVE.now());
+    EVE.lfo2.type = EVE.program.lfo2_type;
+    EVE.oscillators.push(EVE.lfo2);
+}());
+
+(function buildLfo2Vcas() {
+    'use strict';
+    EVE.lfo2_amp = EVE.synth.createGain();
+    EVE.lfo2_amp.gain.setValueAtTime(EVE.program.lfo2_amp, EVE.now());
+    EVE.lfo2_pitch = EVE.synth.createGain();
+    EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch, EVE.now());
+}());
+
+(function connectLfo2() {
+    'use strict';
+    var i;
+    // Oscillators to VCAs
+    EVE.lfo2.connect(EVE.lfo2_amp);
+    EVE.lfo2.connect(EVE.lfo2_pitch);
+    // VCA to amp
+    EVE.lfo2_amp.connect(EVE.vca.gain);
+    // VCA to pitch
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        EVE.lfo2_pitch.connect(EVE['osc' + i].frequency);
+    }
+    EVE.lfo2_pitch.connect(EVE.lfo1.frequency);
+}());
+
+(function buildVca() {
+    'use strict';
+    EVE.vca = EVE.synth.createGain();
+    EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
+}());
+
+(function connectVca() {
+    'use strict';
+    EVE.vca.connect(EVE.oscilloscope);
+    EVE.vca.connect(EVE.synth.destination);
+}());
+
+// TODO Rename this to something more appropriate
 (function buildScope() {
     'use strict';
     var fft = 2048,
@@ -212,57 +276,6 @@ EVE.attack = function (x) {
         ctx.stroke();
     }());
 
-
-}());
-
-(function connectSynth() {
-    'use strict';
-
-    (function connectHarmonicOscs() {
-        var i,
-            osc,
-            vca;
-        for (i = 1; i <= EVE.config.harmonics; i += 1) {
-            osc = 'osc' + i;
-            vca = osc + '_vca';
-            EVE[osc].connect(EVE[vca]);
-            EVE[vca].connect(EVE.vca);
-        }
-    }());
-
-    (function connectLfo1() {
-        var i,
-            osc,
-            lfo,
-            vca;
-        for (i = 1; i <= EVE.config.harmonics; i += 1) {
-            osc = 'osc' + i;
-            lfo = osc + '_lfo';
-            vca = osc + '_vca';
-            EVE.lfo1.connect(EVE[lfo]);
-            EVE[lfo].connect(EVE[vca].gain);
-        }
-    }());
-
-    (function connectLfo2() {
-        var i;
-        // Oscillators to VCAs
-        EVE.lfo2.connect(EVE.lfo2_amp);
-        EVE.lfo2.connect(EVE.lfo2_pitch);
-        // VCA to amp
-        EVE.lfo2_amp.connect(EVE.vca.gain);
-        // VCA to pitch
-        for (i = 1; i <= EVE.config.harmonics; i += 1) {
-            EVE.lfo2_pitch.connect(EVE['osc' + i].frequency);
-        }
-        EVE.lfo2_pitch.connect(EVE.lfo1.frequency);
-    }());
-
-    (function connectVca() {
-        EVE.vca.connect(EVE.oscilloscope);
-        EVE.vca.connect(EVE.synth.destination);
-    }());
-
 }());
 
 (function initialize() {
@@ -287,6 +300,24 @@ EVE.attack = function (x) {
     document.addEventListener('keydown', startSynth);
     document.addEventListener('touchstart', startSynth);
     document.addEventListener('wheel', startSynth);
+}());
+
+EVE.slider = {
+    grab: function () {
+        'use strict';
+        console.log('grabbing slider');
+    }
+};
+
+(function bindSliders() {
+    'use strict';
+    var inputs = document.querySelectorAll('input[type=range]'),
+        i;
+
+    for (i = 0; i < inputs.length; i += 1) {
+        inputs[i].addEventListener('input', EVE.slider.grab);
+    }
+
 }());
 
 //TODO Refactor this
