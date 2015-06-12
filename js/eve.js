@@ -1,16 +1,27 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var EVE = {
-    oscillators: [],
+    config: {
+        harmonics: 8,
+        masterFreq: 440,
+        octaveShift: 0
+    },
+    program: {
+        osc1: 1,
+        osc2: 0,
+        osc3: 0,
+        osc4: 0,
+        osc5: 0,
+        osc6: 0,
+        osc7: 0,
+        osc8: 0
+    },
     synth: new AudioContext()
 };
 
-// QUESTIONABLE BELOW
-EVE.synth.ready = new CustomEvent('ready', {});
-
 (function collapseModules() {
     'use strict';
-    var moduleTitles = document.querySelectorAll('section > h2, .toggle'),
+    var moduleTitles = document.querySelectorAll('section > a'),
         i;
 
     function collapseMenu() {
@@ -28,12 +39,6 @@ EVE.synth.ready = new CustomEvent('ready', {});
 
 // Use a module to create keyboard methods, etc.
 EVE.keyboard = document.getElementById('keyboard');
-
-EVE.config = {
-    harmonics: 8,
-    masterFreq: 440,
-    octaveShift: 0
-};
 
 EVE.program = {
     name: 'INIT',
@@ -66,6 +71,7 @@ EVE.program = {
 
     // LFO 1
     lfo1_rate: 4,
+    lfo1_track: false,
     lfo1_type: 'square',
     osc1_lfo: 0,
     osc2_lfo: 0,
@@ -97,148 +103,11 @@ EVE.now = function () {
 
 EVE.attack = function (x) {
     'use strict';
-    console.log(typeof x);
-    return EVE.synth.currentTime + x;
+    return EVE.now() + x;
 };
 
-(function buildOscilloscope() {
-    'use strict';
-    EVE.oscilloscope = EVE.synth.createAnalyser();
-}());
+EVE.oscilloscope = EVE.synth.createAnalyser();
 
-(function buildHarmonicOscs() {
-    'use strict';
-    var i,
-        osc;
-    EVE.harmonicOscs = [];
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
-        osc = 'osc' + i;
-        EVE[osc] = EVE.synth.createOscillator();
-        EVE[osc].frequency.value = EVE.config.masterFreq * i;
-        EVE[osc].type = 'sine';
-        EVE.harmonicOscs.push(EVE[osc]);
-        EVE.oscillators.push(EVE[osc]);
-    }
-}());
-
-(function buildHarmonicVcas() {
-    'use strict';
-    var i,
-        osc,
-        vca;
-    EVE.harmonicVcas = [];
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
-        osc = 'osc' + i;
-        vca = osc + '_vca';
-        EVE[vca] = EVE.synth.createGain();
-        EVE[vca].gain.setValueAtTime(EVE.program[osc], EVE.now());
-        EVE.harmonicVcas.push(EVE[vca]);
-    }
-    // Broadcast ready event
-    document.dispatchEvent(EVE.synth.ready);
-}());
-
-// Listen for a build complete event, then connect
-function connectHarmonicOscs() {
-    'use strict';
-    var i,
-        osc,
-        vca;
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
-        osc = 'osc' + i;
-        vca = osc + '_vca';
-        EVE[osc].connect(EVE[vca]);
-        EVE[vca].connect(EVE.vca);
-    }
-    console.log('harmonics connected');
-}
-
-// TODO Rename this...
-(function bindConnectEvents() {
-    'use strict';
-    document.addEventListener('EVE.synth.ready', connectHarmonicOscs);
-}());
-
-(function buildLfo1() {
-    'use strict';
-    EVE.lfo1 = EVE.synth.createOscillator();
-    EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate, EVE.now());
-    EVE.lfo1.type = EVE.program.lfo1_type;
-    EVE.oscillators.push(EVE.lfo1);
-}());
-
-(function buildLfo1Vcas() {
-    'use strict';
-    var i,
-        osc,
-        lfo;
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
-        osc = 'osc' + i;
-        lfo = osc + '_lfo';
-        EVE[lfo] = EVE.synth.createGain();
-        EVE[lfo].gain.setValueAtTime(EVE.program[lfo], EVE.now());
-    }
-}());
-
-(function connectLfo1() {
-    'use strict';
-    var i,
-        osc,
-        lfo,
-        vca;
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
-        osc = 'osc' + i;
-        lfo = osc + '_lfo';
-        vca = osc + '_vca';
-        EVE.lfo1.connect(EVE[lfo]);
-        EVE[lfo].connect(EVE[vca].gain);
-    }
-}());
-
-(function buildLfo2() {
-    'use strict';
-    EVE.lfo2 = EVE.synth.createOscillator();
-    EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate, EVE.now());
-    EVE.lfo2.type = EVE.program.lfo2_type;
-    EVE.oscillators.push(EVE.lfo2);
-}());
-
-(function buildLfo2Vcas() {
-    'use strict';
-    EVE.lfo2_amp = EVE.synth.createGain();
-    EVE.lfo2_amp.gain.setValueAtTime(EVE.program.lfo2_amp, EVE.now());
-    EVE.lfo2_pitch = EVE.synth.createGain();
-    EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch, EVE.now());
-}());
-
-(function connectLfo2() {
-    'use strict';
-    var i;
-    // Oscillators to VCAs
-    EVE.lfo2.connect(EVE.lfo2_amp);
-    EVE.lfo2.connect(EVE.lfo2_pitch);
-    // VCA to amp
-    EVE.lfo2_amp.connect(EVE.vca.gain);
-    // VCA to pitch
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
-        EVE.lfo2_pitch.connect(EVE['osc' + i].frequency);
-    }
-    EVE.lfo2_pitch.connect(EVE.lfo1.frequency);
-}());
-
-(function buildVca() {
-    'use strict';
-    EVE.vca = EVE.synth.createGain();
-    EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
-}());
-
-(function connectVca() {
-    'use strict';
-    EVE.vca.connect(EVE.oscilloscope);
-    EVE.vca.connect(EVE.synth.destination);
-}());
-
-// TODO Rename this to something more appropriate
 (function buildScope() {
     'use strict';
     var fft = 2048,
@@ -278,15 +147,112 @@ function connectHarmonicOscs() {
 
 }());
 
+EVE.vca = EVE.synth.createGain();
+EVE.vca.gain.value = EVE.program.vca_g;
+EVE.vca.connect(EVE.synth.destination);
+
+// TODO Listen for the oscilloscope and connect to it when available
+EVE.vca.connect(EVE.oscilloscope);
+
+EVE.harmonicOsc = {};
+
+(function buildHarmonicOsc() {
+    'use strict';
+    var i,
+        osc;
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        osc = 'osc' + i;
+        // Oscillators
+        EVE.harmonicOsc[osc] = EVE.synth.createOscillator();
+        EVE.harmonicOsc[osc].frequency.value = EVE.config.masterFreq * i;
+        EVE.harmonicOsc[osc].type = 'sine';
+        // VCAs
+        EVE.harmonicOsc[osc].vca = EVE.synth.createGain();
+        EVE.harmonicOsc[osc].vca.gain.value = EVE.program[osc];
+        // Connect
+        EVE.harmonicOsc[osc].connect(EVE.harmonicOsc[osc].vca);
+        // TODO Listen for main VCA connection and then connect to that
+        EVE.harmonicOsc[osc].vca.connect(EVE.vca);
+    }
+}());
+
+EVE.lfo1 = {};
+
+(function buildLfo1() {
+    'use strict';
+    var i,
+        osc,
+        lfo;
+//        vca;
+    // The LFO itself
+    EVE.lfo1 = EVE.synth.createOscillator();
+    EVE.lfo1.frequency.value = EVE.program.lfo1_rate;
+    EVE.lfo1.type = EVE.program.lfo1_type;
+    // LFO 1 VCAs
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        osc = 'osc' + i;
+        lfo = osc + '_lfo';
+//        vca = osc + '_vca';
+        EVE[lfo] = EVE.synth.createGain();
+        EVE[lfo].gain.value = EVE.program[lfo];
+        // Connect LFO 1 to each LFO VCA
+        EVE.lfo1.connect(EVE[lfo]);
+        // Connect to harmonic oscillator VCAs
+        EVE[lfo].connect(EVE.harmonicOsc[osc].vca.gain);
+    }
+}());
+
+EVE.lfo2 = {};
+
+(function buildLfo2() {
+    'use strict';
+    var i;
+
+    EVE.lfo2 = EVE.synth.createOscillator();
+    EVE.lfo2.frequency.value = EVE.program.lfo2_rate;
+    EVE.lfo2.type = EVE.program.lfo2_type;
+
+    // VCAs
+    EVE.lfo2_amp = EVE.synth.createGain();
+    EVE.lfo2_amp.gain.value = EVE.program.lfo2_amp;
+    EVE.lfo2_pitch = EVE.synth.createGain();
+    EVE.lfo2_pitch.gain.value = EVE.program.lfo2_pitch;
+
+    // Connect LFOs to VCAs
+    EVE.lfo2.connect(EVE.lfo2_amp);
+    EVE.lfo2.connect(EVE.lfo2_pitch);
+
+    // VCA to amp
+    EVE.lfo2_amp.connect(EVE.vca.gain);
+
+    // VCA to pitch
+    for (i = 1; i < EVE.config.harmonics; i += 1) {
+        EVE.lfo2_pitch.connect(EVE.harmonicOsc['osc' + i].frequency);
+    }
+
+    // LFO 2 modulates LFO 1?!
+    // Probably in the wrong place because this connection can be toggled
+    if (EVE.program.lfo1_track) {
+        EVE.lfo2_pitch.connect(EVE.lfo1.frequency);
+    }
+}());
+
 (function initialize() {
     'use strict';
 
     function startSynth() {
         var i;
 
-        for (i = 0; i < EVE.oscillators.length; i += 1) {
-            EVE.oscillators[i].start(0);
+        // Harmonic Oscillator
+        for (i = 1; i <= EVE.config.harmonics; i += 1) {
+            EVE.harmonicOsc['osc' + i].start(0);
         }
+
+        // LFO 1
+        EVE.lfo1.start(0);
+
+        // LFO 2
+        EVE.lfo2.start(0);
 
         document.removeEventListener('click', startSynth);
         document.removeEventListener('dblclick', startSynth);
@@ -320,21 +286,35 @@ EVE.slider = {
 
 }());
 
-//TODO Refactor this
+// TODO Refactor this so this function only figures out the pitch, and another
+// function is used to actually set the pitch.
 EVE.calculatePitch = function (note) {
     'use strict';
-    var oscs = EVE.harmonicOscs,
-        i;
+    var i;
 
-    if (EVE.program.lfo_tracking === 'true') {
-        oscs.push(EVE.lfo);
-    }
-
-    for (i = 0; i < oscs.length; i += 1) {
-        oscs[i].detune.setValueAtTime(note, EVE.synth.currentTime);
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
     }
 
     return;
+};
+
+EVE.setPitch = function (note) {
+    'use strict';
+
+    var i;
+
+    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
+    }
+
+    if (EVE.program.lfo1_track) {
+        EVE.lfo1.detune.setValueAtTime(note, EVE.now());
+    }
+
+    console.log('Fool JSLint', note);
+
+    return 'Should include portamento and staccato options';
 };
 
 EVE.gateOn = function gateOn(e) {
@@ -348,7 +328,7 @@ EVE.gateOn = function gateOn(e) {
     // Harmonic Envelopes
     for (i = 1; i <= EVE.config.harmonics; i += 1) {
 
-        vca = EVE['osc' + i + '_vca'];
+        vca = EVE.harmonicOsc['osc' + i].vca;
         osc = EVE.program['osc' + i];
         env = EVE.program['osc' + i + '_eg'];
 
@@ -388,7 +368,7 @@ EVE.gateOff = function gateOff() {
     // Harmonic Envelopes
     for (i = 1; i <= EVE.config.harmonics; i += 1) {
 
-        vca = EVE['osc' + i + '_vca'];
+        vca = EVE.harmonicOsc['osc' + i].vca;
 
         // Prevent decay from acting like second attack
         vca.gain.cancelScheduledValues(EVE.now());

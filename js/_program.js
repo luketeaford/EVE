@@ -29,6 +29,7 @@ EVE.program = {
 
     // LFO 1
     lfo1_rate: 4,
+    lfo1_track: false,
     lfo1_type: 'square',
     osc1_lfo: 0,
     osc2_lfo: 0,

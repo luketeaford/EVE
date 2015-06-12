@@ -4,9 +4,16 @@
     function startSynth() {
         var i;
 
-        for (i = 0; i < EVE.oscillators.length; i += 1) {
-            EVE.oscillators[i].start(0);
+        // Harmonic Oscillator
+        for (i = 1; i <= EVE.config.harmonics; i += 1) {
+            EVE.harmonicOsc['osc' + i].start(0);
         }
+
+        // LFO 1
+        EVE.lfo1.start(0);
+
+        // LFO 2
+        EVE.lfo2.start(0);
 
         document.removeEventListener('click', startSynth);
         document.removeEventListener('dblclick', startSynth);

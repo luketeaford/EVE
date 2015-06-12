@@ -1,6 +1,6 @@
 (function collapseModules() {
     'use strict';
-    var moduleTitles = document.querySelectorAll('section > h2, .toggle'),
+    var moduleTitles = document.querySelectorAll('section > a'),
         i;
 
     function collapseMenu() {

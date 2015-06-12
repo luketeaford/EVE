@@ -9,7 +9,7 @@ EVE.gateOff = function gateOff() {
     // Harmonic Envelopes
     for (i = 1; i <= EVE.config.harmonics; i += 1) {
 
-        vca = EVE['osc' + i + '_vca'];
+        vca = EVE.harmonicOsc['osc' + i].vca;
 
         // Prevent decay from acting like second attack
         vca.gain.cancelScheduledValues(EVE.now());

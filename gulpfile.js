@@ -7,7 +7,7 @@ var gulp = require('gulp'),
 
     scripts = [
         // LEGAL
-        //'js/_license.js',
+        //'js/_legal/_license.js',
 
         // SYNTH
         'js/_eve.js',
@@ -15,21 +15,17 @@ var gulp = require('gulp'),
         'js/_keyboard.js',
         'js/_config.js',
         'js/_program.js',
-        'js/_envelope-helpers.js',
-//        'js/_build-synth.js',
-        'js/synth/_oscilloscope.js',
-        'js/synth/_harmonic-osc.js',
-        'js/synth/_lfo1.js',
-        'js/synth/_lfo2.js',
-        'js/synth/_vca.js',
-        'js/_build-scope.js',
-//        'js/_connect-synth.js',
+        'js/_envelopes.js',
+        'js/_synth/_oscilloscope.js',
+        'js/_synth/_vca.js',
+        'js/_synth/_harmonicOsc.js',
+        'js/_synth/_lfo1.js',
+        'js/_synth/_lfo2.js',
         'js/_start-synth.js',
         'js/_sliders.js',
         'js/_calculate-pitch.js',
         'js/_gateon.js',
         'js/_gateoff.js'
-
     ];
 
 gulp.task('browsersync', function() {
@@ -75,7 +71,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('js/*.js', ['js']);
+    gulp.watch('js/**/*.js', ['js']);
     gulp.watch('css/**/*.scss', ['sass']);
 });
 

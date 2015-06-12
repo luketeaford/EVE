@@ -5,6 +5,5 @@ EVE.now = function () {
 
 EVE.attack = function (x) {
     'use strict';
-    console.log(typeof x);
-    return EVE.synth.currentTime + x;
+    return EVE.now() + x;
 };

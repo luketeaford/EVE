@@ -1,20 +1,25 @@
 %module {
-  font-family: $sans;
-  h2 {
-    cursor: pointer;
-    font-weight: 100;
-  }
-  &::after {
-    @extend %fake-hr;
+  &[data-state] {
+    font-family: $sans;
+    > a {
+      display: block;
+    }
+    h2 {
+      cursor: pointer;
+      font-weight: 100;
+    }
+    &::after {
+      @extend %fake-hr;
+    }
   }
   &[data-state=open] {
-    .toggle {
+    a::before {
       @include arrow();
     }
   }
   &[data-state=closed] {
-    .toggle {
-      @include arrow(down);
+    a::before {
+        @include arrow(down);
     }
     h2 {
       display: inline-block;

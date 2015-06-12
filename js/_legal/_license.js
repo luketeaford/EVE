@@ -15,4 +15,4 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 // luketeaford@gmail.com
-// 153 Illinois Avenue, Dayton OH 45410
+// 4100 Quentin Boulevard, #310, Columbus, OH 43230
