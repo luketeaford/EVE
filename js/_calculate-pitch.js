@@ -7,7 +7,7 @@ EVE.calculatePitch = function (note) {
     for (i = 1; i <= EVE.config.harmonics; i += 1) {
         EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
     }
-
+    console.log('note', note);
     return;
 };
 

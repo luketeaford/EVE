@@ -17,6 +17,7 @@ EVE.vca.update = function (e) {
         console.log(p, EVE.program[p]);
     }
 
+    // TODO This doesn't need to be a switch
     switch (p) {
     case 'vca_a':
     case 'vca_d':

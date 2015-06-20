@@ -1,6 +1,10 @@
 #Eve Web Audio Synthesizer
 
 ##TODO:
+* timbre envelopes
+* create octaveShift
+* Rewrite calculatePitch and setPitch
+
 * Harmonic Osc needs modulation amounts moved into each channel
   * lfo (positive and negative)
   * envelope (positive only)

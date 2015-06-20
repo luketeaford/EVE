@@ -1,4 +1,5 @@
 EVE.slider = {
+    debug: true,
     grab: function () {
         'use strict';
         var prog = this.dataset.program,
@@ -8,8 +9,11 @@ EVE.slider = {
         // Update program
         EVE.program[prog] = this.value * x;
 
+        if (EVE.slider.debug) {
+            console.log('Updating', update);
+        }
+
         // Broadcast change
-        console.log('Updating', update);
         this.dispatchEvent(EVE[update]);
     }
 };
