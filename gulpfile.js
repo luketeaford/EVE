@@ -24,6 +24,7 @@ var gulp = require('gulp'),
         'js/_synth/_lfo2.js',
         'js/_start-synth.js',//WEIRD NAME
         'js/_sliders.js',
+        'js/_buttons.js',
         'js/_calculate-pitch.js',//WEIRD NAME
         'js/_gateon.js',//WEIRD NAME
         'js/_gateoff.js'//WEIRD NAME

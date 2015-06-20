@@ -28,14 +28,23 @@ var EVE = {
     }
 }());
 
-EVE = (function (EVE) {
-    'use strict';
-    EVE.keyboard = {
-        scope: document.getElementById('keyboard')
-    };
+EVE.keyboard = {
+    debug: true,
+    scope: document.getElementById('keyboard'),
+    test: function (e) {
+        'use strict';
+        console.log(e.which);
+    },
+    touch: function (e) {
+        'use strict';
+        console.log('Keyboard touched', e);
+    }
+};
 
-    return EVE;
-}(EVE));
+(function bindEvents() {
+    'use strict';
+    document.addEventListener('keypress', EVE.keyboard.test);
+}());
 
 EVE.program = {
     name: 'INIT',
@@ -368,7 +377,7 @@ EVE.lfo2.update = function (e) {
         EVE.lfo2_amp.gain.setValueAtTime(EVE.program.lfo2_amp, EVE.now());
         break;
     case 'lfo2_pitch':
-        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 440, EVE.now());
+        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * EVE.config.masterFreq, EVE.now());
         break;
     case 'lfo2_rate':
         EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
@@ -441,6 +450,29 @@ EVE.slider = {
     }
 
 }());
+
+EVE.button = {
+    debug: true,
+    press: function () {
+        'use strict';
+        var prog = this.dataset.program,
+            update = 'update_' + this.parentElement.parentElement.dataset.update;
+
+        // Update program
+        if (EVE.program[prog] !== this.value) {
+            EVE.program[prog] = this.value;
+        }
+
+        if (EVE.button.debug) {
+            console.log('Updating', update);
+        }
+
+        // Broadcast change
+        this.dispatchEvent(EVE[update]);
+    }
+};
+
+// TODO BIND BUTTONS HERE
 
 // TODO Refactor this so this function only figures out the pitch, and another
 // function is used to actually set the pitch.

@@ -48,7 +48,7 @@ EVE.lfo2.update = function (e) {
         EVE.lfo2_amp.gain.setValueAtTime(EVE.program.lfo2_amp, EVE.now());
         break;
     case 'lfo2_pitch':
-        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 440, EVE.now());
+        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * EVE.config.masterFreq, EVE.now());
         break;
     case 'lfo2_rate':
         EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
