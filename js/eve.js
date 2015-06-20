@@ -2,19 +2,10 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var EVE = {
     config: {
+        eg_minimum: 0.05,
         harmonics: 8,
         masterFreq: 440,
         octaveShift: 0
-    },
-    program: {
-        osc1: 1,
-        osc2: 0,
-        osc3: 0,
-        osc4: 0,
-        osc5: 0,
-        osc6: 0,
-        osc7: 0,
-        osc8: 0
     },
     synth: new AudioContext()
 };
@@ -69,11 +60,11 @@ EVE.program = {
     osc7_eg: 0,
     osc8_eg: 0,
 
-    // Harmonic Envelope
-    timbre_a: 0,
-    timbre_d: 0,
+    // Timbre Envelope
+    timbre_a: 0.05,// Reasonable minimum
+    timbre_d: 0.3,
     timbre_s: 0,
-    timbre_r: 0,
+    timbre_r: 0.3,
 
     // LFO 1
     lfo1_rate: 4,
@@ -96,9 +87,9 @@ EVE.program = {
 
     // VCA
     vca_a: 0.05,// Reasonable minimum
-    vca_d: 0.2,
-    vca_s: 1,
-    vca_r: 0.2,
+    vca_d: 0.25,
+    vca_s: 0,// Testing decay
+    vca_r: 0.25,
     vca_g: 0
 };
 
@@ -228,6 +219,41 @@ EVE.harmonicOsc = {
 EVE.harmonicOsc.scope.addEventListener('update_harmonic_osc', EVE.harmonicOsc.update);
 
 EVE.update_harmonic_osc = new CustomEvent('update_harmonic_osc', {bubbles: true});
+
+EVE.timbreEg = {
+    debug: true,
+    scope: document.getElementById('timbre-eg'),
+    update: function (e) {
+        'use strict';
+        var p = e.target.dataset.program;
+
+        if (EVE.timbreEg.debug) {
+            console.log(p, EVE.program[p]);
+        }
+
+    }
+};
+
+EVE.timbreEg.scope.addEventListener('update_timbre_eg', EVE.timbreEg.update);
+
+EVE.update_timbre_eg = new CustomEvent('update_timbre_eg', {bubbles: true});
+
+EVE.timbreEnv = {
+    debug: true,
+    scope: document.getElementById('timbre-env'),
+    update: function (e) {
+        'use strict';
+        var p = e.target.dataset.program;
+
+        if (EVE.timbreEnv.debug) {
+            console.log(p, EVE.program[p]);
+        }
+    }
+};
+
+EVE.timbreEnv.scope.addEventListener('update_timbre_env', EVE.timbreEnv.update);
+
+EVE.update_timbre_env = new CustomEvent('update_timbre_env', {bubbles: true});
 
 (function buildLfo1() {
     'use strict';
@@ -413,27 +439,29 @@ EVE.setPitch = function (note) {
 
 EVE.gateOn = function gateOn(e) {
     'use strict';
-    var peak = EVE.synth.currentTime + parseFloat(EVE.program.vca_a),
+    var env,
         i,
-        vca,
         osc,
-        env;
+        peak = EVE.synth.currentTime + EVE.program.vca_a + EVE.config.eg_minimum,
+        vca;
 
-    // Harmonic Envelopes
+    // TODO Possibly use a timbrePeak variable in this loop for readability
+    // Timbre Envelope
     for (i = 1; i <= EVE.config.harmonics; i += 1) {
 
-        vca = EVE.harmonicOsc['osc' + i].vca;
-        osc = EVE.program['osc' + i];
+        //vca, osc, env
         env = EVE.program['osc' + i + '_eg'];
+        osc = EVE.program['osc' + i];
+        vca = EVE.harmonicOsc['osc' + i].vca;
 
         // Timbre starting point
         vca.gain.setTargetAtTime(osc, EVE.now(), 0.1);
 
         // Timbre attack
-        vca.gain.linearRampToValueAtTime(parseFloat(osc) + parseFloat(env), EVE.now() + parseFloat(EVE.program.timbre_a));
+        vca.gain.linearRampToValueAtTime(osc + env, EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum);
 
         // Timbre decay
-        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), EVE.now() + parseFloat(EVE.program.timbre_a), EVE.program.timbre_d);
+        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum, EVE.program.timbre_d);
     }
 
     // Set starting point
@@ -446,6 +474,7 @@ EVE.gateOn = function gateOn(e) {
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d);
 
     return EVE.calculatePitch(e.target.dataset.noteValue);
+
 };
 
 EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);

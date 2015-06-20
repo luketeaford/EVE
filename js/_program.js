@@ -21,11 +21,11 @@ EVE.program = {
     osc7_eg: 0,
     osc8_eg: 0,
 
-    // Harmonic Envelope
-    timbre_a: 0,
-    timbre_d: 0,
+    // Timbre Envelope
+    timbre_a: 0.05,// Reasonable minimum
+    timbre_d: 0.3,
     timbre_s: 0,
-    timbre_r: 0,
+    timbre_r: 0.3,
 
     // LFO 1
     lfo1_rate: 4,
@@ -48,8 +48,8 @@ EVE.program = {
 
     // VCA
     vca_a: 0.05,// Reasonable minimum
-    vca_d: 0.2,
-    vca_s: 1,
-    vca_r: 0.2,
+    vca_d: 0.25,
+    vca_s: 0,// Testing decay
+    vca_r: 0.25,
     vca_g: 0
 };

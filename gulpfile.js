@@ -11,20 +11,22 @@ var gulp = require('gulp'),
 
         // SYNTH
         'js/_eve.js',
-        'js/_collapse-modules.js',
+        'js/_collapse-modules.js',//WEIRD NAME
         'js/_keyboard.js',
         'js/_program.js',
         'js/_envelopes.js',
         'js/_synth/_oscilloscope.js',
         'js/_synth/_vca.js',
         'js/_synth/_harmonicOsc.js',
+        'js/_synth/_timbreEg.js',
+        'js/_synth/_timbreEnv.js',
         'js/_synth/_lfo1.js',
         'js/_synth/_lfo2.js',
-        'js/_start-synth.js',
+        'js/_start-synth.js',//WEIRD NAME
         'js/_sliders.js',
-        'js/_calculate-pitch.js',
-        'js/_gateon.js',
-        'js/_gateoff.js'
+        'js/_calculate-pitch.js',//WEIRD NAME
+        'js/_gateon.js',//WEIRD NAME
+        'js/_gateoff.js'//WEIRD NAME
     ];
 
 gulp.task('browsersync', function() {
