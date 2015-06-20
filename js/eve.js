@@ -199,19 +199,33 @@ EVE.harmonicOsc = {
     'use strict';
     var i,
         osc;
+
+    // Mixer
+    EVE.harmonicOsc.mixer = EVE.synth.createGain();
+    EVE.harmonicOsc.mixer.gain.value = -1;
+
     for (i = 1; i <= EVE.config.harmonics; i += 1) {
         osc = 'osc' + i;
         // Oscillators
         EVE.harmonicOsc[osc] = EVE.synth.createOscillator();
         EVE.harmonicOsc[osc].frequency.value = EVE.config.masterFreq * i;
         EVE.harmonicOsc[osc].type = 'sine';
+
         // VCAs
         EVE.harmonicOsc[osc].vca = EVE.synth.createGain();
         EVE.harmonicOsc[osc].vca.gain.value = EVE.program[osc];
-        // Connect
+
+        // Connect each oscillator to its VCA
         EVE.harmonicOsc[osc].connect(EVE.harmonicOsc[osc].vca);
-        // TODO Listen for main VCA connection and then connect to that
-        EVE.harmonicOsc[osc].vca.connect(EVE.vca);
+
+        // Connect each VCA to the mixer
+        EVE.harmonicOsc[osc].vca.connect(EVE.harmonicOsc.mixer);
+
+        // Connect the mixer to the master VCA
+        EVE.harmonicOsc.mixer.connect(EVE.vca);
+
+        // The original connection (before Saturday)
+//        EVE.harmonicOsc[osc].vca.connect(EVE.vca);
     }
 }());
 
@@ -323,7 +337,7 @@ EVE.update_lfo1 = new CustomEvent('update_lfo1', {bubbles: true});
     EVE.lfo2.connect(EVE.lfo2_pitch);
 
     // VCA to amp
-    EVE.lfo2_amp.connect(EVE.vca.gain);
+    EVE.lfo2_amp.connect(EVE.harmonicOsc.mixer.gain);
 
     // VCA to pitch
     for (i = 1; i < EVE.config.harmonics; i += 1) {
@@ -351,16 +365,15 @@ EVE.lfo2.update = function (e) {
 
     switch (p) {
     case 'lfo2_amp':
-        EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
-        break;
-    case 'lfo2_rate':
-        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
+        EVE.lfo2_amp.gain.setValueAtTime(EVE.program.lfo2_amp, EVE.now());
         break;
     case 'lfo2_pitch':
         EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 440, EVE.now());
         break;
+    case 'lfo2_rate':
+        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
+        break;
     }
-
 };
 
 EVE.lfo2.scope.addEventListener('update_lfo2', EVE.lfo2.update);

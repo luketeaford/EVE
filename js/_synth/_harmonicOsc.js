@@ -17,19 +17,33 @@ EVE.harmonicOsc = {
     'use strict';
     var i,
         osc;
+
+    // Mixer
+    EVE.harmonicOsc.mixer = EVE.synth.createGain();
+    EVE.harmonicOsc.mixer.gain.value = -1;
+
     for (i = 1; i <= EVE.config.harmonics; i += 1) {
         osc = 'osc' + i;
         // Oscillators
         EVE.harmonicOsc[osc] = EVE.synth.createOscillator();
         EVE.harmonicOsc[osc].frequency.value = EVE.config.masterFreq * i;
         EVE.harmonicOsc[osc].type = 'sine';
+
         // VCAs
         EVE.harmonicOsc[osc].vca = EVE.synth.createGain();
         EVE.harmonicOsc[osc].vca.gain.value = EVE.program[osc];
-        // Connect
+
+        // Connect each oscillator to its VCA
         EVE.harmonicOsc[osc].connect(EVE.harmonicOsc[osc].vca);
-        // TODO Listen for main VCA connection and then connect to that
-        EVE.harmonicOsc[osc].vca.connect(EVE.vca);
+
+        // Connect each VCA to the mixer
+        EVE.harmonicOsc[osc].vca.connect(EVE.harmonicOsc.mixer);
+
+        // Connect the mixer to the master VCA
+        EVE.harmonicOsc.mixer.connect(EVE.vca);
+
+        // The original connection (before Saturday)
+//        EVE.harmonicOsc[osc].vca.connect(EVE.vca);
     }
 }());
 

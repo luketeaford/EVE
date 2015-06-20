@@ -17,7 +17,7 @@
     EVE.lfo2.connect(EVE.lfo2_pitch);
 
     // VCA to amp
-    EVE.lfo2_amp.connect(EVE.vca.gain);
+    EVE.lfo2_amp.connect(EVE.harmonicOsc.mixer.gain);
 
     // VCA to pitch
     for (i = 1; i < EVE.config.harmonics; i += 1) {
@@ -45,16 +45,15 @@ EVE.lfo2.update = function (e) {
 
     switch (p) {
     case 'lfo2_amp':
-        EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
-        break;
-    case 'lfo2_rate':
-        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
+        EVE.lfo2_amp.gain.setValueAtTime(EVE.program.lfo2_amp, EVE.now());
         break;
     case 'lfo2_pitch':
         EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 440, EVE.now());
         break;
+    case 'lfo2_rate':
+        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
+        break;
     }
-
 };
 
 EVE.lfo2.scope.addEventListener('update_lfo2', EVE.lfo2.update);
