@@ -1,12 +1,14 @@
 (function buildLfo1() {
     'use strict';
     var i,
-        osc,
-        lfo;
+        lfo,
+        osc;
+
     // The LFO itself
     EVE.lfo1 = EVE.synth.createOscillator();
     EVE.lfo1.frequency.value = EVE.program.lfo1_rate;
     EVE.lfo1.type = EVE.program.lfo1_type;
+
     // LFO 1 VCAs
     for (i = 1; i <= EVE.config.harmonics; i += 1) {
         osc = 'osc' + i;
@@ -18,10 +20,13 @@
         // Connect to harmonic oscillator VCAs
         EVE[lfo].connect(EVE.harmonicOsc[osc].vca.gain);
     }
+
 }());
 
 EVE.lfo1.debug = true;
+
 EVE.lfo1.scope = document.getElementById('lfo1');
+
 EVE.lfo1.update = function (e) {
     'use strict';
     var p = e.target.dataset.program;
@@ -30,22 +35,12 @@ EVE.lfo1.update = function (e) {
         console.log(p, EVE.program[p]);
     }
 
-    // TODO This doesn't need to be a switch
-    switch (p) {
-    case 'lfo1_rate':
+    if (p === 'lfo1_rate') {
         EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
-        break;
-    case 'osc1_lfo':
-    case 'osc2_lfo':
-    case 'osc3_lfo':
-    case 'osc4_lfo':
-    case 'osc5_lfo':
-    case 'osc6_lfo':
-    case 'osc7_lfo':
-    case 'osc8_lfo':
+    } else {
         EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
-        break;
     }
+
 };
 
 EVE.lfo1.scope.addEventListener('update_lfo1', EVE.lfo1.update);
