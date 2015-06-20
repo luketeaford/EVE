@@ -89,10 +89,10 @@ EVE.program = {
     lfo2_pitch: 0,
 
     // VCA
-    vca_a: 0,
-    vca_d: 0,
+    vca_a: 0.05,// Reasonable minimum
+    vca_d: 0.2,
     vca_s: 1,
-    vca_r: 0,
+    vca_r: 0.2,
     vca_g: 0
 };
 
@@ -153,6 +153,34 @@ EVE.vca.connect(EVE.synth.destination);
 
 // TODO Listen for the oscilloscope and connect to it when available
 EVE.vca.connect(EVE.oscilloscope);
+
+EVE.vca.debug = true;
+
+EVE.vca.scope = document.getElementById('vca');
+
+EVE.vca.update = function (e) {
+    'use strict';
+    var p = e.target.dataset.program;
+
+    if (EVE.vca.debug) {
+        console.log(p, EVE.program[p]);
+    }
+
+    switch (p) {
+    case 'vca_a':
+    case 'vca_d':
+    case 'vca_s':
+    case 'vca_r':
+        break;
+    case 'vca_g':
+        EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
+        break;
+    }
+};
+
+EVE.vca.scope.addEventListener('updateVCA', EVE.vca.update);
+
+EVE.vca.update = new CustomEvent('updateVCA', {bubbles: true});
 
 EVE.harmonicOsc = {};
 
@@ -271,7 +299,17 @@ EVE.lfo2 = {};
 EVE.slider = {
     grab: function () {
         'use strict';
-        console.log('grabbing slider');
+        var prog = this.dataset.program,
+            x = this.dataset.curve === 'lin' ? 1 : this.value;
+
+        // Update program
+        EVE.program[prog] = this.value * x;
+
+        // Broadcast change
+        // Do it from each kind of thing that way the modules that listen
+        // know what to do and I can avoid a switch statement
+        // and I can put the subscribe kind of code in the modules themselves
+        this.dispatchEvent(EVE.vca.update);
     }
 };
 

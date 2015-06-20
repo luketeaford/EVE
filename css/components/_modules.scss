@@ -2,6 +2,7 @@
   &[data-state] {
     font-family: $sans;
     > a {
+      cursor: pointer;
       display: block;
     }
     h2 {

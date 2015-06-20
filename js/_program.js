@@ -47,9 +47,9 @@ EVE.program = {
     lfo2_pitch: 0,
 
     // VCA
-    vca_a: 0,
-    vca_d: 0,
+    vca_a: 0.05,// Reasonable minimum
+    vca_d: 0.2,
     vca_s: 1,
-    vca_r: 0,
+    vca_r: 0.2,
     vca_g: 0
 };
