@@ -35,5 +35,5 @@ EVE.gateOn = function gateOn(e) {
     return EVE.calculatePitch(e.target.dataset.noteValue);
 };
 
-EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
-EVE.keyboard.addEventListener('touchstart', EVE.gateOn);
+EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
+EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);

@@ -1,2 +1,8 @@
-// Use a module to create keyboard methods, etc.
-EVE.keyboard = document.getElementById('keyboard');
+EVE = (function (EVE) {
+    'use strict';
+    EVE.keyboard = {
+        scope: document.getElementById('keyboard')
+    };
+
+    return EVE;
+}(EVE));

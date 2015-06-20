@@ -37,8 +37,14 @@ var EVE = {
     }
 }());
 
-// Use a module to create keyboard methods, etc.
-EVE.keyboard = document.getElementById('keyboard');
+EVE = (function (EVE) {
+    'use strict';
+    EVE.keyboard = {
+        scope: document.getElementById('keyboard')
+    };
+
+    return EVE;
+}(EVE));
 
 EVE.program = {
     name: 'INIT',
@@ -178,11 +184,24 @@ EVE.vca.update = function (e) {
     }
 };
 
-EVE.vca.scope.addEventListener('updateVCA', EVE.vca.update);
+EVE.vca.scope.addEventListener('update_vca', EVE.vca.update);
 
-EVE.vca.update = new CustomEvent('updateVCA', {bubbles: true});
+EVE.update_vca = new CustomEvent('update_vca', {bubbles: true});
 
-EVE.harmonicOsc = {};
+EVE.harmonicOsc = {
+    debug: true,
+    scope: document.getElementById('harmonics'),
+    update: function (e) {
+        'use strict';
+        var p = e.target.dataset.program;
+
+        if (EVE.harmonicOsc.debug) {
+            console.log(p, EVE.program[p]);
+        }
+
+        EVE.harmonicOsc[p].vca.gain.setValueAtTime(EVE.program[p], EVE.now());
+    }
+};
 
 (function buildHarmonicOsc() {
     'use strict';
@@ -203,6 +222,11 @@ EVE.harmonicOsc = {};
         EVE.harmonicOsc[osc].vca.connect(EVE.vca);
     }
 }());
+
+
+EVE.harmonicOsc.scope.addEventListener('update_harmonic_osc', EVE.harmonicOsc.update);
+
+EVE.update_harmonic_osc = new CustomEvent('update_harmonic_osc', {bubbles: true});
 
 EVE.lfo1 = {};
 
@@ -300,16 +324,15 @@ EVE.slider = {
     grab: function () {
         'use strict';
         var prog = this.dataset.program,
+            update = 'update_' + this.parentElement.parentElement.dataset.update,
             x = this.dataset.curve === 'lin' ? 1 : this.value;
 
         // Update program
         EVE.program[prog] = this.value * x;
 
         // Broadcast change
-        // Do it from each kind of thing that way the modules that listen
-        // know what to do and I can avoid a switch statement
-        // and I can put the subscribe kind of code in the modules themselves
-        this.dispatchEvent(EVE.vca.update);
+        console.log('Updating', update);
+        this.dispatchEvent(EVE[update]);
     }
 };
 
@@ -392,8 +415,8 @@ EVE.gateOn = function gateOn(e) {
     return EVE.calculatePitch(e.target.dataset.noteValue);
 };
 
-EVE.keyboard.addEventListener('mousedown', EVE.gateOn);
-EVE.keyboard.addEventListener('touchstart', EVE.gateOn);
+EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
+EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
 
 EVE.gateOff = function gateOff() {
     'use strict';
@@ -430,5 +453,5 @@ EVE.gateOff = function gateOff() {
     return;
 };
 
-EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
-EVE.keyboard.addEventListener('touchend', EVE.gateOff);
+EVE.keyboard.scope.addEventListener('mouseup', EVE.gateOff);
+EVE.keyboard.scope.addEventListener('touchend', EVE.gateOff);

@@ -29,6 +29,6 @@ EVE.vca.update = function (e) {
     }
 };
 
-EVE.vca.scope.addEventListener('updateVCA', EVE.vca.update);
+EVE.vca.scope.addEventListener('update_vca', EVE.vca.update);
 
-EVE.vca.update = new CustomEvent('updateVCA', {bubbles: true});
+EVE.update_vca = new CustomEvent('update_vca', {bubbles: true});

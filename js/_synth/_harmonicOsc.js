@@ -1,4 +1,17 @@
-EVE.harmonicOsc = {};
+EVE.harmonicOsc = {
+    debug: true,
+    scope: document.getElementById('harmonics'),
+    update: function (e) {
+        'use strict';
+        var p = e.target.dataset.program;
+
+        if (EVE.harmonicOsc.debug) {
+            console.log(p, EVE.program[p]);
+        }
+
+        EVE.harmonicOsc[p].vca.gain.setValueAtTime(EVE.program[p], EVE.now());
+    }
+};
 
 (function buildHarmonicOsc() {
     'use strict';
@@ -19,3 +32,8 @@ EVE.harmonicOsc = {};
         EVE.harmonicOsc[osc].vca.connect(EVE.vca);
     }
 }());
+
+
+EVE.harmonicOsc.scope.addEventListener('update_harmonic_osc', EVE.harmonicOsc.update);
+
+EVE.update_harmonic_osc = new CustomEvent('update_harmonic_osc', {bubbles: true});

@@ -33,5 +33,5 @@ EVE.gateOff = function gateOff() {
     return;
 };
 
-EVE.keyboard.addEventListener('mouseup', EVE.gateOff);
-EVE.keyboard.addEventListener('touchend', EVE.gateOff);
+EVE.keyboard.scope.addEventListener('mouseup', EVE.gateOff);
+EVE.keyboard.scope.addEventListener('touchend', EVE.gateOff);
