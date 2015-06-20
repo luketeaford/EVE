@@ -1,5 +1,3 @@
-EVE.lfo2 = {};
-
 (function buildLfo2() {
     'use strict';
     var i;
@@ -32,3 +30,33 @@ EVE.lfo2 = {};
         EVE.lfo2_pitch.connect(EVE.lfo1.frequency);
     }
 }());
+
+EVE.lfo2.debug = true;
+
+EVE.lfo2.scope = document.getElementById('lfo2');
+
+EVE.lfo2.update = function (e) {
+    'use strict';
+    var p = e.target.dataset.program;
+
+    if (EVE.lfo2.debug) {
+        console.log(p, EVE.program[p]);
+    }
+
+    switch (p) {
+    case 'lfo2_amp':
+        EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
+        break;
+    case 'lfo2_rate':
+        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
+        break;
+    case 'lfo2_pitch':
+        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 440, EVE.now());
+        break;
+    }
+
+};
+
+EVE.lfo2.scope.addEventListener('update_lfo2', EVE.lfo2.update);
+
+EVE.update_lfo2 = new CustomEvent('update_lfo2', {bubbles: true});

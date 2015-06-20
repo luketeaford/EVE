@@ -1,7 +1,11 @@
 #Eve Web Audio Synthesizer
 
+##Next Steps:
+* create a mixer for the harmonicOsc -- connect LFO 2 that instead of VCA gain
+* connect the mixer to VCA gain
+
+
 ##TODO:
-* timbre envelopes
 * create octaveShift
 * Rewrite calculatePitch and setPitch
 
