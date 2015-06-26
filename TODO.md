@@ -1,12 +1,10 @@
 #Eve Web Audio Synthesizer
 
 ##Next Steps:
-* animation on modules opening/closing
+* buttons to change certain params
 
 * LFO 2
   * needs ranges (slow, medium, high)
-
-* buttons to change certain params
 
 * fix terrible ugliness
 

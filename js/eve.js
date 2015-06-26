@@ -483,7 +483,11 @@ EVE.calculatePitch = function (note) {
     for (i = 1; i <= EVE.config.harmonics; i += 1) {
         EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
     }
-    console.log('note', note);
+
+    if (EVE.calculatePitch.debug === true && console) {
+        console.log('note', note);
+    }
+
     return;
 };
 
@@ -500,7 +504,9 @@ EVE.setPitch = function (note) {
         EVE.lfo1.detune.setValueAtTime(note, EVE.now());
     }
 
-    console.log('Fool JSLint', note);
+    if (EVE.setPitch.debug === true && console) {
+        console.log('Fool JSLint', note);
+    }
 
     return 'Should include portamento and staccato options';
 };

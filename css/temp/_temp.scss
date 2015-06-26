@@ -2,7 +2,6 @@
 label {
   color: $grey;
   display: block;
-  height: 2rem;
   margin: 1rem auto;
   span {
     border: 3px double $grey;
@@ -17,10 +16,13 @@ label {
   }
   input {
     display: inline-block;
-    max-width: 80%;
     vertical-align: middle;
     width: 100%;
   }
+}
+
+input[type=range] {
+  max-width: 80%;
 }
 
 // Footer
