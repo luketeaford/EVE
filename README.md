@@ -5,11 +5,10 @@ EVE is an additive monosynth built with Web Audio.
 
 ##Requirements
 ###Audio
-* No audibile clicks or pops
 * Lush reverb
 * Fine tune scaling before making presets
 
-###Routing
+###Routing (http://evesynth.com)
 * /login
 * /signup
 * /help
@@ -22,12 +21,6 @@ EVE is an additive monosynth built with Web Audio.
 * Truly mobile first
 * Work perfectly cross browser
 * Musically useful even on mobile
-
-###Visual Design
-* Heavenly, angelic, light
-* Everything comes from the top down
-  * Including expand/collapse triangles
-* Gold, haloes, eternity
 
 ###MIDI
 * Must have MIDI learn
@@ -60,12 +53,3 @@ EVE is an additive monosynth built with Web Audio.
 
 ###Gulp
 * Add a watch to the gulpfile itself in case it changes, it should stop and rerun
-
-###HTML
-* Probably a better idea to use a pseudo element instead of hr after every section
-
-###JavaScript
-
-###Ideas
-* Ability to pause/resume
-* second audio context purely for fun -- a VCA click, and a high pitch that quickly rises out of audible range

@@ -39,10 +39,27 @@ EVE.lfo1.update = function (e) {
         console.log(p, EVE.program[p]);
     }
 
-    if (p === 'lfo1_rate') {
+    switch (p) {
+    case 'lfo1_type':
+        EVE.lfo1.type = EVE.program.lfo1_type;
+        break;
+    case 'lfo1_rate':
         EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
-    } else {
+        break;
+    case 'osc1_lfo':
+    case 'osc2_lfo':
+    case 'osc3_lfo':
+    case 'osc4_lfo':
+    case 'osc5_lfo':
+    case 'osc6_lfo':
+    case 'osc7_lfo':
+    case 'osc8_lfo':
         EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
+        break;
+    default:
+        if (EVE.lfo1.debug && console) {
+            console.log('Unhandled LFO 1 update change');
+        }
     }
 
 };
