@@ -7,7 +7,7 @@ EVE.gateOff = function gateOff() {
         i;
 
     // Harmonic Envelopes
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
 
         vca = EVE.harmonicOsc['osc' + i].vca;
 

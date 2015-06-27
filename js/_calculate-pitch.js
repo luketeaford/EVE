@@ -4,7 +4,7 @@ EVE.calculatePitch = function (note) {
     'use strict';
     var i;
 
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
     }
 
@@ -20,7 +20,7 @@ EVE.setPitch = function (note) {
 
     var i;
 
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
     }
 

@@ -3,7 +3,6 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var EVE = {
     config: {
         eg_minimum: 0.05,
-        harmonics: 8,
         masterFreq: 440,
         octaveShift: 0
     },
@@ -380,7 +379,7 @@ EVE.update_lfo1 = new CustomEvent('update_lfo1', {bubbles: true});
     EVE.lfo2_amp.connect(EVE.harmonicOsc.mixer.gain);
 
     // VCA to pitch
-    for (i = 1; i < EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         EVE.lfo2_pitch.connect(EVE.harmonicOsc['osc' + i].frequency);
     }
 
@@ -438,7 +437,7 @@ EVE.update_lfo2 = new CustomEvent('update_lfo2', {bubbles: true});
         var i;
 
         // Harmonic Oscillator
-        for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        for (i = 1; i <= 8; i += 1) {
             EVE.harmonicOsc['osc' + i].start(0);
         }
 
@@ -531,7 +530,7 @@ EVE.calculatePitch = function (note) {
     'use strict';
     var i;
 
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
     }
 
@@ -547,7 +546,7 @@ EVE.setPitch = function (note) {
 
     var i;
 
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
     }
 
@@ -572,7 +571,7 @@ EVE.gateOn = function gateOn(e) {
 
     // TODO Possibly use a timbrePeak variable in this loop for readability
     // Timbre Envelope
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
 
         //vca, osc, env
         env = EVE.program['osc' + i + '_eg'];
@@ -614,7 +613,7 @@ EVE.gateOff = function gateOff() {
         i;
 
     // Harmonic Envelopes
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
 
         vca = EVE.harmonicOsc['osc' + i].vca;
 

@@ -20,7 +20,7 @@
     EVE.lfo2_amp.connect(EVE.harmonicOsc.mixer.gain);
 
     // VCA to pitch
-    for (i = 1; i < EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         EVE.lfo2_pitch.connect(EVE.harmonicOsc['osc' + i].frequency);
     }
 

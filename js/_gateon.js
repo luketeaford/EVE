@@ -8,7 +8,7 @@ EVE.gateOn = function gateOn(e) {
 
     // TODO Possibly use a timbrePeak variable in this loop for readability
     // Timbre Envelope
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
 
         //vca, osc, env
         env = EVE.program['osc' + i + '_eg'];
