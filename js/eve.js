@@ -33,11 +33,15 @@ EVE.keyboard = {
     scope: document.getElementById('keyboard'),
     test: function (e) {
         'use strict';
-        console.log(e.which);
+        if (console) {
+            console.log(e.which);
+        }
     },
     touch: function (e) {
         'use strict';
-        console.log('Keyboard touched', e);
+        if (console) {
+            console.log('Keyboard touched', e);
+        }
     }
 };
 
@@ -166,23 +170,20 @@ EVE.vca.scope = document.getElementById('vca');
 
 EVE.vca.update = function (e) {
     'use strict';
-    var p = e.target.dataset.program;
+    var p;
 
-    if (EVE.vca.debug) {
+    if (e.target && e.target.dataset && e.target.dataset.program) {
+        p = e.target.dataset.program;
+    }
+
+    if (EVE.vca.debug && console) {
         console.log(p, EVE.program[p]);
     }
 
-    // TODO This doesn't need to be a switch
-    switch (p) {
-    case 'vca_a':
-    case 'vca_d':
-    case 'vca_s':
-    case 'vca_r':
-        break;
-    case 'vca_g':
+    if (p === 'vca_g') {
         EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
-        break;
     }
+
 };
 
 EVE.vca.scope.addEventListener('update_vca', EVE.vca.update);
@@ -194,9 +195,13 @@ EVE.harmonicOsc = {
     scope: document.getElementById('harmonics'),
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.program;
+        var p;
 
-        if (EVE.harmonicOsc.debug) {
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
+        }
+
+        if (EVE.harmonicOsc.debug && console) {
             console.log(p, EVE.program[p]);
         }
 
@@ -232,9 +237,6 @@ EVE.harmonicOsc = {
 
         // Connect the mixer to the master VCA
         EVE.harmonicOsc.mixer.connect(EVE.vca);
-
-        // The original connection (before Saturday)
-//        EVE.harmonicOsc[osc].vca.connect(EVE.vca);
     }
 }());
 
@@ -248,9 +250,13 @@ EVE.timbreEg = {
     scope: document.getElementById('timbre-eg'),
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.program;
+        var p;
 
-        if (EVE.timbreEg.debug) {
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
+        }
+
+        if (EVE.timbreEg.debug && console) {
             console.log(p, EVE.program[p]);
         }
 
@@ -266,9 +272,13 @@ EVE.timbreEnv = {
     scope: document.getElementById('timbre-env'),
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.program;
+        var p;
 
-        if (EVE.timbreEnv.debug) {
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
+        }
+
+        if (EVE.timbreEnv.debug && console) {
             console.log(p, EVE.program[p]);
         }
     }
@@ -309,9 +319,13 @@ EVE.lfo1.scope = document.getElementById('lfo1');
 
 EVE.lfo1.update = function (e) {
     'use strict';
-    var p = e.target.dataset.program;
+    var p;
 
-    if (EVE.lfo1.debug) {
+    if (e.target && e.target.dataset && e.target.dataset.program) {
+        p = e.target.dataset.program;
+    }
+
+    if (EVE.lfo1.debug && console) {
         console.log(p, EVE.program[p]);
     }
 
@@ -366,9 +380,13 @@ EVE.lfo2.scope = document.getElementById('lfo2');
 
 EVE.lfo2.update = function (e) {
     'use strict';
-    var p = e.target.dataset.program;
+    var p;
 
-    if (EVE.lfo2.debug) {
+    if (e.target && e.target.dataset && e.target.dataset.program) {
+        p = e.target.dataset.program;
+    }
+
+    if (EVE.lfo2.debug && console) {
         console.log(p, EVE.program[p]);
     }
 
@@ -382,6 +400,13 @@ EVE.lfo2.update = function (e) {
     case 'lfo2_rate':
         EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
         break;
+    case 'lfo2_type':
+        EVE.lfo2.type = EVE.program.lfo2_type;
+        break;
+    default:
+        if (EVE.lfo2.debug && console) {
+            console.log('Unhandled LFO 2 update change');
+        }
     }
 };
 
@@ -425,13 +450,13 @@ EVE.slider = {
     grab: function () {
         'use strict';
         var prog = this.dataset.program,
-            update = 'update_' + this.parentElement.parentElement.dataset.update,
+            update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update,
             x = this.dataset.curve === 'lin' ? 1 : this.value;
 
         // Update program
         EVE.program[prog] = this.value * x;
 
-        if (EVE.slider.debug) {
+        if (EVE.slider.debug && console) {
             console.log('Updating', update);
         }
 
@@ -455,15 +480,15 @@ EVE.button = {
     debug: true,
     press: function () {
         'use strict';
-        var prog = this.dataset.program,
-            update = 'update_' + this.parentElement.parentElement.dataset.update;
+        var prog = this.name,
+            update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update;
 
         // Update program
         if (EVE.program[prog] !== this.value) {
             EVE.program[prog] = this.value;
         }
 
-        if (EVE.button.debug) {
+        if (EVE.button.debug && console) {
             console.log('Updating', update);
         }
 
@@ -472,7 +497,16 @@ EVE.button = {
     }
 };
 
-// TODO BIND BUTTONS HERE
+(function bindButtons() {
+    'use strict';
+    var buttons = document.querySelectorAll('input[type=radio]'),
+        i;
+
+    for (i = 0; i < buttons.length; i += 1) {
+        buttons[i].addEventListener('change', EVE.button.press);
+    }
+
+}());
 
 // TODO Refactor this so this function only figures out the pitch, and another
 // function is used to actually set the pitch.

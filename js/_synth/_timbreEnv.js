@@ -3,9 +3,13 @@ EVE.timbreEnv = {
     scope: document.getElementById('timbre-env'),
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.program;
+        var p;
 
-        if (EVE.timbreEnv.debug) {
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
+        }
+
+        if (EVE.timbreEnv.debug && console) {
             console.log(p, EVE.program[p]);
         }
     }

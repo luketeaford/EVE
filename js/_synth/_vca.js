@@ -11,23 +11,20 @@ EVE.vca.scope = document.getElementById('vca');
 
 EVE.vca.update = function (e) {
     'use strict';
-    var p = e.target.dataset.program;
+    var p;
 
-    if (EVE.vca.debug) {
+    if (e.target && e.target.dataset && e.target.dataset.program) {
+        p = e.target.dataset.program;
+    }
+
+    if (EVE.vca.debug && console) {
         console.log(p, EVE.program[p]);
     }
 
-    // TODO This doesn't need to be a switch
-    switch (p) {
-    case 'vca_a':
-    case 'vca_d':
-    case 'vca_s':
-    case 'vca_r':
-        break;
-    case 'vca_g':
+    if (p === 'vca_g') {
         EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
-        break;
     }
+
 };
 
 EVE.vca.scope.addEventListener('update_vca', EVE.vca.update);

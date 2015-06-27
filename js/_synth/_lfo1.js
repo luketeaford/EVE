@@ -29,9 +29,13 @@ EVE.lfo1.scope = document.getElementById('lfo1');
 
 EVE.lfo1.update = function (e) {
     'use strict';
-    var p = e.target.dataset.program;
+    var p;
 
-    if (EVE.lfo1.debug) {
+    if (e.target && e.target.dataset && e.target.dataset.program) {
+        p = e.target.dataset.program;
+    }
+
+    if (EVE.lfo1.debug && console) {
         console.log(p, EVE.program[p]);
     }
 

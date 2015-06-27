@@ -37,9 +37,13 @@ EVE.lfo2.scope = document.getElementById('lfo2');
 
 EVE.lfo2.update = function (e) {
     'use strict';
-    var p = e.target.dataset.program;
+    var p;
 
-    if (EVE.lfo2.debug) {
+    if (e.target && e.target.dataset && e.target.dataset.program) {
+        p = e.target.dataset.program;
+    }
+
+    if (EVE.lfo2.debug && console) {
         console.log(p, EVE.program[p]);
     }
 
@@ -53,6 +57,13 @@ EVE.lfo2.update = function (e) {
     case 'lfo2_rate':
         EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
         break;
+    case 'lfo2_type':
+        EVE.lfo2.type = EVE.program.lfo2_type;
+        break;
+    default:
+        if (EVE.lfo2.debug && console) {
+            console.log('Unhandled LFO 2 update change');
+        }
     }
 };
 

@@ -3,11 +3,15 @@ EVE.keyboard = {
     scope: document.getElementById('keyboard'),
     test: function (e) {
         'use strict';
-        console.log(e.which);
+        if (console) {
+            console.log(e.which);
+        }
     },
     touch: function (e) {
         'use strict';
-        console.log('Keyboard touched', e);
+        if (console) {
+            console.log('Keyboard touched', e);
+        }
     }
 };
 

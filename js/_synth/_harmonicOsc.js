@@ -3,9 +3,13 @@ EVE.harmonicOsc = {
     scope: document.getElementById('harmonics'),
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.program;
+        var p;
 
-        if (EVE.harmonicOsc.debug) {
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
+        }
+
+        if (EVE.harmonicOsc.debug && console) {
             console.log(p, EVE.program[p]);
         }
 
@@ -41,9 +45,6 @@ EVE.harmonicOsc = {
 
         // Connect the mixer to the master VCA
         EVE.harmonicOsc.mixer.connect(EVE.vca);
-
-        // The original connection (before Saturday)
-//        EVE.harmonicOsc[osc].vca.connect(EVE.vca);
     }
 }());
 

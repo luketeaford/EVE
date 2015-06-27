@@ -3,9 +3,13 @@ EVE.timbreEg = {
     scope: document.getElementById('timbre-eg'),
     update: function (e) {
         'use strict';
-        var p = e.target.dataset.program;
+        var p;
 
-        if (EVE.timbreEg.debug) {
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
+        }
+
+        if (EVE.timbreEg.debug && console) {
             console.log(p, EVE.program[p]);
         }
 
