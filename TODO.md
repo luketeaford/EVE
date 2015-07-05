@@ -1,18 +1,12 @@
 #Eve Web Audio Synthesizer
 
 ##Next Steps:
-* buttons to change certain params
-
-* LFO 2
-  * needs ranges (slow, medium, high)
-
 * fix terrible ugliness
 
 * qwerty keyboard control
 
 
 ##TODO:
-* create octaveShift
 
 * Rewrite calculatePitch and setPitch
 

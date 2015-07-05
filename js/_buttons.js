@@ -19,7 +19,7 @@ EVE.button = {
     }
 };
 
-(function bindButtons() {
+(function bindRadioButtons() {
     'use strict';
     var buttons = document.querySelectorAll('input[type=radio]'),
         i;

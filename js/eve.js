@@ -3,8 +3,9 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 var EVE = {
     config: {
         eg_minimum: 0.05,
-        masterFreq: 440,
-        octaveShift: 0
+        harmonics: 8,
+        lfo_max: 110,
+        masterFreq: 440
     },
     synth: new AudioContext()
 };
@@ -29,7 +30,22 @@ var EVE = {
 
 EVE.keyboard = {
     debug: true,
+    octaveShift: 0,
     scope: document.getElementById('keyboard'),
+    shiftOctave: function () {
+        'use strict';
+        var oct = EVE.keyboard.octaveShift,
+            shift = this.dataset.shift;
+
+        if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
+            EVE.keyboard.octaveShift = oct + parseFloat(shift);
+        }
+
+        if (EVE.keyboard.debug && console) {
+            console.log(EVE.keyboard.octaveShift);
+        }
+
+    },
     test: function (e) {
         'use strict';
         if (console) {
@@ -46,6 +62,11 @@ EVE.keyboard = {
 
 (function bindEvents() {
     'use strict';
+    var buttons = document.getElementsByClassName('octave-shift'),
+        i;
+    for (i = 0; i < buttons.length; i += 1) {
+        buttons[i].addEventListener('click', EVE.keyboard.shiftOctave);
+    }
     document.addEventListener('keypress', EVE.keyboard.test);
 }());
 
@@ -379,7 +400,7 @@ EVE.update_lfo1 = new CustomEvent('update_lfo1', {bubbles: true});
     EVE.lfo2_amp.connect(EVE.harmonicOsc.mixer.gain);
 
     // VCA to pitch
-    for (i = 1; i <= 8; i += 1) {
+    for (i = 1; i < EVE.config.harmonics; i += 1) {
         EVE.lfo2_pitch.connect(EVE.harmonicOsc['osc' + i].frequency);
     }
 
@@ -414,7 +435,7 @@ EVE.lfo2.update = function (e) {
         EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * EVE.config.masterFreq, EVE.now());
         break;
     case 'lfo2_rate':
-        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
+        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.config.lfo_max, EVE.now());
         break;
     case 'lfo2_type':
         EVE.lfo2.type = EVE.program.lfo2_type;
@@ -437,7 +458,7 @@ EVE.update_lfo2 = new CustomEvent('update_lfo2', {bubbles: true});
         var i;
 
         // Harmonic Oscillator
-        for (i = 1; i <= 8; i += 1) {
+        for (i = 1; i <= EVE.config.harmonics; i += 1) {
             EVE.harmonicOsc['osc' + i].start(0);
         }
 
@@ -513,7 +534,7 @@ EVE.button = {
     }
 };
 
-(function bindButtons() {
+(function bindRadioButtons() {
     'use strict';
     var buttons = document.querySelectorAll('input[type=radio]'),
         i;

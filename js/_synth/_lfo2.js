@@ -20,7 +20,7 @@
     EVE.lfo2_amp.connect(EVE.harmonicOsc.mixer.gain);
 
     // VCA to pitch
-    for (i = 1; i <= 8; i += 1) {
+    for (i = 1; i < EVE.config.harmonics; i += 1) {
         EVE.lfo2_pitch.connect(EVE.harmonicOsc['osc' + i].frequency);
     }
 
@@ -55,7 +55,7 @@ EVE.lfo2.update = function (e) {
         EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * EVE.config.masterFreq, EVE.now());
         break;
     case 'lfo2_rate':
-        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
+        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.config.lfo_max, EVE.now());
         break;
     case 'lfo2_type':
         EVE.lfo2.type = EVE.program.lfo2_type;

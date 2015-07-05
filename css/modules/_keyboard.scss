@@ -1,4 +1,5 @@
 #keyboard {
   font-size: 0;
-  margin: 0 -$buffer;
+//  margin: 0 -$buffer;// BAD
+  margin: 0 -0.5rem;
 }

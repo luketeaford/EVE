@@ -1,4 +1,4 @@
-%module {
+.module {
   &[data-state] {
     font-family: $sans;
     > a {
@@ -7,6 +7,7 @@
     }
     h2 {
       cursor: pointer;
+      padding-left: 2rem;
       font-weight: 100;
     }
     &::after {

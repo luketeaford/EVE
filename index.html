@@ -10,7 +10,7 @@
   <h1>Eve <span>Web Audio Synthesizer</span></h1>
 </header>
 
-<section data-state=closed id=oscilloscope>
+<section class=module data-state=closed id=oscilloscope>
   <a>
     <h2>Oscilloscope</h2>
   </a>
@@ -19,7 +19,7 @@
   </div>
 </section>
 
-<section data-state=closed data-update=harmonic_osc id=harmonics>
+<section class=module data-state=closed data-update=harmonic_osc id=harmonics>
   <a>
     <h2>Harmonic Oscillator</h2>
   </a>
@@ -59,7 +59,7 @@
   </div>
 </section>
 
-<section data-state=closed data-update=timbre_eg id=timbre-eg>
+<section class=module data-state=closed data-update=timbre_eg id=timbre-eg>
   <a>
     <h2>Timbre EG Amount</h2>
   </a>
@@ -99,7 +99,7 @@
   </div>
 </section>
 
-<section data-state=closed data-update=timbre_env id=timbre-env>
+<section class=module data-state=closed data-update=timbre_env id=timbre-env>
   <a>
     <h2>Timbre Envelope</h2>
   </a>
@@ -123,7 +123,7 @@
   </div>
 </section>
 
-<section data-state=closed data-update=vca id=vca>
+<section class=module data-state=closed data-update=vca id=vca>
   <a>
     <h2>VCA Envelope</h2>
   </a>
@@ -151,7 +151,7 @@
   </div>
 </section>
 
-<section data-state=open data-update=lfo1 id=lfo1>
+<section class=module data-state=open data-update=lfo1 id=lfo1>
   <a>
     <h2>LFO 1</h2>
   </a>
@@ -160,13 +160,13 @@
       <input data-program=lfo1_type name=lfo1_type type=radio value=sine>Sine
     </label>
     <label class=radio>
-      <input data-program=lfo1_type name=lfo1_type type=radio value=triangle>Triangle</input>
+      <input data-program=lfo1_type name=lfo1_type type=radio value=triangle>Triangle
     </label>
     <label class=radio>
-      <input data-program=lfo1_type name=lfo1_type type=radio value=square>Square</input>
+      <input data-program=lfo1_type name=lfo1_type type=radio value=square>Square
     </label>
     <label class=radio>
-      <input data-program=lfo1_type name=lfo1_type type=radio value=sawtooth>Saw</input>
+      <input data-program=lfo1_type name=lfo1_type type=radio value=sawtooth>Saw
     </label>
 
     <label>
@@ -208,23 +208,22 @@
   </div>
 </section>
 
-<section data-state=closed data-update=lfo2 id=lfo2>
+<section class=module data-state=closed data-update=lfo2 id=lfo2>
   <a>
     <h2>LFO 2</h2>
   </a>
   <div>
-
     <label class=radio>
       <input data-program=lfo2_type name=lfo2_type type=radio value=sine>Sine
     </label>
     <label class=radio>
-      <input data-program=lfo2_type checked name=lfo2_type type=radio value=triangle>Triangle</input>
+      <input data-program=lfo2_type checked name=lfo2_type type=radio value=triangle>Triangle
     </label>
     <label class=radio>
-      <input data-program=lfo2_type name=lfo2_type type=radio value=square>Square</input>
+      <input data-program=lfo2_type name=lfo2_type type=radio value=square>Square
     </label>
     <label class=radio>
-      <input data-program=lfo2_type name=lfo2_type type=radio value=sawtooth>Saw</input>
+      <input data-program=lfo2_type name=lfo2_type type=radio value=sawtooth>Saw
     </label>
 
     <!-- SLIDERS -->
@@ -243,35 +242,41 @@
   </div>
 </section>
 
+<div id=performance>
+  <h2>Octave Shift</h2>
+  <button class=octave-shift data-shift=-1 type=button>-1</button>
+  <button class=octave-shift data-shift=1 type=button>+1</button>
+</div>
+
 <div id=keyboard>
   <!-- Octave one -->
-  <button class=key data-note-value=-2100>C</button>
-  <button class=sharp-key data-note-value=-2000>C#</button>
-  <button class=key data-note-value=-1900>D</button>
-  <button class=sharp-key data-note-value=-1800>D#</button>
-  <button class=key data-note-value=-1700>E</button>
-  <button class=key data-note-value=-1600>F</button>
-  <button class=sharp-key data-note-value=-1500>F#</button>
-  <button class=key data-note-value=-1400>G</button>
-  <button class=sharp-key data-note-value=-1300>G#</button>
-  <button class=key data-note-value=-1200>A</button>
-  <button class=sharp-key data-note-value=-1100>A#</button>
-  <button class=key data-note-value=-1000>B</button>
+  <button class=key data-note-value=-2100 type=button>C</button>
+  <button class=sharp-key data-note-value=-2000 type=button>C#</button>
+  <button class=key data-note-value=-1900 type=button>D</button>
+  <button class=sharp-key data-note-value=-1800 type=button>D#</button>
+  <button class=key data-note-value=-1700 type=button>E</button>
+  <button class=key data-note-value=-1600 type=button>F</button>
+  <button class=sharp-key data-note-value=-1500 type=button>F#</button>
+  <button class=key data-note-value=-1400 type=button>G</button>
+  <button class=sharp-key data-note-value=-1300 type=button>G#</button>
+  <button class=key data-note-value=-1200 type=button>A</button>
+  <button class=sharp-key data-note-value=-1100 type=button>A#</button>
+  <button class=key data-note-value=-1000 type=button>B</button>
   <!-- Octave two -->
-  <button class=key data-note-value=-900>C</button>
-  <button class=sharp-key data-note-value=-800>C#</button>
-  <button class=key data-note-value=-700>D</button>
-  <button class=sharp-key data-note-value=-600>D#</button>
-  <button class=key data-note-value=-500>E</button>
-  <button class=key data-note-value=-400>F</button>
-  <button class=sharp-key data-note-value=-300>F#</button>
-  <button class=key data-note-value=-200>G</button>
-  <button class=sharp-key data-note-value=-100>G#</button>
-  <button class=key data-note-value=0>A</button>
-  <button class=sharp-key data-note-value=100>A#</button>
-  <button class=key data-note-value=200>B</button>
+  <button class=key data-note-value=-900 type=button>C</button>
+  <button class=sharp-key data-note-value=-800 type=button>C#</button>
+  <button class=key data-note-value=-700 type=button>D</button>
+  <button class=sharp-key data-note-value=-600 type=button>D#</button>
+  <button class=key data-note-value=-500 type=button>E</button>
+  <button class=key data-note-value=-400 type=button>F</button>
+  <button class=sharp-key data-note-value=-300 type=button>F#</button>
+  <button class=key data-note-value=-200 type=button>G</button>
+  <button class=sharp-key data-note-value=-100 type=button>G#</button>
+  <button class=key data-note-value=0 type=button>A</button>
+  <button class=sharp-key data-note-value=100 type=button>A#</button>
+  <button class=key data-note-value=200 type=button>B</button>
   <!-- Octave three -->
-  <button class=key data-note-value=300>C</button>
+  <button class=key data-note-value=300 type=button>C</button>
 </div>
 
 <footer>© 2015 Luke Teaford.</footer>

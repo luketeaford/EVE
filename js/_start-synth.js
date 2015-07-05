@@ -5,7 +5,7 @@
         var i;
 
         // Harmonic Oscillator
-        for (i = 1; i <= 8; i += 1) {
+        for (i = 1; i <= EVE.config.harmonics; i += 1) {
             EVE.harmonicOsc['osc' + i].start(0);
         }
 
