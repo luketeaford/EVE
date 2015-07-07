@@ -3,10 +3,10 @@ EVE.gateOn = function gateOn(e) {
     var env,
         i,
         osc,
-        peak = EVE.synth.currentTime + EVE.program.vca_a + EVE.config.eg_minimum,
+        peak = EVE.now() + EVE.program.vca_a + EVE.config.eg_minimum,
+        timbrePeak = EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum,
         vca;
 
-    // TODO Possibly use a timbrePeak variable in this loop for readability
     // Timbre Envelope
     for (i = 1; i <= 8; i += 1) {
 
@@ -19,10 +19,10 @@ EVE.gateOn = function gateOn(e) {
         vca.gain.setTargetAtTime(osc, EVE.now(), 0.1);
 
         // Timbre attack
-        vca.gain.linearRampToValueAtTime(osc + env, EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum);
+        vca.gain.linearRampToValueAtTime(osc + env, timbrePeak);
 
         // Timbre decay
-        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum, EVE.program.timbre_d);
+        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d);
     }
 
     // Set starting point

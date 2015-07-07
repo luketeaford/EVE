@@ -42,6 +42,7 @@ EVE.program = {
 
     // LFO 2
     lfo2_rate: 3,
+    lfo2_track: false,// TODO currently unused
     lfo2_type: 'sawtooth',
     lfo2_amp: 0,
     lfo2_pitch: 0,

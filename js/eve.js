@@ -114,6 +114,7 @@ EVE.program = {
 
     // LFO 2
     lfo2_rate: 3,
+    lfo2_track: false,// TODO currently unused
     lfo2_type: 'sawtooth',
     lfo2_amp: 0,
     lfo2_pitch: 0,
@@ -545,52 +546,47 @@ EVE.button = {
 
 }());
 
-// TODO Refactor this so this function only figures out the pitch, and another
-// function is used to actually set the pitch.
 EVE.calculatePitch = function (note) {
     'use strict';
-    var i;
-
-    for (i = 1; i <= 8; i += 1) {
-        EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
-    }
+    // TODO Needs EVE.fine added (+) after note at some point...
+    var pitch = EVE.keyboard.octaveShift * 1200 + parseFloat(note);
 
     if (EVE.calculatePitch.debug === true && console) {
-        console.log('note', note);
+        console.log('Pitch: ', pitch);
     }
 
-    return;
+    return EVE.setPitch(pitch);
 };
 
-EVE.setPitch = function (note) {
-    'use strict';
+EVE.calculatePitch.debug = true;
 
+// TODO Include legato options
+EVE.setPitch = function (pitch) {
+    'use strict';
     var i;
 
+    // Staccato
     for (i = 1; i <= 8; i += 1) {
-        EVE.harmonicOsc['osc' + i].detune.setValueAtTime(note, EVE.now());
+        EVE.harmonicOsc['osc' + i].detune.setValueAtTime(pitch, EVE.now());
     }
 
     if (EVE.program.lfo1_track) {
-        EVE.lfo1.detune.setValueAtTime(note, EVE.now());
+        EVE.lfo1.detune.setValueAtTime(pitch, EVE.now());
     }
 
-    if (EVE.setPitch.debug === true && console) {
-        console.log('Fool JSLint', note);
-    }
-
-    return 'Should include portamento and staccato options';
 };
+
+EVE.setPitch.debug = true;
 
 EVE.gateOn = function gateOn(e) {
     'use strict';
     var env,
         i,
         osc,
-        peak = EVE.synth.currentTime + EVE.program.vca_a + EVE.config.eg_minimum,
+        peak = EVE.now() + EVE.program.vca_a + EVE.config.eg_minimum,
+        timbrePeak = EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum,
         vca;
 
-    // TODO Possibly use a timbrePeak variable in this loop for readability
     // Timbre Envelope
     for (i = 1; i <= 8; i += 1) {
 
@@ -603,10 +599,10 @@ EVE.gateOn = function gateOn(e) {
         vca.gain.setTargetAtTime(osc, EVE.now(), 0.1);
 
         // Timbre attack
-        vca.gain.linearRampToValueAtTime(osc + env, EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum);
+        vca.gain.linearRampToValueAtTime(osc + env, timbrePeak);
 
         // Timbre decay
-        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum, EVE.program.timbre_d);
+        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d);
     }
 
     // Set starting point
