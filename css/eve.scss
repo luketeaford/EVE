@@ -13,14 +13,13 @@
 //------------------------------------------------------------------------------
 @import 'config/_colors';
 @import 'config/_fonts';
-@import 'config/_variables';// Bad name
-@import 'config/_arrows';//Mixin
 //==============================================================================
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // 02: BASICS - Plain HTML elements
 //------------------------------------------------------------------------------
-@import 'basics/_body';// Big blocks (for now)
+@import 'basics/_body';
+@import 'basics/_header';
 @import 'basics/_headings';
 @import 'basics/_inputs';
 @import 'basics/_buttons';
@@ -30,23 +29,12 @@
 // 03: COMPONENTS - Anything with a class
 //------------------------------------------------------------------------------
 @import 'components/_keys';
-@import 'components/_fakehr';
-@import 'components/_modules';
-@import 'components/_radio';
 //==============================================================================
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// 04: MODULES - Large pieces
+// 04: MODULES - Large pieces/thing with IDs
 //------------------------------------------------------------------------------
-@import 'modules/_header';
 @import 'modules/_oscilloscope';
-@import 'modules/_harmonics';// Bad name
-@import 'modules/_timbreenv';
-@import 'modules/_timbreeg';
-@import 'modules/_vca';
-@import 'modules/_lfo1';
-@import 'modules/_lfo2';
-@import 'modules/_performance';
 @import 'modules/_keyboard';
 //==============================================================================
 

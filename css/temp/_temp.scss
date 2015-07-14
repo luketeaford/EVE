@@ -1,33 +1,4 @@
-// Sliders
-label {
-  color: $grey;
-  display: block;
-  margin: 1rem auto;
-  span {
-    border: 3px double $grey;
-    border-radius: 2rem;
-    display: inline-block;
-    font-size: .8rem;
-    height: 1.6rem;
-    line-height: 1.5;
-    margin: 0 .5rem 0 0;
-    text-align: center;
-    width: 1.6rem;
-  }
-  input {
-    display: inline-block;
-    vertical-align: middle;
-    width: 100%;
-  }
-}
-
-input[type=range] {
-  max-width: 80%;
-}
-
-// Footer
 footer {
   color: $grey;
-  font-size: .6rem;
-  margin: 2rem auto 1rem;
+  font-size: 1.2rem;
 }

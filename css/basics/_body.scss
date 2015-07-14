@@ -7,15 +7,13 @@
 }
 
 html {
-  background: linear-gradient($black, #000);//TODO clean up
+  background: linear-gradient($black, #000);
   box-sizing: border-box;
   color: $off-white;
-  font: 20px/1 $sans;//TODO clean up and switch to 10px base
+  font: 62.5%/1 $sans;//TODO Is this an advantage over 10px?
 }
 
 body {
   background: $dark-grey;
   margin: 0 auto;
-  max-width: (320/20) + rem;
-  padding: $buffer;//TODO make sure that name makes sense
 }

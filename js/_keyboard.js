@@ -25,10 +25,12 @@ EVE.keyboard = {
         case 45:// -
         case 95:// _
             EVE.keyboard.shiftOctave(-1);
+            console.log('keyboard down');
             break;
         case 61:// =
         case 43:// +
             EVE.keyboard.shiftOctave(1);
+            console.log('keyboard up');
             break;
         }
     },
@@ -45,7 +47,7 @@ EVE.keyboard = {
     var buttons = document.getElementsByClassName('octave-shift'),
         i;
     for (i = 0; i < buttons.length; i += 1) {
-        buttons[i].addEventListener('click', EVE.keyboard.bus);
+        buttons[i].addEventListener('click', EVE.keyboard.shiftOctave);
     }
-    document.addEventListener('keypress', EVE.keyboard.test);
+    document.addEventListener('keypress', EVE.keyboard.bus);
 }());

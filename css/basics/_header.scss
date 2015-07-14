@@ -1,0 +1,17 @@
+//TEMP
+header {
+  padding: .925em .5em;// 9.25/10, 5/10
+  h1 {
+    color: $white;
+    font-size: 4rem;
+    font-weight: 100;
+    letter-spacing: .125em;// 5/40
+    text-transform: uppercase;
+    span {
+      font-size: .3em;// 12/40
+      font-weight: 400;
+      letter-spacing: .125em;
+      text-transform: lowercase;
+    }
+  }
+}
