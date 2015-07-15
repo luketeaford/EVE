@@ -3,7 +3,7 @@ EVE.button = {
     press: function () {
         'use strict';
         var prog = this.name,
-            update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update;
+            update = 'update_' + this.parentElement.parentElement.dataset.update;
 
         // Update program
         if (EVE.program[prog] !== this.value) {
