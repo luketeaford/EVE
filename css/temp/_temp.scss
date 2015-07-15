@@ -36,11 +36,11 @@
   h2 {
     cursor: pointer;
     display: inline-block;
-    font-size: 2rem;// WHAT?!
+    font-size: 2.2rem;
     font-weight: 100;
   }
   &::after {
-    //@extend %fake-hr;
+    @extend %fake-hr;
   }
   &[data-state=open] {
     a::before {
@@ -55,4 +55,32 @@
       display: none;
     }
   }
+}
+
+
+// Sliders - NEEDS CLEANED UP
+label {
+  color: $grey;
+  display: block;
+  margin: 1em auto;
+  span {
+    border: .25em double $grey;// 4/16
+    border-radius: 2.5em;// 40/16
+    display: inline-block;
+    font-size: 1.2rem;
+    height: 2.5em;// 40/16
+    line-height: 2;//33? 40 - 8 = 32, so 32/16
+    margin-right: 1.25em;// 20/16
+    text-align: center;
+    width: 2.5em;// 40/16
+  }
+  input {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+  }
+}
+
+input[type=range] {
+  max-width: 80%;
 }
