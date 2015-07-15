@@ -1,4 +1,58 @@
-footer {
-  color: $grey;
-  font-size: 1.2rem;
+%arrow {
+  border: 1em solid transparent;
+  border-bottom-color: $light-grey;
+  content: '';
+  display: inline-block;
+  margin-right: .7em;
+  -webkit-transition: -webkit-transform .2s;
+  transition: transform .2s;
+  -webkit-transform-origin: 50% 1.35em;
+  transform-origin: 50% 1.35em;
+}
+
+@mixin arrow($dir: up) {
+  @if $dir == up {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  } @else if $dir == down {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  } @else {
+    @error 'Invalid direction: use \'up\' or \'down\' instead of \'#{$dir}\'';
+  }
+}
+
+.module {
+  font-family: $sans;
+  padding: 0 .5em;
+  > a {
+    cursor: pointer;
+    display: block;
+    margin: 1em 0;
+    &::before {
+      @extend %arrow;
+    }
+  }
+  h2 {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 2rem;// WHAT?!
+    font-weight: 100;
+  }
+  &::after {
+    //@extend %fake-hr;
+  }
+  &[data-state=open] {
+    a::before {
+      @include arrow();
+    }
+  }
+  &[data-state=closed] {
+    a::before {
+      @include arrow(down);
+    }
+    div {
+      display: none;
+    }
+  }
 }
