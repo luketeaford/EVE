@@ -1,0 +1,19 @@
+%push-button {
+  background: linear-gradient($light-grey, $off-white);
+  border-radius: .54054054054em;
+  display: inline-block;
+  height: 4em;
+  text-transform: uppercase;
+  width: 7.4em;
+  &:focus,
+  &:active {
+    background: linear-gradient($grey, darken($grey, 5%));
+    box-shadow: 0 .2em 1em -.3em #000;
+    color: $off-white;
+  }
+}
+
+// Does this belong here?
+.octave-shift {
+  @extend %push-button;
+}

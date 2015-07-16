@@ -6,6 +6,9 @@
   width: 2.85714285714em;// 40/14
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
+  &:focus {
+    outline: none;
+  }
 }
 
 .key {
