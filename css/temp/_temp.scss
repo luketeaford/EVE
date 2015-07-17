@@ -149,3 +149,18 @@ input[type=radio] {
     }
   }
 }
+
+// SVG TEST
+img {
+  cursor: pointer;
+  display: inline-block;
+  margin: 2rem;
+//  transform: rotate(135deg);// FULL CCW = -135deg
+  transform-origin: center;
+  width: 8rem;
+  -webkit-user-drag: none;
+  user-drag: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
