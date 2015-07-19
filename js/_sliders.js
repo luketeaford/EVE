@@ -32,7 +32,7 @@ EVE.slider = {
 // SVG knobs
 EVE.knob = {
     currentKnob: null,
-    debug: false,
+    debug: true,
     grab: function (e) {
         'use strict';
         EVE.knob.grab.origin = {
@@ -51,24 +51,19 @@ EVE.knob = {
     },
     twist: function (e) {
         'use strict';
-        // TODO e.x is nicer, but not available on iOS
-        var deg = e.pageX - EVE.knob.grab.origin.x,
+        var deg = e.pageY - EVE.knob.grab.origin.y,
             rotate = 'rotate(' + deg + 'deg)';
 
         if (EVE.knob.debug && console) {
-            console.log('Difference x', e.pageX - EVE.knob.grab.origin.x);
-            console.log('Difference y', e.pageY - EVE.knob.grab.origin.y);
+            console.log('Difference y', deg);
         }
 
-        if (EVE.knob.currentKnob.style.webkitTransform) {
-            // iOS
-            EVE.knob.currentKnob.style.webkitTransform = rotate;
-        } else if (EVE.knob.currentKnob.style.mozTransform) {
-            // Firefox
-            EVE.knob.currentKnob.style.mozTransform = rotate;
-        } else {
-            EVE.knob.currentKnob.style.transform = rotate;
-        }
+        // Prevent scrolling the body while moving a knob
+        e.preventDefault();
+
+        EVE.knob.currentKnob.style.mozTransform = rotate;
+        EVE.knob.currentKnob.style.webkitTransform = rotate;
+        EVE.knob.currentKnob.style.transform = rotate;
 
         document.addEventListener('mouseup', EVE.knob.release);
         document.addEventListener('touchend', EVE.knob.release);
