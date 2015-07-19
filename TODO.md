@@ -1,9 +1,9 @@
 #Eve Web Audio Synthesizer
 
 ##Next Steps:
+* em mixin needs support for passing multiple values
 * fix terrible ugliness
-  * The focus state of the push button is better
-  * Will need a new focus state
+  * push button needs improvements to focus and active states
   * size keyboard keys appropriately
   * pad performance controls
 * qwerty keyboard control

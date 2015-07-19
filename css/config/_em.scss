@@ -1,0 +1,9 @@
+// TARGET in pixels
+// FONT-SIZE defaults to 10
+@mixin em($property, $target, $font-size: 10) {
+  @if (#{$property} == 'line-height') {
+    #{$property}: $target / $font-size;
+  } @else {
+    #{$property}: $target / $font-size * 1em;
+  }
+}

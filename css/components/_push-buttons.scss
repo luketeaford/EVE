@@ -1,15 +1,20 @@
 %push-button {
-  background: linear-gradient($light-grey, $off-white);
-  border-radius: .54054054054em;
+  $font-size: 16;
+  @include rem-font($font-size);
+  @include em(border-radius, 6, $font-size);
+  @include em(height, 40, $font-size);
+  @include em(width, 80, $font-size);
+  background: linear-gradient($grey, darken($grey, 5%));
+  box-shadow: 0 .2em 1em -.3em #000;//TODO ADD TO EM MIXIN
+  color: $off-white;
   display: inline-block;
-  height: 4em;
   text-transform: uppercase;
-  width: 7.4em;
-  &:focus,
+  &:focus {
+    color: lighten($gold, 20%);
+  }
   &:active {
-    background: linear-gradient($grey, darken($grey, 5%));
-    box-shadow: 0 .2em 1em -.3em #000;
-    color: $off-white;
+    color: $gold;
+    text-shadow: 0 0 3px #f60;//TODO ADD TO EM MIXIN
   }
 }
 

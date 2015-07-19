@@ -1,8 +1,9 @@
 EVE.slider = {
     debug: true,
-    grab: function () {
+    grab: function (e) {
         'use strict';
         var prog = this.dataset.program,
+            rotate = 'rotate(' + (135 * this.value) + 'deg)',
             update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update,
             x = this.dataset.curve === 'lin' ? 1 : this.value;
 
@@ -10,8 +11,16 @@ EVE.slider = {
         EVE.program[prog] = this.value * x;
 
         if (EVE.slider.debug && console) {
+            console.dir(e.target);
             console.log('Updating', update);
         }
+
+        // Prevent scrolling on iOS
+        e.preventDefault();
+
+        // Rotate the stupid element
+        e.target.nextElementSibling.style.webkitTransform = rotate;
+        e.target.nextElementSibling.style.transform = rotate;
 
         // Broadcast change
         this.dispatchEvent(EVE[update]);
@@ -33,6 +42,10 @@ EVE.slider = {
 EVE.knob = {
     currentKnob: null,
     debug: true,
+    test: function () {
+        'use strict';
+        console.log('AMAZING INPUT -- input event');
+    },
     grab: function (e) {
         'use strict';
         EVE.knob.grab.origin = {
@@ -52,10 +65,16 @@ EVE.knob = {
     twist: function (e) {
         'use strict';
         var deg = e.pageY - EVE.knob.grab.origin.y,
-            rotate = 'rotate(' + deg + 'deg)';
+            rotate = 'rotate(' + deg + 'deg)',
+            x = document.getElementById('test');
 
         if (EVE.knob.debug && console) {
             console.log('Difference y', deg);
+            console.dir(x);
+            x.stepUp(e.pageY - EVE.knob.grab.origin.y);
+            x.addEventListener('change', function () {
+                console.log('THE INPUT HAS CHANGED');
+            });
         }
 
         // Prevent scrolling the body while moving a knob
@@ -77,13 +96,3 @@ EVE.knob = {
         document.removeEventListener('touchend', EVE.knob.release);
     }
 };
-
-(function bindKnobs() {
-    'use strict';
-    var knobs = document.getElementsByClassName('knob'),
-        i;
-    for (i = 0; i < knobs.length; i += 1) {
-        knobs[i].addEventListener('mousedown', EVE.knob.grab);
-        knobs[i].addEventListener('touchstart', EVE.knob.grab);
-    }
-}());

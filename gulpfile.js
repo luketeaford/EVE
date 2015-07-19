@@ -3,7 +3,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     jslint = require('gulp-jslint'),
     uglify = require('gulp-uglify'),
-    sass = require('gulp-ruby-sass'),
+    sass = require('gulp-sass'),
 
     scripts = [
         // LEGAL
@@ -60,15 +60,24 @@ gulp.task('js', function () {
     .pipe(gulp.dest('eve/js'))
 });
 
-gulp.task('sass', function() {
-    return sass('css/eve.scss', {
-        noCache: true,
-        precision: 11,
-        style: 'compressed'
-    })
-    .on('error', function (err) {
-        console.error(err.message);
-    })
+// Correct configuration for ruby Sass
+//gulp.task('sass', function() {
+//    return sass('css/eve.scss', {
+//        noCache: true,
+//        precision: 11,
+//        style: 'compressed'
+//    })
+//    .on('error', function (err) {
+//        console.error(err.message);
+//    })
+//    .pipe(gulp.dest('css'))
+//    .pipe(gulp.dest('eve/css'));
+//});
+
+// GULP Sass
+gulp.task('sass', function () {
+  gulp.src('css/eve.scss')
+    .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('css'))
     .pipe(gulp.dest('eve/css'));
 });
