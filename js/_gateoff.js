@@ -1,3 +1,4 @@
+// Currently does not have a nice debug like the other things...
 EVE.gateOff = function gateOff() {
     'use strict';
 

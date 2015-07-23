@@ -29,6 +29,7 @@ var EVE = {
 }());
 
 EVE.keyboard = {
+    current: null,
     debug: true,
     octaveShift: 0,
     scope: document.getElementById('keyboard'),
@@ -46,23 +47,116 @@ EVE.keyboard = {
         }
 
     },
-    bus: function (e) {
+    pressBus: function (e) {
         'use strict';
-        if (EVE.keyboard.debug && console) {
+        //TODO bullshit third condition to keep console clear while working
+        if (EVE.keyboard.debug && console && EVE.keyboard.octaveShift === 23) {
             console.log(e.which);
         }
         switch (e.which) {
         case 45:// -
         case 95:// _
             EVE.keyboard.shiftOctave(-1);
-            console.log('keyboard down');
             break;
         case 61:// =
         case 43:// +
             EVE.keyboard.shiftOctave(1);
-            console.log('keyboard up');
             break;
         }
+    },
+    downBus: function (e) {
+        'use strict';
+        var pitch = null;
+
+        if (EVE.keyboard.debug && console) {
+            console.log('DOWN BUS', e.which);
+        }
+
+        switch (e.which) {
+        case 65: // a
+            pitch = -2100;
+            break;
+        case 83: // s
+            pitch = -2000;
+            break;
+        case 68:// d
+            pitch = -1900;
+            break;
+        case 70:// f
+            pitch = -1800;
+            break;
+        case 71:// g
+            pitch = -1700;
+            break;
+        case 72:// h
+            pitch = -1600;
+            break;
+        case 74:// j
+            pitch = -1500;
+            break;
+        case 75:// k
+            pitch = -1400;
+            break;
+        case 76:// l
+            pitch = -1300;
+            break;
+        case 186:// ;
+            pitch = -1200;
+            break;
+        case 222:// '
+            pitch = -1100;
+            break;
+        case 81:// q
+            pitch = -1000;
+            break;
+        case 87:
+            pitch = -900;
+            break;
+        case 69:
+            pitch = -800;
+            break;
+        case 82:
+            pitch = -700;
+            break;
+        case 84:
+            pitch = -600;
+            break;
+        case 89:
+            pitch = -500;
+            break;
+        case 85:
+            pitch = -400;
+            break;
+        case 73:
+            pitch = -300;
+            break;
+        case 79:
+            pitch = -200;
+            break;
+        case 80:
+            pitch = -100;
+            break;
+        case 219:
+            pitch = 0;
+            break;
+        case 221:
+            pitch = 100;
+            break;
+        }
+
+        // TODO Call gate on only once... otherwise, skip to pitch stuff
+        if (pitch !== null && EVE.keyboard.current !== e.which) {
+            EVE.keyboard.current = e.which;
+            EVE.gateOn(e, pitch);
+        } else if (EVE.keyboard.debug && console) {
+            console.log('No pitch information');
+        }
+
+    },
+    upBus: function () {
+        'use strict';
+        EVE.keyboard.current = null;
+        EVE.gateOff();
     },
     touch: function (e) {
         'use strict';
@@ -79,7 +173,9 @@ EVE.keyboard = {
     for (i = 0; i < buttons.length; i += 1) {
         buttons[i].addEventListener('click', EVE.keyboard.shiftOctave);
     }
-    document.addEventListener('keypress', EVE.keyboard.bus);
+    document.addEventListener('keypress', EVE.keyboard.pressBus);
+    document.addEventListener('keydown', EVE.keyboard.downBus);
+    document.addEventListener('keyup', EVE.keyboard.upBus);
 }());
 
 EVE.program = {
@@ -631,8 +727,13 @@ EVE.calculatePitch = function (note) {
     // TODO Needs EVE.fine added (+) after note at some point...
     var pitch = EVE.keyboard.octaveShift * 1200 + parseFloat(note);
 
+    if (note === 0) {
+        console.log('NOTE IS ZERO EXACTLY');
+    }
+
     if (EVE.calculatePitch.debug === true && console) {
         console.log('Pitch: ', pitch);
+        console.log('note:', note);
     }
 
     return EVE.setPitch(pitch);
@@ -658,14 +759,18 @@ EVE.setPitch = function (pitch) {
 
 EVE.setPitch.debug = true;
 
-EVE.gateOn = function gateOn(e) {
+// Currently does not have a nice debug like other things...
+EVE.gateOn = function gateOn(e, pitch) {
     'use strict';
     var env,
         i,
+        noteValue,
         osc,
         peak = EVE.now() + EVE.program.vca_a + EVE.config.eg_minimum,
         timbrePeak = EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum,
         vca;
+
+    noteValue = (pitch || pitch === 0) ? pitch : e.target.dataset.value;
 
     // Timbre Envelope
     for (i = 1; i <= 8; i += 1) {
@@ -694,13 +799,13 @@ EVE.gateOn = function gateOn(e) {
     // Decay
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d);
 
-    return EVE.calculatePitch(e.target.dataset.noteValue);
-
+    return EVE.calculatePitch(noteValue);
 };
 
 EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
 EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
 
+// Currently does not have a nice debug like the other things...
 EVE.gateOff = function gateOff() {
     'use strict';
 

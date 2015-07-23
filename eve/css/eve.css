@@ -140,32 +140,12 @@ footer {
 
 label {
   color: #353837;
-  display: inline-block;
+  display: block;
   margin: 1em auto; }
   label span {
     display: none; }
   label input {
-    display: block;
-    position: relative;
-    visibility: hidden;
     width: 100%; }
-    label input::before {
-      content: url(../img/knob.svg);
-      display: inline-block;
-      height: 40px;
-      left: calc(50% - 20px);
-      opacity: 0.25;
-      position: absolute;
-      visibility: visible;
-      width: 40px; }
-    label input + div {
-      content: url(../img/knob.svg);
-      height: 40px;
-      width: 40px;
-      pointer-events: none;
-      position: relative;
-      left: calc(50% - 33px);
-      top: -15px; }
 
 input[type=range] {
   max-width: 80%; }

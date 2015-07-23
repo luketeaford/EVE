@@ -1,11 +1,15 @@
-EVE.gateOn = function gateOn(e) {
+// Currently does not have a nice debug like other things...
+EVE.gateOn = function gateOn(e, pitch) {
     'use strict';
     var env,
         i,
+        noteValue,
         osc,
         peak = EVE.now() + EVE.program.vca_a + EVE.config.eg_minimum,
         timbrePeak = EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum,
         vca;
+
+    noteValue = (pitch || pitch === 0) ? pitch : e.target.dataset.value;
 
     // Timbre Envelope
     for (i = 1; i <= 8; i += 1) {
@@ -34,8 +38,7 @@ EVE.gateOn = function gateOn(e) {
     // Decay
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d);
 
-    return EVE.calculatePitch(e.target.dataset.noteValue);
-
+    return EVE.calculatePitch(noteValue);
 };
 
 EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
