@@ -9,7 +9,7 @@ EVE.gateOn = function gateOn(e, pitch) {
         timbrePeak = EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum,
         vca;
 
-    noteValue = (pitch || pitch === 0) ? pitch : e.target.dataset.value;
+    noteValue = (pitch || pitch === 0) ? pitch : e.target.dataset.noteValue;
 
     // Timbre Envelope
     for (i = 1; i <= 8; i += 1) {

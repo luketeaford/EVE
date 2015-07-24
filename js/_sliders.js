@@ -3,7 +3,6 @@ EVE.slider = {
     grab: function (e) {
         'use strict';
         var prog = this.dataset.program,
-            rotate = 'rotate(' + (135 * this.value) + 'deg)',
             update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update,
             x = this.dataset.curve === 'lin' ? 1 : this.value;
 
@@ -14,13 +13,6 @@ EVE.slider = {
             console.dir(e.target);
             console.log('Updating', update);
         }
-
-        // Prevent scrolling on iOS
-        e.preventDefault();
-
-        // Rotate the stupid element
-        e.target.nextElementSibling.style.webkitTransform = rotate;
-        e.target.nextElementSibling.style.transform = rotate;
 
         // Broadcast change
         this.dispatchEvent(EVE[update]);
