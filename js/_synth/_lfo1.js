@@ -43,8 +43,9 @@ EVE.lfo1.update = function (e) {
     case 'lfo1_type':
         EVE.lfo1.type = EVE.program.lfo1_type;
         break;
+    case 'lfo1_range':
     case 'lfo1_rate':
-        EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
+        EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate * EVE.program.lfo1_range, EVE.now());
         break;
     case 'osc1_lfo':
     case 'osc2_lfo':

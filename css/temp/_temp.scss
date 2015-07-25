@@ -82,11 +82,31 @@ input[type=range] {
   max-width: 80%;
 }
 
+// GOES WITH RADIO BUTTONS
+fieldset {
+  border: 0;
+}
+
+legend {
+  background: linear-gradient(#bbb, #555);
+  border: 4px double;
+  border-bottom: 0;
+  border-radius: 1rem 1rem 0 0;
+  color: $dark-grey;
+  font-size: 1.76rem;
+  font-weight: 100;
+  margin-bottom: -25px;
+  padding: .2em .2em 0.5em;
+  width: 100%;
+}
+
 // RADIO BUTTONS
 input[type=radio] {
   $border-radius: .54054054054em;
+  // Hide default UI
   position: absolute;
-  z-index: -1;// Not a very good way to do this
+  width: 0;
+  z-index: -1;
   + label {
     background: linear-gradient($light-grey, $off-white);
     cursor: pointer;
@@ -96,10 +116,12 @@ input[type=radio] {
     text-align: center;
     text-transform: uppercase;
     width: 25%;
-    &:first-of-type {
+    &:first-of-type,
+    &:nth-of-type(5) {
       border-radius: $border-radius 0 0 $border-radius;
     }
-    &:nth-of-type(4) {
+    &:nth-of-type(4),
+    &:nth-of-type(8) {
       border-radius: 0 $border-radius $border-radius 0;
     }
   }
@@ -153,7 +175,7 @@ input[type=radio] {
   }
 }
 
-// SVG TEST
+// SVG TEST - CURRENTLY UNUSED
 img {
   cursor: pointer;
   display: inline-block;

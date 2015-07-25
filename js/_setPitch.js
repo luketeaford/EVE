@@ -8,7 +8,7 @@ EVE.setPitch = function (pitch) {
         EVE.harmonicOsc['osc' + i].detune.setValueAtTime(pitch, EVE.now());
     }
 
-    if (EVE.program.lfo1_track) {
+    if (EVE.program.lfo1_range >= 220) {
         EVE.lfo1.detune.setValueAtTime(pitch, EVE.now());
     }
 

@@ -7,7 +7,12 @@ EVE.button = {
 
         // Update program
         if (EVE.program[prog] !== this.value) {
-            EVE.program[prog] = this.value;
+            // Prevents numbers being stored as strings
+            if (typeof this.value === 'string' && !isNaN(this.value - 1)) {
+                EVE.program[prog] = parseFloat(this.value);
+            } else {
+                EVE.program[prog] = this.value;
+            }
         }
 
         if (EVE.button.debug && console) {

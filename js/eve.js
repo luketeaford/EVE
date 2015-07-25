@@ -220,7 +220,7 @@ EVE.program = {
 
     // LFO 1
     lfo1_rate: 4,
-    lfo1_track: false,
+    lfo1_range: 20,
     lfo1_type: 'square',
     osc1_lfo: 0,
     osc2_lfo: 0,
@@ -473,8 +473,9 @@ EVE.lfo1.update = function (e) {
     case 'lfo1_type':
         EVE.lfo1.type = EVE.program.lfo1_type;
         break;
+    case 'lfo1_range':
     case 'lfo1_rate':
-        EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate * EVE.harmonicOsc.osc1.frequency.value, EVE.now());
+        EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate * EVE.program.lfo1_range, EVE.now());
         break;
     case 'osc1_lfo':
     case 'osc2_lfo':
@@ -702,7 +703,12 @@ EVE.button = {
 
         // Update program
         if (EVE.program[prog] !== this.value) {
-            EVE.program[prog] = this.value;
+            // Prevents numbers being stored as strings
+            if (typeof this.value === 'string' && !isNaN(this.value - 1)) {
+                EVE.program[prog] = parseFloat(this.value);
+            } else {
+                EVE.program[prog] = this.value;
+            }
         }
 
         if (EVE.button.debug && console) {
@@ -754,7 +760,7 @@ EVE.setPitch = function (pitch) {
         EVE.harmonicOsc['osc' + i].detune.setValueAtTime(pitch, EVE.now());
     }
 
-    if (EVE.program.lfo1_track) {
+    if (EVE.program.lfo1_range >= 220) {
         EVE.lfo1.detune.setValueAtTime(pitch, EVE.now());
     }
 
