@@ -1,7 +1,7 @@
 (function collapseModules() {
     'use strict';
-    var moduleTitles = document.querySelectorAll('section > a'),
-        i;
+    var i,
+        moduleTitles = document.querySelectorAll('section > a');
 
     function collapseMenu() {
         if (this.parentElement.dataset.state === 'open') {

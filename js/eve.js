@@ -12,8 +12,8 @@ var EVE = {
 
 (function collapseModules() {
     'use strict';
-    var moduleTitles = document.querySelectorAll('section > a'),
-        i;
+    var i,
+        moduleTitles = document.querySelectorAll('section > a');
 
     function collapseMenu() {
         if (this.parentElement.dataset.state === 'open') {
@@ -38,8 +38,19 @@ EVE.keyboard = {
         var oct = EVE.keyboard.octaveShift,
             shift = this.dataset ? this.dataset.shift : direction;
 
+        function switchLights() {
+            var i,
+                lights = document.querySelectorAll('#performance > span'),
+                n = EVE.keyboard.octaveShift + 2;
+
+            for (i = 0; i < lights.length; i += 1) {
+                lights[i].dataset.light = i === n ? 'on' : 'off';
+            }
+        }
+
         if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
             EVE.keyboard.octaveShift = oct + parseFloat(shift);
+            switchLights();
         }
 
         if (EVE.keyboard.debug && console) {

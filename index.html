@@ -129,25 +129,25 @@
   </a>
   <div>
     <label>
-      <input data-curve=lin data-program=vca_a max=1 min=0 step=0.0001 type=range value=0>
       <span>A</span>
+      <input data-curve=lin data-program=vca_a max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
-      <input data-curve=lin data-program=vca_d max=1 min=0 step=0.0001 type=range value=0>
       <span>D</span>
+      <input data-curve=lin data-program=vca_d max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
-      <input data-curve=lin data-program=vca_s max=1 min=0 step=0.0001 type=range value=1>
       <span>S</span>
+      <input data-curve=lin data-program=vca_s max=1 min=0 step=0.0001 type=range value=1>
     </label>
     <label>
-      <input data-curve=lin data-program=vca_r max=1 min=0 step=0.0001 type=range value=0>
       <span>R</span>
+      <input data-curve=lin data-program=vca_r max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
+      <span>G</span>
       <input data-program=vca_g max=1 min=0 step=0.0001 type=range value=0>
       <div></div>
-      <span>G</span>
     </label>
   </div>
 </section>
@@ -238,17 +238,18 @@
 <div id=performance>
   <h2>Octave Shift</h2>
 
-  <span>-2</span>
-  <span>-1</span>
-  <span>0</span>
-  <span>1</span>
-  <span>2</span>
+  <span data-light=off>-2</span>
+  <span data-light=off>-1</span>
+  <span data-light=on>0</span>
+  <span data-light=off>1</span>
+  <span data-light=off>2</span>
 
   <!-- TEMPORARY -->
   <br>
 
   <button class=octave-shift data-shift=-1 type=button>-1</button>
   <button class=octave-shift data-shift=1 type=button>+1</button>
+
 </div>
 
 <div id=keyboard>

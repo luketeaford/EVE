@@ -143,7 +143,15 @@ label {
   display: block;
   margin: 1em auto; }
   label span {
-    display: none; }
+    border: 0.25em double #353837;
+    border-radius: 2.5em;
+    display: inline-block;
+    font-size: 1.2rem;
+    height: 2.5em;
+    line-height: 2;
+    margin-right: 1.25em;
+    text-align: center;
+    width: 2.5em; }
   label input {
     width: 100%; }
 
@@ -185,8 +193,11 @@ input[type=radio] {
     position: relative;
     text-align: center;
     width: 1em; }
-    #performance span:before {
-      background: radial-gradient(#f2db21, #f60);
+    #performance span[data-light=on]::before {
+      background: radial-gradient(#f2db21, #f60); }
+    #performance span[data-light=off]::before {
+      background: radial-gradient(#f60, #131101); }
+    #performance span::before {
       border-radius: 1em;
       content: '';
       height: 1em;
