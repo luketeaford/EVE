@@ -1,10 +1,9 @@
-// Currently does not have a nice debug like the other things...
 EVE.gateOff = function gateOff() {
     'use strict';
 
     var i,
         lfo2Peak = EVE.lfo2_vca.gain.value,
-        releasePeak = EVE.vca.gain.value,//TODO Rename vcaPeak
+        vcaPeak = EVE.vca.gain.value,
         timbrePeak,
         vca;
 
@@ -18,7 +17,7 @@ EVE.gateOff = function gateOff() {
     // LFO 2 release
     EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.synth.currentTime, EVE.program.lfo2_r);
 
-    // Harmonic Envelopes
+    // Timbre envelope
     for (i = 1; i <= 8; i += 1) {
 
         vca = EVE.harmonicOsc['osc' + i].vca;
@@ -26,21 +25,22 @@ EVE.gateOff = function gateOff() {
         // Prevent decay from acting like second attack
         vca.gain.cancelScheduledValues(EVE.now());
 
-        // Set starting point
+        // Timbre starting point
         timbrePeak = vca.gain.value;
         vca.gain.setValueAtTime(timbrePeak, EVE.now());
 
-        // Release back to starting point
+        // Timbre release
         vca.gain.setTargetAtTime(EVE.program['osc' + i], EVE.now(), EVE.program.timbre_r);
     }
 
     // Prevent decay from acting like second attack
     EVE.vca.gain.cancelScheduledValues(EVE.synth.currentTime);
 
-    // Set starting point
-    EVE.vca.gain.setValueAtTime(releasePeak, EVE.synth.currentTime);
+    // VCA starting point
+    EVE.vca.gain.setValueAtTime(vcaPeak, EVE.synth.currentTime);
 
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r);
+    // VCA release
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r * EVE.config.eg_max);
 
     return;
 };

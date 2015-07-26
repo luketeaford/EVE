@@ -23,9 +23,9 @@ EVE.program = {
 
     // Timbre Envelope
     timbre_a: 0,
-    timbre_d: 0.3,
+    timbre_d: 0.125,
     timbre_s: 0,
-    timbre_r: 0.3,
+    timbre_r: 0.125,
 
     // LFO 1
     lfo1_rate: 4,
@@ -42,7 +42,6 @@ EVE.program = {
 
     // LFO 2
     lfo2_rate: 3,
-    lfo2_track: false,// TODO currently unused
     lfo2_type: 'sawtooth',
     lfo2_amp: 0,
     lfo2_pitch: 0,
@@ -53,8 +52,8 @@ EVE.program = {
 
     // VCA
     vca_a: 0,
-    vca_d: 0.25,
+    vca_d: 0.1,
     vca_s: 1,
-    vca_r: 0.25,
+    vca_r: 0.1,
     vca_g: 0
 };

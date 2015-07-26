@@ -4,8 +4,8 @@ EVE.gateOn = function gateOn(e, pitch) {
         i,
         noteValue,
         osc,
-        peak = EVE.now() + EVE.program.vca_a + EVE.config.eg_minimum,
-        timbrePeak = EVE.now() + EVE.program.timbre_a + EVE.config.eg_minimum,
+        peak = EVE.now() + EVE.program.vca_a * EVE.config.eg_max + EVE.config.eg_min,
+        timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.eg_max + EVE.config.eg_min,
         vca;
 
     noteValue = (pitch || pitch === 0) ? pitch : e.target.dataset.noteValue;
@@ -15,7 +15,7 @@ EVE.gateOn = function gateOn(e, pitch) {
     EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.now(), 0.1);
 
     // LFO 2 attack (with delay)
-    EVE.lfo2_vca.gain.setTargetAtTime(1, EVE.now() + EVE.program.lfo2_d, EVE.program.lfo2_a + EVE.config.eg_minimum);
+    EVE.lfo2_vca.gain.setTargetAtTime(1, EVE.now() + EVE.program.lfo2_d * EVE.config.eg_max, EVE.program.lfo2_a * EVE.config.eg_max + EVE.config.eg_min);
 
 
     // Timbre envelope
@@ -32,7 +32,7 @@ EVE.gateOn = function gateOn(e, pitch) {
         vca.gain.linearRampToValueAtTime(osc + env, timbrePeak);
 
         // Timbre decay
-        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d);
+        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d * EVE.config.eg_max);
     }
 
     // VCA starting point
@@ -42,7 +42,7 @@ EVE.gateOn = function gateOn(e, pitch) {
     EVE.vca.gain.linearRampToValueAtTime(1, peak);
 
     // VCA decay
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d);
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.eg_max);
 
     return EVE.calculatePitch(noteValue);
 };

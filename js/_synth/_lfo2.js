@@ -11,17 +11,13 @@
     EVE.lfo2_amp.gain.value = EVE.program.lfo2_amp;
     EVE.lfo2_pitch = EVE.synth.createGain();
     EVE.lfo2_pitch.gain.value = EVE.program.lfo2_pitch;
-    EVE.lfo2_vca = EVE.synth.createGain();// NEW
-    EVE.lfo2_vca.gain.value = 0;// NEW
+    EVE.lfo2_vca = EVE.synth.createGain();
+    EVE.lfo2_vca.gain.value = 0;
 
-    // Connect LFOs to INDIVIDUAL VCAs (THIS IS THE OLD WAY)
-    //EVE.lfo2.connect(EVE.lfo2_amp);
-    //EVE.lfo2.connect(EVE.lfo2_pitch);
-
-    // Connect LFO to its VCA (NEW WAY)
+    // Connect LFO to its VCA
     EVE.lfo2.connect(EVE.lfo2_vca);
 
-    // Connect LFO VCA to its pitch and amp VCAs (THIS IS THE NEW WAY)
+    // Connect LFO VCA to its pitch and amp VCAs
     EVE.lfo2_vca.connect(EVE.lfo2_amp);
     EVE.lfo2_vca.connect(EVE.lfo2_pitch);
 
@@ -42,7 +38,7 @@
 }());
 
 EVE.lfo2.debug = true;
-EVE.lfo2.max = 110;
+EVE.lfo2.max = 40;
 EVE.lfo2.scope = document.getElementById('lfo2');
 
 EVE.lfo2.update = function (e) {
