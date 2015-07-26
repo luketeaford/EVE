@@ -4,7 +4,6 @@ var EVE = {
     config: {
         eg_minimum: 0.05,
         harmonics: 8,
-        lfo_max: 110,
         masterFreq: 440
     },
     synth: new AudioContext()
@@ -237,6 +236,10 @@ EVE.program = {
     lfo2_type: 'sawtooth',
     lfo2_amp: 0,
     lfo2_pitch: 0,
+    lfo2_d: 0,
+    lfo2_a: 0,
+    lfo2_r: 0,
+    lfo2_g: 0,
 
     // VCA
     vca_a: 0,
@@ -512,19 +515,29 @@ EVE.update_lfo1 = new CustomEvent('update_lfo1', {bubbles: true});
     EVE.lfo2_amp.gain.value = EVE.program.lfo2_amp;
     EVE.lfo2_pitch = EVE.synth.createGain();
     EVE.lfo2_pitch.gain.value = EVE.program.lfo2_pitch;
+    EVE.lfo2_vca = EVE.synth.createGain();// NEW
+    EVE.lfo2_vca.gain.value = 0;// NEW
 
-    // Connect LFOs to VCAs
-    EVE.lfo2.connect(EVE.lfo2_amp);
-    EVE.lfo2.connect(EVE.lfo2_pitch);
+    // Connect LFOs to INDIVIDUAL VCAs (THIS IS THE OLD WAY)
+    //EVE.lfo2.connect(EVE.lfo2_amp);
+    //EVE.lfo2.connect(EVE.lfo2_pitch);
+
+    // Connect LFO to its VCA (NEW WAY)
+    EVE.lfo2.connect(EVE.lfo2_vca);
+
+    // Connect LFO VCA to its pitch and amp VCAs (THIS IS THE NEW WAY)
+    EVE.lfo2_vca.connect(EVE.lfo2_amp);
+    EVE.lfo2_vca.connect(EVE.lfo2_pitch);
 
     // VCA to amp
     EVE.lfo2_amp.connect(EVE.harmonicOsc.mixer.gain);
 
     // VCA to pitch
-    for (i = 1; i < EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         EVE.lfo2_pitch.connect(EVE.harmonicOsc['osc' + i].frequency);
     }
 
+    // TODO Figure out what I was thinking when I typed the following:
     // LFO 2 modulates LFO 1?!
     // Probably in the wrong place because this connection can be toggled
     if (EVE.program.lfo1_track) {
@@ -533,7 +546,7 @@ EVE.update_lfo1 = new CustomEvent('update_lfo1', {bubbles: true});
 }());
 
 EVE.lfo2.debug = true;
-
+EVE.lfo2.max = 110;
 EVE.lfo2.scope = document.getElementById('lfo2');
 
 EVE.lfo2.update = function (e) {
@@ -552,11 +565,14 @@ EVE.lfo2.update = function (e) {
     case 'lfo2_amp':
         EVE.lfo2_amp.gain.setValueAtTime(EVE.program.lfo2_amp, EVE.now());
         break;
+    case 'lfo2_g':
+        EVE.lfo2_vca.gain.setValueAtTime(EVE.program.lfo2_g, EVE.now());
+        break;
     case 'lfo2_pitch':
         EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * EVE.config.masterFreq, EVE.now());
         break;
     case 'lfo2_rate':
-        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.config.lfo_max, EVE.now());
+        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.lfo2.max, EVE.now());
         break;
     case 'lfo2_type':
         EVE.lfo2.type = EVE.program.lfo2_type;
@@ -566,6 +582,7 @@ EVE.lfo2.update = function (e) {
             console.log('Unhandled LFO 2 update change');
         }
     }
+
 };
 
 EVE.lfo2.scope.addEventListener('update_lfo2', EVE.lfo2.update);
@@ -768,7 +785,6 @@ EVE.setPitch = function (pitch) {
 
 EVE.setPitch.debug = true;
 
-// Currently does not have a nice debug like other things...
 EVE.gateOn = function gateOn(e, pitch) {
     'use strict';
     var env,
@@ -781,10 +797,17 @@ EVE.gateOn = function gateOn(e, pitch) {
 
     noteValue = (pitch || pitch === 0) ? pitch : e.target.dataset.noteValue;
 
-    // Timbre Envelope
+    // LFO 2 envelope
+    // LFO 2 starting point
+    EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.now(), 0.1);
+
+    // LFO 2 attack (with delay)
+    EVE.lfo2_vca.gain.setTargetAtTime(1, EVE.now() + EVE.program.lfo2_d, EVE.program.lfo2_a + EVE.config.eg_minimum);
+
+
+    // Timbre envelope
     for (i = 1; i <= 8; i += 1) {
 
-        //vca, osc, env
         env = EVE.program['osc' + i + '_eg'];
         osc = EVE.program['osc' + i];
         vca = EVE.harmonicOsc['osc' + i].vca;
@@ -799,13 +822,13 @@ EVE.gateOn = function gateOn(e, pitch) {
         vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d);
     }
 
-    // Set starting point
+    // VCA starting point
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.now(), 0.1);
 
-    // Attack
+    // VCA attack
     EVE.vca.gain.linearRampToValueAtTime(1, peak);
 
-    // Decay
+    // VCA decay
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d);
 
     return EVE.calculatePitch(noteValue);
@@ -818,10 +841,21 @@ EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
 EVE.gateOff = function gateOff() {
     'use strict';
 
-    var releasePeak = EVE.vca.gain.value,
+    var i,
+        lfo2Peak = EVE.lfo2_vca.gain.value,
+        releasePeak = EVE.vca.gain.value,//TODO Rename vcaPeak
         timbrePeak,
-        vca,
-        i;
+        vca;
+
+    // LFO 2 envelope
+    // Prevent decay from acting like second attack
+    EVE.lfo2_vca.gain.cancelScheduledValues(EVE.synth.currentTime);
+
+    // LFO 2 starting point
+    EVE.lfo2_vca.gain.setValueAtTime(lfo2Peak, EVE.synth.currentTime);
+
+    // LFO 2 release
+    EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.synth.currentTime, EVE.program.lfo2_r);
 
     // Harmonic Envelopes
     for (i = 1; i <= 8; i += 1) {

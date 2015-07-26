@@ -151,7 +151,7 @@
   </div>
 </section>
 
-<section class=module data-state=open data-update=lfo1 id=lfo1>
+<section class=module data-state=closed data-update=lfo1 id=lfo1>
   <a href=#toggle>
     <h2>LFO 1</h2>
   </a>
@@ -219,7 +219,7 @@
   </div>
 </section>
 
-<section class=module data-state=closed data-update=lfo2 id=lfo2>
+<section class=module data-state=open data-update=lfo2 id=lfo2>
   <a href=#toggle>
     <h2>LFO 2</h2>
   </a>
@@ -248,6 +248,24 @@
       <span>Pitch</span>
       <input data-curve=lin data-program=lfo2_pitch max=1 min=0 step=0.0001 type=range value=0>
     </label>
+
+    <label>
+      <span>D</span>
+      <input data-curve=lin data-program=lfo2_d max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>A</span>
+      <input data-curve=lin data-program=lfo2_a max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>R</span>
+      <input data-curve=lin data-program=lfo2_r max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+    <label>
+      <span>G</span>
+      <input data-program=lfo2_g max=1 min=0 step=0.0001 type=range value=0>
+    </label>
+
   </div>
 </section>
 

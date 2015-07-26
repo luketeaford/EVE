@@ -16,4 +16,4 @@
 
 * Delay
 
-* Reverb (?)
+* Change EVE.config.harmonics to 8 everywhere

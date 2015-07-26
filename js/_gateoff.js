@@ -2,10 +2,21 @@
 EVE.gateOff = function gateOff() {
     'use strict';
 
-    var releasePeak = EVE.vca.gain.value,
+    var i,
+        lfo2Peak = EVE.lfo2_vca.gain.value,
+        releasePeak = EVE.vca.gain.value,//TODO Rename vcaPeak
         timbrePeak,
-        vca,
-        i;
+        vca;
+
+    // LFO 2 envelope
+    // Prevent decay from acting like second attack
+    EVE.lfo2_vca.gain.cancelScheduledValues(EVE.synth.currentTime);
+
+    // LFO 2 starting point
+    EVE.lfo2_vca.gain.setValueAtTime(lfo2Peak, EVE.synth.currentTime);
+
+    // LFO 2 release
+    EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.synth.currentTime, EVE.program.lfo2_r);
 
     // Harmonic Envelopes
     for (i = 1; i <= 8; i += 1) {

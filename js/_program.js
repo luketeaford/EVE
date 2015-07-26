@@ -46,6 +46,10 @@ EVE.program = {
     lfo2_type: 'sawtooth',
     lfo2_amp: 0,
     lfo2_pitch: 0,
+    lfo2_d: 0,
+    lfo2_a: 0,
+    lfo2_r: 0,
+    lfo2_g: 0,
 
     // VCA
     vca_a: 0,

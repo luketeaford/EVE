@@ -1,4 +1,3 @@
-// Currently does not have a nice debug like other things...
 EVE.gateOn = function gateOn(e, pitch) {
     'use strict';
     var env,
@@ -11,10 +10,17 @@ EVE.gateOn = function gateOn(e, pitch) {
 
     noteValue = (pitch || pitch === 0) ? pitch : e.target.dataset.noteValue;
 
-    // Timbre Envelope
+    // LFO 2 envelope
+    // LFO 2 starting point
+    EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.now(), 0.1);
+
+    // LFO 2 attack (with delay)
+    EVE.lfo2_vca.gain.setTargetAtTime(1, EVE.now() + EVE.program.lfo2_d, EVE.program.lfo2_a + EVE.config.eg_minimum);
+
+
+    // Timbre envelope
     for (i = 1; i <= 8; i += 1) {
 
-        //vca, osc, env
         env = EVE.program['osc' + i + '_eg'];
         osc = EVE.program['osc' + i];
         vca = EVE.harmonicOsc['osc' + i].vca;
@@ -29,13 +35,13 @@ EVE.gateOn = function gateOn(e, pitch) {
         vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d);
     }
 
-    // Set starting point
+    // VCA starting point
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.now(), 0.1);
 
-    // Attack
+    // VCA attack
     EVE.vca.gain.linearRampToValueAtTime(1, peak);
 
-    // Decay
+    // VCA decay
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d);
 
     return EVE.calculatePitch(noteValue);
