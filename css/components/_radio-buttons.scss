@@ -1,0 +1,58 @@
+fieldset {
+  border: 0;
+  input[type=radio] {
+    $border-radius: .5em;
+    &:first-of-type {
+      + label {
+        border-radius: 0 0 0 $border-radius;
+      }
+    }
+    &:last-of-type {
+      + label {
+        border-radius: 0 0 $border-radius 0;
+      }
+    }
+  }
+}
+
+legend {//TODO Fix all these ugly colors
+  background: linear-gradient(#bbb, #555);
+  border-radius: 1rem 1rem 0 0;
+  border-top: .25em double #989896;
+  color: $dark-grey;
+  font-size: 1.76rem;
+  font-weight: 100;
+  margin-bottom: -25px;
+  padding: .2em .5em .5em;
+  width: 100%;
+}
+
+input[type=radio] {
+  // Hide default UI
+  position: absolute;
+  width: 0;
+  z-index: -1;
+  + label {
+    background: linear-gradient($light-grey, $off-white);
+    cursor: pointer;
+    float: left;
+    line-height: 3;
+    margin: 2em 0;
+    text-align: center;
+    text-transform: uppercase;
+    width: 25%;
+  }
+  &:focus,
+  &:checked {
+    + label {
+      background: linear-gradient($grey, darken($grey, 5%));
+      box-shadow: 0 .2em 1em -.3em #000;
+      color: $off-white;
+    }
+  }
+  &:focus {
+    + label {
+      background: linear-gradient(lighten($grey, 10%), $grey);
+    }
+  }
+}

@@ -11,7 +11,7 @@
 </header>
 
 <section class=module data-state=closed id=oscilloscope>
-  <a>
+  <a href=#toggle>
     <h2>Oscilloscope</h2>
   </a>
   <div>
@@ -20,7 +20,7 @@
 </section>
 
 <section class=module data-state=closed data-update=harmonic_osc id=harmonics>
-  <a>
+  <a href=#toggle>
     <h2>Harmonic Oscillator</h2>
   </a>
   <div>
@@ -60,7 +60,7 @@
 </section>
 
 <section class=module data-state=closed data-update=timbre_eg id=timbre-eg>
-  <a>
+  <a href=#toggle>
     <h2>Timbre EG Amount</h2>
   </a>
   <div>
@@ -100,7 +100,7 @@
 </section>
 
 <section class=module data-state=closed data-update=timbre_env id=timbre-env>
-  <a>
+  <a href=#toggle>
     <h2>Timbre Envelope</h2>
   </a>
   <div>
@@ -124,7 +124,7 @@
 </section>
 
 <section class=module data-state=closed data-update=vca id=vca>
-  <a>
+  <a href=#toggle>
     <h2>VCA Envelope</h2>
   </a>
   <div>
@@ -152,7 +152,7 @@
 </section>
 
 <section class=module data-state=open data-update=lfo1 id=lfo1>
-  <a>
+  <a href=#toggle>
     <h2>LFO 1</h2>
   </a>
   <div>
@@ -220,18 +220,21 @@
 </section>
 
 <section class=module data-state=closed data-update=lfo2 id=lfo2>
-  <a>
+  <a href=#toggle>
     <h2>LFO 2</h2>
   </a>
   <div>
-    <input data-program=lfo2_type id=lfo2-sin name=lfo2_type type=radio value=sine>
-    <label for=lfo2-sin>Sine</label>
-    <input data-program=lfo2_type id=lfo2-tri name=lfo2_type type=radio value=triangle>
-    <label for=lfo2-tri>Triangle</label>
-    <input data-program=lfo2_type id=lfo2-sqr name=lfo2_type type=radio value=square>
-    <label for=lfo2-sqr>Square</label>
-    <input data-program=lfo2_type id=lfo2-saw name=lfo2_type type=radio value=sawtooth>
-    <label for=lfo2-saw>Saw</label>
+    <fieldset>
+      <legend>Shape</legend>
+      <input data-program=lfo2_type id=lfo2-sin name=lfo2_type type=radio value=sine>
+      <label for=lfo2-sin>Sine</label>
+      <input data-program=lfo2_type id=lfo2-tri name=lfo2_type type=radio value=triangle>
+      <label for=lfo2-tri>Triangle</label>
+      <input data-program=lfo2_type id=lfo2-sqr name=lfo2_type type=radio value=square>
+      <label for=lfo2-sqr>Square</label>
+      <input data-program=lfo2_type id=lfo2-saw name=lfo2_type type=radio value=sawtooth>
+      <label for=lfo2-saw>Saw</label>
+    </fieldset>
 
     <label>
       <span>Rate</span>

@@ -4,7 +4,6 @@
 * em mixin needs support for passing multiple values
 * fix terrible ugliness
   * remove SVG sliders for now
-  * push button needs improvements to focus and active states
   * size keyboard keys appropriately
   * pad performance controls
 
@@ -17,4 +16,4 @@
 
 * Delay
 
-* Reverb
+* Reverb (?)
