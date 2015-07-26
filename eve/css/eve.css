@@ -65,19 +65,16 @@ footer {
 fieldset {
   border: 0; }
   fieldset input[type=radio]:first-of-type + label {
-    border-radius: 0 0 0 0.5em; }
+    border-radius: 0.5em 0 0 0.5em; }
   fieldset input[type=radio]:last-of-type + label {
-    border-radius: 0 0 0.5em 0; }
+    border-radius: 0 0.5em 0.5em 0; }
 
 legend {
-  background: linear-gradient(#bbb, #555);
-  border-radius: 1rem 1rem 0 0;
-  border-top: .25em double #989896;
-  color: #1a1c1b;
-  font-size: 1.76rem;
+  color: #949796;
+  font-size: 1.8rem;
   font-weight: 100;
   margin-bottom: -25px;
-  padding: 0.2em 0.5em 0.5em;
+  padding: 0.2em 0 0.5em;
   width: 100%; }
 
 input[type=radio] {
@@ -189,8 +186,9 @@ label {
   display: block;
   margin: 1em auto; }
   label span {
-    border: 0.25em double #353837;
+    border: 0.25em double #535756;
     border-radius: 2.5em;
+    color: #949796;
     display: inline-block;
     font-size: 1.2rem;
     height: 2.5em;
