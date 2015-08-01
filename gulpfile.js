@@ -28,7 +28,8 @@ var gulp = require('gulp'),
         'js/_calculatePitch.js',
         'js/_setPitch.js',
         'js/_gateOn.js',
-        'js/_gateOff.js'
+        'js/_gateOff.js',
+        'js/_midi.js'
     ];
 
 gulp.task('browsersync', function() {

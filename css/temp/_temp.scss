@@ -147,3 +147,21 @@ img {
   -webkit-user-select: none;
   user-select: none;
 }
+
+
+// STUFF FOR SVG KNOBS
+// label {
+//   input {
+//     cursor: pointer;
+//     &::before {
+//       background: #f00;
+//       cursor: pointer;
+//       content: url(../img/knob.svg);
+//       display: inline-block;
+//       height: 8rem;
+//       pointer-events: all;
+//       width: 8rem;
+//       z-index: 99999;
+//     }
+//   }
+// }

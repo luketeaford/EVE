@@ -565,7 +565,9 @@ EVE.lfo2.update = function (e) {
         EVE.lfo2_vca.gain.setValueAtTime(EVE.program.lfo2_g, EVE.now());
         break;
     case 'lfo2_pitch':
-        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * EVE.config.masterFreq, EVE.now());
+        // TODO Figure out a good value for the depth of this LFO
+        // 220 Is too high -- need good values throughout the range, remember
+        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 220, EVE.now());
         break;
     case 'lfo2_rate':
         EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.lfo2.max, EVE.now());
@@ -882,3 +884,88 @@ EVE.gateOff = function gateOff() {
 
 EVE.keyboard.scope.addEventListener('mouseup', EVE.gateOff);
 EVE.keyboard.scope.addEventListener('touchend', EVE.gateOff);
+
+if (navigator.requestMIDIAccess) {
+    console.log('Web MIDI enabled');
+
+    EVE.midi = {
+        messages: {
+            listen: 254,
+            note_on: 144,
+            note_off: 128,
+            pitch: 224
+        },
+
+        devices: [],
+
+        getDevices: function () {
+            'use strict';
+
+            return navigator.requestMIDIAccess().then(function (midi) {
+                var devices = [],
+                    input,
+                    inputs = midi.inputs.entries();
+
+                if (inputs.size === 0) {
+                    console.log('There are no MIDI devices');
+                } else {
+                    console.log('Inputs found!');
+                    // This need to emit an event that starts the synth
+                }
+
+                for (input = inputs.next(); input && !input.done; input = inputs.next()) {
+                    devices.push(input.value[1]);
+                }
+
+                return devices;
+            });
+        }
+    };
+
+    EVE.midi.events = function (event) {
+        'use strict';
+        //var n = event.data[1];
+
+        switch (event.data[0]) {
+        case EVE.midi.messages.listen:
+            break;
+        case EVE.midi.messages.note_on:
+            // Some MIDI controllers send 0 velocity intead of note_off
+            if (event.data[2] >= 1) {
+                EVE.gateOn(event, EVE.midi.toCents(event.data[1]));
+            } else {
+                // Cheap MIDI controller note_off
+                EVE.gateOff(event);
+            }
+            break;
+        case EVE.midi.messages.note_off:
+            EVE.gateOff(event);
+            break;
+        case EVE.midi.messages.pitch:
+            console.log('EVE pitch wheel moved');
+            break;
+        default:
+            console.log('Unrecognized MIDI event', event.data);
+            break;
+        }
+    };
+
+    EVE.midi.getDevices().then(function (devices) {
+        'use strict';
+        var i = 0;
+
+        EVE.midi.devices = devices;
+
+        for (i; i < devices.length; i += 1) {
+            EVE.midi.devices[i].onmidimessage = EVE.midi.events;
+        }
+    });
+
+    EVE.midi.toCents = function (midiNote) {
+        'use strict';
+        return 100 * (midiNote - 69);
+    };
+
+} else {
+    console.log('No Web MIDI support in your browser');
+}
