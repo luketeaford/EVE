@@ -1,9 +1,7 @@
 #Eve Web Audio Synthesizer
 
 ##Next Steps:
-* em mixin needs support for passing multiple values
 * fix terrible ugliness
-  * remove SVG sliders for now
   * size keyboard keys appropriately
   * pad performance controls
 
@@ -16,4 +14,7 @@
 
 * Delay
 
-* Change EVE.config.harmonics to 8 everywhere
+* Gulp
+  * write minified files in the conventional way
+  * minify HTML
+  * don't commit minfiles

@@ -1,7 +1,7 @@
 if (navigator.requestMIDIAccess) {
-    console.log('Web MIDI enabled');
 
     EVE.midi = {
+        debug: true,
         messages: {
             listen: 254,
             note_on: 144,
@@ -19,15 +19,12 @@ if (navigator.requestMIDIAccess) {
                     input,
                     inputs = midi.inputs.entries();
 
-                if (inputs.size === 0) {
-                    console.log('There are no MIDI devices');
-                } else {
-                    console.log('Inputs found!');
-                    // This need to emit an event that starts the synth
-                }
-
                 for (input = inputs.next(); input && !input.done; input = inputs.next()) {
                     devices.push(input.value[1]);
+                }
+
+                if (EVE.midi.debug === true && console) {
+                    console.log('Devices:', devices);
                 }
 
                 return devices;
@@ -80,5 +77,7 @@ if (navigator.requestMIDIAccess) {
     };
 
 } else {
-    console.log('No Web MIDI support in your browser');
+    if (EVE.midi.debug === true && console) {
+        console.log('No Web MIDI support in your browser');
+    }
 }

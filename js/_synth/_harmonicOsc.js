@@ -26,7 +26,7 @@ EVE.harmonicOsc = {
     EVE.harmonicOsc.mixer = EVE.synth.createGain();
     EVE.harmonicOsc.mixer.gain.value = -1;
 
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
         // Oscillators
         EVE.harmonicOsc[osc] = EVE.synth.createOscillator();

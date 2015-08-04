@@ -10,7 +10,7 @@
     EVE.lfo1.type = EVE.program.lfo1_type;
 
     // LFO 1 VCAs
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
         lfo = osc + '_lfo';
         EVE[lfo] = EVE.synth.createGain();

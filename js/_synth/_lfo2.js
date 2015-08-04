@@ -61,9 +61,7 @@ EVE.lfo2.update = function (e) {
         EVE.lfo2_vca.gain.setValueAtTime(EVE.program.lfo2_g, EVE.now());
         break;
     case 'lfo2_pitch':
-        // TODO Figure out a good value for the depth of this LFO
-        // 220 Is too high -- need good values throughout the range, remember
-        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 220, EVE.now());
+        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 16, EVE.now());
         break;
     case 'lfo2_rate':
         EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.lfo2.max, EVE.now());

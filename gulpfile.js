@@ -61,21 +61,6 @@ gulp.task('js', function () {
     .pipe(gulp.dest('eve/js'))
 });
 
-// Correct configuration for ruby Sass
-//gulp.task('sass', function() {
-//    return sass('css/eve.scss', {
-//        noCache: true,
-//        precision: 11,
-//        style: 'compressed'
-//    })
-//    .on('error', function (err) {
-//        console.error(err.message);
-//    })
-//    .pipe(gulp.dest('css'))
-//    .pipe(gulp.dest('eve/css'));
-//});
-
-// GULP Sass
 gulp.task('sass', function () {
   gulp.src('css/eve.scss')
     .pipe(sass().on('error', sass.logError))

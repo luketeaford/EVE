@@ -4,7 +4,6 @@ var EVE = {
     config: {
         eg_max: 2.125,
         eg_min: 0.05,
-        harmonics: 8,// TODO deprecate this
         masterFreq: 440
     },
     synth: new AudioContext()
@@ -361,7 +360,7 @@ EVE.harmonicOsc = {
     EVE.harmonicOsc.mixer = EVE.synth.createGain();
     EVE.harmonicOsc.mixer.gain.value = -1;
 
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
         // Oscillators
         EVE.harmonicOsc[osc] = EVE.synth.createOscillator();
@@ -443,7 +442,7 @@ EVE.update_timbre_env = new CustomEvent('update_timbre_env', {bubbles: true});
     EVE.lfo1.type = EVE.program.lfo1_type;
 
     // LFO 1 VCAs
-    for (i = 1; i <= EVE.config.harmonics; i += 1) {
+    for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
         lfo = osc + '_lfo';
         EVE[lfo] = EVE.synth.createGain();
@@ -565,9 +564,7 @@ EVE.lfo2.update = function (e) {
         EVE.lfo2_vca.gain.setValueAtTime(EVE.program.lfo2_g, EVE.now());
         break;
     case 'lfo2_pitch':
-        // TODO Figure out a good value for the depth of this LFO
-        // 220 Is too high -- need good values throughout the range, remember
-        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 220, EVE.now());
+        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 16, EVE.now());
         break;
     case 'lfo2_rate':
         EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.lfo2.max, EVE.now());
@@ -594,7 +591,7 @@ EVE.update_lfo2 = new CustomEvent('update_lfo2', {bubbles: true});
         var i;
 
         // Harmonic Oscillator
-        for (i = 1; i <= EVE.config.harmonics; i += 1) {
+        for (i = 1; i <= 8; i += 1) {
             EVE.harmonicOsc['osc' + i].start(0);
         }
 
@@ -886,9 +883,9 @@ EVE.keyboard.scope.addEventListener('mouseup', EVE.gateOff);
 EVE.keyboard.scope.addEventListener('touchend', EVE.gateOff);
 
 if (navigator.requestMIDIAccess) {
-    console.log('Web MIDI enabled');
 
     EVE.midi = {
+        debug: true,
         messages: {
             listen: 254,
             note_on: 144,
@@ -906,15 +903,12 @@ if (navigator.requestMIDIAccess) {
                     input,
                     inputs = midi.inputs.entries();
 
-                if (inputs.size === 0) {
-                    console.log('There are no MIDI devices');
-                } else {
-                    console.log('Inputs found!');
-                    // This need to emit an event that starts the synth
-                }
-
                 for (input = inputs.next(); input && !input.done; input = inputs.next()) {
                     devices.push(input.value[1]);
+                }
+
+                if (EVE.midi.debug === true && console) {
+                    console.log('Devices:', devices);
                 }
 
                 return devices;
@@ -967,5 +961,7 @@ if (navigator.requestMIDIAccess) {
     };
 
 } else {
-    console.log('No Web MIDI support in your browser');
+    if (EVE.midi.debug === true && console) {
+        console.log('No Web MIDI support in your browser');
+    }
 }
