@@ -3,16 +3,12 @@ EVE.calculatePitch = function (note) {
     // TODO Needs EVE.fine added (+) after note at some point...
     var pitch = EVE.keyboard.octaveShift * 1200 + parseFloat(note);
 
-    if (note === 0) {
-        console.log('NOTE IS ZERO EXACTLY');
-    }
-
-    if (EVE.calculatePitch.debug === true && console) {
-        console.log('Pitch: ', pitch);
-        console.log('note:', note);
-    }
+    // Need to use the dataset here (and above...)
 
     return EVE.setPitch(pitch);
 };
 
 EVE.calculatePitch.debug = true;
+
+EVE.keyboard.scope.addEventListener('mousedown', EVE.calculatePitch);
+EVE.keyboard.scope.addEventListener('touchstart', EVE.calculatePitch);

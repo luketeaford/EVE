@@ -55,5 +55,8 @@ EVE.program = {
     vca_d: 0.1,
     vca_s: 1,
     vca_r: 0.1,
-    vca_g: 0
+    vca_g: 0,
+
+    // Performance
+    portamento: 0//tolerable maximum = 0.165
 };

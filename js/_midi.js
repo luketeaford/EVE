@@ -1,7 +1,7 @@
 if (navigator.requestMIDIAccess) {
 
     EVE.midi = {
-        debug: true,
+        debug: false,
         messages: {
             listen: 254,
             note_on: 144,

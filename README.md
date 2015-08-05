@@ -5,7 +5,6 @@ EVE is an additive monosynth built with Web Audio.
 
 ##Requirements
 ###Audio
-* Lush reverb
 * Fine tune scaling before making presets
 
 ###Routing (http://evesynth.com)
@@ -24,7 +23,6 @@ EVE is an additive monosynth built with Web Audio.
 
 ###MIDI
 * Must have MIDI learn
-* Must have default map for the Moog Sub 37
 
 ###Code Standards
 * camelCasing even though it's ugly

@@ -7,6 +7,8 @@ EVE.gateOff = function gateOff() {
         timbrePeak,
         vca;
 
+    EVE.keyboard.keyDown = false;
+
     // LFO 2 envelope
     // Prevent decay from acting like second attack
     EVE.lfo2_vca.gain.cancelScheduledValues(EVE.synth.currentTime);

@@ -1,13 +1,14 @@
-EVE.gateOn = function gateOn() {
+EVE.gateOn = function gateOn(e, pitch) {
     'use strict';
     var env,
         i,
+        noteValue,
         osc,
         peak = EVE.now() + EVE.program.vca_a * EVE.config.eg_max + EVE.config.eg_min,
         timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.eg_max + EVE.config.eg_min,
         vca;
 
-    EVE.keyboard.keyDown = true;
+    noteValue = (pitch || pitch === 0) ? pitch : e.target.dataset.noteValue;
 
     // LFO 2 envelope
     // LFO 2 starting point
@@ -43,7 +44,7 @@ EVE.gateOn = function gateOn() {
     // VCA decay
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.eg_max);
 
-    return;
+    return EVE.calculatePitch(noteValue);
 };
 
 EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);

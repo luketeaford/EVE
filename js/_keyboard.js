@@ -1,6 +1,7 @@
 EVE.keyboard = {
     current: null,
     debug: true,
+    keyDown: false,
     octaveShift: 0,
     scope: document.getElementById('keyboard'),
     shiftOctave: function (direction) {
@@ -125,19 +126,21 @@ EVE.keyboard = {
             break;
         }
 
-        // TODO Call gate on only once... otherwise, skip to pitch stuff
         if (pitch !== null && EVE.keyboard.current !== e.which) {
-            EVE.keyboard.current = e.which;
-            EVE.gateOn(e, pitch);
-        } else if (EVE.keyboard.debug && console) {
-            console.log('No pitch information');
+            if (EVE.keyboard.keyDown === false) {
+                EVE.keyboard.current = e.which;
+                EVE.gateOn();
+            }
+            EVE.calculatePitch(pitch);
         }
 
     },
-    upBus: function () {
+    upBus: function (e) {
         'use strict';
-        EVE.keyboard.current = null;
-        EVE.gateOff();
+        if (e.which === EVE.keyboard.current) {
+            EVE.keyboard.current = null;
+            EVE.gateOff();
+        }
     },
     touch: function (e) {
         'use strict';

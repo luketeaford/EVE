@@ -30,6 +30,7 @@ var EVE = {
 EVE.keyboard = {
     current: null,
     debug: true,
+    keyDown: false,
     octaveShift: 0,
     scope: document.getElementById('keyboard'),
     shiftOctave: function (direction) {
@@ -154,19 +155,21 @@ EVE.keyboard = {
             break;
         }
 
-        // TODO Call gate on only once... otherwise, skip to pitch stuff
         if (pitch !== null && EVE.keyboard.current !== e.which) {
-            EVE.keyboard.current = e.which;
-            EVE.gateOn(e, pitch);
-        } else if (EVE.keyboard.debug && console) {
-            console.log('No pitch information');
+            if (EVE.keyboard.keyDown === false) {
+                EVE.keyboard.current = e.which;
+                EVE.gateOn();
+            }
+            EVE.calculatePitch(pitch);
         }
 
     },
-    upBus: function () {
+    upBus: function (e) {
         'use strict';
-        EVE.keyboard.current = null;
-        EVE.gateOff();
+        if (e.which === EVE.keyboard.current) {
+            EVE.keyboard.current = null;
+            EVE.gateOff();
+        }
     },
     touch: function (e) {
         'use strict';
@@ -245,7 +248,10 @@ EVE.program = {
     vca_d: 0.1,
     vca_s: 1,
     vca_r: 0.1,
-    vca_g: 0
+    vca_g: 0,
+
+    // Performance
+    portamento: 0//tolerable maximum = 0.165
 };
 
 EVE.now = function () {
@@ -748,49 +754,40 @@ EVE.calculatePitch = function (note) {
     // TODO Needs EVE.fine added (+) after note at some point...
     var pitch = EVE.keyboard.octaveShift * 1200 + parseFloat(note);
 
-    if (note === 0) {
-        console.log('NOTE IS ZERO EXACTLY');
-    }
-
-    if (EVE.calculatePitch.debug === true && console) {
-        console.log('Pitch: ', pitch);
-        console.log('note:', note);
-    }
-
     return EVE.setPitch(pitch);
 };
 
 EVE.calculatePitch.debug = true;
 
-// TODO Include legato options
+EVE.keyboard.scope.addEventListener('mousedown', EVE.calculatePitch(e));
+EVE.keyboard.scope.addEventListener('touchstart', EVE.calculatePitch);
+
 EVE.setPitch = function (pitch) {
     'use strict';
     var i;
 
-    // Staccato
     for (i = 1; i <= 8; i += 1) {
-        EVE.harmonicOsc['osc' + i].detune.setValueAtTime(pitch, EVE.now());
+        EVE.harmonicOsc['osc' + i].detune.setTargetAtTime(pitch, EVE.now(), EVE.program.portamento);
     }
 
-    if (EVE.program.lfo1_range >= 220) {
-        EVE.lfo1.detune.setValueAtTime(pitch, EVE.now());
+    if (EVE.program.lfo1_range >= 440) {
+        EVE.lfo1.detune.setValueAtTime(pitch, EVE.now(), EVE.program.portamento);
     }
 
 };
 
 EVE.setPitch.debug = true;
 
-EVE.gateOn = function gateOn(e, pitch) {
+EVE.gateOn = function gateOn() {
     'use strict';
     var env,
         i,
-        noteValue,
         osc,
         peak = EVE.now() + EVE.program.vca_a * EVE.config.eg_max + EVE.config.eg_min,
         timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.eg_max + EVE.config.eg_min,
         vca;
 
-    noteValue = (pitch || pitch === 0) ? pitch : e.target.dataset.noteValue;
+    EVE.keyboard.keyDown = true;
 
     // LFO 2 envelope
     // LFO 2 starting point
@@ -826,7 +823,7 @@ EVE.gateOn = function gateOn(e, pitch) {
     // VCA decay
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.eg_max);
 
-    return EVE.calculatePitch(noteValue);
+    return;
 };
 
 EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
@@ -840,6 +837,8 @@ EVE.gateOff = function gateOff() {
         vcaPeak = EVE.vca.gain.value,
         timbrePeak,
         vca;
+
+    EVE.keyboard.keyDown = false;
 
     // LFO 2 envelope
     // Prevent decay from acting like second attack
@@ -885,7 +884,7 @@ EVE.keyboard.scope.addEventListener('touchend', EVE.gateOff);
 if (navigator.requestMIDIAccess) {
 
     EVE.midi = {
-        debug: true,
+        debug: false,
         messages: {
             listen: 254,
             note_on: 144,
