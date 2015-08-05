@@ -1,9 +1,8 @@
 EVE.calculatePitch = function (note) {
     'use strict';
-    // TODO Needs EVE.fine added (+) after note at some point...
-    var pitch = EVE.keyboard.octaveShift * 1200 + parseFloat(note);
-
-    // Need to use the dataset here (and above...)
+    // TODO pitch needs EVE.fine added (+) after n at some point...
+    var n = note.target ? note.target.dataset.noteValue : note,
+        pitch = EVE.keyboard.octaveShift * 1200 + parseFloat(n);
 
     return EVE.setPitch(pitch);
 };
