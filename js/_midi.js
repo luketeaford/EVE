@@ -1,15 +1,15 @@
 if (navigator.requestMIDIAccess) {
 
     EVE.midi = {
-        debug: false,
+        active: null,
+        debug: true,
+        devices: [],
         messages: {
             listen: 254,
             note_on: 144,
             note_off: 128,
             pitch: 224
         },
-
-        devices: [],
 
         getDevices: function () {
             'use strict';
@@ -32,30 +32,43 @@ if (navigator.requestMIDIAccess) {
         }
     };
 
-    EVE.midi.events = function (event) {
+    EVE.midi.events = function (e) {
         'use strict';
-        //var n = event.data[1];
+        var n = e.data[1];
 
-        switch (event.data[0]) {
+        switch (e.data[0]) {
         case EVE.midi.messages.listen:
             break;
         case EVE.midi.messages.note_on:
-            // Some MIDI controllers send 0 velocity intead of note_off
-            if (event.data[2] >= 1) {
-                EVE.gateOn(event, EVE.midi.toCents(event.data[1]));
+            // Some MIDI controllers send 0 velocity intead of note off
+            if (e.data[2] >= 1) {
+                if (EVE.midi.active === null) {
+                    EVE.midi.active = n;
+                    EVE.gateOn();
+                }
+                // Send pitch for any loud note
+                EVE.calculatePitch(EVE.midi.toCents(n));
             } else {
-                // Cheap MIDI controller note_off
-                EVE.gateOff(event);
+                // Cheap MIDI controller note off
+                if (EVE.midi.active === n) {
+                    EVE.midi.active = null;
+                    EVE.gateOff();
+                } else {
+                    // Return to initial note
+                    EVE.calculatePitch(EVE.midi.toCents(EVE.midi.active));
+                }
             }
             break;
         case EVE.midi.messages.note_off:
-            EVE.gateOff(event);
+            console.log('Proper midi note off');
+            EVE.midi.active = null;
+            EVE.gateOff();
             break;
         case EVE.midi.messages.pitch:
             console.log('EVE pitch wheel moved');
             break;
         default:
-            console.log('Unrecognized MIDI event', event.data);
+            console.log('Unrecognized MIDI event', e.data);
             break;
         }
     };

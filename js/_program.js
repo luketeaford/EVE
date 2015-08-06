@@ -3,13 +3,13 @@ EVE.program = {
 
     // Harmonics (VCAs)
     osc1: 1,
-    osc2: 0,
-    osc3: 0,
-    osc4: 0,
-    osc5: 0,
-    osc6: 0,
-    osc7: 0,
-    osc8: 0,
+    osc2: 0.72,
+    osc3: 0.68,
+    osc4: 0.54,
+    osc5: 0.31,
+    osc6: 0.201,
+    osc7: 0.17,
+    osc8: 0.08,
 
     // Harmonic Envelope (Amounts)
     osc1_eg: 0,

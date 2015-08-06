@@ -2,8 +2,8 @@
 
 ##Next Steps:
 * Separate gate from pitch
-  * mouse and touch events won't work
-  * MIDI is broken, too
+
+* Need to track playing pitches
 
 * Portamento (control placement in the markup)
   * and call it Glide instead

@@ -7,7 +7,7 @@ EVE.gateOn = function gateOn() {
         timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.eg_max + EVE.config.eg_min,
         vca;
 
-    EVE.keyboard.keyDown = true;
+    EVE.keyboard.keyDown = true;//OLD WAY
 
     // LFO 2 envelope
     // LFO 2 starting point
