@@ -33,6 +33,7 @@ EVE.keyboard = {
     keyDown: false,
     octaveShift: 0,
     scope: document.getElementById('keyboard'),
+    //TODO Move to performance controls
     shiftOctave: function (direction) {
         'use strict';
         var oct = EVE.keyboard.octaveShift,
@@ -40,7 +41,7 @@ EVE.keyboard = {
 
         function switchLights() {
             var i,
-                lights = document.querySelectorAll('#performance > span'),
+                lights = document.querySelectorAll('#performance [data-light]'),
                 n = EVE.keyboard.octaveShift + 2;
 
             for (i = 0; i < lights.length; i += 1) {
@@ -181,7 +182,7 @@ EVE.keyboard = {
 
 (function bindEvents() {
     'use strict';
-    var buttons = document.getElementsByClassName('octave-shift'),
+    var buttons = document.getElementsByClassName('shift-octave'),
         i;
     for (i = 0; i < buttons.length; i += 1) {
         buttons[i].addEventListener('click', EVE.keyboard.shiftOctave);
@@ -251,7 +252,7 @@ EVE.program = {
     vca_g: 0,
 
     // Performance
-    portamento: 0//tolerable maximum = 0.165
+    glide: 0.0825//tolerable maximum = 0.165
 };
 
 EVE.now = function () {
@@ -590,6 +591,44 @@ EVE.lfo2.scope.addEventListener('update_lfo2', EVE.lfo2.update);
 
 EVE.update_lfo2 = new CustomEvent('update_lfo2', {bubbles: true});
 
+//TODO Put this file outside the synth directory
+EVE.performance = {};
+
+EVE.performance.debug = true;
+
+EVE.performance.scope = document.getElementById('performance');
+
+EVE.performance.update = function (e) {
+    'use strict';
+
+    var p;
+
+    if (e.target && e.target.dataset && e.target.dataset.program) {
+        p = e.target.dataset.program;
+    }
+
+    if (EVE.performance.debug && console) {
+        console.log(p, EVE.program[p]);
+    }
+
+    switch (p) {
+    case 'glide':
+        // Might be smart to make this keyboard glide or something
+        EVE.program.glide = EVE.program.glide * 0.165;
+        console.log('Glide updated to', EVE.program.glide);
+        break;
+    default:
+        if (EVE.lfo1.debug && console) {
+            console.log('Unhandled performance update change');
+        }
+    }
+
+};
+
+EVE.performance.scope.addEventListener('update_performance', EVE.performance.update);
+
+EVE.update_performance = new CustomEvent('update_performance', {bubbles: true});
+
 (function initialize() {
     'use strict';
 
@@ -768,11 +807,11 @@ EVE.setPitch = function (pitch) {
     var i;
 
     for (i = 1; i <= 8; i += 1) {
-        EVE.harmonicOsc['osc' + i].detune.setTargetAtTime(pitch, EVE.now(), EVE.program.portamento);
+        EVE.harmonicOsc['osc' + i].detune.setTargetAtTime(pitch, EVE.now(), EVE.program.glide);
     }
 
     if (EVE.program.lfo1_range >= 440) {
-        EVE.lfo1.detune.setValueAtTime(pitch, EVE.now(), EVE.program.portamento);
+        EVE.lfo1.detune.setValueAtTime(pitch, EVE.now(), EVE.program.glide);
     }
 
 };
@@ -890,9 +929,9 @@ if (navigator.requestMIDIAccess) {
         devices: [],
         messages: {
             listen: 254,
-            note_on: 144,
-            note_off: 128,
-            pitch: 224
+            noteOn: 144,
+            noteOff: 128,
+            pitchWheel: 224
         },
 
         getDevices: function () {
@@ -923,7 +962,7 @@ if (navigator.requestMIDIAccess) {
         switch (e.data[0]) {
         case EVE.midi.messages.listen:
             break;
-        case EVE.midi.messages.note_on:
+        case EVE.midi.messages.noteOn:
             // Some MIDI controllers send 0 velocity intead of note off
             if (e.data[2] >= 1) {
                 if (EVE.midi.active === null) {
@@ -943,12 +982,12 @@ if (navigator.requestMIDIAccess) {
                 }
             }
             break;
-        case EVE.midi.messages.note_off:
+        case EVE.midi.messages.noteOff:
             console.log('Proper midi note off');
             EVE.midi.active = null;
             EVE.gateOff();
             break;
-        case EVE.midi.messages.pitch:
+        case EVE.midi.messages.pitchWheel:
             console.log('EVE pitch wheel moved');
             break;
         default:

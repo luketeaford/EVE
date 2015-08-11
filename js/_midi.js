@@ -6,9 +6,9 @@ if (navigator.requestMIDIAccess) {
         devices: [],
         messages: {
             listen: 254,
-            note_on: 144,
-            note_off: 128,
-            pitch: 224
+            noteOn: 144,
+            noteOff: 128,
+            pitchWheel: 224
         },
 
         getDevices: function () {
@@ -39,7 +39,7 @@ if (navigator.requestMIDIAccess) {
         switch (e.data[0]) {
         case EVE.midi.messages.listen:
             break;
-        case EVE.midi.messages.note_on:
+        case EVE.midi.messages.noteOn:
             // Some MIDI controllers send 0 velocity intead of note off
             if (e.data[2] >= 1) {
                 if (EVE.midi.active === null) {
@@ -59,12 +59,12 @@ if (navigator.requestMIDIAccess) {
                 }
             }
             break;
-        case EVE.midi.messages.note_off:
+        case EVE.midi.messages.noteOff:
             console.log('Proper midi note off');
             EVE.midi.active = null;
             EVE.gateOff();
             break;
-        case EVE.midi.messages.pitch:
+        case EVE.midi.messages.pitchWheel:
             console.log('EVE pitch wheel moved');
             break;
         default:

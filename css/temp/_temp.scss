@@ -96,11 +96,8 @@ input[type=range] {
 
 // PERFORMANCE
 #performance {
-  margin: 2em 0;
-  h2 {
-    font-size: 1.8rem;
-    font-weight: 100;
-    margin: 1em 0;
+  h3 {
+    margin: 2rem 0;
   }
   // OCTAVE SHIFT LIGHTS
   span {
@@ -165,3 +162,28 @@ img {
 //     }
 //   }
 // }
+
+a {
+  color: $gold;
+}
+
+.octave-shift {
+  width: 20em;
+  &::after {
+    content: '';
+    clear: left;
+    display: block;
+  }
+}
+
+.shift-octave {
+  float: left;
+  &:first-of-type {
+    margin-left: 1.5em;//1.6 / 15
+    margin-right: .5em;//1.6 / 5
+  }
+  &:last-of-type {
+    margin-left: .5em;
+    margin-right: 1.5em;
+  }
+}

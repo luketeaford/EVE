@@ -4,6 +4,7 @@ EVE.keyboard = {
     keyDown: false,
     octaveShift: 0,
     scope: document.getElementById('keyboard'),
+    //TODO Move to performance controls
     shiftOctave: function (direction) {
         'use strict';
         var oct = EVE.keyboard.octaveShift,
@@ -11,7 +12,7 @@ EVE.keyboard = {
 
         function switchLights() {
             var i,
-                lights = document.querySelectorAll('#performance > span'),
+                lights = document.querySelectorAll('#performance [data-light]'),
                 n = EVE.keyboard.octaveShift + 2;
 
             for (i = 0; i < lights.length; i += 1) {
@@ -152,7 +153,7 @@ EVE.keyboard = {
 
 (function bindEvents() {
     'use strict';
-    var buttons = document.getElementsByClassName('octave-shift'),
+    var buttons = document.getElementsByClassName('shift-octave'),
         i;
     for (i = 0; i < buttons.length; i += 1) {
         buttons[i].addEventListener('click', EVE.keyboard.shiftOctave);

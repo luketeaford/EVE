@@ -22,6 +22,7 @@ var gulp = require('gulp'),
         'js/_synth/_timbreEnv.js',
         'js/_synth/_lfo1.js',
         'js/_synth/_lfo2.js',
+        'js/_synth/_performance.js',// MIGHT NOT BELONG HERE
         'js/_startSynth.js',
         'js/_sliders.js',
         'js/_buttons.js',

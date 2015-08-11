@@ -41,6 +41,11 @@ h6 {
   color: #949796;
   font-weight: normal; }
 
+h3 {
+  font-size: 1.4rem;
+  text-align: center;
+  text-transform: uppercase; }
+
 input {
   outline: none; }
 
@@ -98,7 +103,7 @@ input[type=radio] {
   input[type=radio]:focus + label {
     background: linear-gradient(#4e5251, #353837); }
 
-.octave-shift {
+.shift-octave {
   font-size: 1.6rem;
   border-radius: 0.375em;
   height: 2.5em;
@@ -108,9 +113,9 @@ input[type=radio] {
   color: #babcbb;
   display: inline-block;
   text-transform: uppercase; }
-  .octave-shift:focus {
+  .shift-octave:focus {
     color: #f8eb81; }
-  .octave-shift:active {
+  .shift-octave:active {
     color: #f2db21;
     text-shadow: 0 0 3px #f60; }
 
@@ -202,35 +207,32 @@ label {
 input[type=range] {
   max-width: 80%; }
 
-#performance {
-  margin: 2em 0; }
-  #performance h2 {
-    font-size: 1.8rem;
-    font-weight: 100;
-    margin: 1em 0; }
-  #performance span {
-    display: inline-block;
-    font-size: 1.2rem;
-    margin: 1.5em 1.2em 1em;
-    position: relative;
-    text-align: center;
+#performance h3 {
+  margin: 2rem 0; }
+
+#performance span {
+  display: inline-block;
+  font-size: 1.2rem;
+  margin: 1.5em 1.2em 1em;
+  position: relative;
+  text-align: center;
+  width: 1em; }
+  #performance span[data-light=on]::before {
+    background: radial-gradient(#f2db21, #f60); }
+  #performance span[data-light=off]::before {
+    background: radial-gradient(#f60, #131101); }
+  #performance span::before {
+    border-radius: 1em;
+    content: '';
+    height: 1em;
+    left: 0;
+    position: absolute;
+    top: -2em;
     width: 1em; }
-    #performance span[data-light=on]::before {
-      background: radial-gradient(#f2db21, #f60); }
-    #performance span[data-light=off]::before {
-      background: radial-gradient(#f60, #131101); }
-    #performance span::before {
-      border-radius: 1em;
-      content: '';
-      height: 1em;
-      left: 0;
-      position: absolute;
-      top: -2em;
-      width: 1em; }
-    #performance span:first-of-type {
-      margin-left: .5em; }
-    #performance span:last-of-type {
-      margin-right: .5em; }
+  #performance span:first-of-type {
+    margin-left: .5em; }
+  #performance span:last-of-type {
+    margin-right: .5em; }
 
 img {
   cursor: pointer;
@@ -243,3 +245,22 @@ img {
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none; }
+
+a {
+  color: #f2db21; }
+
+.octave-shift {
+  width: 20em; }
+  .octave-shift::after {
+    content: '';
+    clear: left;
+    display: block; }
+
+.shift-octave {
+  float: left; }
+  .shift-octave:first-of-type {
+    margin-left: 1.5em;
+    margin-right: .5em; }
+  .shift-octave:last-of-type {
+    margin-left: .5em;
+    margin-right: 1.5em; }

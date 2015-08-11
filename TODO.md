@@ -1,12 +1,7 @@
 #Eve Web Audio Synthesizer
 
 ##Next Steps:
-* Separate gate from pitch
-
-* Need to track playing pitches
-
-* Portamento (control placement in the markup)
-  * and call it Glide instead
+* Put playing keys in an array for portamento
 
 * fix terrible ugliness
   * size keyboard keys appropriately
