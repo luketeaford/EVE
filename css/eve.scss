@@ -1,7 +1,7 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // TABLE OF CONTENTS
 //------------------------------------------------------------------------------
-// 01: CONFIG - Global variables, mixins, custom functions
+// 01: CONFIG - Global variables, mixins, functions
 // 02: BASICS - Plain HTML elements
 // 03: COMPONENTS - Abstract, reusable pieces
 // 04: MODULES - Large pieces (global nav, footer, etc.)
@@ -11,10 +11,13 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // 01: CONFIG
 //------------------------------------------------------------------------------
+@import 'config/_browser-support';
 @import 'config/_colors';
 @import 'config/_em';
-@import 'config/_rem-font';
 @import 'config/_fonts';
+@import 'config/_strip-unit';
+@import 'config/_arrow';
+@import 'config/_rotate';
 //==============================================================================
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

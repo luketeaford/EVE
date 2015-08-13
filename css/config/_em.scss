@@ -3,12 +3,12 @@
 
   // Enforce fewer than 5 target values
   @if length($targets) > 4 {
-    @error 'Error: Too many arguments (#{length($targets)}). Maximum 4 allowed';
+    @error 'ERROR: Too many arguments (#{length($targets)}). Maximum is 4.';
   }
 
   // Ensure that font-size is a number
   @if type-of($font-size) != number {
-    @error 'Error: font-size must be a number instead of a #{type-of($font-size)}';
+    @error 'ERROR: font-size must be a number instead of a #{type-of($font-size)}.';
   } @else if type-of($font-size) == number and not unitless($font-size) {
     @if $debug == true {
       @warn 'Do not use a unit with $font-size';
@@ -23,7 +23,7 @@
       // Warn if called with a unit
       @if not unitless($target) {
         @if $debug == true {
-          @warn 'Do not call em function with a unit!';
+          @warn 'Do not call em function with a unit';
         }
         $target: strip-unit($target);
       }
@@ -36,15 +36,15 @@
     } @else if $target == auto {
       // Don't allow auto without other numbers
       @if length($list) < 2 {
-        @error 'Error: Cannot use auto in em function without including numbers to convert to em.';
+        @error 'ERROR: Cannot use auto in em function without including numbers to convert to em.';
       }
       $list: append($list, $target);
     } @else if $target == inherit or $target == initial {
       // Do not allow inherit or initial in shorthand
-      @error 'Error: Cannot use #{$target} in shorthand declarations';
+      @error 'ERROR: Cannot use #{$target} in shorthand declarations.';
     } @else {
       // Prevent typos
-      @error 'Error: Invalid keyword passed to em function #{target}';
+      @error 'ERROR: Invalid keyword passed to em function #{target}.';
     }
   }
   @return $list;

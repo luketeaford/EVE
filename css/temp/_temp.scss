@@ -1,27 +1,9 @@
-%arrow {
-  border: 1em solid transparent;
-  border-bottom-color: $light-grey;
-  content: '';
-  display: inline-block;
-  margin-right: .7em;
-  -webkit-transition: -webkit-transform .2s;
-  transition: transform .2s;
-  -webkit-transform-origin: 50% 1.35em;
-  transform-origin: 50% 1.35em;
+// BASICS
+a {
+  color: $gold;
 }
 
-@mixin arrow($dir: up) {
-  @if $dir == up {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  } @else if $dir == down {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
-  } @else {
-    @error 'Invalid direction: use \'up\' or \'down\' instead of \'#{$dir}\'';
-  }
-}
-
+// COMPONENTS
 .module {
   font-family: $sans;
   padding: 0 .5em;
@@ -88,7 +70,6 @@ label {
     width: 100%;
   }
 }
-
 input[type=range] {
   max-width: 80%;
 }
@@ -131,59 +112,31 @@ input[type=range] {
   }
 }
 
-// SVG TEST - CURRENTLY UNUSED
-img {
-  cursor: pointer;
-  display: inline-block;
-  margin: 2rem;
-  transform-origin: center;
-  width: 8rem;
-  -webkit-user-drag: none;
-  user-drag: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
 
-
-// STUFF FOR SVG KNOBS
-// label {
-//   input {
-//     cursor: pointer;
-//     &::before {
-//       background: #f00;
-//       cursor: pointer;
-//       content: url(../img/knob.svg);
-//       display: inline-block;
-//       height: 8rem;
-//       pointer-events: all;
-//       width: 8rem;
-//       z-index: 99999;
-//     }
-//   }
-// }
-
-a {
-  color: $gold;
-}
-
+// PERFORMANCE CONTROLS
 .octave-shift {
   width: 20em;
   &::after {
-    content: '';
-    clear: left;
-    display: block;
+    @extend %clear-fix;
   }
 }
 
 .shift-octave {
-  float: left;
+  @extend %push-button;
   &:first-of-type {
-    margin-left: 1.5em;//1.6 / 15
-    margin-right: .5em;//1.6 / 5
+    margin-left: em(15, 16);
+    margin-right: em(5, 16);
   }
   &:last-of-type {
-    margin-left: .5em;
-    margin-right: 1.5em;
+    margin-left: em(5, 16);
+    margin-right: em(15, 16);
   }
+}
+
+
+// COMPONENTS OR A CONFIG (CLEARFIX)
+%clear-fix {
+  content: '';
+  clear: left;
+  display: block;
 }

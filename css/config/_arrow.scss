@@ -1,0 +1,25 @@
+%arrow {
+  @if $supportMobileSafari == 'true' {
+    -webkit-transition: -webkit-transform .2s;
+    -webkit-transform-origin: em(10 13.5);
+  } @else {
+    @warn 'UNNECESSARY PREFIXING: Only include vendor prefixes when required.';
+  }
+  border: 1em solid transparent;
+  border-bottom-color: $light-grey;
+  content: '';
+  display: inline-block;
+  margin-right: em(7);
+  transition: transform .2s;
+  transform-origin: em(10 13.5);
+}
+
+@mixin arrow($dir: up) {
+  @if $dir == up {
+    @include rotate(0);
+  } @else if $dir == down {
+    @include rotate(180);
+  } @else {
+    @error 'ERROR - INVALID DIRECTION: Use "up" or "down" instead of "#{$dir}".';
+  }
+}

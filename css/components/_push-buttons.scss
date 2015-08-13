@@ -1,24 +1,18 @@
 %push-button {
-  $font-size: 16;
-  @include rem-font($font-size);
-  @include em(border-radius, 6, $font-size);
-  @include em(height, 40, $font-size);
-  @include em(width, 80, $font-size);
   background: linear-gradient($grey, darken($grey, 5%));
-  box-shadow: 0 .2em 1em -.3em #000;//TODO ADD TO EM MIXIN
+  border-radius: em(6, 16);
+  box-shadow: 0 .2em 1em -.3em #000;
   color: $off-white;
-  display: inline-block;
+  float: left;
+  font-size: 1.6rem;
+  height: em(40, 16);
   text-transform: uppercase;
+  width: em(80, 16);
   &:focus {
     color: lighten($gold, 20%);
   }
   &:active {
     color: $gold;
-    text-shadow: 0 0 3px #f60;//TODO ADD TO EM MIXIN
+    text-shadow: 0 0 3px #f60;
   }
-}
-
-// Does this belong here?
-.shift-octave {
-  @extend %push-button;
 }

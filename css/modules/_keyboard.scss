@@ -1,7 +1,5 @@
 #keyboard {
-  &:after {
-    content: '';
-    clear: left;
-    display: block;
+  &::after {
+    @extend %clear-fix;
   }
 }
