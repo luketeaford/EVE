@@ -15,6 +15,7 @@
 @import 'config/_colors';
 @import 'config/_em';
 @import 'config/_fonts';
+@import 'config/_clear-fix';
 @import 'config/_strip-unit';
 @import 'config/_arrow';
 @import 'config/_rotate';
@@ -24,6 +25,7 @@
 // 02: BASICS - Plain HTML elements
 //------------------------------------------------------------------------------
 @import 'basics/_body';
+@import 'basics/_a';
 @import 'basics/_header';
 @import 'basics/_headings';
 @import 'basics/_inputs';
@@ -34,6 +36,8 @@
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // 03: COMPONENTS - Anything with a class
 //------------------------------------------------------------------------------
+@import 'components/_module';
+@import 'components/_sliders';
 @import 'components/_fake-hr';
 @import 'components/_radio-buttons';
 @import 'components/_push-buttons';
@@ -41,9 +45,10 @@
 //==============================================================================
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// 04: MODULES - Large pieces/thing with IDs
+// 04: MODULES - Large pieces
 //------------------------------------------------------------------------------
 @import 'modules/_oscilloscope';
+@import 'modules/_performance';
 @import 'modules/_keyboard';
 //==============================================================================
 

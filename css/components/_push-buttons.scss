@@ -13,6 +13,6 @@
   }
   &:active {
     color: $gold;
-    text-shadow: 0 0 3px #f60;
+    text-shadow: 0 0 em(3, 16) #f60;//TODO Fine tune this color
   }
 }
