@@ -1,4 +1,4 @@
-.octave-shift::after, #keyboard::after {
+#keyboard::after {
   content: '';
   clear: left;
   display: block; }
@@ -176,7 +176,6 @@ input[type=radio] {
   border-radius: 0.375em;
   box-shadow: 0 0.2em 1em -0.3em #000;
   color: #babcbb;
-  float: left;
   font-size: 1.6rem;
   height: 2.5em;
   text-transform: uppercase;
@@ -210,38 +209,32 @@ input[type=radio] {
   background: #949796;
   box-shadow: inset 0 0.3em 2em -0.2em #1a1c1b; }
 
-#performance h3 {
-  margin: 2rem 0; }
+.octave-shift {
+  font-size: 0;
+  margin: 2rem 0;
+  width: 17rem; }
 
-#performance span[data-light] {
+[data-light] {
   display: inline-block;
   font-size: 1.2rem;
-  margin: 1.66667em 1.16667em;
-  position: relative;
-  text-align: center;
-  width: 1em; }
-  #performance span[data-light][data-light=on]::before {
-    background: radial-gradient(#f2db21, #f60); }
-  #performance span[data-light][data-light=off]::before {
-    background: radial-gradient(#f60, #131101); }
-  #performance span[data-light]::before {
+  margin: 0.83333em 0;
+  text-align: center; }
+  [data-light]::before {
     border-radius: 1em;
     content: '';
+    display: block;
     height: 1em;
-    left: 0;
-    position: absolute;
-    top: -2em;
+    margin: 1em 0.91667em;
     width: 1em; }
-  #performance span[data-light]:first-of-type {
-    margin-left: 0; }
-  #performance span[data-light]:last-of-type {
-    margin-right: 0; }
 
-.octave-shift {
-  width: 20em; }
+[data-light=on]::before {
+  background: radial-gradient(#f2db21, #f60); }
+
+[data-light=off]::before {
+  background: radial-gradient(#f60, #131101); }
 
 .shift-octave:first-of-type {
-  margin-right: 0.625em; }
+  margin-right: 0.3125em; }
 
 .shift-octave:last-of-type {
-  margin-left: 0.625em; }
+  margin-left: 0.3125em; }

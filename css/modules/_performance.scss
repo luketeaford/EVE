@@ -1,58 +1,38 @@
-#performance {
-  h3 {
-    margin: 2rem 0;
-  }
-  // OCTAVE SHIFT LIGHTS
-  span[data-light] {// TODO Make these 40px total
-    display: inline-block;
-    font-size: 1.2rem;
-    margin: em(20 14, 12);// ORIGINAL 1.5 1.2 1
-    position: relative;
-    text-align: center;
-    width: 1em;// Original 1 em
-    &[data-light=on]::before {
-      background: radial-gradient($gold, #f60);//TODO FINE TUNE
-    }
-    &[data-light=off]::before {
-      background: radial-gradient(#f60, darken($gold, 50%));//TODO FINE TUNE
-    }
-    &::before {
-      border-radius: 1em;
-      content: '';
-      height: 1em;
-      left: 0;
-      position: absolute;
-      top: -2em;
-      width: 1em;
-    }
-    &:first-of-type {
-//      margin-left: .5em;
-      margin-left: 0;
-    }
-    &:last-of-type {
-      margin-right: 0;
-    }
+.octave-shift {
+  font-size: 0;
+  margin: 2rem 0;
+  width: 17rem;
+}
+
+[data-light] {
+  display: inline-block;
+  font-size: 1.2rem;
+  margin: em(10 0, 12);
+  text-align: center;
+  &::before {
+    border-radius: em(12, 12);
+    content: '';
+    display: block;
+    height: em(12, 12);
+    margin: em(12 11, 12);
+    width: em(12, 12);
   }
 }
 
+[data-light=on]::before {
+  background: radial-gradient($gold, #f60);//TODO FINE TUNE
+}
 
-.octave-shift {
-  width: 20em;
-  &::after {
-    @extend %clear-fix;
-  }
+[data-light=off]::before {
+  background: radial-gradient(#f60, darken($gold, 50%));//TODO FINE TUNE
 }
 
 .shift-octave {
   @extend %push-button;
   &:first-of-type {
-//    margin-left: em(15, 16);
-//    margin-right: em(5, 16);
-    margin-right: em(10, 16);
+    margin-right: em(5, 16);
   }
   &:last-of-type {
-//    margin-left: em(5, 16);
-//    margin-right: em(15, 16);
-    margin-left: em(10, 16);
+    margin-left: em(5, 16);
   }
 }
