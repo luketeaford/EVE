@@ -123,11 +123,14 @@ label {
     margin-right: 1.25em;
     text-align: center;
     width: 2.5em; }
+    .wordy {
+      border-color: transparent; }
   label input {
     width: 100%; }
 
 input[type=range] {
-  max-width: 80%; }
+  max-width: 80%;
+  vertical-align: text-bottom; }
 
 .module::after {
   background: radial-gradient(#0b0c0b, rgba(26, 28, 27, 0)) no-repeat;

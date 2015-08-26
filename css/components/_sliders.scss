@@ -13,6 +13,11 @@ label {
     margin-right: 1.25em;
     text-align: center;
     width: 2.5em;
+    @at-root {
+      .wordy {
+        border-color: transparent;        
+      }
+    }
   }
   input {
     width: 100%;
@@ -20,4 +25,5 @@ label {
 }
 input[type=range] {
   max-width: 80%;
+  vertical-align: text-bottom;
 }
