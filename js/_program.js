@@ -3,13 +3,13 @@ EVE.program = {
 
     // Harmonics (VCAs)
     osc1: 1,
-    osc2: 0.72,
-    osc3: 0.68,
-    osc4: 0.54,
-    osc5: 0.31,
-    osc6: 0.201,
-    osc7: 0.17,
-    osc8: 0.08,
+    osc2: 0,
+    osc3: 0,
+    osc4: 0,
+    osc5: 0,
+    osc6: 0,
+    osc7: 0,
+    osc8: 0,
 
     // Harmonic Envelope (Amounts)
     osc1_eg: 0,
@@ -28,9 +28,9 @@ EVE.program = {
     timbre_r: 0.125,
 
     // LFO 1
-    lfo1_rate: 4,
+    lfo1_rate: 1,
     lfo1_range: 20,
-    lfo1_type: 'square',
+    lfo1_type: 'sine',
     osc1_lfo: 0,
     osc2_lfo: 0,
     osc3_lfo: 0,
@@ -42,7 +42,7 @@ EVE.program = {
 
     // LFO 2
     lfo2_rate: 3,
-    lfo2_type: 'sawtooth',
+    lfo2_type: 'sine',
     lfo2_amp: 0,
     lfo2_pitch: 0,
     lfo2_d: 0,
@@ -58,5 +58,5 @@ EVE.program = {
     vca_g: 0,
 
     // Performance
-    glide: 0.0825//tolerable maximum = 0.165
+    glide: 0//tolerable maximum = 0.165
 };

@@ -129,8 +129,11 @@ label {
     width: 100%; }
 
 input[type=range] {
-  max-width: 80%;
-  vertical-align: text-bottom; }
+  font-family: inherit;
+  font-size: 1rem;
+  max-width: 41em;
+  vertical-align: text-bottom;
+  width: 80%; }
 
 .module::after {
   background: radial-gradient(#0b0c0b, rgba(26, 28, 27, 0)) no-repeat;
@@ -210,7 +213,11 @@ input[type=radio] {
 
 #oscilloscope canvas {
   background: #949796;
-  box-shadow: inset 0 0.3em 2em -0.2em #1a1c1b; }
+  box-shadow: inset 0 0.3em 2em -0.2em #1a1c1b;
+  display: block;
+  max-height: 20em;
+  max-width: 40em;
+  width: 100%; }
 
 .octave-shift {
   font-size: 0;

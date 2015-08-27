@@ -1,6 +1,10 @@
 #oscilloscope {
   canvas {
     background: $light-grey;
-    box-shadow: inset 0 .3em 2em -.2em $dark-grey;// TODO Figure out this math
+    box-shadow: inset 0 .3em 2em -.2em $dark-grey;
+    display: block;
+    max-height: 20em;
+    max-width: 40em;
+    width: 100%;
   }
 }

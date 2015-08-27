@@ -15,7 +15,7 @@ label {
     width: 2.5em;
     @at-root {
       .wordy {
-        border-color: transparent;        
+        border-color: transparent;
       }
     }
   }
@@ -24,6 +24,9 @@ label {
   }
 }
 input[type=range] {
-  max-width: 80%;
+  font-family: inherit;
+  font-size: 1rem;
+  max-width: 41em;
   vertical-align: text-bottom;
+  width: 80%;
 }
