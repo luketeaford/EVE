@@ -32,8 +32,7 @@ EVE.keyboard = {
     },
     pressBus: function (e) {
         'use strict';
-        //TODO bullshit third condition to keep console clear while working
-        if (EVE.keyboard.debug && console && EVE.keyboard.octaveShift === 23) {
+        if (EVE.keyboard.debug && console) {
             console.log(e.which);
         }
         switch (e.which) {

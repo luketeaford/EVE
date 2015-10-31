@@ -60,15 +60,15 @@ if (navigator.requestMIDIAccess) {
             }
             break;
         case EVE.midi.messages.noteOff:
-            console.log('Proper midi note off');
             EVE.midi.active = null;
             EVE.gateOff();
             break;
         case EVE.midi.messages.pitchWheel:
-            console.log('EVE pitch wheel moved');
             break;
         default:
-            console.log('Unrecognized MIDI event', e.data);
+            if (console) {
+                console.log('Unrecognized MIDI event', e.data);
+            }
             break;
         }
     };
@@ -89,8 +89,8 @@ if (navigator.requestMIDIAccess) {
         return 100 * (midiNote - 69);
     };
 
-} else {
-    if (EVE.midi.debug === true && console) {
-        console.log('No Web MIDI support in your browser');
-    }
+//} else {
+    // if (EVE.midi.debug === true && console) {
+    //     console.log('No Web MIDI support in your browser');
+    // }
 }

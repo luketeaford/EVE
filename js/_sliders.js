@@ -36,7 +36,9 @@ EVE.knob = {
     debug: true,
     test: function () {
         'use strict';
-        console.log('AMAZING INPUT -- input event');
+        if (console) {
+            console.log('AMAZING INPUT -- input event');
+        }
     },
     grab: function (e) {
         'use strict';
@@ -81,7 +83,9 @@ EVE.knob = {
     },
     release: function () {
         'use strict';
-        console.log('Knob released');
+        if (console) {
+            console.log('Knob released');
+        }
         document.removeEventListener('mousemove', EVE.knob.twist);
         document.removeEventListener('mouseup', EVE.knob.release);
         document.removeEventListener('touchmove', EVE.knob.twist);

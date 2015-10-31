@@ -61,8 +61,7 @@ EVE.keyboard = {
     },
     pressBus: function (e) {
         'use strict';
-        //TODO bullshit third condition to keep console clear while working
-        if (EVE.keyboard.debug && console && EVE.keyboard.octaveShift === 23) {
+        if (EVE.keyboard.debug && console) {
             console.log(e.which);
         }
         switch (e.which) {
@@ -615,7 +614,9 @@ EVE.performance.update = function (e) {
     case 'glide':
         // Might be smart to make this keyboard glide or something
         EVE.program.glide = EVE.program.glide * 0.165;
-        console.log('Glide updated to', EVE.program.glide);
+        if (console) {
+            console.log('Glide updated to', EVE.program.glide);
+        }
         break;
     default:
         if (EVE.lfo1.debug && console) {
@@ -649,14 +650,14 @@ EVE.update_performance = new CustomEvent('update_performance', {bubbles: true});
         document.removeEventListener('click', startSynth);
         document.removeEventListener('dblclick', startSynth);
         document.removeEventListener('keydown', startSynth);
-        document.removeEventListener('touchstart', startSynth);
+        document.removeEventListener('touchend', startSynth);
         document.removeEventListener('wheel', startSynth);
     }
 
     document.addEventListener('click', startSynth);
     document.addEventListener('dblclick', startSynth);
     document.addEventListener('keydown', startSynth);
-    document.addEventListener('touchstart', startSynth);
+    document.addEventListener('touchend', startSynth);
     document.addEventListener('wheel', startSynth);
 }());
 
@@ -698,7 +699,9 @@ EVE.knob = {
     debug: true,
     test: function () {
         'use strict';
-        console.log('AMAZING INPUT -- input event');
+        if (console) {
+            console.log('AMAZING INPUT -- input event');
+        }
     },
     grab: function (e) {
         'use strict';
@@ -743,7 +746,9 @@ EVE.knob = {
     },
     release: function () {
         'use strict';
-        console.log('Knob released');
+        if (console) {
+            console.log('Knob released');
+        }
         document.removeEventListener('mousemove', EVE.knob.twist);
         document.removeEventListener('mouseup', EVE.knob.release);
         document.removeEventListener('touchmove', EVE.knob.twist);
@@ -983,15 +988,15 @@ if (navigator.requestMIDIAccess) {
             }
             break;
         case EVE.midi.messages.noteOff:
-            console.log('Proper midi note off');
             EVE.midi.active = null;
             EVE.gateOff();
             break;
         case EVE.midi.messages.pitchWheel:
-            console.log('EVE pitch wheel moved');
             break;
         default:
-            console.log('Unrecognized MIDI event', e.data);
+            if (console) {
+                console.log('Unrecognized MIDI event', e.data);
+            }
             break;
         }
     };
@@ -1012,8 +1017,8 @@ if (navigator.requestMIDIAccess) {
         return 100 * (midiNote - 69);
     };
 
-} else {
-    if (EVE.midi.debug === true && console) {
-        console.log('No Web MIDI support in your browser');
-    }
+//} else {
+    // if (EVE.midi.debug === true && console) {
+    //     console.log('No Web MIDI support in your browser');
+    // }
 }
