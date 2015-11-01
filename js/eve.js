@@ -29,10 +29,11 @@ var EVE = {
 
 EVE.keyboard = {
     current: null,
-    debug: true,
+    debug: false,
     keyDown: false,
     octaveShift: 0,
     scope: document.getElementById('keyboard'),
+
     //TODO Move to performance controls
     shiftOctave: function (direction) {
         'use strict';
@@ -173,7 +174,7 @@ EVE.keyboard = {
     },
     touch: function (e) {
         'use strict';
-        if (console) {
+        if (EVE.keyboard.debug && console) {
             console.log('Keyboard touched', e);
         }
     }
@@ -590,7 +591,7 @@ EVE.lfo2.scope.addEventListener('update_lfo2', EVE.lfo2.update);
 
 EVE.update_lfo2 = new CustomEvent('update_lfo2', {bubbles: true});
 
-//TODO Put this file outside the synth directory
+// TODO Put this file outside the synth directory
 EVE.performance = {};
 
 EVE.performance.debug = true;
@@ -614,12 +615,12 @@ EVE.performance.update = function (e) {
     case 'glide':
         // Might be smart to make this keyboard glide or something
         EVE.program.glide = EVE.program.glide * 0.165;
-        if (console) {
+        if (EVE.performance.debug && console) {
             console.log('Glide updated to', EVE.program.glide);
         }
         break;
     default:
-        if (EVE.lfo1.debug && console) {
+        if (EVE.performance.debug && console) {
             console.log('Unhandled performance update change');
         }
     }
@@ -648,17 +649,15 @@ EVE.update_performance = new CustomEvent('update_performance', {bubbles: true});
         EVE.lfo2.start(0);
 
         document.removeEventListener('click', startSynth);
-        document.removeEventListener('dblclick', startSynth);
         document.removeEventListener('keydown', startSynth);
+        document.removeEventListener('mousedown', startSynth);
         document.removeEventListener('touchend', startSynth);
-        document.removeEventListener('wheel', startSynth);
     }
 
     document.addEventListener('click', startSynth);
-    document.addEventListener('dblclick', startSynth);
     document.addEventListener('keydown', startSynth);
+    document.addEventListener('mousedown', startSynth);
     document.addEventListener('touchend', startSynth);
-    document.addEventListener('wheel', startSynth);
 }());
 
 EVE.slider = {
@@ -930,7 +929,7 @@ if (navigator.requestMIDIAccess) {
 
     EVE.midi = {
         active: null,
-        debug: true,
+        debug: false,
         devices: [],
         messages: {
             listen: 254,
@@ -951,8 +950,8 @@ if (navigator.requestMIDIAccess) {
                     devices.push(input.value[1]);
                 }
 
-                if (EVE.midi.debug === true && console) {
-                    console.log('Devices:', devices);
+                if (EVE.midi.debug && console) {
+                    console.log('Available Devices:', devices);
                 }
 
                 return devices;
@@ -994,7 +993,7 @@ if (navigator.requestMIDIAccess) {
         case EVE.midi.messages.pitchWheel:
             break;
         default:
-            if (console) {
+            if (EVE.midi.debug && console) {
                 console.log('Unrecognized MIDI event', e.data);
             }
             break;
@@ -1017,8 +1016,4 @@ if (navigator.requestMIDIAccess) {
         return 100 * (midiNote - 69);
     };
 
-//} else {
-    // if (EVE.midi.debug === true && console) {
-    //     console.log('No Web MIDI support in your browser');
-    // }
 }

@@ -49,7 +49,6 @@ gulp.task('js', function () {
         browser: true,
         devel: true,
         predef: [
-            '$',
             'AudioContext',
             'CustomEvent',
             'Event',

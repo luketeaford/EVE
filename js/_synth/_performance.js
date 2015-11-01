@@ -1,4 +1,4 @@
-//TODO Put this file outside the synth directory
+// TODO Put this file outside the synth directory
 EVE.performance = {};
 
 EVE.performance.debug = true;
@@ -22,12 +22,12 @@ EVE.performance.update = function (e) {
     case 'glide':
         // Might be smart to make this keyboard glide or something
         EVE.program.glide = EVE.program.glide * 0.165;
-        if (console) {
+        if (EVE.performance.debug && console) {
             console.log('Glide updated to', EVE.program.glide);
         }
         break;
     default:
-        if (EVE.lfo1.debug && console) {
+        if (EVE.performance.debug && console) {
             console.log('Unhandled performance update change');
         }
     }

@@ -1,15 +1,18 @@
 #Eve Web Audio Synthesizer
 
 ##Next Steps:
+* correct qwerty keyboard to be normal DAW style
+
 * Put playing keys in an array for portamento
 
 * fix terrible ugliness
   * size keyboard keys appropriately
   * pad performance controls
 
+* presets
+
 ##TODO:
 * MIDI
-  * Midi message starts synth, too
 
 * Harmonic Osc needs modulation amounts moved into each channel
   * lfo (positive and negative)

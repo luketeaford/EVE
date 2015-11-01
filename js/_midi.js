@@ -2,7 +2,7 @@ if (navigator.requestMIDIAccess) {
 
     EVE.midi = {
         active: null,
-        debug: true,
+        debug: false,
         devices: [],
         messages: {
             listen: 254,
@@ -23,8 +23,8 @@ if (navigator.requestMIDIAccess) {
                     devices.push(input.value[1]);
                 }
 
-                if (EVE.midi.debug === true && console) {
-                    console.log('Devices:', devices);
+                if (EVE.midi.debug && console) {
+                    console.log('Available Devices:', devices);
                 }
 
                 return devices;
@@ -66,7 +66,7 @@ if (navigator.requestMIDIAccess) {
         case EVE.midi.messages.pitchWheel:
             break;
         default:
-            if (console) {
+            if (EVE.midi.debug && console) {
                 console.log('Unrecognized MIDI event', e.data);
             }
             break;
@@ -89,8 +89,4 @@ if (navigator.requestMIDIAccess) {
         return 100 * (midiNote - 69);
     };
 
-//} else {
-    // if (EVE.midi.debug === true && console) {
-    //     console.log('No Web MIDI support in your browser');
-    // }
 }

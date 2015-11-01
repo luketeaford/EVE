@@ -1,9 +1,10 @@
 EVE.keyboard = {
     current: null,
-    debug: true,
+    debug: false,
     keyDown: false,
     octaveShift: 0,
     scope: document.getElementById('keyboard'),
+
     //TODO Move to performance controls
     shiftOctave: function (direction) {
         'use strict';
@@ -144,7 +145,7 @@ EVE.keyboard = {
     },
     touch: function (e) {
         'use strict';
-        if (console) {
+        if (EVE.keyboard.debug && console) {
             console.log('Keyboard touched', e);
         }
     }

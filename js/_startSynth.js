@@ -16,15 +16,13 @@
         EVE.lfo2.start(0);
 
         document.removeEventListener('click', startSynth);
-        document.removeEventListener('dblclick', startSynth);
         document.removeEventListener('keydown', startSynth);
+        document.removeEventListener('mousedown', startSynth);
         document.removeEventListener('touchend', startSynth);
-        document.removeEventListener('wheel', startSynth);
     }
 
     document.addEventListener('click', startSynth);
-    document.addEventListener('dblclick', startSynth);
     document.addEventListener('keydown', startSynth);
+    document.addEventListener('mousedown', startSynth);
     document.addEventListener('touchend', startSynth);
-    document.addEventListener('wheel', startSynth);
 }());
