@@ -47,4 +47,4 @@ EVE.gateOn = function gateOn() {
 };
 
 EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
-EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
+//EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);

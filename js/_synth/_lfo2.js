@@ -38,7 +38,7 @@
 }());
 
 EVE.lfo2.debug = true;
-EVE.lfo2.max = 40;
+EVE.lfo2.max = 40;// TODO 139 is a better number here
 EVE.lfo2.scope = document.getElementById('lfo2');
 
 EVE.lfo2.update = function (e) {
@@ -61,7 +61,10 @@ EVE.lfo2.update = function (e) {
         EVE.lfo2_vca.gain.setValueAtTime(EVE.program.lfo2_g, EVE.now());
         break;
     case 'lfo2_pitch':
-        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 16, EVE.now());
+        // TODO: Why multiply program.lfo2_pitch by some weird number?
+        // Because I want to keep the program 0-1
+        // Move 139 into EVE.config somewhere
+        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 139, EVE.now());
         break;
     case 'lfo2_rate':
         EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.lfo2.max, EVE.now());

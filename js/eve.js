@@ -241,18 +241,18 @@ EVE.program = {
     lfo2_pitch: 0,
     lfo2_d: 0,
     lfo2_a: 0,
-    lfo2_r: 0,
+    lfo2_r: 0.0001,// If this is 0, things get fucked up
     lfo2_g: 0,
 
     // VCA
     vca_a: 0,
     vca_d: 0.1,
     vca_s: 1,
-    vca_r: 0.1,
+    vca_r: 0,
     vca_g: 0,
 
     // Performance
-    glide: 0//tolerable maximum = 0.165
+    glide: 0.000001//tolerable maximum = 0.165
 };
 
 EVE.now = function () {
@@ -548,7 +548,7 @@ EVE.update_lfo1 = new CustomEvent('update_lfo1', {bubbles: true});
 }());
 
 EVE.lfo2.debug = true;
-EVE.lfo2.max = 40;
+EVE.lfo2.max = 40;// TODO 139 is a better number here
 EVE.lfo2.scope = document.getElementById('lfo2');
 
 EVE.lfo2.update = function (e) {
@@ -571,7 +571,10 @@ EVE.lfo2.update = function (e) {
         EVE.lfo2_vca.gain.setValueAtTime(EVE.program.lfo2_g, EVE.now());
         break;
     case 'lfo2_pitch':
-        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 16, EVE.now());
+        // TODO: Why multiply program.lfo2_pitch by some weird number?
+        // Because I want to keep the program 0-1
+        // Move 139 into EVE.config somewhere
+        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 139, EVE.now());
         break;
     case 'lfo2_rate':
         EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.lfo2.max, EVE.now());
@@ -871,8 +874,9 @@ EVE.gateOn = function gateOn() {
 };
 
 EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
-EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
+//EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
 
+// TODO Support 0 release times
 EVE.gateOff = function gateOff() {
     'use strict';
 
@@ -886,13 +890,13 @@ EVE.gateOff = function gateOff() {
 
     // LFO 2 envelope
     // Prevent decay from acting like second attack
-    EVE.lfo2_vca.gain.cancelScheduledValues(EVE.synth.currentTime);
+    EVE.lfo2_vca.gain.cancelScheduledValues(EVE.now());
 
     // LFO 2 starting point
-    EVE.lfo2_vca.gain.setValueAtTime(lfo2Peak, EVE.synth.currentTime);
+    EVE.lfo2_vca.gain.setValueAtTime(lfo2Peak, EVE.now());
 
     // LFO 2 release
-    EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.synth.currentTime, EVE.program.lfo2_r);
+    EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.now(), EVE.program.lfo2_r);
 
     // Timbre envelope
     for (i = 1; i <= 8; i += 1) {

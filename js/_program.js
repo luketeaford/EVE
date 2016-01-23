@@ -47,16 +47,16 @@ EVE.program = {
     lfo2_pitch: 0,
     lfo2_d: 0,
     lfo2_a: 0,
-    lfo2_r: 0,
+    lfo2_r: 0.0001,// If this is 0, things get fucked up
     lfo2_g: 0,
 
     // VCA
     vca_a: 0,
     vca_d: 0.1,
     vca_s: 1,
-    vca_r: 0.1,
+    vca_r: 0,
     vca_g: 0,
 
     // Performance
-    glide: 0//tolerable maximum = 0.165
+    glide: 0.000001//tolerable maximum = 0.165
 };
