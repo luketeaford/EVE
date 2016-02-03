@@ -56,74 +56,65 @@ EVE.keyboard = {
         }
 
         switch (e.which) {
-        case 65: // a
+        case 65:
             pitch = -2100;
             break;
-        case 83: // s
+        case 87:
             pitch = -2000;
             break;
-        case 68:// d
+        case 83:
             pitch = -1900;
             break;
-        case 70:// f
+        case 69:
             pitch = -1800;
             break;
-        case 71:// g
+        case 68:
             pitch = -1700;
             break;
-        case 72:// h
+        case 70:
             pitch = -1600;
             break;
-        case 74:// j
+        case 84:
             pitch = -1500;
             break;
-        case 75:// k
+        case 71:
             pitch = -1400;
             break;
-        case 76:// l
+        case 89:
             pitch = -1300;
             break;
-        case 186:// ;
+        case 72:
             pitch = -1200;
             break;
-        case 222:// '
+        case 85:
             pitch = -1100;
             break;
-        case 81:// q
+        case 74:
             pitch = -1000;
             break;
-        case 87:
+        case 75:
             pitch = -900;
             break;
-        case 69:
+        case 79:
             pitch = -800;
             break;
-        case 82:
+        case 76:
             pitch = -700;
             break;
-        case 84:
+        case 80:
             pitch = -600;
             break;
-        case 89:
+        case 186:
             pitch = -500;
             break;
-        case 85:
+        case 222:
             pitch = -400;
             break;
-        case 73:
+        case 221:
             pitch = -300;
             break;
-        case 79:
-            pitch = -200;
-            break;
-        case 80:
-            pitch = -100;
-            break;
-        case 219:
-            pitch = 0;
-            break;
-        case 221:
-            pitch = 100;
+        case 192:
+            console.log(EVE.program);
             break;
         }
 
@@ -157,6 +148,7 @@ EVE.keyboard = {
         i;
     for (i = 0; i < buttons.length; i += 1) {
         buttons[i].addEventListener('click', EVE.keyboard.shiftOctave);
+        buttons[i].addEventListener('touchstart', EVE.keyboard.shiftOctave);
     }
     document.addEventListener('keypress', EVE.keyboard.pressBus);
     document.addEventListener('keydown', EVE.keyboard.downBus);

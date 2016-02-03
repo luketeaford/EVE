@@ -1,6 +1,7 @@
 EVE.slider = {
     debug: true,
-    grab: function (e) {
+
+    grab: function () {
         'use strict';
         var prog = this.dataset.program,
             update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update,
@@ -10,7 +11,6 @@ EVE.slider = {
         EVE.program[prog] = this.value * x;
 
         if (EVE.slider.debug && console) {
-            console.dir(e.target);
             console.log('Updating', update);
         }
 
@@ -36,7 +36,7 @@ EVE.knob = {
     debug: true,
     test: function () {
         'use strict';
-        if (console) {
+        if (EVE.knob.debug && console) {
             console.log('AMAZING INPUT -- input event');
         }
     },
@@ -64,7 +64,6 @@ EVE.knob = {
 
         if (EVE.knob.debug && console) {
             console.log('Difference y', deg);
-            console.dir(x);
             x.stepUp(e.pageY - EVE.knob.grab.origin.y);
             x.addEventListener('change', function () {
                 console.log('THE INPUT HAS CHANGED');

@@ -43,7 +43,7 @@ EVE.gateOff = function gateOff() {
     EVE.vca.gain.setValueAtTime(vcaPeak, EVE.synth.currentTime);
 
     // VCA release
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r * EVE.config.eg_max);
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r * EVE.config.egMax + EVE.config.egMin);
 
     return;
 };

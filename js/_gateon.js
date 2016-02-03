@@ -3,8 +3,8 @@ EVE.gateOn = function gateOn() {
     var env,
         i,
         osc,
-        peak = EVE.now() + EVE.program.vca_a * EVE.config.eg_max + EVE.config.eg_min,
-        timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.eg_max + EVE.config.eg_min,
+        peak = EVE.now() + EVE.program.vca_a * EVE.config.egMax + EVE.config.egMin,
+        timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.egMax + EVE.config.egMin,
         vca;
 
     EVE.keyboard.keyDown = true;//OLD WAY
@@ -14,7 +14,7 @@ EVE.gateOn = function gateOn() {
     EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.now(), 0.1);
 
     // LFO 2 attack (with delay)
-    EVE.lfo2_vca.gain.setTargetAtTime(1, EVE.now() + EVE.program.lfo2_d * EVE.config.eg_max, EVE.program.lfo2_a * EVE.config.eg_max + EVE.config.eg_min);
+    EVE.lfo2_vca.gain.setTargetAtTime(1, EVE.now() + EVE.program.lfo2_d * EVE.config.egMax, EVE.program.lfo2_a * EVE.config.egMax + EVE.config.egMin);
 
 
     // Timbre envelope
@@ -31,7 +31,7 @@ EVE.gateOn = function gateOn() {
         vca.gain.linearRampToValueAtTime(osc + env, timbrePeak);
 
         // Timbre decay
-        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d * EVE.config.eg_max);
+        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d * EVE.config.egMax);
     }
 
     // VCA starting point
@@ -41,10 +41,10 @@ EVE.gateOn = function gateOn() {
     EVE.vca.gain.linearRampToValueAtTime(1, peak);
 
     // VCA decay
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.eg_max);
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.egMax);
 
     return;
 };
 
 EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
-//EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
+EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);

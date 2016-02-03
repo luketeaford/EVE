@@ -2,8 +2,8 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var EVE = {
     config: {
-        eg_max: 2.125,
-        eg_min: 0.05,
+        egMax: 2.125,
+        egMin: 0.05,
         masterFreq: 440
     },
     synth: new AudioContext()
@@ -85,74 +85,65 @@ EVE.keyboard = {
         }
 
         switch (e.which) {
-        case 65: // a
+        case 65:
             pitch = -2100;
             break;
-        case 83: // s
+        case 87:
             pitch = -2000;
             break;
-        case 68:// d
+        case 83:
             pitch = -1900;
             break;
-        case 70:// f
+        case 69:
             pitch = -1800;
             break;
-        case 71:// g
+        case 68:
             pitch = -1700;
             break;
-        case 72:// h
+        case 70:
             pitch = -1600;
             break;
-        case 74:// j
+        case 84:
             pitch = -1500;
             break;
-        case 75:// k
+        case 71:
             pitch = -1400;
             break;
-        case 76:// l
+        case 89:
             pitch = -1300;
             break;
-        case 186:// ;
+        case 72:
             pitch = -1200;
             break;
-        case 222:// '
+        case 85:
             pitch = -1100;
             break;
-        case 81:// q
+        case 74:
             pitch = -1000;
             break;
-        case 87:
+        case 75:
             pitch = -900;
             break;
-        case 69:
+        case 79:
             pitch = -800;
             break;
-        case 82:
+        case 76:
             pitch = -700;
             break;
-        case 84:
+        case 80:
             pitch = -600;
             break;
-        case 89:
+        case 186:
             pitch = -500;
             break;
-        case 85:
+        case 222:
             pitch = -400;
             break;
-        case 73:
+        case 221:
             pitch = -300;
             break;
-        case 79:
-            pitch = -200;
-            break;
-        case 80:
-            pitch = -100;
-            break;
-        case 219:
-            pitch = 0;
-            break;
-        case 221:
-            pitch = 100;
+        case 192:
+            console.log(EVE.program);
             break;
         }
 
@@ -186,6 +177,7 @@ EVE.keyboard = {
         i;
     for (i = 0; i < buttons.length; i += 1) {
         buttons[i].addEventListener('click', EVE.keyboard.shiftOctave);
+        buttons[i].addEventListener('touchstart', EVE.keyboard.shiftOctave);
     }
     document.addEventListener('keypress', EVE.keyboard.pressBus);
     document.addEventListener('keydown', EVE.keyboard.downBus);
@@ -665,7 +657,8 @@ EVE.update_performance = new CustomEvent('update_performance', {bubbles: true});
 
 EVE.slider = {
     debug: true,
-    grab: function (e) {
+
+    grab: function () {
         'use strict';
         var prog = this.dataset.program,
             update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update,
@@ -675,7 +668,6 @@ EVE.slider = {
         EVE.program[prog] = this.value * x;
 
         if (EVE.slider.debug && console) {
-            console.dir(e.target);
             console.log('Updating', update);
         }
 
@@ -701,7 +693,7 @@ EVE.knob = {
     debug: true,
     test: function () {
         'use strict';
-        if (console) {
+        if (EVE.knob.debug && console) {
             console.log('AMAZING INPUT -- input event');
         }
     },
@@ -729,7 +721,6 @@ EVE.knob = {
 
         if (EVE.knob.debug && console) {
             console.log('Difference y', deg);
-            console.dir(x);
             x.stepUp(e.pageY - EVE.knob.grab.origin.y);
             x.addEventListener('change', function () {
                 console.log('THE INPUT HAS CHANGED');
@@ -830,8 +821,8 @@ EVE.gateOn = function gateOn() {
     var env,
         i,
         osc,
-        peak = EVE.now() + EVE.program.vca_a * EVE.config.eg_max + EVE.config.eg_min,
-        timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.eg_max + EVE.config.eg_min,
+        peak = EVE.now() + EVE.program.vca_a * EVE.config.egMax + EVE.config.egMin,
+        timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.egMax + EVE.config.egMin,
         vca;
 
     EVE.keyboard.keyDown = true;//OLD WAY
@@ -841,7 +832,7 @@ EVE.gateOn = function gateOn() {
     EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.now(), 0.1);
 
     // LFO 2 attack (with delay)
-    EVE.lfo2_vca.gain.setTargetAtTime(1, EVE.now() + EVE.program.lfo2_d * EVE.config.eg_max, EVE.program.lfo2_a * EVE.config.eg_max + EVE.config.eg_min);
+    EVE.lfo2_vca.gain.setTargetAtTime(1, EVE.now() + EVE.program.lfo2_d * EVE.config.egMax, EVE.program.lfo2_a * EVE.config.egMax + EVE.config.egMin);
 
 
     // Timbre envelope
@@ -858,7 +849,7 @@ EVE.gateOn = function gateOn() {
         vca.gain.linearRampToValueAtTime(osc + env, timbrePeak);
 
         // Timbre decay
-        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d * EVE.config.eg_max);
+        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d * EVE.config.egMax);
     }
 
     // VCA starting point
@@ -868,13 +859,13 @@ EVE.gateOn = function gateOn() {
     EVE.vca.gain.linearRampToValueAtTime(1, peak);
 
     // VCA decay
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.eg_max);
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.egMax);
 
     return;
 };
 
 EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
-//EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
+EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
 
 // TODO Support 0 release times
 EVE.gateOff = function gateOff() {
@@ -921,7 +912,7 @@ EVE.gateOff = function gateOff() {
     EVE.vca.gain.setValueAtTime(vcaPeak, EVE.synth.currentTime);
 
     // VCA release
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r * EVE.config.eg_max);
+    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r * EVE.config.egMax + EVE.config.egMin);
 
     return;
 };
