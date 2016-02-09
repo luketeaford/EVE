@@ -177,7 +177,7 @@ input[type=radio] {
   input[type=radio]:focus + label {
     background: linear-gradient(#4e5251, #353837); }
 
-.shift-octave {
+.shift-octave, .push-button {
   background: linear-gradient(#353837, #292b2a);
   border-radius: 0.375em;
   box-shadow: 0 0.2em 1em -0.3em #000;
@@ -186,9 +186,9 @@ input[type=radio] {
   height: 2.5em;
   text-transform: uppercase;
   width: 5em; }
-  .shift-octave:focus {
+  .shift-octave:focus, .push-button:focus {
     color: #f8eb81; }
-  .shift-octave:active {
+  .shift-octave:active, .push-button:active {
     color: #f2db21;
     text-shadow: 0 0 0.1875em #f60; }
 

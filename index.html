@@ -2,15 +2,23 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no">
 <title>EVE Web Audio Synthesizer by Luke Teaford</title>
-<!-- Disabled for testing Safari locally
 <script src=//use.typekit.net/tpk3tna.js></script>
 <script>try{Typekit.load();}catch(e){}</script>
--->
 <link rel=stylesheet href=css/eve.css>
 
 <header>
   <h1>Eve <span>Web Audio Synthesizer</span></h1>
 </header>
+
+<section class=module data-state=open id=program>
+  <a href=#toggle>
+    <h2>Program</h2>
+  </a>
+  <div>
+    <button class=push-button id=prevProgram>Previous</button>
+    <button class=push-button id=nextProgram>Next</button>
+  </div>
+</section>
 
 <section class=module data-state=open id=oscilloscope>
   <a href=#toggle>

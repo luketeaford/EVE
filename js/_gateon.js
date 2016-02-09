@@ -7,7 +7,7 @@ EVE.gateOn = function gateOn() {
         timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.egMax + EVE.config.egMin,
         vca;
 
-    EVE.keyboard.keyDown = true;//OLD WAY
+    EVE.keyboard.keyDown = true;
 
     // LFO 2 envelope
     // LFO 2 starting point
@@ -38,7 +38,7 @@ EVE.gateOn = function gateOn() {
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.now(), 0.1);
 
     // VCA attack
-    EVE.vca.gain.linearRampToValueAtTime(1, peak);
+    EVE.vca.gain.linearRampToValueAtTime(1, EVE.synth.currentTime + EVE.program.vca_a + EVE.config.egMin * EVE.config.egMax);
 
     // VCA decay
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.egMax);

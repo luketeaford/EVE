@@ -1,5 +1,5 @@
 EVE.slider = {
-    debug: true,
+    debug: false,
 
     grab: function () {
         'use strict';

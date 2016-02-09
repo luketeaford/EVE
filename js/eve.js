@@ -233,19 +233,60 @@ EVE.program = {
     lfo2_pitch: 0,
     lfo2_d: 0,
     lfo2_a: 0,
-    lfo2_r: 0.0001,// If this is 0, things get fucked up
+    lfo2_r: 0.0001,
     lfo2_g: 0,
 
     // VCA
     vca_a: 0,
     vca_d: 0.1,
-    vca_s: 1,
-    vca_r: 0,
+    vca_s: 0,
+    vca_r: 0.1,
     vca_g: 0,
 
     // Performance
     glide: 0.000001//tolerable maximum = 0.165
 };
+
+// TODO This belongs somewhere else
+EVE.program.bank = [
+    'init',
+    'cool-sci-fi-sound',
+    'problematic-patch',
+    'test-patch'
+];
+
+// TODO This belongs somewhere else
+EVE.program.number = 0;
+
+// TODO This belongs somewhere else
+EVE.program.cycle = function (n) {
+    'use strict';
+    var i = n && n < 0 ? -1 : 1,
+        x = EVE.program.number + i;
+
+    if (x >= 0 && x <= EVE.program.bank.length - 1) {
+        EVE.program.number = x;
+    }
+
+    console.log('EVE.program.number = ', EVE.program.number);
+    console.log('PROGRAM:', EVE.program.bank[EVE.program.number]);
+
+    return i;
+};
+
+// TODO Move somewhere else
+EVE.program.cycleForward = EVE.program.cycle.bind(null, 1);
+EVE.program.cycleBackward = EVE.program.cycle.bind(null, -1);
+
+// TODO These event bindings belong somewhere else
+(function bindProgramButtons() {
+    'use strict';
+    var nextProgram = document.getElementById('nextProgram'),
+        prevProgram = document.getElementById('prevProgram');
+
+    nextProgram.addEventListener('click', EVE.program.cycleForward);
+    prevProgram.addEventListener('click', EVE.program.cycleBackward);
+}());
 
 EVE.now = function () {
     'use strict';
@@ -656,7 +697,7 @@ EVE.update_performance = new CustomEvent('update_performance', {bubbles: true});
 }());
 
 EVE.slider = {
-    debug: true,
+    debug: false,
 
     grab: function () {
         'use strict';
@@ -825,7 +866,7 @@ EVE.gateOn = function gateOn() {
         timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.egMax + EVE.config.egMin,
         vca;
 
-    EVE.keyboard.keyDown = true;//OLD WAY
+    EVE.keyboard.keyDown = true;
 
     // LFO 2 envelope
     // LFO 2 starting point
@@ -856,7 +897,7 @@ EVE.gateOn = function gateOn() {
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.now(), 0.1);
 
     // VCA attack
-    EVE.vca.gain.linearRampToValueAtTime(1, peak);
+    EVE.vca.gain.linearRampToValueAtTime(1, EVE.synth.currentTime + EVE.program.vca_a + EVE.config.egMin * EVE.config.egMax);
 
     // VCA decay
     EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.egMax);
