@@ -26,6 +26,16 @@
 EVE.lfo1.debug = true;
 
 EVE.lfo1.scope = document.getElementById('lfo1');
+EVE.lfo1.sine = document.getElementById('lfo1-sin');
+EVE.lfo1.square = document.getElementById('lfo1-sqr');
+EVE.lfo1.tri = document.getElementById('lfo1-tri');
+EVE.lfo1.saw = document.getElementById('lfo1-saw');
+EVE.lfo1.low = document.getElementById('lfo1-low');
+EVE.lfo1.mid = document.getElementById('lfo1-mid');
+EVE.lfo1.high = document.getElementById('lfo1-high');
+EVE.lfo1.track = document.getElementById('lfo1-track');
+EVE.lfo1.rate = document.getElementById('lfo1-rate');
+EVE.lfo1.oscInputs = document.querySelectorAll('#lfo1 .js-osc');
 
 EVE.lfo1.update = function (e) {
     'use strict';

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no">
 <title>EVE Web Audio Synthesizer by Luke Teaford</title>
@@ -15,8 +15,11 @@
     <h2>Program</h2>
   </a>
   <div>
-    <button class=push-button id=prevProgram>Previous</button>
-    <button class=push-button id=nextProgram>Next</button>
+    <div class=display>
+      <h3 id=display-name>Sample Program</h3>
+    </div>
+    <button class=push-button id=prev-preset>Previous</button>
+    <button class=push-button id=next-preset>Next</button>
   </div>
 </section>
 
@@ -29,7 +32,7 @@
   </div>
 </section>
 
-<section class=module data-state=closed data-update=harmonic_osc id=harmonics>
+<section class=module data-state=open data-update=harmonic_osc id=harmonics>
   <a href=#toggle>
     <h2>Harmonic Oscillator</h2>
   </a>
@@ -116,19 +119,19 @@
   <div>
     <label>
       <span>A</span>
-      <input data-program=timbre_a max=1 min=0 step=0.0001 type=range value=0>
+      <input data-program=timbre_a id=timbre-a max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>D</span>
-      <input data-program=timbre_d max=1 min=0 step=0.0001 type=range value=0>
+      <input data-program=timbre_d id=timbre-d max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>S</span>
-      <input data-curve=lin data-program=timbre_s max=1 min=0 step=0.0001 type=range value=0>
+      <input data-curve=lin data-program=timbre_s id=timbre-s max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>R</span>
-      <input data-program=timbre_r max=1 min=0 step=0.0001 type=range value=0>
+      <input data-program=timbre_r id=timbre-r max=1 min=0 step=0.0001 type=range value=0>
     </label>
   </div>
 </section>
@@ -140,23 +143,23 @@
   <div>
     <label>
       <span>A</span>
-      <input data-program=vca_a max=1 min=0 step=0.0001 type=range value=0>
+      <input data-program=vca_a id=vca-a max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>D</span>
-      <input data-program=vca_d max=1 min=0 step=0.0001 type=range value=0>
+      <input data-program=vca_d id=vca-d max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>S</span>
-      <input data-curve=lin data-program=vca_s max=1 min=0 step=0.0001 type=range value=1>
+      <input data-curve=lin id=vca-s data-program=vca_s max=1 min=0 step=0.0001 type=range value=1>
     </label>
     <label>
       <span>R</span>
-      <input data-program=vca_r max=1 min=0 step=0.0001 type=range value=0>
+      <input data-program=vca_r id=vca-r max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>G</span>
-      <input data-program=vca_g max=1 min=0 step=0.0001 type=range value=0>
+      <input data-program=vca_g id=vca-g max=1 min=0 step=0.0001 type=range value=0>
     </label>
   </div>
 </section>
@@ -192,39 +195,39 @@
 
     <label>
       <span class=wordy>Rate</span>
-      <input data-program=lfo1_rate max=1 min=0 step=0.0001 type=range value=0>
+      <input data-program=lfo1_rate id=lfo1-rate max=1 min=0 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>1</span>
-      <input data-curve=lin data-program=osc1_lfo max=1 min=-1 step=0.0001 type=range value=0>
+      <input class=js-osc data-curve=lin data-program=osc1_lfo max=1 min=-1 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>2</span>
-      <input data-curve=lin data-program=osc2_lfo max=1 min=-1 step=0.0001 type=range value=0>
+      <input class=js-osc data-curve=lin data-program=osc2_lfo max=1 min=-1 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>3</span>
-      <input data-curve=lin data-program=osc3_lfo max=1 min=-1 step=0.0001 type=range value=0>
+      <input class=js-osc data-curve=lin data-program=osc3_lfo max=1 min=-1 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>4</span>
-      <input data-curve=lin data-program=osc4_lfo max=1 min=-1 step=0.0001 type=range value=0>
+      <input class=js-osc data-curve=lin data-program=osc4_lfo max=1 min=-1 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>5</span>
-      <input data-curve=lin data-program=osc5_lfo max=1 min=-1 step=0.0001 type=range value=0>
+      <input class=js-osc data-curve=lin data-program=osc5_lfo max=1 min=-1 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>6</span>
-      <input data-curve=lin data-program=osc6_lfo max=1 min=-1 step=0.0001 type=range value=0>
+      <input class=js-osc data-curve=lin data-program=osc6_lfo max=1 min=-1 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>7</span>
-      <input data-curve=lin data-program=osc7_lfo max=1 min=-1 step=0.0001 type=range value=0>
+      <input class=js-osc data-curve=lin data-program=osc7_lfo max=1 min=-1 step=0.0001 type=range value=0>
     </label>
     <label>
       <span>8</span>
-      <input data-curve=lin data-program=osc8_lfo max=1 min=-1 step=0.0001 type=range value=0>
+      <input class=js-osc data-curve=lin data-program=osc8_lfo max=1 min=-1 step=0.0001 type=range value=0>
     </label>
   </div>
 </section>

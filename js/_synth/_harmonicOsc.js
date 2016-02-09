@@ -1,6 +1,7 @@
 EVE.harmonicOsc = {
     debug: true,
     scope: document.getElementById('harmonics'),
+    inputs: document.querySelectorAll('#harmonics input'),
     update: function (e) {
         'use strict';
         var p;

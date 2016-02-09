@@ -184,6 +184,147 @@ EVE.keyboard = {
     document.addEventListener('keyup', EVE.keyboard.upBus);
 }());
 
+EVE.preset = {
+    bank: [
+        'init',
+        'cool-sci-fi-sound',
+        'problematic-patch',
+        'test-patch'
+    ],
+    displayName: document.getElementById('display-name'),
+    number: 0
+};
+
+EVE.preset.cycle = function (n) {
+    'use strict';
+    var i = n && n < 0 ? -1 : 1,
+        x = EVE.preset.number + i;
+
+    if (x >= 0 && x <= EVE.preset.bank.length - 1) {
+        EVE.preset.number = x;
+    }
+
+    console.log('EVE.preset.number = ', EVE.preset.number);
+    console.log('PROGRAM:', EVE.preset.bank[EVE.preset.number]);
+
+    return EVE.preset.load(i);
+};
+
+EVE.preset.cycleForward = EVE.preset.cycle.bind(null, 1);
+EVE.preset.cycleBackward = EVE.preset.cycle.bind(null, -1);
+
+EVE.update_program = new CustomEvent('update_program', {bubbles: true});
+
+EVE.preset.load = function load(index) {
+    'use strict';
+    var ajax = new XMLHttpRequest();
+
+    ajax.open('GET', '/presets/cool-sci-fi-sound.json', true);
+
+    ajax.onload = function () {
+        var data;
+
+        if (ajax.status >= 200 && ajax.status < 400) {
+            data = JSON.parse(ajax.responseText);
+            console.log(data);
+            EVE.program = data;
+            document.dispatchEvent(EVE.update_program);
+        } else {
+            data = 'Error, dude! Bummer!';
+        }
+    };
+
+    ajax.send();
+
+    console.log('Loading a preset!', index);
+};
+
+EVE.preset.update = function update() {
+    'use strict';
+    var i,
+        osc;// COULD BE GENERALIZED TO P
+
+    // NAME
+    EVE.preset.displayName.textContent = EVE.program.name;
+
+    // HARMONIC OSC
+    for (i = 1; i <= 8; i += 1) {
+        osc = 'osc' + i;// COULD BE GENERALIZED TO P
+        EVE.harmonicOsc.inputs[i - 1].value = Math.sqrt(EVE.program[osc]);
+    }
+
+    // TIMBRE EG (linear)
+    for (i = 1; i <= 8; i += 1) {
+        osc = 'osc' + i + '_eg';// COULD BE GENERALIZED TO P
+        EVE.timbreEg.inputs[i - 1].value = EVE.program[osc];
+    }
+
+    // TIMBRE ENVELOPE
+    EVE.timbreEnv.attack.value = Math.sqrt(EVE.program.timbre_a);
+    EVE.timbreEnv.decay.value = Math.sqrt(EVE.program.timbre_d);
+    EVE.timbreEnv.sustain.value = EVE.program.timbre_s;
+    EVE.timbreEnv.release.value = Math.sqrt(EVE.program.timbre_r);
+
+    // VCA ENVELOPE
+    EVE.vca.attack.value = Math.sqrt(EVE.program.vca_a);
+    EVE.vca.decay.value = Math.sqrt(EVE.program.vca_d);
+    EVE.vca.sustain.value = EVE.program.vca_s;
+    EVE.vca.release.value = Math.sqrt(EVE.program.vca_r);
+    EVE.vca.gain.value = Math.sqrt(EVE.program.vca_g);
+
+    // LFO 1
+    switch (EVE.program.lfo1_type) {
+    case 'sine':
+        EVE.lfo1.sine.checked = true;
+        break;
+    case 'square':
+        EVE.lfo1.square.checked = true;
+        break;
+    case 'sawtooth':
+        EVE.lfo1.saw.checked = true;
+        break;
+    case 'triangle':
+        EVE.lfo1.tri.checked = true;
+        break;
+    }
+
+    switch (EVE.program.lfo1_range) {
+    case 20:
+        EVE.lfo1.low.checked = true;
+        break;
+    case 40:
+        EVE.lfo1.mid.checked = true;
+        break;
+    case 80:
+        EVE.lfo1.high.checked = true;
+        break;
+    case 440:
+        EVE.lfo1.track.checked = true;
+        break;
+    }
+
+    EVE.lfo1.rate = Math.sqrt(EVE.program.lfo1_rate);
+
+    for (i = 1; i < EVE.lfo1.oscInputs.length; i += 1) {
+        osc = 'osc' + i + '_lfo';// COULD BE GENERALIZED TO P
+        EVE.lfo1.oscInputs[i - 1].value = EVE.program[osc];
+    }
+
+    // LFO 2
+
+    // PERFORMANCE
+};
+
+(function bindProgramButtons() {
+    'use strict';
+    var nextPreset = document.getElementById('next-preset'),
+        prevPreset = document.getElementById('prev-preset');
+
+    nextPreset.addEventListener('click', EVE.preset.cycleForward);
+    prevPreset.addEventListener('click', EVE.preset.cycleBackward);
+    document.addEventListener('update_program', EVE.preset.update);
+}());
+
 EVE.program = {
     name: 'INIT',
 
@@ -247,47 +388,6 @@ EVE.program = {
     glide: 0.000001//tolerable maximum = 0.165
 };
 
-// TODO This belongs somewhere else
-EVE.program.bank = [
-    'init',
-    'cool-sci-fi-sound',
-    'problematic-patch',
-    'test-patch'
-];
-
-// TODO This belongs somewhere else
-EVE.program.number = 0;
-
-// TODO This belongs somewhere else
-EVE.program.cycle = function (n) {
-    'use strict';
-    var i = n && n < 0 ? -1 : 1,
-        x = EVE.program.number + i;
-
-    if (x >= 0 && x <= EVE.program.bank.length - 1) {
-        EVE.program.number = x;
-    }
-
-    console.log('EVE.program.number = ', EVE.program.number);
-    console.log('PROGRAM:', EVE.program.bank[EVE.program.number]);
-
-    return i;
-};
-
-// TODO Move somewhere else
-EVE.program.cycleForward = EVE.program.cycle.bind(null, 1);
-EVE.program.cycleBackward = EVE.program.cycle.bind(null, -1);
-
-// TODO These event bindings belong somewhere else
-(function bindProgramButtons() {
-    'use strict';
-    var nextProgram = document.getElementById('nextProgram'),
-        prevProgram = document.getElementById('prevProgram');
-
-    nextProgram.addEventListener('click', EVE.program.cycleForward);
-    prevProgram.addEventListener('click', EVE.program.cycleBackward);
-}());
-
 EVE.now = function () {
     'use strict';
     return EVE.synth.currentTime;
@@ -350,6 +450,11 @@ EVE.vca.debug = true;
 
 EVE.vca.scope = document.getElementById('vca');
 
+EVE.vca.attack = document.getElementById('vca-a');
+EVE.vca.decay = document.getElementById('vca-d');
+EVE.vca.sustain = document.getElementById('vca-s');
+EVE.vca.release = document.getElementById('vca-r');
+
 EVE.vca.update = function (e) {
     'use strict';
     var p;
@@ -375,6 +480,7 @@ EVE.update_vca = new CustomEvent('update_vca', {bubbles: true});
 EVE.harmonicOsc = {
     debug: true,
     scope: document.getElementById('harmonics'),
+    inputs: document.querySelectorAll('#harmonics input'),
     update: function (e) {
         'use strict';
         var p;
@@ -430,6 +536,7 @@ EVE.update_harmonic_osc = new CustomEvent('update_harmonic_osc', {bubbles: true}
 EVE.timbreEg = {
     debug: true,
     scope: document.getElementById('timbre-eg'),
+    inputs: document.querySelectorAll('#timbre-eg input'),
     update: function (e) {
         'use strict';
         var p;
@@ -452,6 +559,10 @@ EVE.update_timbre_eg = new CustomEvent('update_timbre_eg', {bubbles: true});
 EVE.timbreEnv = {
     debug: true,
     scope: document.getElementById('timbre-env'),
+    attack: document.querySelector('#timbre-a'),
+    decay: document.querySelector('#timbre-d'),
+    sustain: document.querySelector('#timbre-s'),
+    release: document.querySelector('#timbre-r'),
     update: function (e) {
         'use strict';
         var p;
@@ -498,6 +609,16 @@ EVE.update_timbre_env = new CustomEvent('update_timbre_env', {bubbles: true});
 EVE.lfo1.debug = true;
 
 EVE.lfo1.scope = document.getElementById('lfo1');
+EVE.lfo1.sine = document.getElementById('lfo1-sin');
+EVE.lfo1.square = document.getElementById('lfo1-sqr');
+EVE.lfo1.tri = document.getElementById('lfo1-tri');
+EVE.lfo1.saw = document.getElementById('lfo1-saw');
+EVE.lfo1.low = document.getElementById('lfo1-low');
+EVE.lfo1.mid = document.getElementById('lfo1-mid');
+EVE.lfo1.high = document.getElementById('lfo1-high');
+EVE.lfo1.track = document.getElementById('lfo1-track');
+EVE.lfo1.rate = document.getElementById('lfo1-rate');
+EVE.lfo1.oscInputs = document.querySelectorAll('#lfo1 .js-osc');
 
 EVE.lfo1.update = function (e) {
     'use strict';

@@ -9,6 +9,11 @@ EVE.vca.debug = true;
 
 EVE.vca.scope = document.getElementById('vca');
 
+EVE.vca.attack = document.getElementById('vca-a');
+EVE.vca.decay = document.getElementById('vca-d');
+EVE.vca.sustain = document.getElementById('vca-s');
+EVE.vca.release = document.getElementById('vca-r');
+
 EVE.vca.update = function (e) {
     'use strict';
     var p;

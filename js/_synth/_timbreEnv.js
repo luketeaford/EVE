@@ -1,6 +1,10 @@
 EVE.timbreEnv = {
     debug: true,
     scope: document.getElementById('timbre-env'),
+    attack: document.querySelector('#timbre-a'),
+    decay: document.querySelector('#timbre-d'),
+    sustain: document.querySelector('#timbre-s'),
+    release: document.querySelector('#timbre-r'),
     update: function (e) {
         'use strict';
         var p;

@@ -1,6 +1,7 @@
 EVE.timbreEg = {
     debug: true,
     scope: document.getElementById('timbre-eg'),
+    inputs: document.querySelectorAll('#timbre-eg input'),
     update: function (e) {
         'use strict';
         var p;
