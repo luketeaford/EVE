@@ -40,6 +40,17 @@
 EVE.lfo2.debug = true;
 EVE.lfo2.max = 40;// TODO 139 is a better number here
 EVE.lfo2.scope = document.getElementById('lfo2');
+EVE.lfo2.sine = document.getElementById('lfo2-sin');
+EVE.lfo2.square = document.getElementById('lfo2-sqr');
+EVE.lfo2.saw = document.getElementById('lfo2-saw');
+EVE.lfo2.tri = document.getElementById('lfo2-tri');
+EVE.lfo2.rate = document.getElementById('lfo2-rate');
+EVE.lfo2.amp = document.getElementById('lfo2-amp');
+EVE.lfo2.pitch = document.getElementById('lfo2-pitch');
+EVE.lfo2.delay = document.getElementById('lfo2-delay');
+EVE.lfo2.attack = document.getElementById('lfo2-attack');
+EVE.lfo2.release = document.getElementById('lfo2-release');
+EVE.lfo2.gain = document.getElementById('lfo2-gain');
 
 EVE.lfo2.update = function (e) {
     'use strict';

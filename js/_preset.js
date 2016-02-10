@@ -117,7 +117,7 @@ EVE.preset.update = function update() {
         break;
     }
 
-    EVE.lfo1.rate = Math.sqrt(EVE.program.lfo1_rate);
+    EVE.lfo1.rate.value = Math.sqrt(EVE.program.lfo1_rate);
 
     for (i = 1; i < EVE.lfo1.oscInputs.length; i += 1) {
         osc = 'osc' + i + '_lfo';// COULD BE GENERALIZED TO P
@@ -125,8 +125,33 @@ EVE.preset.update = function update() {
     }
 
     // LFO 2
+    switch (EVE.program.lfo2_type) {
+    case 'sine':
+        EVE.lfo2.sine.checked = true;
+        break;
+    case 'square':
+        EVE.lfo2.square.checked = true;
+        break;
+    case 'sawtooth':
+        EVE.lfo2_saw.checked = true;
+        break;
+    case 'triangle':
+        EVE.lfo2_tri.checked = true;
+        break;
+    }
+
+    EVE.lfo2.rate.value = Math.sqrt(EVE.program.lfo2_rate);
+
+    EVE.lfo2.amp.value = EVE.program.lfo2_amp;
+    EVE.lfo2.pitch.value = Math.sqrt(EVE.program.lfo2_pitch);
+
+    EVE.lfo2.delay.value = Math.sqrt(EVE.program.lfo2_d);
+    EVE.lfo2.attack.value = Math.sqrt(EVE.program.lfo2_a);
+    EVE.lfo2.release.value = Math.sqrt(EVE.program.lfo2_r);
+    EVE.lfo2.gain.value = Math.sqrt(EVE.program.lfo2_g);
 
     // PERFORMANCE
+    EVE.performance.glide.value = EVE.program.glide;
 };
 
 (function bindProgramButtons() {

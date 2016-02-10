@@ -303,7 +303,7 @@ EVE.preset.update = function update() {
         break;
     }
 
-    EVE.lfo1.rate = Math.sqrt(EVE.program.lfo1_rate);
+    EVE.lfo1.rate.value = Math.sqrt(EVE.program.lfo1_rate);
 
     for (i = 1; i < EVE.lfo1.oscInputs.length; i += 1) {
         osc = 'osc' + i + '_lfo';// COULD BE GENERALIZED TO P
@@ -311,8 +311,33 @@ EVE.preset.update = function update() {
     }
 
     // LFO 2
+    switch (EVE.program.lfo2_type) {
+    case 'sine':
+        EVE.lfo2.sine.checked = true;
+        break;
+    case 'square':
+        EVE.lfo2.square.checked = true;
+        break;
+    case 'sawtooth':
+        EVE.lfo2_saw.checked = true;
+        break;
+    case 'triangle':
+        EVE.lfo2_tri.checked = true;
+        break;
+    }
+
+    EVE.lfo2.rate.value = Math.sqrt(EVE.program.lfo2_rate);
+
+    EVE.lfo2.amp.value = EVE.program.lfo2_amp;
+    EVE.lfo2.pitch.value = Math.sqrt(EVE.program.lfo2_pitch);
+
+    EVE.lfo2.delay.value = Math.sqrt(EVE.program.lfo2_d);
+    EVE.lfo2.attack.value = Math.sqrt(EVE.program.lfo2_a);
+    EVE.lfo2.release.value = Math.sqrt(EVE.program.lfo2_r);
+    EVE.lfo2.gain.value = Math.sqrt(EVE.program.lfo2_g);
 
     // PERFORMANCE
+    EVE.performance.glide.value = EVE.program.glide;
 };
 
 (function bindProgramButtons() {
@@ -704,6 +729,17 @@ EVE.update_lfo1 = new CustomEvent('update_lfo1', {bubbles: true});
 EVE.lfo2.debug = true;
 EVE.lfo2.max = 40;// TODO 139 is a better number here
 EVE.lfo2.scope = document.getElementById('lfo2');
+EVE.lfo2.sine = document.getElementById('lfo2-sin');
+EVE.lfo2.square = document.getElementById('lfo2-sqr');
+EVE.lfo2.saw = document.getElementById('lfo2-saw');
+EVE.lfo2.tri = document.getElementById('lfo2-tri');
+EVE.lfo2.rate = document.getElementById('lfo2-rate');
+EVE.lfo2.amp = document.getElementById('lfo2-amp');
+EVE.lfo2.pitch = document.getElementById('lfo2-pitch');
+EVE.lfo2.delay = document.getElementById('lfo2-delay');
+EVE.lfo2.attack = document.getElementById('lfo2-attack');
+EVE.lfo2.release = document.getElementById('lfo2-release');
+EVE.lfo2.gain = document.getElementById('lfo2-gain');
 
 EVE.lfo2.update = function (e) {
     'use strict';
@@ -754,6 +790,7 @@ EVE.performance = {};
 EVE.performance.debug = true;
 
 EVE.performance.scope = document.getElementById('performance');
+EVE.performance.glide = document.getElementById('glide');
 
 EVE.performance.update = function (e) {
     'use strict';

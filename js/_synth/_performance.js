@@ -4,6 +4,7 @@ EVE.performance = {};
 EVE.performance.debug = true;
 
 EVE.performance.scope = document.getElementById('performance');
+EVE.performance.glide = document.getElementById('glide');
 
 EVE.performance.update = function (e) {
     'use strict';
