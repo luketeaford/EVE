@@ -1,0 +1,15 @@
+header {
+  background: $black;
+  margin-bottom: 2rem;
+  padding: 1rem;
+
+  > h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+
+    > span {
+      font-size: 1.2rem;
+      text-transform: lowercase;
+    }
+  }
+}

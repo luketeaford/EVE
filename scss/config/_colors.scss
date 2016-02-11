@@ -1,0 +1,10 @@
+$dark-grey: #333a34;
+$light-grey: #a3b8a4;
+$green: #89db8b;
+$red: #cc3345;
+$bright-green: saturate($green, 30%);
+$intense-green: darken($bright-green, 10%);
+$dark-green: darken($green, 10%);
+$pale-green: lighten($intense-green, 15%);
+$black: darken($dark-grey, 10%);
+$white: lighten($light-grey, 10%);

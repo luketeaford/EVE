@@ -1,0 +1,13 @@
+.keyboard-wrapper {
+  font-size: 0;
+
+  // TODO Refine this so I don't need to do inbetween MQs
+  @include media-query(0, 959) {
+    @include show-octaves();
+  }
+
+  @include media-query(960) {
+    @include show-octaves(2);
+  }
+
+}

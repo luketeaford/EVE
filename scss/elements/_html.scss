@@ -1,0 +1,7 @@
+html {
+  background: $dark-grey;
+  font-family: sans-serif;
+  font-size: 62.5%;
+  line-height: 1;
+  min-width: map-get($config, min-width) * 1px;
+}

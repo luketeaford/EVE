@@ -1,0 +1,14 @@
+a {
+  &:link {
+    color: $intense-green;
+  }
+  &:visited {
+    color: $bright-green;
+  }
+  &:hover {
+    color: $dark-green;
+  }
+  &:active {
+    color: $pale-green;
+  }
+}

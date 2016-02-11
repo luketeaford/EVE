@@ -1,0 +1,36 @@
+@mixin key($type: 'natural') {
+  border-bottom: 0;
+  border-left: 1px solid $light-grey;
+  border-radius: 0 0 0.85rem 0.8rem;
+  border-right: 1px solid $light-grey;
+  border-top: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0;
+  position: relative;
+  -webkit-user-select: none;
+
+  &:not(:first-child) {
+    border-left-color: transparent;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  // TODO Create sharp-scale-x here and use it
+  // TODO This needs a map, really
+  @if $type == 'natural' {
+    background: $white;
+    min-width: 4rem;
+  } @else if $type == 'sharp' {
+    background: $black;
+    color: $white;
+    min-width: 2.6rem;
+    position: absolute;
+    vertical-align: top;
+    z-index: 1;
+  } @else {
+    @error 'Invalid $type parameter in key mixin: #{$type}. $type must be "natural" or "sharp"';
+  }
+}

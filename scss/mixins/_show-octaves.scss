@@ -1,0 +1,34 @@
+// TODO Improve this so I don't need to define inbetween MQs
+// TODO The math isn't quite right... it's leaving space for one more key
+@mixin show-octaves($octaves: 1) {
+  $n: ($octaves * 12) + 1;
+  $keys: $octaves * 8;
+  $natural-height: 100vw;
+  $sharp-scale-x: (2/3);
+  $sharp-scale-y: (3/5);
+  $sharp-height: $natural-height * ($sharp-scale-y);
+
+  // 1 * 8 + (1 - 1) = 8
+  // 2 * 8 + (1 - 2) = 15?
+  $keys: $octaves * 8 + (1 - $octaves);// 8 + (1 - 1)
+  @warn 'Keys is #{$keys}';// 16, but 15 is correct for desktop
+
+
+  .key {
+    height: calc(#{$natural-height / $octaves} / 2);
+    width: calc(100% / #{$keys});
+
+    &:nth-child(#{$n}) {
+      ~ .key,
+      ~ .key-sharp {
+        display: none;
+      }
+    }
+  }
+
+  .key-sharp {
+    height: calc(#{$sharp-height / $octaves} / 2);
+    margin: 0 calc(#{-$sharp-scale-x * 100%} / #{$keys * 2});
+    width: calc(#{$sharp-scale-x * 100%} / #{$keys});
+  }
+}

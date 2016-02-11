@@ -1,0 +1,7 @@
+.key {
+  @include key();
+}
+
+.key-sharp {
+  @include key(sharp);
+}

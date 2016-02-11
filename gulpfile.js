@@ -63,7 +63,7 @@ gulp.task('js', function () {
 });
 
 gulp.task('sass', function () {
-  gulp.src('css/eve.scss')
+  gulp.src('scss/eve.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('css'))
     .pipe(gulp.dest('eve/css'));
@@ -71,7 +71,12 @@ gulp.task('sass', function () {
 
 gulp.task('watch', function () {
     gulp.watch('js/**/*.js', ['js']);
-    gulp.watch('css/**/*.scss', ['sass']);
+    gulp.watch('scss/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['js', 'watch', 'browsersync']);
+gulp.task('default', [
+    'browsersync',
+    'js',
+    'sass',
+    'watch'
+]);

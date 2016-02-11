@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset=utf-8>
-<meta name=viewport content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name=viewport content="width=device-width,initial-scale=1,user-scalable=no">
 <title>EVE Web Audio Synthesizer by Luke Teaford</title>
 <script src=//use.typekit.net/tpk3tna.js></script>
 <script>try{Typekit.load();}catch(e){}</script>
@@ -10,11 +10,11 @@
   <h1>Eve <span>Web Audio Synthesizer</span></h1>
 </header>
 
-<main>
-
-<!--
-<section class=module id=program>
+<section class=module data-state=open id=program>
+  <a href=#toggle>
     <h2>Program</h2>
+  </a>
+  <div>
     <button class=push-button id=prev-preset>Previous</button>
     <div class=display>
       <h3 id=display-name>Sample Program</h3>
@@ -24,9 +24,10 @@
     <button value=problematic-patch>problematic patch</button>
     <button value=test-patch>test patch</button>
     <button class=push-button id=next-preset>Next</button>
+  </div>
 </section>
 
-<section class=module id=oscilloscope>
+<section class=module data-state=open id=oscilloscope>
   <a href=#toggle>
     <h2>Oscilloscope</h2>
   </a>
@@ -35,7 +36,7 @@
   </div>
 </section>
 
-<section class=module data-update=harmonic_osc id=harmonics>
+<section class=module data-state=open data-update=harmonic_osc id=harmonics>
   <a href=#toggle>
     <h2>Harmonic Oscillator</h2>
   </a>
@@ -139,7 +140,7 @@
   </div>
 </section>
 
-<section class=module data-update=vca id=vca>
+<section class=module data-state=open data-update=vca id=vca>
   <a href=#toggle>
     <h2>VCA Envelope</h2>
   </a>
@@ -167,7 +168,7 @@
   </div>
 </section>
 
-<section class=module data-update=lfo1 id=lfo1>
+<section class=module data-state=open data-update=lfo1 id=lfo1>
   <a href=#toggle>
     <h2>LFO 1</h2>
   </a>
@@ -235,7 +236,7 @@
   </div>
 </section>
 
-<section class=module data-update=lfo2 id=lfo2>
+<section class=module data-state=open data-update=lfo2 id=lfo2>
   <a href=#toggle>
     <h2>LFO 2</h2>
   </a>
@@ -285,7 +286,7 @@
   </div>
 </section>
 
-<section class=module data-update=performance id=performance>
+<section class=module data-state=open data-update=performance id=performance>
   <a href=#toggle>
     <h2>Performance Controls</h2>
   </a>
@@ -309,39 +310,38 @@
 
   </div>
 </section>
--->
-  <div id=keyboard class=keyboard-wrapper>
-    <button class=key data-note-value=-2100>C</button>
-    <button class=key-sharp data-note-value=-2000>C<sup>#</sup></button>
-    <button class=key data-note-value=-1900>D</button>
-    <button class=key-sharp data-note-value=-1800>D<sup>#</sup></button>
-    <button class=key data-note-value=-1700>E</button>
-    <button class=key data-note-value=-1600>F</button>
-    <button class=key-sharp data-note-value=-1500>F<sup>#</sup></button>
-    <button class=key data-note-value=-1400>G</button>
-    <button class=key-sharp data-note-value=-1300>G<sup>#</sup></button>
-    <button class=key data-note-value=-1200>A</button>
-    <button class=key-sharp data-note-value=-1100>A<sup>#</sup></button>
-    <button class=key data-note-value=-1000>B</button>
-    <button class=key data-note-value=-900>C</button>
-    <button class=key-sharp data-note-value=-800>C<sup>#</sup></button>
-    <button class=key data-note-value=-700>D</button>
-    <button class=key-sharp data-note-value=-600>D<sup>#</sup></button>
-    <button class=key data-note-value=-500>E</button>
-    <button class=key data-note-value=-400>F</button>
-    <button class=key-sharp data-note-value=-300>F<sup>#</sup></button>
-    <button class=key data-note-value=-200>G</button>
-    <button class=key-sharp data-note-value=-100>G<sup>#</sup></button>
-    <button class=key data-note-value=0>A</button>
-    <button class=key-sharp data-note-value=100>A<sup>#</sup></button>
-    <button class=key data-note-value=200>B</button>
-    <button class=key data-note-value=300>C</button>
-  </div>
 
-</main>
+<div id=keyboard>
+  <!-- Octave one -->
+  <button class=key data-note-value=-2100 type=button>C</button>
+  <button class=sharp-key data-note-value=-2000 type=button>C#</button>
+  <button class=key data-note-value=-1900 type=button>D</button>
+  <button class=sharp-key data-note-value=-1800 type=button>D#</button>
+  <button class=key data-note-value=-1700 type=button>E</button>
+  <button class=key data-note-value=-1600 type=button>F</button>
+  <button class=sharp-key data-note-value=-1500 type=button>F#</button>
+  <button class=key data-note-value=-1400 type=button>G</button>
+  <button class=sharp-key data-note-value=-1300 type=button>G#</button>
+  <button class=key data-note-value=-1200 type=button>A</button>
+  <button class=sharp-key data-note-value=-1100 type=button>A#</button>
+  <button class=key data-note-value=-1000 type=button>B</button>
+  <!-- Octave two -->
+  <button class=key data-note-value=-900 type=button>C</button>
+  <button class=sharp-key data-note-value=-800 type=button>C#</button>
+  <button class=key data-note-value=-700 type=button>D</button>
+  <button class=sharp-key data-note-value=-600 type=button>D#</button>
+  <button class=key data-note-value=-500 type=button>E</button>
+  <button class=key data-note-value=-400 type=button>F</button>
+  <button class=sharp-key data-note-value=-300 type=button>F#</button>
+  <button class=key data-note-value=-200 type=button>G</button>
+  <button class=sharp-key data-note-value=-100 type=button>G#</button>
+  <button class=key data-note-value=0 type=button>A</button>
+  <button class=sharp-key data-note-value=100 type=button>A#</button>
+  <button class=key data-note-value=200 type=button>B</button>
+  <!-- Octave three -->
+  <button class=key data-note-value=300 type=button>C</button>
+</div>
 
-<footer>
-  Copyright © 2015–2016 <a href="http://luketeaford.com">Luke Teaford</a>.
-</footer>
+<footer>Copyright 2015–2016 <a href="http://luketeaford.com">Luke Teaford</a>.</footer>
 
 <script src=js/eve.js></script>
