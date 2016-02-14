@@ -1,12 +1,29 @@
-@mixin key($type: 'natural') {
-  border-bottom: 0;
-  border-left: 1px solid $light-grey;
-  border-radius: 0 0 0.85rem 0.8rem;
-  border-right: 1px solid $light-grey;
-  border-top: 0;
+@mixin key($type: natural) {
+  $border-size: map-get($keys, border-size);
+  $min-width: map-get($keys, min-width);
+  $scale-x: map-get($keys, scale-x);
+
+  $background-color: if($type == natural, $white, $black);
+  $background-color-active: if($type == natural, $green, darken($dark-green, 20%));
+  $border-color: $light-grey;
+  $border-left-and-right: $border-size * 1px solid $border-color;
+  $border-offset: $border-size * -1px;
+  $border-radius: 0 0 0.85rem 0.8rem;
+  $border-top-and-bottom: 0;
+  $min-width: if($type == natural, $min-width, $min-width * $scale-x);
+  $text-color: if($type == natural, $black, $white);
+
+  background: $background-color;
+  border-bottom: $border-top-and-bottom;
+  border-left: $border-left-and-right;
+  border-radius: $border-radius;
+  border-right: $border-left-and-right;
+  border-top: $border-top-and-bottom;
+  color: $text-color;
   cursor: pointer;
   display: inline-block;
   font-size: 0;
+  min-width: $min-width * 0.1rem;
   position: relative;
   -webkit-user-select: none;
 
@@ -14,23 +31,33 @@
     border-left-color: transparent;
   }
 
-  &:focus {
-    outline: none;
+  &::after {
+    background: $background-color-active;
+    border-radius: $border-radius;
+    border-right: $border-left-and-right;
+    content: '';
+    display: block;
+    height: 100%;
+    left: $border-offset;
+    opacity: 0;
+    position: absolute;
+    right: $border-offset;
+    top: 0;
+    transition: opacity 95ms ease-in;
   }
 
-  // TODO Create sharp-scale-x here and use it
-  // TODO This needs a map, really
-  @if $type == 'natural' {
-    background: $white;
-    min-width: 4rem;
-  } @else if $type == 'sharp' {
-    background: $black;
-    color: $white;
-    min-width: 2.6rem;
+  &:hover,
+  &.key-active {
+
+    &::after {
+      opacity: 1;
+      transition: none;
+    }
+  }
+
+  @if $type == sharp {
     position: absolute;
     vertical-align: top;
     z-index: 1;
-  } @else {
-    @error 'Invalid $type parameter in key mixin: #{$type}. $type must be "natural" or "sharp"';
   }
 }

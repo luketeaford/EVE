@@ -1,22 +1,16 @@
 // TODO Improve this so I don't need to define inbetween MQs
-// TODO The math isn't quite right... it's leaving space for one more key
 @mixin show-octaves($octaves: 1) {
+  $scale-x: map-get($keys, scale-x);
+  $scale-y: map-get($keys, scale-y);
+
   $n: ($octaves * 12) + 1;
-  $keys: $octaves * 8;
   $natural-height: 100vw;
-  $sharp-scale-x: (2/3);
-  $sharp-scale-y: (3/5);
-  $sharp-height: $natural-height * ($sharp-scale-y);
-
-  // 1 * 8 + (1 - 1) = 8
-  // 2 * 8 + (1 - 2) = 15?
-  $keys: $octaves * 8 + (1 - $octaves);// 8 + (1 - 1)
-  @warn 'Keys is #{$keys}';// 16, but 15 is correct for desktop
-
+  $number-of-keys: $octaves * 8 + (1 - $octaves);
+  $sharp-height: $natural-height * $scale-y;
 
   .key {
     height: calc(#{$natural-height / $octaves} / 2);
-    width: calc(100% / #{$keys});
+    width: calc(100% / #{$number-of-keys});
 
     &:nth-child(#{$n}) {
       ~ .key,
@@ -28,7 +22,7 @@
 
   .key-sharp {
     height: calc(#{$sharp-height / $octaves} / 2);
-    margin: 0 calc(#{-$sharp-scale-x * 100%} / #{$keys * 2});
-    width: calc(#{$sharp-scale-x * 100%} / #{$keys});
+    margin: 0 calc(#{-$scale-x * 100%} / #{$number-of-keys * 2});
+    width: calc(#{$scale-x * 100%} / #{$number-of-keys});
   }
 }
