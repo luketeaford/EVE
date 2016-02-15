@@ -6,32 +6,36 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
 
     scripts = [
-        // LEGAL
-        //'js/_legal/_license.js',
-
-        // SYNTH
+        // LICENSE
+        'js/legal/_license.js',
+        // GENERAL SET-UP
+        'js/temp/_prefixWebAudio.js',
         'js/_eve.js',
-        'js/_collapseModules.js',
-        'js/_keyboard.js',
+        'js/_events.js',
+        'js/_config.js',
         'js/_preset.js',
-        'js/_program.js',
-        'js/_envelopes.js',
-        'js/_synth/_oscilloscope.js',
-        'js/_synth/_vca.js',
-        'js/_synth/_harmonicOsc.js',
-        'js/_synth/_timbreEg.js',
-        'js/_synth/_timbreEnv.js',
-        'js/_synth/_lfo1.js',
-        'js/_synth/_lfo2.js',
-        'js/_synth/_performance.js',// MIGHT NOT BELONG HERE
-        'js/_startSynth.js',
-        'js/_sliders.js',
+        // SYNTH
+        'js/_oscilloscope.js',
+        'js/_vca.js',
+        'js/_harmonicOscillator.js',
+        'js/_lfo1.js',
+        'js/_lfo2.js',
+        'js/_performance.js',
+        'js/_timbreEg.js',
+        'js/_timbreEnv.js',
+        // FUNCTIONALITY
         'js/_buttons.js',
         'js/_calculatePitch.js',
-        'js/_setPitch.js',
-        'js/_gateOn.js',
-        'js/_gateOff.js',
-        'js/_midi.js'
+            'js/_envelopes.js',// currently unused
+            'js/_keyboard.js',// lots of problems in here
+            'js/_midi.js',
+            'js/_program.js',
+            'js/_setPitch.js',// updated
+            'js/_sliders.js',
+            'js/_startSynth.js',
+        'js/_now.js',
+        'js/_gate.js',
+        'js/_calculatePitch.js'
     ];
 
 gulp.task('browsersync', function() {

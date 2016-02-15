@@ -1,15 +1,16 @@
-EVE.setPitch = function (pitch) {
+EVE = (function (module) {
     'use strict';
-    var i;
+    module.setPitch = function (pitch) {
+        var i;
 
-    for (i = 1; i <= 8; i += 1) {
-        EVE.harmonicOsc['osc' + i].detune.setTargetAtTime(pitch, EVE.now(), EVE.program.glide);
-    }
+        for (i = 1; i <= 8; i += 1) {
+            module.harmonicOscillator['osc' + i].detune.setTargetAtTime(pitch, module.now(), module.preset.glide);
+        }
 
-    if (EVE.program.lfo1_range >= 440) {
-        EVE.lfo1.detune.setValueAtTime(pitch, EVE.now(), EVE.program.glide);
-    }
+        if (module.preset.lfo1_range >= 440) {
+            module.lfo1.detune.setValueAtTime(pitch, module.now(), module.preset.glide);
+        }
+    };
 
-};
-
-EVE.setPitch.debug = true;
+    return module;
+}(EVE));

@@ -1,419 +1,117 @@
+// Prefix Web Audio for Safari and iOS
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-var EVE = {
-    config: {
+var EVE = new AudioContext();
+
+EVE = (function (module) {
+    'use strict';
+
+    module.events = {
+        updateHarmonicOscillator: new CustomEvent('updateharmonicoscillator', {bubbles: true}),
+        updateLfo1: new CustomEvent('updatelfo1', {bubbles: true}),
+        updateLfo2: new CustomEvent('updatelfo2', {bubbles: true}),
+        updatePerformance: new CustomEvent('updateperformance', {bubbles: true}),
+        updateTimbreEg: new CustomEvent('updatetimbreeg', {bubbles: true}),
+        updateTimbreEnv: new CustomEvent('updatetimbreenv', {bubbles: true}),
+        updateVca: new CustomEvent('updatevca', {bubbles: true})
+    };
+
+    return module;
+}(EVE));
+
+EVE = (function config(module) {
+    'use strict';
+
+    module.config = {
         egMax: 2.125,
         egMin: 0.05,
         masterFreq: 440
-    },
-    synth: new AudioContext()
-};
-
-EVE.keyboard = {
-    current: null,
-    debug: false,
-    keyDown: false,
-    octaveShift: 0,
-    scope: document.getElementById('keyboard'),
-
-    //TODO Move to performance controls
-    shiftOctave: function (direction) {
-        'use strict';
-        var oct = EVE.keyboard.octaveShift,
-            shift = this.dataset ? this.dataset.shift : direction;
-
-        function switchLights() {
-            var i,
-                lights = document.querySelectorAll('#performance [data-light]'),
-                n = EVE.keyboard.octaveShift + 2;
-
-            for (i = 0; i < lights.length; i += 1) {
-                lights[i].dataset.light = i === n ? 'on' : 'off';
-            }
-        }
-
-        if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
-            EVE.keyboard.octaveShift = oct + parseFloat(shift);
-            switchLights();
-        }
-
-        if (EVE.keyboard.debug && console) {
-            console.log(EVE.keyboard.octaveShift);
-        }
-
-    },
-    pressBus: function (e) {
-        'use strict';
-        if (EVE.keyboard.debug && console) {
-            console.log(e.which);
-        }
-        switch (e.which) {
-        case 45:// -
-        case 95:// _
-            EVE.keyboard.shiftOctave(-1);
-            break;
-        case 61:// =
-        case 43:// +
-            EVE.keyboard.shiftOctave(1);
-            break;
-        }
-    },
-    downBus: function (e) {
-        'use strict';
-        var pitch = null;
-
-        if (EVE.keyboard.debug && console) {
-            console.log('DOWN BUS', e.which);
-        }
-
-        switch (e.which) {
-        case 65:
-            pitch = -2100;
-            break;
-        case 87:
-            pitch = -2000;
-            break;
-        case 83:
-            pitch = -1900;
-            break;
-        case 69:
-            pitch = -1800;
-            break;
-        case 68:
-            pitch = -1700;
-            break;
-        case 70:
-            pitch = -1600;
-            break;
-        case 84:
-            pitch = -1500;
-            break;
-        case 71:
-            pitch = -1400;
-            break;
-        case 89:
-            pitch = -1300;
-            break;
-        case 72:
-            pitch = -1200;
-            break;
-        case 85:
-            pitch = -1100;
-            break;
-        case 74:
-            pitch = -1000;
-            break;
-        case 75:
-            pitch = -900;
-            break;
-        case 79:
-            pitch = -800;
-            break;
-        case 76:
-            pitch = -700;
-            break;
-        case 80:
-            pitch = -600;
-            break;
-        case 186:
-            pitch = -500;
-            break;
-        case 222:
-            pitch = -400;
-            break;
-        case 221:
-            pitch = -300;
-            break;
-        case 192:
-            console.log(EVE.program);
-            break;
-        }
-
-        if (pitch !== null && EVE.keyboard.current !== e.which) {
-            if (EVE.keyboard.keyDown === false) {
-                EVE.keyboard.current = e.which;
-                EVE.gateOn();
-            }
-            EVE.calculatePitch(pitch);
-        }
-
-    },
-    upBus: function (e) {
-        'use strict';
-        if (e.which === EVE.keyboard.current) {
-            EVE.keyboard.current = null;
-            EVE.gateOff();
-        }
-    },
-    touch: function (e) {
-        'use strict';
-        if (EVE.keyboard.debug && console) {
-            console.log('Keyboard touched', e);
-        }
-    }
-};
-
-(function bindEvents() {
-    'use strict';
-    var buttons = document.getElementsByClassName('shift-octave'),
-        i;
-    for (i = 0; i < buttons.length; i += 1) {
-        buttons[i].addEventListener('click', EVE.keyboard.shiftOctave);
-        buttons[i].addEventListener('touchstart', EVE.keyboard.shiftOctave);
-    }
-    document.addEventListener('keypress', EVE.keyboard.pressBus);
-    document.addEventListener('keydown', EVE.keyboard.downBus);
-    document.addEventListener('keyup', EVE.keyboard.upBus);
-}());
-
-EVE.preset = {
-    bank: [
-        'init',
-        'cool-sci-fi-sound',
-        'problematic-patch',
-        'test-patch'
-    ],
-    displayName: document.getElementById('display-name'),
-    number: 0
-};
-
-EVE.preset.cycle = function (n) {
-    'use strict';
-    var i = n && n < 0 ? -1 : 1,
-        x = EVE.preset.number + i;
-
-    if (x >= 0 && x <= EVE.preset.bank.length - 1) {
-        EVE.preset.number = x;
-    }
-
-    console.log('EVE.preset.number = ', EVE.preset.number);
-    console.log('PROGRAM:', EVE.preset.bank[EVE.preset.number]);
-
-    return EVE.preset.load(i);
-};
-
-EVE.preset.cycleForward = EVE.preset.cycle.bind(null, 1);
-EVE.preset.cycleBackward = EVE.preset.cycle.bind(null, -1);
-
-EVE.update_program = new CustomEvent('update_program', {bubbles: true});
-
-EVE.preset.load = function load(index) {
-    'use strict';
-    var ajax = new XMLHttpRequest();
-
-    ajax.open('GET', '/presets/cool-sci-fi-sound.json', true);
-
-    ajax.onload = function () {
-        var data;
-
-        if (ajax.status >= 200 && ajax.status < 400) {
-            data = JSON.parse(ajax.responseText);
-            console.log(data);
-            EVE.program = data;
-            document.dispatchEvent(EVE.update_program);
-        } else {
-            data = 'Error, dude! Bummer!';
-        }
     };
 
-    ajax.send();
+    return module;
+}(EVE));
 
-    console.log('Loading a preset!', index);
-};
-
-EVE.preset.update = function update() {
+// The preset object contains the changing parameters. The entire preset object
+// can be changed dynamically, so it must not contain anything else.
+EVE = (function (module) {
     'use strict';
-    var i,
-        osc;// COULD BE GENERALIZED TO P
+    module.preset = {
+        name: 'INIT',
 
-    // NAME
-    EVE.preset.displayName.textContent = EVE.program.name;
+        // Harmonic oscillator VCAs
+        osc1: 1,
+        osc2: 0,
+        osc3: 0,
+        osc4: 0,
+        osc5: 0,
+        osc6: 0,
+        osc7: 0,
+        osc8: 0,
 
-    // HARMONIC OSC
-    for (i = 1; i <= 8; i += 1) {
-        osc = 'osc' + i;// COULD BE GENERALIZED TO P
-        EVE.harmonicOsc.inputs[i - 1].value = Math.sqrt(EVE.program[osc]);
-    }
+        // Harmonic oscillator envelope amounts
+        osc1_eg: 0,
+        osc2_eg: 0,
+        osc3_eg: 0,
+        osc4_eg: 0,
+        osc5_eg: 0,
+        osc6_eg: 0,
+        osc7_eg: 0,
+        osc8_eg: 0,
 
-    // TIMBRE EG (linear)
-    for (i = 1; i <= 8; i += 1) {
-        osc = 'osc' + i + '_eg';// COULD BE GENERALIZED TO P
-        EVE.timbreEg.inputs[i - 1].value = EVE.program[osc];
-    }
+        // Timbre envelope
+        timbre_a: 0,
+        timbre_d: 0.125,
+        timbre_s: 0,
+        timbre_r: 0.125,
 
-    // TIMBRE ENVELOPE
-    EVE.timbreEnv.attack.value = Math.sqrt(EVE.program.timbre_a);
-    EVE.timbreEnv.decay.value = Math.sqrt(EVE.program.timbre_d);
-    EVE.timbreEnv.sustain.value = EVE.program.timbre_s;
-    EVE.timbreEnv.release.value = Math.sqrt(EVE.program.timbre_r);
+        // LFO 1
+        lfo1_rate: 1,
+        lfo1_range: 20,
+        lfo1_type: 'sine',
+        osc1_lfo: 0,
+        osc2_lfo: 0,
+        osc3_lfo: 0,
+        osc4_lfo: 0,
+        osc5_lfo: 0,
+        osc6_lfo: 0,
+        osc7_lfo: 0,
+        osc8_lfo: 0,
 
-    // VCA ENVELOPE
-    EVE.vca.attack.value = Math.sqrt(EVE.program.vca_a);
-    EVE.vca.decay.value = Math.sqrt(EVE.program.vca_d);
-    EVE.vca.sustain.value = EVE.program.vca_s;
-    EVE.vca.release.value = Math.sqrt(EVE.program.vca_r);
-    EVE.vca.gain.value = Math.sqrt(EVE.program.vca_g);
+        // LFO 2
+        lfo2_rate: 3,
+        lfo2_type: 'sine',
+        lfo2_amp: 0,
+        lfo2_pitch: 0,
+        lfo2_d: 0,
+        lfo2_a: 0,
+        lfo2_r: 0.0001,
+        lfo2_g: 0,
 
-    // LFO 1
-    switch (EVE.program.lfo1_type) {
-    case 'sine':
-        EVE.lfo1.sine.checked = true;
-        break;
-    case 'square':
-        EVE.lfo1.square.checked = true;
-        break;
-    case 'sawtooth':
-        EVE.lfo1.saw.checked = true;
-        break;
-    case 'triangle':
-        EVE.lfo1.tri.checked = true;
-        break;
-    }
+        // VCA
+        vca_a: 0,
+        vca_d: 0.1,
+        vca_s: 0,
+        vca_r: 0.1,
+        vca_g: 0,
 
-    switch (EVE.program.lfo1_range) {
-    case 20:
-        EVE.lfo1.low.checked = true;
-        break;
-    case 40:
-        EVE.lfo1.mid.checked = true;
-        break;
-    case 80:
-        EVE.lfo1.high.checked = true;
-        break;
-    case 440:
-        EVE.lfo1.track.checked = true;
-        break;
-    }
+        // Performance
+        glide: 0.000001//tolerable maximum = 0.165
 
-    EVE.lfo1.rate.value = Math.sqrt(EVE.program.lfo1_rate);
+    };
 
-    for (i = 1; i < EVE.lfo1.oscInputs.length; i += 1) {
-        osc = 'osc' + i + '_lfo';// COULD BE GENERALIZED TO P
-        EVE.lfo1.oscInputs[i - 1].value = EVE.program[osc];
-    }
+    return module;
+}(EVE));
 
-    // LFO 2
-    switch (EVE.program.lfo2_type) {
-    case 'sine':
-        EVE.lfo2.sine.checked = true;
-        break;
-    case 'square':
-        EVE.lfo2.square.checked = true;
-        break;
-    case 'sawtooth':
-        EVE.lfo2_saw.checked = true;
-        break;
-    case 'triangle':
-        EVE.lfo2_tri.checked = true;
-        break;
-    }
-
-    EVE.lfo2.rate.value = Math.sqrt(EVE.program.lfo2_rate);
-
-    EVE.lfo2.amp.value = EVE.program.lfo2_amp;
-    EVE.lfo2.pitch.value = Math.sqrt(EVE.program.lfo2_pitch);
-
-    EVE.lfo2.delay.value = Math.sqrt(EVE.program.lfo2_d);
-    EVE.lfo2.attack.value = Math.sqrt(EVE.program.lfo2_a);
-    EVE.lfo2.release.value = Math.sqrt(EVE.program.lfo2_r);
-    EVE.lfo2.gain.value = Math.sqrt(EVE.program.lfo2_g);
-
-    // PERFORMANCE
-    EVE.performance.glide.value = EVE.program.glide;
-};
-
-(function bindProgramButtons() {
-    'use strict';
-    var nextPreset = document.getElementById('next-preset'),
-        prevPreset = document.getElementById('prev-preset');
-
-    nextPreset.addEventListener('click', EVE.preset.cycleForward);
-    prevPreset.addEventListener('click', EVE.preset.cycleBackward);
-    document.addEventListener('update_program', EVE.preset.update);
-}());
-
-EVE.program = {
-    name: 'INIT',
-
-    // Harmonics (VCAs)
-    osc1: 1,
-    osc2: 0,
-    osc3: 0,
-    osc4: 0,
-    osc5: 0,
-    osc6: 0,
-    osc7: 0,
-    osc8: 0,
-
-    // Harmonic Envelope (Amounts)
-    osc1_eg: 0,
-    osc2_eg: 0,
-    osc3_eg: 0,
-    osc4_eg: 0,
-    osc5_eg: 0,
-    osc6_eg: 0,
-    osc7_eg: 0,
-    osc8_eg: 0,
-
-    // Timbre Envelope
-    timbre_a: 0,
-    timbre_d: 0.125,
-    timbre_s: 0,
-    timbre_r: 0.125,
-
-    // LFO 1
-    lfo1_rate: 1,
-    lfo1_range: 20,
-    lfo1_type: 'sine',
-    osc1_lfo: 0,
-    osc2_lfo: 0,
-    osc3_lfo: 0,
-    osc4_lfo: 0,
-    osc5_lfo: 0,
-    osc6_lfo: 0,
-    osc7_lfo: 0,
-    osc8_lfo: 0,
-
-    // LFO 2
-    lfo2_rate: 3,
-    lfo2_type: 'sine',
-    lfo2_amp: 0,
-    lfo2_pitch: 0,
-    lfo2_d: 0,
-    lfo2_a: 0,
-    lfo2_r: 0.0001,
-    lfo2_g: 0,
-
-    // VCA
-    vca_a: 0,
-    vca_d: 0.1,
-    vca_s: 0,
-    vca_r: 0.1,
-    vca_g: 0,
-
-    // Performance
-    glide: 0.000001//tolerable maximum = 0.165
-};
-
-EVE.now = function () {
-    'use strict';
-    return EVE.synth.currentTime;
-};
-
-EVE.attack = function (x) {
-    'use strict';
-    return EVE.now() + x;
-};
-
-EVE.oscilloscope = EVE.synth.createAnalyser();
-
-(function buildScope() {
+// TODO Refactor for clarity
+EVE = (function (module) {
     'use strict';
     var fft = 2048,
         oscope = document.getElementById('scope'),
         ctx = oscope.getContext('2d'),
         lineColor = 'rgb(53, 56, 55)',
         scopeData = new Uint8Array(fft);
+
+    module.oscilloscope = module.createAnalyser();
 
     (function draw() {
         var sliceWidth = 300 / fft,// canvas/fft
@@ -428,7 +126,7 @@ EVE.oscilloscope = EVE.synth.createAnalyser();
         ctx.lineWidth = 2;
         ctx.strokeStyle = lineColor;
         ctx.beginPath();
-        EVE.oscilloscope.getByteTimeDomainData(scopeData);
+        module.oscilloscope.getByteTimeDomainData(scopeData);
         for (i = 0; i < fft; i += 1) {
             v = scopeData[i] / 128;
             y = v * 150 / 2;
@@ -444,752 +142,604 @@ EVE.oscilloscope = EVE.synth.createAnalyser();
         ctx.stroke();
     }());
 
-}());
+    return module;
+}(EVE));
 
-EVE.vca = EVE.synth.createGain();
-EVE.vca.gain.value = EVE.program.vca_g;
-EVE.vca.connect(EVE.synth.destination);
-
-// TODO Listen for the oscilloscope and connect to it when available
-EVE.vca.connect(EVE.oscilloscope);
-
-EVE.vca.debug = true;
-
-EVE.vca.scope = document.getElementById('vca');
-
-EVE.vca.attack = document.getElementById('vca-a');
-EVE.vca.decay = document.getElementById('vca-d');
-EVE.vca.sustain = document.getElementById('vca-s');
-EVE.vca.release = document.getElementById('vca-r');
-
-EVE.vca.update = function (e) {
+EVE = (function (module) {
     'use strict';
-    var p;
 
-    if (e.target && e.target.dataset && e.target.dataset.program) {
-        p = e.target.dataset.program;
-    }
+    module.vca = module.createGain();
+    module.vca.gain.value = module.preset.vca_g;
+    module.vca.connect(module.destination);
+    module.vca.connect(module.oscilloscope);
+    module.vca.debug = true;
+    module.vca.attack = document.getElementById('vca-a');
+    module.vca.decay = document.getElementById('vca-d');
+    module.vca.sustain = document.getElementById('vca-s');
+    module.vca.release = document.getElementById('vca-r');
 
-    if (EVE.vca.debug && console) {
-        console.log(p, EVE.program[p]);
-    }
-
-    if (p === 'vca_g') {
-        EVE.vca.gain.setValueAtTime(EVE.program.vca_g, EVE.now());
-    }
-
-};
-
-EVE.vca.scope.addEventListener('update_vca', EVE.vca.update);
-
-EVE.update_vca = new CustomEvent('update_vca', {bubbles: true});
-
-EVE.harmonicOsc = {
-    debug: true,
-    scope: document.getElementById('harmonics'),
-    inputs: document.querySelectorAll('#harmonics input'),
-    update: function (e) {
-        'use strict';
+    module.vca.update = function (e) {
         var p;
 
         if (e.target && e.target.dataset && e.target.dataset.program) {
             p = e.target.dataset.program;
         }
 
-        if (EVE.harmonicOsc.debug && console) {
-            console.log(p, EVE.program[p]);
+        if (module.vca.debug && console) {
+            console.log(p, module.preset[p]);
         }
 
-        EVE.harmonicOsc[p].vca.gain.setValueAtTime(EVE.program[p], EVE.now());
-    }
-};
+        if (p === 'vca_g') {
+            module.vca.gain.setValueAtTime(module.preset.vca_g, module.now());
+        }
 
-(function buildHarmonicOsc() {
+    };
+
+    document.addEventListener('updatevca', module.vca.update);
+
+    return module;
+
+}(EVE));
+
+EVE = (function (module) {
     'use strict';
     var i,
         osc;
 
-    // Mixer
-    EVE.harmonicOsc.mixer = EVE.synth.createGain();
-    EVE.harmonicOsc.mixer.gain.value = -1;
+    module.harmonicOscillator = {
+        debug: true,
+        inputs: document.querySelectorAll('#harmonic-oscillator input'),
+        update: function (e) {
+            var p;
+
+            if (e.target && e.target.dataset && e.target.dataset.program) {
+                p = e.target.dataset.program;
+            }
+
+            if (module.harmonicOscillator.debug && console) {
+                console.log(p, module.preset[p]);
+            }
+
+            module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
+        }
+    };
+
+    // Harmonic oscillator mixer
+    module.harmonicOscillator.mixer = module.createGain();
+    module.harmonicOscillator.mixer.gain.value = -1;
 
     for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
         // Oscillators
-        EVE.harmonicOsc[osc] = EVE.synth.createOscillator();
-        EVE.harmonicOsc[osc].frequency.value = EVE.config.masterFreq * i;
-        EVE.harmonicOsc[osc].type = 'sine';
+        module.harmonicOscillator[osc] = module.createOscillator();
+        module.harmonicOscillator[osc].frequency.value = module.config.masterFreq * i;
+        module.harmonicOscillator[osc].type = 'sine';
 
         // VCAs
-        EVE.harmonicOsc[osc].vca = EVE.synth.createGain();
-        EVE.harmonicOsc[osc].vca.gain.value = EVE.program[osc];
+        module.harmonicOscillator[osc].vca = module.createGain();
+        module.harmonicOscillator[osc].vca.gain.value = module.preset[osc];
 
         // Connect each oscillator to its VCA
-        EVE.harmonicOsc[osc].connect(EVE.harmonicOsc[osc].vca);
+        module.harmonicOscillator[osc].connect(module.harmonicOscillator[osc].vca);
 
-        // Connect each VCA to the mixer
-        EVE.harmonicOsc[osc].vca.connect(EVE.harmonicOsc.mixer);
+        // Connect each VCA to the harmonic oscillator mixer
+        module.harmonicOscillator[osc].vca.connect(module.harmonicOscillator.mixer);
 
         // Connect the mixer to the master VCA
-        EVE.harmonicOsc.mixer.connect(EVE.vca);
+        module.harmonicOscillator.mixer.connect(module.vca);
     }
-}());
 
+    return module;
+}(EVE));
 
-EVE.harmonicOsc.scope.addEventListener('update_harmonic_osc', EVE.harmonicOsc.update);
-
-EVE.update_harmonic_osc = new CustomEvent('update_harmonic_osc', {bubbles: true});
-
-EVE.timbreEg = {
-    debug: true,
-    scope: document.getElementById('timbre-eg'),
-    inputs: document.querySelectorAll('#timbre-eg input'),
-    update: function (e) {
-        'use strict';
-        var p;
-
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
-        }
-
-        if (EVE.timbreEg.debug && console) {
-            console.log(p, EVE.program[p]);
-        }
-
-    }
-};
-
-EVE.timbreEg.scope.addEventListener('update_timbre_eg', EVE.timbreEg.update);
-
-EVE.update_timbre_eg = new CustomEvent('update_timbre_eg', {bubbles: true});
-
-EVE.timbreEnv = {
-    debug: true,
-    scope: document.getElementById('timbre-env'),
-    attack: document.querySelector('#timbre-a'),
-    decay: document.querySelector('#timbre-d'),
-    sustain: document.querySelector('#timbre-s'),
-    release: document.querySelector('#timbre-r'),
-    update: function (e) {
-        'use strict';
-        var p;
-
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
-        }
-
-        if (EVE.timbreEnv.debug && console) {
-            console.log(p, EVE.program[p]);
-        }
-    }
-};
-
-EVE.timbreEnv.scope.addEventListener('update_timbre_env', EVE.timbreEnv.update);
-
-EVE.update_timbre_env = new CustomEvent('update_timbre_env', {bubbles: true});
-
-(function buildLfo1() {
+EVE = (function (module) {
     'use strict';
     var i,
         lfo,
         osc;
 
     // The LFO itself
-    EVE.lfo1 = EVE.synth.createOscillator();
-    EVE.lfo1.frequency.value = EVE.program.lfo1_rate;
-    EVE.lfo1.type = EVE.program.lfo1_type;
+    module.lfo1 = module.createOscillator();
+    module.lfo1.frequency.value = module.preset.lfo1_rate;
+    module.lfo1.type = module.preset.lfo1_type;
 
     // LFO 1 VCAs
     for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
         lfo = osc + '_lfo';
-        EVE[lfo] = EVE.synth.createGain();
-        EVE[lfo].gain.value = EVE.program[lfo];
+        module[lfo] = module.createGain();
+        module[lfo].gain.value = module.preset[lfo];
         // Connect LFO 1 to each LFO VCA
-        EVE.lfo1.connect(EVE[lfo]);
+        module.lfo1.connect(module[lfo]);
         // Connect to harmonic oscillator VCAs
-        EVE[lfo].connect(EVE.harmonicOsc[osc].vca.gain);
+        module[lfo].connect(module.harmonicOscillator[osc].vca.gain);
     }
 
-}());
+    module.lfo1.debug = true;
 
-EVE.lfo1.debug = true;
+    module.lfo1.scope = document.getElementById('lfo1');
+    module.lfo1.sine = document.getElementById('lfo1-sin');
+    module.lfo1.square = document.getElementById('lfo1-sqr');
+    module.lfo1.tri = document.getElementById('lfo1-tri');
+    module.lfo1.saw = document.getElementById('lfo1-saw');
+    module.lfo1.low = document.getElementById('lfo1-low');
+    module.lfo1.mid = document.getElementById('lfo1-mid');
+    module.lfo1.high = document.getElementById('lfo1-high');
+    module.lfo1.track = document.getElementById('lfo1-track');
+    module.lfo1.rate = document.getElementById('lfo1-rate');
+    module.lfo1.oscInputs = document.querySelectorAll('#lfo1 .js-osc');
 
-EVE.lfo1.scope = document.getElementById('lfo1');
-EVE.lfo1.sine = document.getElementById('lfo1-sin');
-EVE.lfo1.square = document.getElementById('lfo1-sqr');
-EVE.lfo1.tri = document.getElementById('lfo1-tri');
-EVE.lfo1.saw = document.getElementById('lfo1-saw');
-EVE.lfo1.low = document.getElementById('lfo1-low');
-EVE.lfo1.mid = document.getElementById('lfo1-mid');
-EVE.lfo1.high = document.getElementById('lfo1-high');
-EVE.lfo1.track = document.getElementById('lfo1-track');
-EVE.lfo1.rate = document.getElementById('lfo1-rate');
-EVE.lfo1.oscInputs = document.querySelectorAll('#lfo1 .js-osc');
+    module.lfo1.update = function (e) {
+        var p;
 
-EVE.lfo1.update = function (e) {
-    'use strict';
-    var p;
-
-    if (e.target && e.target.dataset && e.target.dataset.program) {
-        p = e.target.dataset.program;
-    }
-
-    if (EVE.lfo1.debug && console) {
-        console.log(p, EVE.program[p]);
-    }
-
-    switch (p) {
-    case 'lfo1_type':
-        EVE.lfo1.type = EVE.program.lfo1_type;
-        break;
-    case 'lfo1_range':
-    case 'lfo1_rate':
-        EVE.lfo1.frequency.setValueAtTime(EVE.program.lfo1_rate * EVE.program.lfo1_range, EVE.now());
-        break;
-    case 'osc1_lfo':
-    case 'osc2_lfo':
-    case 'osc3_lfo':
-    case 'osc4_lfo':
-    case 'osc5_lfo':
-    case 'osc6_lfo':
-    case 'osc7_lfo':
-    case 'osc8_lfo':
-        EVE[p].gain.setValueAtTime(EVE.program[p], EVE.now());
-        break;
-    default:
-        if (EVE.lfo1.debug && console) {
-            console.log('Unhandled LFO 1 update change');
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
         }
-    }
 
-};
+        if (module.lfo1.debug && console) {
+            console.log(p, module.preset[p]);
+        }
 
-EVE.lfo1.scope.addEventListener('update_lfo1', EVE.lfo1.update);
+        switch (p) {
+        case 'lfo1_type':
+            module.lfo1.type = module.preset.lfo1_type;
+            break;
+        case 'lfo1_range':
+        case 'lfo1_rate':
+            module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * module.preset.lfo1_range, module.now());
+            break;
+        case 'osc1_lfo':
+        case 'osc2_lfo':
+        case 'osc3_lfo':
+        case 'osc4_lfo':
+        case 'osc5_lfo':
+        case 'osc6_lfo':
+        case 'osc7_lfo':
+        case 'osc8_lfo':
+            module[p].gain.setValueAtTime(module.preset[p], module.now());
+            break;
+        default:
+            if (module.lfo1.debug && console) {
+                console.log('Unhandled LFO 1 update change');
+            }
+        }
 
-EVE.update_lfo1 = new CustomEvent('update_lfo1', {bubbles: true});
+    };
 
-(function buildLfo2() {
+    return module;
+}(EVE));
+
+// TODO Figure out why lfo2_vca gain is hardcoded to 0 here
+// TODO module.lfo2.max is better as 139 than 40...
+EVE = (function (module) {
     'use strict';
+
     var i;
 
-    EVE.lfo2 = EVE.synth.createOscillator();
-    EVE.lfo2.frequency.value = EVE.program.lfo2_rate;
-    EVE.lfo2.type = EVE.program.lfo2_type;
+    module.lfo2 = module.createOscillator();
+    module.lfo2.frequency.value = module.preset.lfo2_rate;
+    module.lfo2.type = module.preset.lfo2_type;
 
     // VCAs
-    EVE.lfo2_amp = EVE.synth.createGain();
-    EVE.lfo2_amp.gain.value = EVE.program.lfo2_amp;
-    EVE.lfo2_pitch = EVE.synth.createGain();
-    EVE.lfo2_pitch.gain.value = EVE.program.lfo2_pitch;
-    EVE.lfo2_vca = EVE.synth.createGain();
-    EVE.lfo2_vca.gain.value = 0;
+    module.lfo2_amp = module.createGain();
+    module.lfo2_amp.gain.value = module.preset.lfo2_amp;
+    module.lfo2_pitch = module.createGain();
+    module.lfo2_pitch.gain.value = module.preset.lfo2_pitch;
+    module.lfo2_vca = module.createGain();
+    module.lfo2_vca.gain.value = 0;
 
     // Connect LFO to its VCA
-    EVE.lfo2.connect(EVE.lfo2_vca);
+    module.lfo2.connect(module.lfo2_vca);
 
     // Connect LFO VCA to its pitch and amp VCAs
-    EVE.lfo2_vca.connect(EVE.lfo2_amp);
-    EVE.lfo2_vca.connect(EVE.lfo2_pitch);
+    module.lfo2_vca.connect(module.lfo2_amp);
+    module.lfo2_vca.connect(module.lfo2_pitch);
 
     // VCA to amp
-    EVE.lfo2_amp.connect(EVE.harmonicOsc.mixer.gain);
+    module.lfo2_amp.connect(module.harmonicOscillator.mixer.gain);
 
     // VCA to pitch
     for (i = 1; i <= 8; i += 1) {
-        EVE.lfo2_pitch.connect(EVE.harmonicOsc['osc' + i].frequency);
+        module.lfo2_pitch.connect(module.harmonicOscillator['osc' + i].frequency);
     }
 
-    // TODO Figure out what I was thinking when I typed the following:
-    // LFO 2 modulates LFO 1?!
-    // Probably in the wrong place because this connection can be toggled
-    if (EVE.program.lfo1_track) {
-        EVE.lfo2_pitch.connect(EVE.lfo1.frequency);
-    }
-}());
-
-EVE.lfo2.debug = true;
-EVE.lfo2.max = 40;// TODO 139 is a better number here
-EVE.lfo2.scope = document.getElementById('lfo2');
-EVE.lfo2.sine = document.getElementById('lfo2-sin');
-EVE.lfo2.square = document.getElementById('lfo2-sqr');
-EVE.lfo2.saw = document.getElementById('lfo2-saw');
-EVE.lfo2.tri = document.getElementById('lfo2-tri');
-EVE.lfo2.rate = document.getElementById('lfo2-rate');
-EVE.lfo2.amp = document.getElementById('lfo2-amp');
-EVE.lfo2.pitch = document.getElementById('lfo2-pitch');
-EVE.lfo2.delay = document.getElementById('lfo2-delay');
-EVE.lfo2.attack = document.getElementById('lfo2-attack');
-EVE.lfo2.release = document.getElementById('lfo2-release');
-EVE.lfo2.gain = document.getElementById('lfo2-gain');
-
-EVE.lfo2.update = function (e) {
-    'use strict';
-    var p;
-
-    if (e.target && e.target.dataset && e.target.dataset.program) {
-        p = e.target.dataset.program;
+    if (module.preset.lfo1_track) {
+        module.lfo2_pitch.connect(module.lfo1.frequency);
     }
 
-    if (EVE.lfo2.debug && console) {
-        console.log(p, EVE.program[p]);
-    }
+    module.lfo2.debug = true;
+    module.lfo2.max = 40;
+    module.lfo2.scope = document.getElementById('lfo2');
+    module.lfo2.sine = document.getElementById('lfo2-sin');
+    module.lfo2.square = document.getElementById('lfo2-sqr');
+    module.lfo2.saw = document.getElementById('lfo2-saw');
+    module.lfo2.tri = document.getElementById('lfo2-tri');
+    module.lfo2.rate = document.getElementById('lfo2-rate');
+    module.lfo2.amp = document.getElementById('lfo2-amp');
+    module.lfo2.pitch = document.getElementById('lfo2-pitch');
+    module.lfo2.delay = document.getElementById('lfo2-delay');
+    module.lfo2.attack = document.getElementById('lfo2-attack');
+    module.lfo2.release = document.getElementById('lfo2-release');
+    module.lfo2.gain = document.getElementById('lfo2-gain');
 
-    switch (p) {
-    case 'lfo2_amp':
-        EVE.lfo2_amp.gain.setValueAtTime(EVE.program.lfo2_amp, EVE.now());
-        break;
-    case 'lfo2_g':
-        EVE.lfo2_vca.gain.setValueAtTime(EVE.program.lfo2_g, EVE.now());
-        break;
-    case 'lfo2_pitch':
-        // TODO: Why multiply program.lfo2_pitch by some weird number?
-        // Because I want to keep the program 0-1
-        // Move 139 into EVE.config somewhere
-        EVE.lfo2_pitch.gain.setValueAtTime(EVE.program.lfo2_pitch * 139, EVE.now());
-        break;
-    case 'lfo2_rate':
-        EVE.lfo2.frequency.setValueAtTime(EVE.program.lfo2_rate * EVE.lfo2.max, EVE.now());
-        break;
-    case 'lfo2_type':
-        EVE.lfo2.type = EVE.program.lfo2_type;
-        break;
-    default:
-        if (EVE.lfo2.debug && console) {
-            console.log('Unhandled LFO 2 update change');
-        }
-    }
+    module.lfo2.update = function (e) {
+        var p;
 
-};
-
-EVE.lfo2.scope.addEventListener('update_lfo2', EVE.lfo2.update);
-
-EVE.update_lfo2 = new CustomEvent('update_lfo2', {bubbles: true});
-
-// TODO Put this file outside the synth directory
-EVE.performance = {};
-
-EVE.performance.debug = true;
-
-EVE.performance.scope = document.getElementById('performance');
-EVE.performance.glide = document.getElementById('glide');
-
-EVE.performance.update = function (e) {
-    'use strict';
-
-    var p;
-
-    if (e.target && e.target.dataset && e.target.dataset.program) {
-        p = e.target.dataset.program;
-    }
-
-    if (EVE.performance.debug && console) {
-        console.log(p, EVE.program[p]);
-    }
-
-    switch (p) {
-    case 'glide':
-        // Might be smart to make this keyboard glide or something
-        EVE.program.glide = EVE.program.glide * 0.165;
-        if (EVE.performance.debug && console) {
-            console.log('Glide updated to', EVE.program.glide);
-        }
-        break;
-    default:
-        if (EVE.performance.debug && console) {
-            console.log('Unhandled performance update change');
-        }
-    }
-
-};
-
-EVE.performance.scope.addEventListener('update_performance', EVE.performance.update);
-
-EVE.update_performance = new CustomEvent('update_performance', {bubbles: true});
-
-(function initialize() {
-    'use strict';
-
-    function startSynth() {
-        var i;
-
-        // Harmonic Oscillator
-        for (i = 1; i <= 8; i += 1) {
-            EVE.harmonicOsc['osc' + i].start(0);
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
         }
 
-        // LFO 1
-        EVE.lfo1.start(0);
-
-        // LFO 2
-        EVE.lfo2.start(0);
-
-        document.removeEventListener('click', startSynth);
-        document.removeEventListener('keydown', startSynth);
-        document.removeEventListener('mousedown', startSynth);
-        document.removeEventListener('touchend', startSynth);
-    }
-
-    document.addEventListener('click', startSynth);
-    document.addEventListener('keydown', startSynth);
-    document.addEventListener('mousedown', startSynth);
-    document.addEventListener('touchend', startSynth);
-}());
-
-EVE.slider = {
-    debug: false,
-
-    grab: function () {
-        'use strict';
-        var prog = this.dataset.program,
-            update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update,
-            x = this.dataset.curve === 'lin' ? 1 : this.value;
-
-        // Update program
-        EVE.program[prog] = this.value * x;
-
-        if (EVE.slider.debug && console) {
-            console.log('Updating', update);
+        if (module.lfo2.debug && console) {
+            console.log(p, module.preset[p]);
         }
 
-        // Broadcast change
-        this.dispatchEvent(EVE[update]);
-    }
-};
-
-(function bindSliders() {
-    'use strict';
-    var inputs = document.querySelectorAll('input[type=range]'),
-        i;
-
-    for (i = 0; i < inputs.length; i += 1) {
-        inputs[i].addEventListener('input', EVE.slider.grab);
-    }
-
-}());
-
-// SVG knobs
-EVE.knob = {
-    currentKnob: null,
-    debug: true,
-    test: function () {
-        'use strict';
-        if (EVE.knob.debug && console) {
-            console.log('AMAZING INPUT -- input event');
-        }
-    },
-    grab: function (e) {
-        'use strict';
-        EVE.knob.grab.origin = {
-            x: e.pageX,//formerly screenX
-            y: e.pageY//formerly screenY
-        };
-        EVE.knob.currentKnob = this;
-        document.addEventListener('mousemove', EVE.knob.twist);
-        document.addEventListener('touchmove', EVE.knob.twist);
-    },
-    rotate: function () {
-        'use strict';
-        var x = null;
-        EVE.knob.currentKnob.style.webkitTransform = x;
-        EVE.knob.currentKnob.style.transform = x;
-    },
-    twist: function (e) {
-        'use strict';
-        var deg = e.pageY - EVE.knob.grab.origin.y,
-            rotate = 'rotate(' + deg + 'deg)',
-            x = document.getElementById('test');
-
-        if (EVE.knob.debug && console) {
-            console.log('Difference y', deg);
-            x.stepUp(e.pageY - EVE.knob.grab.origin.y);
-            x.addEventListener('change', function () {
-                console.log('THE INPUT HAS CHANGED');
-            });
-        }
-
-        // Prevent scrolling the body while moving a knob
-        e.preventDefault();
-
-        EVE.knob.currentKnob.style.mozTransform = rotate;
-        EVE.knob.currentKnob.style.webkitTransform = rotate;
-        EVE.knob.currentKnob.style.transform = rotate;
-
-        document.addEventListener('mouseup', EVE.knob.release);
-        document.addEventListener('touchend', EVE.knob.release);
-    },
-    release: function () {
-        'use strict';
-        if (console) {
-            console.log('Knob released');
-        }
-        document.removeEventListener('mousemove', EVE.knob.twist);
-        document.removeEventListener('mouseup', EVE.knob.release);
-        document.removeEventListener('touchmove', EVE.knob.twist);
-        document.removeEventListener('touchend', EVE.knob.release);
-    }
-};
-
-EVE.button = {
-    debug: true,
-    press: function () {
-        'use strict';
-        var prog = this.name,
-            update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update;
-
-        // Update program
-        if (EVE.program[prog] !== this.value) {
-            // Prevents numbers being stored as strings
-            if (typeof this.value === 'string' && !isNaN(this.value - 1)) {
-                EVE.program[prog] = parseFloat(this.value);
-            } else {
-                EVE.program[prog] = this.value;
+        switch (p) {
+        case 'lfo2_amp':
+            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp, module.now());
+            break;
+        case 'lfo2_g':
+            module.lfo2_vca.gain.setValueAtTime(module.preset.lfo2_g, module.now());
+            break;
+        case 'lfo2_pitch':
+            // TODO: Why multiply preset.lfo2_pitch by some weird number?
+            // Because I want to keep the preset 0-1
+            // Move 139 into module.config somewhere
+            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * 139, module.now());
+            break;
+        case 'lfo2_rate':
+            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.lfo2.max, module.now());
+            break;
+        case 'lfo2_type':
+            module.lfo2.type = module.preset.lfo2_type;
+            break;
+        default:
+            if (module.lfo2.debug && console) {
+                console.log('Unhandled LFO 2 update change');
             }
         }
+    };
 
-        if (EVE.button.debug && console) {
-            console.log('Updating', update);
-        }
+    return module;
+}(EVE));
 
-        // Broadcast change
-        this.dispatchEvent(EVE[update]);
-    }
-};
-
-(function bindRadioButtons() {
+// TODO The random number (0.165) is a tolerable maximum: move it to a config
+EVE = (function (module) {
     'use strict';
+
+    module.performance = {
+        debug: true,
+        glide: document.getElementById('glide'),
+        update: function (e) {
+            var p;
+
+            if (e.target && e.target.dataset && e.target.dataset.program) {
+                p = e.target.dataset.program;
+            }
+
+            if (module.performance.debug && console) {
+                console.log(p, module.preset[p]);
+            }
+
+            switch (p) {
+            case 'glide':
+                module.preset.glide = module.preset.glide * 0.165;
+                if (module.performance.debug && console) {
+                    console.log('Glide updated to', module.preset.glide);
+                }
+                break;
+            default:
+                if (module.performance.debug && console) {
+                    console.log('Unhandled performance update change');
+                }
+            }
+        }
+    };
+
+    return module;
+}(EVE));
+
+EVE = (function (module) {
+    'use strict';
+    module.timbreEg = {
+        debug: true,
+        inputs: document.querySelectorAll('#timbre-eg input'),
+        update: function (e) {
+            var p;
+
+            if (e.target && e.target.dataset && e.target.dataset.program) {
+                p = e.target.dataset.program;
+            }
+
+            if (module.timbreEg.debug && console) {
+                console.log(p, module.preset[p]);
+            }
+        }
+    };
+
+    return module;
+}(EVE));
+
+EVE = (function (module) {
+    'use strict';
+    module.timbreEnv = {
+        debug: true,
+        attack: document.getElementById('timbre-a'),
+        decay: document.getElementById('timbre-d'),
+        sustain: document.getElementById('timbre-s'),
+        release: document.getElementById('timbre-r'),
+
+        update: function (e) {
+            var p;
+
+            if (e.target && e.target.dataset && e.target.dataset.program) {
+                p = e.target.dataset.program;
+            }
+
+            if (module.timbreEnv.debug && console) {
+                console.log(p, module.preset[p]);
+            }
+        }
+    };
+
+    return module;
+}(EVE));
+
+// TODO Rename this file to button.js
+EVE = (function (module) {
+    'use strict';
+
     var buttons = document.querySelectorAll('input[type=radio]'),
         i;
 
+    module.button = {
+        debug: true,
+        press: function () {
+            var prog = this.name,
+                update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update;
+
+            // Update program
+            if (module.preset[prog] !== this.value) {
+                // Prevents numbers being stored as strings
+                if (typeof this.value === 'string' && !isNaN(this.value - 1)) {
+                    module.preset[prog] = parseFloat(this.value);
+                } else {
+                    module.preset[prog] = this.value;
+                }
+            }
+
+            if (module.button.debug && console) {
+                console.log('Updating', update);
+            }
+
+            // Broadcast change
+            this.dispatchEvent(EVE[update]);
+        }
+    };
+
     for (i = 0; i < buttons.length; i += 1) {
-        buttons[i].addEventListener('change', EVE.button.press);
+        buttons[i].addEventListener('change', module.button.press);
     }
 
-}());
+    return module;
+}(EVE));
 
-EVE.calculatePitch = function (note) {
-    'use strict';
-    // TODO pitch needs EVE.fine added (+) after n at some point...
-    var n = note.target ? note.target.dataset.noteValue : note,
-        pitch = EVE.keyboard.octaveShift * 1200 + parseFloat(n);
-
-    return EVE.setPitch(pitch);
-};
-
-EVE.calculatePitch.debug = true;
-
-EVE.keyboard.scope.addEventListener('mousedown', EVE.calculatePitch);
-EVE.keyboard.scope.addEventListener('touchstart', EVE.calculatePitch);
-
-EVE.setPitch = function (pitch) {
-    'use strict';
-    var i;
-
-    for (i = 1; i <= 8; i += 1) {
-        EVE.harmonicOsc['osc' + i].detune.setTargetAtTime(pitch, EVE.now(), EVE.program.glide);
-    }
-
-    if (EVE.program.lfo1_range >= 440) {
-        EVE.lfo1.detune.setValueAtTime(pitch, EVE.now(), EVE.program.glide);
-    }
-
-};
-
-EVE.setPitch.debug = true;
-
-EVE.gateOn = function gateOn() {
-    'use strict';
-    var env,
-        i,
-        osc,
-        peak = EVE.now() + EVE.program.vca_a * EVE.config.egMax + EVE.config.egMin,
-        timbrePeak = EVE.now() + EVE.program.timbre_a * EVE.config.egMax + EVE.config.egMin,
-        vca;
-
-    EVE.keyboard.keyDown = true;
-
-    // LFO 2 envelope
-    // LFO 2 starting point
-    EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.now(), 0.1);
-
-    // LFO 2 attack (with delay)
-    EVE.lfo2_vca.gain.setTargetAtTime(1, EVE.now() + EVE.program.lfo2_d * EVE.config.egMax, EVE.program.lfo2_a * EVE.config.egMax + EVE.config.egMin);
-
-
-    // Timbre envelope
-    for (i = 1; i <= 8; i += 1) {
-
-        env = EVE.program['osc' + i + '_eg'];
-        osc = EVE.program['osc' + i];
-        vca = EVE.harmonicOsc['osc' + i].vca;
-
-        // Timbre starting point
-        vca.gain.setTargetAtTime(osc, EVE.now(), 0.1);
-
-        // Timbre attack
-        vca.gain.linearRampToValueAtTime(osc + env, timbrePeak);
-
-        // Timbre decay
-        vca.gain.setTargetAtTime(osc + (env * EVE.program.timbre_s), timbrePeak, EVE.program.timbre_d * EVE.config.egMax);
-    }
-
-    // VCA starting point
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.now(), 0.1);
-
-    // VCA attack
-    EVE.vca.gain.linearRampToValueAtTime(1, EVE.synth.currentTime + EVE.program.vca_a + EVE.config.egMin * EVE.config.egMax);
-
-    // VCA decay
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_s + EVE.program.vca_g, peak, EVE.program.vca_d * EVE.config.egMax);
-
-    return;
-};
-
-EVE.keyboard.scope.addEventListener('mousedown', EVE.gateOn);
-EVE.keyboard.scope.addEventListener('touchstart', EVE.gateOn);
-
-// TODO Support 0 release times
-EVE.gateOff = function gateOff() {
+// TODO pitch needs a fine tune added (+) after n
+EVE = (function (module) {
     'use strict';
 
-    var i,
-        lfo2Peak = EVE.lfo2_vca.gain.value,
-        vcaPeak = EVE.vca.gain.value,
-        timbrePeak,
-        vca;
+    EVE.calculatePitch = function (note) {
+        var n = note.target ? note.target.dataset.noteValue : note,
+            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n);
 
-    EVE.keyboard.keyDown = false;
+        return module.setPitch(pitch);
+    };
 
-    // LFO 2 envelope
-    // Prevent decay from acting like second attack
-    EVE.lfo2_vca.gain.cancelScheduledValues(EVE.now());
+    module.calculatePitch.debug = true;
 
-    // LFO 2 starting point
-    EVE.lfo2_vca.gain.setValueAtTime(lfo2Peak, EVE.now());
+    // module.keyboard.addEventListener('mousedown', module.calculatePitch);
+    // module.keyboard.addEventListener('touchstart', module.calculatePitch);
 
-    // LFO 2 release
-    EVE.lfo2_vca.gain.setTargetAtTime(EVE.program.lfo2_g, EVE.now(), EVE.program.lfo2_r);
+    return module;
+}(EVE));
 
-    // Timbre envelope
-    for (i = 1; i <= 8; i += 1) {
+// TODO Consider moving shiftOctave to performance controls
+EVE = (function (module) {
+    'use strict';
+    var buttons = document.getElementsByClassName('shift-octave'),
+        i;
 
-        vca = EVE.harmonicOsc['osc' + i].vca;
+    module.keyboard = {
+        current: null,
+        debug: true,
+        keyDown: false,
+        lights: document.querySelectorAll('#performance [data-light]'),
+        octaveShift: 0,
+        scope: document.getElementById('keyboard'),
 
-        // Prevent decay from acting like second attack
-        vca.gain.cancelScheduledValues(EVE.now());
+        shiftOctave: function (direction) {
+            var oct = module.keyboard.octaveShift,
+                shift = this.dataset ? this.dataset.shift : direction;
 
-        // Timbre starting point
-        timbrePeak = vca.gain.value;
-        vca.gain.setValueAtTime(timbrePeak, EVE.now());
+            function switchLights() {
+                var n = module.keyboard.octaveShift + 2;
 
-        // Timbre release
-        vca.gain.setTargetAtTime(EVE.program['osc' + i], EVE.now(), EVE.program.timbre_r);
-    }
+                for (i = 0; i < module.keyboard.lights.length; i += 1) {
+                    module.keyboard.lights[i].dataset.light = i === n ? 'on' : 'off';
+                }
+            }
 
-    // Prevent decay from acting like second attack
-    EVE.vca.gain.cancelScheduledValues(EVE.synth.currentTime);
+            if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
+                module.keyboard.octaveShift = oct + parseFloat(shift);
+                switchLights();
+            }
 
-    // VCA starting point
-    EVE.vca.gain.setValueAtTime(vcaPeak, EVE.synth.currentTime);
-
-    // VCA release
-    EVE.vca.gain.setTargetAtTime(EVE.program.vca_g, EVE.synth.currentTime, EVE.program.vca_r * EVE.config.egMax + EVE.config.egMin);
-
-    return;
-};
-
-EVE.keyboard.scope.addEventListener('mouseup', EVE.gateOff);
-EVE.keyboard.scope.addEventListener('touchend', EVE.gateOff);
-
-if (navigator.requestMIDIAccess) {
-
-    EVE.midi = {
-        active: null,
-        debug: false,
-        devices: [],
-        messages: {
-            listen: 254,
-            noteOn: 144,
-            noteOff: 128,
-            pitchWheel: 224
+            if (module.keyboard.debug && console) {
+                console.log(module.keyboard.octaveShift);
+            }
         },
 
-        getDevices: function () {
-            'use strict';
-
-            return navigator.requestMIDIAccess().then(function (midi) {
-                var devices = [],
-                    input,
-                    inputs = midi.inputs.entries();
-
-                for (input = inputs.next(); input && !input.done; input = inputs.next()) {
-                    devices.push(input.value[1]);
-                }
-
-                if (EVE.midi.debug && console) {
-                    console.log('Available Devices:', devices);
-                }
-
-                return devices;
-            });
-        }
-    };
-
-    EVE.midi.events = function (e) {
-        'use strict';
-        var n = e.data[1];
-
-        switch (e.data[0]) {
-        case EVE.midi.messages.listen:
-            break;
-        case EVE.midi.messages.noteOn:
-            // Some MIDI controllers send 0 velocity intead of note off
-            if (e.data[2] >= 1) {
-                if (EVE.midi.active === null) {
-                    EVE.midi.active = n;
-                    EVE.gateOn();
-                }
-                // Send pitch for any loud note
-                EVE.calculatePitch(EVE.midi.toCents(n));
-            } else {
-                // Cheap MIDI controller note off
-                if (EVE.midi.active === n) {
-                    EVE.midi.active = null;
-                    EVE.gateOff();
-                } else {
-                    // Return to initial note
-                    EVE.calculatePitch(EVE.midi.toCents(EVE.midi.active));
-                }
+        pressBus: function (e) {
+            if (module.keyboard.debug && console) {
+                console.log(e.which);
             }
-            break;
-        case EVE.midi.messages.noteOff:
-            EVE.midi.active = null;
-            EVE.gateOff();
-            break;
-        case EVE.midi.messages.pitchWheel:
-            break;
-        default:
-            if (EVE.midi.debug && console) {
-                console.log('Unrecognized MIDI event', e.data);
+            switch (e.which) {
+            case 45:// -
+            case 95:// _
+                module.keyboard.shiftOctave(-1);
+                break;
+            case 61:// =
+            case 43:// +
+                module.keyboard.shiftOctave(1);
+                break;
             }
-            break;
+        },
+
+        downBus: function (e) {
+            var pitch = null;
+
+            if (module.keyboard.debug && console) {
+                console.log('DOWN BUS', e.which);
+            }
+
+            switch (e.which) {
+            case 65:
+                pitch = -2100;
+                break;
+            case 87:
+                pitch = -2000;
+                break;
+            case 83:
+                pitch = -1900;
+                break;
+            case 69:
+                pitch = -1800;
+                break;
+            case 68:
+                pitch = -1700;
+                break;
+            case 70:
+                pitch = -1600;
+                break;
+            case 84:
+                pitch = -1500;
+                break;
+            case 71:
+                pitch = -1400;
+                break;
+            case 89:
+                pitch = -1300;
+                break;
+            case 72:
+                pitch = -1200;
+                break;
+            case 85:
+                pitch = -1100;
+                break;
+            case 74:
+                pitch = -1000;
+                break;
+            case 75:
+                pitch = -900;
+                break;
+            case 79:
+                pitch = -800;
+                break;
+            case 76:
+                pitch = -700;
+                break;
+            case 80:
+                pitch = -600;
+                break;
+            case 186:
+                pitch = -500;
+                break;
+            case 222:
+                pitch = -400;
+                break;
+            case 221:
+                pitch = -300;
+                break;
+            case 192:
+                console.log(module.preset);
+                break;
+            }
+
+            if (pitch !== null && module.keyboard.current !== e.which) {
+                if (module.keyboard.keyDown === false) {
+                    module.keyboard.current = e.which;
+                    module.gate();
+                }
+                module.calculatePitch(pitch);
+            }
+        },
+
+        upBus: function (e) {
+            if (e.which === module.keyboard.current) {
+                module.keyboard.current = null;
+                module.gate();
+            }
+        },
+
+        touch: function (e) {
+            if (module.keyboard.debug && console) {
+                console.log('Keyboard touched', e);
+            }
+        }
+
+
+    };
+
+    for (i = 0; i < buttons.length; i += 1) {
+        buttons[i].addEventListener('click', module.keyboard.shiftOctave);
+        buttons[i].addEventListener('touchstart', module.keyboard.shiftOctave);
+    }
+
+    document.addEventListener('keypress', module.keyboard.pressBus);
+    document.addEventListener('keydown', module.keyboard.downBus);
+    document.addEventListener('keyup', module.keyboard.upBus);
+
+    return module;
+}(EVE));
+
+EVE = (function (module) {
+    'use strict';
+    module.setPitch = function (pitch) {
+        var i;
+
+        for (i = 1; i <= 8; i += 1) {
+            module.harmonicOscillator['osc' + i].detune.setTargetAtTime(pitch, module.now(), module.preset.glide);
+        }
+
+        if (module.preset.lfo1_range >= 440) {
+            module.lfo1.detune.setValueAtTime(pitch, module.now(), module.preset.glide);
         }
     };
 
-    EVE.midi.getDevices().then(function (devices) {
-        'use strict';
-        var i = 0;
+    return module;
+}(EVE));
 
-        EVE.midi.devices = devices;
-
-        for (i; i < devices.length; i += 1) {
-            EVE.midi.devices[i].onmidimessage = EVE.midi.events;
-        }
-    });
-
-    EVE.midi.toCents = function (midiNote) {
-        'use strict';
-        return 100 * (midiNote - 69);
+EVE = (function (module) {
+    'use strict';
+    module.now = function () {
+        return module.currentTime;
     };
 
-}
+    return module;
+}(EVE));
+
+EVE = (function (module) {
+    'use strict';
+    var gateOn = false;
+
+    module.gate = function () {
+        var x = gateOn ? 0 : 1;
+
+        // TODO Broadcast an 'attack' or 'release' event...
+
+        gateOn = !gateOn;
+
+        return x;
+    };
+
+    return module;
+}(EVE));

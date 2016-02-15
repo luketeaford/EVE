@@ -27,18 +27,14 @@
   </section>
 
   <section class=module id=oscilloscope>
-    <a href=#toggle>
-      <h2>Oscilloscope</h2>
-    </a>
+    <h2>Oscilloscope</h2>
     <div>
       <canvas id=scope></canvas>
     </div>
   </section>
 
   <section class=module data-update=harmonic_osc id=harmonics>
-    <a href=#toggle>
-      <h2>Harmonic Oscillator</h2>
-    </a>
+    <h2>Harmonic Oscillator</h2>
     <div>
       <label>
         <span>1</span>
@@ -76,9 +72,7 @@
   </section>
 
   <section class=module data-state=closed data-update=timbre_eg id=timbre-eg>
-    <a href=#toggle>
-      <h2>Timbre EG Amount</h2>
-    </a>
+    <h2>Timbre EG Amount</h2>
     <div>
       <label>
         <span>1</span>
@@ -116,9 +110,7 @@
   </section>
 
   <section class=module data-state=closed data-update=timbre_env id=timbre-env>
-    <a href=#toggle>
-      <h2>Timbre Envelope</h2>
-    </a>
+    <h2>Timbre Envelope</h2>
     <div>
       <label>
         <span>A</span>
@@ -140,9 +132,7 @@
   </section>
 
   <section class=module data-update=vca id=vca>
-    <a href=#toggle>
-      <h2>VCA Envelope</h2>
-    </a>
+    <h2>VCA Envelope</h2>
     <div>
       <label>
         <span>A</span>
@@ -168,9 +158,7 @@
   </section>
 
   <section class=module data-update=lfo1 id=lfo1>
-    <a href=#toggle>
-      <h2>LFO 1</h2>
-    </a>
+    <h2>LFO 1</h2>
     <div>
       <fieldset>
         <legend>Shape</legend>
@@ -183,7 +171,6 @@
         <input data-program=lfo1_type id=lfo1-saw name=lfo1_type type=radio value=sawtooth>
         <label for=lfo1-saw>Saw</label>
       </fieldset>
-
       <fieldset>
         <legend>Range</legend>
         <input data-program=lfo1_range id=lfo1-low name=lfo1_range type=radio value=20>
@@ -195,9 +182,8 @@
         <input data-program=lfo1_range id=lfo1-track name=lfo1_range type=radio value=440>
         <label for=lfo1-track>Track</label>
       </fieldset>
-
       <label>
-        <span class=wordy>Rate</span>
+        <span>Rate</span>
         <input data-program=lfo1_rate id=lfo1-rate max=1 min=0 step=0.0001 type=range value=0>
       </label>
       <label>
@@ -236,9 +222,7 @@
   </section>
 
   <section class=module data-update=lfo2 id=lfo2>
-    <a href=#toggle>
-      <h2>LFO 2</h2>
-    </a>
+    <h2>LFO 2</h2>
     <div>
       <fieldset>
         <legend>Shape</legend>
@@ -251,20 +235,18 @@
         <input data-program=lfo2_type id=lfo2-saw name=lfo2_type type=radio value=sawtooth>
         <label for=lfo2-saw>Saw</label>
       </fieldset>
-
       <label>
-        <span class=wordy>Rate</span>
+        <span>Rate</span>
         <input data-program=lfo2_rate id=lfo2-rate max=1 min=0 step=0.0001 type=range value=0>
       </label>
       <label>
-        <span class=wordy>Amp</span>
+        <span>Amp</span>
         <input data-curve=lin data-program=lfo2_amp id=lfo2-amp max=1 min=0 step=0.0001 type=range value=0>
       </label>
       <label>
-        <span class=wordy>Pitch</span>
+        <span>Pitch</span>
         <input data-program=lfo2_pitch id=lfo2-pitch max=1 min=0 step=0.0001 type=range value=0>
       </label>
-
       <label>
         <span>D</span>
         <input data-curve=lin data-program=lfo2_d id=lfo2-delay max=1 min=0 step=0.0001 type=range value=0>
@@ -281,15 +263,11 @@
         <span>G</span>
         <input data-program=lfo2_g id=lfo2-gain max=1 min=0 step=0.0001 type=range value=0>
       </label>
-
     </div>
   </section>
 
   <section class=module data-update=performance id=performance>
-    <a href=#toggle>
-      <h2>Performance Controls</h2>
-    </a>
-
+    <h2>Performance Controls</h2>
     <div>
       <div class=octave-shift>
         <h3>Octave Shift</h3>
@@ -301,18 +279,18 @@
         <button class=shift-octave data-shift=-1 type=button>-1</button>
         <button class=shift-octave data-shift=1 type=button>+1</button>
       </div>
-
       <label>
-        <span class=wordy>Glide</span>
+        <span>Glide</span>
         <input data-curve=lin data-program=glide id=glide max=1 min=0 step=0.0001 type=range value=0>
       </label>
-
     </div>
   </section>
+
 </div>
 
   <!-- KEYBOARD -->
   <div id=keyboard class=keyboard-wrapper>
+    <!-- It would be nice to get pitch another way here -->
     <button class=key data-note-value=-2100>C</button>
     <button class=key-sharp data-note-value=-2000>C<sup>#</sup></button>
     <button class=key data-note-value=-1900>D</button>

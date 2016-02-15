@@ -1,13 +1,18 @@
-EVE.calculatePitch = function (note) {
+// TODO pitch needs a fine tune added (+) after n
+EVE = (function (module) {
     'use strict';
-    // TODO pitch needs EVE.fine added (+) after n at some point...
-    var n = note.target ? note.target.dataset.noteValue : note,
-        pitch = EVE.keyboard.octaveShift * 1200 + parseFloat(n);
 
-    return EVE.setPitch(pitch);
-};
+    EVE.calculatePitch = function (note) {
+        var n = note.target ? note.target.dataset.noteValue : note,
+            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n);
 
-EVE.calculatePitch.debug = true;
+        return module.setPitch(pitch);
+    };
 
-EVE.keyboard.scope.addEventListener('mousedown', EVE.calculatePitch);
-EVE.keyboard.scope.addEventListener('touchstart', EVE.calculatePitch);
+    module.calculatePitch.debug = true;
+
+    // module.keyboard.addEventListener('mousedown', module.calculatePitch);
+    // module.keyboard.addEventListener('touchstart', module.calculatePitch);
+
+    return module;
+}(EVE));
