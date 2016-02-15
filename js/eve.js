@@ -6,7 +6,10 @@ var EVE = new AudioContext();
 EVE = (function (module) {
     'use strict';
 
+    // If events were lowercased, that would solve the problem, too
     module.events = {
+        gateOff: new CustomEvent('gateoff', {bubbles: true}),
+        gateOn: new CustomEvent('gateon', {bubbles: true}),
         updateHarmonicOscillator: new CustomEvent('updateharmonicoscillator', {bubbles: true}),
         updateLfo1: new CustomEvent('updatelfo1', {bubbles: true}),
         updateLfo2: new CustomEvent('updatelfo2', {bubbles: true}),
@@ -147,16 +150,30 @@ EVE = (function (module) {
 
 EVE = (function (module) {
     'use strict';
+    var debug = true;
 
     module.vca = module.createGain();
     module.vca.gain.value = module.preset.vca_g;
     module.vca.connect(module.destination);
     module.vca.connect(module.oscilloscope);
-    module.vca.debug = true;
     module.vca.attack = document.getElementById('vca-a');
     module.vca.decay = document.getElementById('vca-d');
     module.vca.sustain = document.getElementById('vca-s');
     module.vca.release = document.getElementById('vca-r');
+
+    module.vca.gateOn = function () {
+        // DEBUG
+        if (debug && console) {
+            console.log('Begin attack stage - custom gateOn');
+        }
+    };
+
+    module.vca.gateOff = function () {
+        // DEBUG
+        if (debug && console) {
+            console.log('Begin release stage - custom gateOff');
+        }
+    };
 
     module.vca.update = function (e) {
         var p;
@@ -165,17 +182,21 @@ EVE = (function (module) {
             p = e.target.dataset.program;
         }
 
-        if (module.vca.debug && console) {
-            console.log(p, module.preset[p]);
-        }
-
         if (p === 'vca_g') {
             module.vca.gain.setValueAtTime(module.preset.vca_g, module.now());
         }
 
+        // DEBUG
+        if (debug && console) {
+            console.log(p, module.preset[p]);
+        }
     };
 
     document.addEventListener('updatevca', module.vca.update);
+
+    // The ideal way to handle multiple envelopes triggered by keyboard
+    document.addEventListener('gateon', module.vca.gateOn);
+    document.addEventListener('gateoff', module.vca.gateOff);
 
     return module;
 
@@ -535,8 +556,8 @@ EVE = (function (module) {
 
     module.calculatePitch.debug = true;
 
-    // module.keyboard.addEventListener('mousedown', module.calculatePitch);
-    // module.keyboard.addEventListener('touchstart', module.calculatePitch);
+    //module.keyboard.addEventListener('mousedown', module.calculatePitch);
+    //module.keyboard.addEventListener('touchstart', module.calculatePitch);
 
     return module;
 }(EVE));
@@ -545,12 +566,13 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
     var buttons = document.getElementsByClassName('shift-octave'),
+        currentKey,
+        debug = false,
+        keyDown,
+        pitch,
         i;
 
     module.keyboard = {
-        current: null,
-        debug: true,
-        keyDown: false,
         lights: document.querySelectorAll('#performance [data-light]'),
         octaveShift: 0,
         scope: document.getElementById('keyboard'),
@@ -572,15 +594,13 @@ EVE = (function (module) {
                 switchLights();
             }
 
-            if (module.keyboard.debug && console) {
+            // DEBUG
+            if (debug && console) {
                 console.log(module.keyboard.octaveShift);
             }
         },
 
         pressBus: function (e) {
-            if (module.keyboard.debug && console) {
-                console.log('PRESS:', e.which);
-            }
             switch (e.which) {
             case 122:// z
                 module.keyboard.shiftOctave(-1);
@@ -589,15 +609,14 @@ EVE = (function (module) {
                 module.keyboard.shiftOctave(1);
                 break;
             }
+
+            // DEBUG
+            if (debug && console) {
+                console.log('PRESS:', e.which);
+            }
         },
 
         downBus: function (e) {
-            var pitch = null;
-
-            if (module.keyboard.debug && console) {
-                console.log('DOWN BUS', e.which);
-            }
-
             switch (e.which) {
             case 65:
                 pitch = -2100;
@@ -663,25 +682,32 @@ EVE = (function (module) {
                 break;
             }
 
-            if (pitch !== null && module.keyboard.current !== e.which) {
-                if (module.keyboard.keyDown === false) {
-                    module.keyboard.current = e.which;
+            if (pitch && currentKey !== e.which) {
+                if (!keyDown) {
+                    currentKey = e.which;
+                    keyDown = !keyDown;
                     module.gate();
                 }
                 module.calculatePitch(pitch);
             }
-        },
 
-        upBus: function (e) {
-            if (e.which === module.keyboard.current) {
-                module.keyboard.current = null;
-                module.gate();
+            // DEBUG
+            if (debug && console) {
+                console.log('DOWN BUS', e.which);
             }
         },
 
-        touch: function (e) {
-            if (module.keyboard.debug && console) {
-                console.log('Keyboard touched', e);
+        upBus: function (e) {
+            if (e.which === currentKey) {
+                currentKey = undefined;
+                keyDown = !keyDown;
+                pitch = undefined;
+                module.gate();
+            }
+
+            // DEBUG
+            if (debug && console) {
+                console.log('UP BUS', e.which);
             }
         }
 
@@ -739,13 +765,6 @@ EVE = (function (module) {
             }
 
             // Broadcast change
-
-            // FIXING A PROBLEM
-            // module.events[update] === 'updateHarmonicOscillator'
-            // it MUST be 'updateHarmonicOscillator'
-            console.log('TEST:', update);
-            console.log('HARDCODED:', module.events.updateHarmonicOscillator);
-
             this.dispatchEvent(module.events[update]);
         }
     };
@@ -802,12 +821,13 @@ EVE = (function (module) {
     var gateOn = false;
 
     module.gate = function () {
-        var x = gateOn ? 0 : 1;
+        var gateEvent = gateOn ? 'gateOff' : 'gateOn';
 
-        // TODO Broadcast an 'attack' or 'release' event...
         gateOn = !gateOn;
 
-        return x;
+        document.dispatchEvent(module.events[gateEvent]);
+
+        return;
     };
 
     return module;

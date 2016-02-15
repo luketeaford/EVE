@@ -21,13 +21,6 @@ EVE = (function (module) {
             }
 
             // Broadcast change
-
-            // FIXING A PROBLEM
-            // module.events[update] === 'updateHarmonicOscillator'
-            // it MUST be 'updateHarmonicOscillator'
-            console.log('TEST:', update);
-            console.log('HARDCODED:', module.events.updateHarmonicOscillator);
-
             this.dispatchEvent(module.events[update]);
         }
     };

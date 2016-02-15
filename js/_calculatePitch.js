@@ -11,8 +11,8 @@ EVE = (function (module) {
 
     module.calculatePitch.debug = true;
 
-    // module.keyboard.addEventListener('mousedown', module.calculatePitch);
-    // module.keyboard.addEventListener('touchstart', module.calculatePitch);
+    //module.keyboard.addEventListener('mousedown', module.calculatePitch);
+    //module.keyboard.addEventListener('touchstart', module.calculatePitch);
 
     return module;
 }(EVE));

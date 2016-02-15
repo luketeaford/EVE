@@ -2,12 +2,13 @@
 EVE = (function (module) {
     'use strict';
     var buttons = document.getElementsByClassName('shift-octave'),
+        currentKey,
+        debug = false,
+        keyDown,
+        pitch,
         i;
 
     module.keyboard = {
-        current: null,
-        debug: true,
-        keyDown: false,
         lights: document.querySelectorAll('#performance [data-light]'),
         octaveShift: 0,
         scope: document.getElementById('keyboard'),
@@ -29,15 +30,13 @@ EVE = (function (module) {
                 switchLights();
             }
 
-            if (module.keyboard.debug && console) {
+            // DEBUG
+            if (debug && console) {
                 console.log(module.keyboard.octaveShift);
             }
         },
 
         pressBus: function (e) {
-            if (module.keyboard.debug && console) {
-                console.log('PRESS:', e.which);
-            }
             switch (e.which) {
             case 122:// z
                 module.keyboard.shiftOctave(-1);
@@ -46,15 +45,14 @@ EVE = (function (module) {
                 module.keyboard.shiftOctave(1);
                 break;
             }
+
+            // DEBUG
+            if (debug && console) {
+                console.log('PRESS:', e.which);
+            }
         },
 
         downBus: function (e) {
-            var pitch = null;
-
-            if (module.keyboard.debug && console) {
-                console.log('DOWN BUS', e.which);
-            }
-
             switch (e.which) {
             case 65:
                 pitch = -2100;
@@ -120,25 +118,32 @@ EVE = (function (module) {
                 break;
             }
 
-            if (pitch !== null && module.keyboard.current !== e.which) {
-                if (module.keyboard.keyDown === false) {
-                    module.keyboard.current = e.which;
+            if (pitch && currentKey !== e.which) {
+                if (!keyDown) {
+                    currentKey = e.which;
+                    keyDown = !keyDown;
                     module.gate();
                 }
                 module.calculatePitch(pitch);
             }
-        },
 
-        upBus: function (e) {
-            if (e.which === module.keyboard.current) {
-                module.keyboard.current = null;
-                module.gate();
+            // DEBUG
+            if (debug && console) {
+                console.log('DOWN BUS', e.which);
             }
         },
 
-        touch: function (e) {
-            if (module.keyboard.debug && console) {
-                console.log('Keyboard touched', e);
+        upBus: function (e) {
+            if (e.which === currentKey) {
+                currentKey = undefined;
+                keyDown = !keyDown;
+                pitch = undefined;
+                module.gate();
+            }
+
+            // DEBUG
+            if (debug && console) {
+                console.log('UP BUS', e.which);
             }
         }
 

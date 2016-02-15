@@ -3,12 +3,13 @@ EVE = (function (module) {
     var gateOn = false;
 
     module.gate = function () {
-        var x = gateOn ? 0 : 1;
+        var gateEvent = gateOn ? 'gateOff' : 'gateOn';
 
-        // TODO Broadcast an 'attack' or 'release' event...
         gateOn = !gateOn;
 
-        return x;
+        document.dispatchEvent(module.events[gateEvent]);
+
+        return;
     };
 
     return module;
