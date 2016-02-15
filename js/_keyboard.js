@@ -36,15 +36,13 @@ EVE = (function (module) {
 
         pressBus: function (e) {
             if (module.keyboard.debug && console) {
-                console.log(e.which);
+                console.log('PRESS:', e.which);
             }
             switch (e.which) {
-            case 45:// -
-            case 95:// _
+            case 122:// z
                 module.keyboard.shiftOctave(-1);
                 break;
-            case 61:// =
-            case 43:// +
+            case 120:// x
                 module.keyboard.shiftOctave(1);
                 break;
             }
@@ -116,7 +114,9 @@ EVE = (function (module) {
                 pitch = -300;
                 break;
             case 192:
-                console.log(module.preset);
+                if (console) {
+                    console.log(module.preset);
+                }
                 break;
             }
 
@@ -141,7 +141,6 @@ EVE = (function (module) {
                 console.log('Keyboard touched', e);
             }
         }
-
 
     };
 

@@ -484,7 +484,6 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO Rename this file to button.js
 EVE = (function (module) {
     'use strict';
 
@@ -580,15 +579,13 @@ EVE = (function (module) {
 
         pressBus: function (e) {
             if (module.keyboard.debug && console) {
-                console.log(e.which);
+                console.log('PRESS:', e.which);
             }
             switch (e.which) {
-            case 45:// -
-            case 95:// _
+            case 122:// z
                 module.keyboard.shiftOctave(-1);
                 break;
-            case 61:// =
-            case 43:// +
+            case 120:// x
                 module.keyboard.shiftOctave(1);
                 break;
             }
@@ -660,7 +657,9 @@ EVE = (function (module) {
                 pitch = -300;
                 break;
             case 192:
-                console.log(module.preset);
+                if (console) {
+                    console.log(module.preset);
+                }
                 break;
             }
 
@@ -685,7 +684,6 @@ EVE = (function (module) {
                 console.log('Keyboard touched', e);
             }
         }
-
 
     };
 
@@ -718,6 +716,78 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
+// TODO Here, 'prog' is used instead of 'p'. And it's really a 'parameter' or something.
+EVE = (function (module) {
+    'use strict';
+
+    var i,
+        inputs = document.querySelectorAll('input[type=range]');
+
+    module.slider = {
+        debug: true,
+
+        grab: function () {
+            var prog = this.dataset.program,
+                update = 'update' + this.parentElement.parentElement.parentElement.dataset.update,
+                x = this.dataset.curve === 'lin' ? 1 : this.value;
+
+            // Update program
+            module.preset[prog] = this.value * x;
+
+            if (module.slider.debug && console) {
+                console.log('Updating', update);
+            }
+
+            // Broadcast change
+
+            // FIXING A PROBLEM
+            // module.events[update] === 'updateHarmonicOscillator'
+            // it MUST be 'updateHarmonicOscillator'
+            console.log('TEST:', update);
+            console.log('HARDCODED:', module.events.updateHarmonicOscillator);
+
+            this.dispatchEvent(module.events[update]);
+        }
+    };
+
+    for (i = 0; i < inputs.length; i += 1) {
+        inputs[i].addEventListener('input', module.slider.grab);
+    }
+
+    return module;
+}(EVE));
+
+EVE = (function (module) {
+    'use strict';
+
+    module.startSynth = function () {
+        var i;
+
+        for (i = 1; i <= 8; i += 1) {
+            module.harmonicOscillator['osc' + i].start(0);
+        }
+
+        module.lfo1.start(0);
+        module.lfo2.start(0);
+
+        document.removeEventListener('click', module.startSynth);
+        document.removeEventListener('keydown', module.startSynth);
+        document.removeEventListener('mousedown', module.startSynth);
+        document.removeEventListener('touchend', module.startSynth);
+
+        module.startSynth = undefined;
+
+        return;
+    };
+
+    document.addEventListener('click', module.startSynth);
+    document.addEventListener('keydown', module.startSynth);
+    document.addEventListener('mousedown', module.startSynth);
+    document.addEventListener('touchend', module.startSynth);
+
+    return module;
+}(EVE));
+
 EVE = (function (module) {
     'use strict';
     module.now = function () {
@@ -735,7 +805,6 @@ EVE = (function (module) {
         var x = gateOn ? 0 : 1;
 
         // TODO Broadcast an 'attack' or 'release' event...
-
         gateOn = !gateOn;
 
         return x;

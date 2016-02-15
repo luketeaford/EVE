@@ -6,7 +6,6 @@ EVE = (function (module) {
         var x = gateOn ? 0 : 1;
 
         // TODO Broadcast an 'attack' or 'release' event...
-
         gateOn = !gateOn;
 
         return x;

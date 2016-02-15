@@ -1,4 +1,3 @@
-// TODO Rename this file to button.js
 EVE = (function (module) {
     'use strict';
 

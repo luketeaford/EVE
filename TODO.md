@@ -1,18 +1,18 @@
 #Eve Web Audio Synthesizer
+#NOTES:
+* Custom Events will require capitalizing HTML data-attributes in the short term (fix THAT later)
+* Figure out a good place to bind events
+* Reduce HTML as much as possible
 
+
+#OLD INFORMATION
 ##Next Steps:
-* correct qwerty keyboard to be normal DAW style
 
 * Put playing keys in an array for portamento
 
-* fix terrible ugliness
-  * size keyboard keys appropriately
-  * pad performance controls
-
 * presets
 
-##TODO:
-* MIDI
+##OLD TODOs:
 
 * Harmonic Osc needs modulation amounts moved into each channel
   * lfo (positive and negative)

@@ -24,15 +24,15 @@ var gulp = require('gulp'),
         'js/_timbreEg.js',
         'js/_timbreEnv.js',
         // FUNCTIONALITY
-        'js/_buttons.js',
+        'js/_button.js',
         'js/_calculatePitch.js',
             'js/_envelopes.js',// currently unused
-            'js/_keyboard.js',// lots of problems in here
+        'js/_keyboard.js',
             'js/_midi.js',
             'js/_program.js',
-            'js/_setPitch.js',// updated
-            'js/_sliders.js',
-            'js/_startSynth.js',
+        'js/_setPitch.js',
+        'js/_slider.js',
+        'js/_startSynth.js',
         'js/_now.js',
         'js/_gate.js',
         'js/_calculatePitch.js'
