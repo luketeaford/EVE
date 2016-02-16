@@ -1,8 +1,10 @@
 EVE = (function (module) {
     'use strict';
+    var debug = false;
+
     module.timbreEg = {
-        debug: true,
         inputs: document.querySelectorAll('#timbre-eg input'),
+
         update: function (e) {
             var p;
 
@@ -10,11 +12,15 @@ EVE = (function (module) {
                 p = e.target.dataset.program;
             }
 
-            if (module.timbreEg.debug && console) {
+            // DEBUG
+            if (debug && console) {
                 console.log(p, module.preset[p]);
             }
         }
     };
+
+    // BIND EVENTS
+    document.addEventListener('updatetimbreeg', module.timbreEg.update);
 
     return module;
 }(EVE));

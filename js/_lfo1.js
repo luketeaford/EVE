@@ -1,6 +1,7 @@
 EVE = (function (module) {
     'use strict';
-    var i,
+    var debug = false,
+        i,
         lfo,
         osc;
 
@@ -21,8 +22,6 @@ EVE = (function (module) {
         module[lfo].connect(module.harmonicOscillator[osc].vca.gain);
     }
 
-    module.lfo1.debug = true;
-
     module.lfo1.scope = document.getElementById('lfo1');
     module.lfo1.sine = document.getElementById('lfo1-sin');
     module.lfo1.square = document.getElementById('lfo1-sqr');
@@ -40,10 +39,6 @@ EVE = (function (module) {
 
         if (e.target && e.target.dataset && e.target.dataset.program) {
             p = e.target.dataset.program;
-        }
-
-        if (module.lfo1.debug && console) {
-            console.log(p, module.preset[p]);
         }
 
         switch (p) {
@@ -65,12 +60,19 @@ EVE = (function (module) {
             module[p].gain.setValueAtTime(module.preset[p], module.now());
             break;
         default:
-            if (module.lfo1.debug && console) {
+            if (debug && console) {
                 console.log('Unhandled LFO 1 update change');
             }
         }
 
+        // DEBUG
+        if (debug && console) {
+            console.log(p, module.preset[p]);
+        }
     };
+
+    // BIND EVENTS
+    document.addEventListener('updatelfo1', module.lfo1.update);
 
     return module;
 }(EVE));

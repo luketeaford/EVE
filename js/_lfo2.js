@@ -3,7 +3,8 @@
 EVE = (function (module) {
     'use strict';
 
-    var i;
+    var debug = false,
+        i;
 
     module.lfo2 = module.createOscillator();
     module.lfo2.frequency.value = module.preset.lfo2_rate;
@@ -36,7 +37,6 @@ EVE = (function (module) {
         module.lfo2_pitch.connect(module.lfo1.frequency);
     }
 
-    module.lfo2.debug = true;
     module.lfo2.max = 40;
     module.lfo2.scope = document.getElementById('lfo2');
     module.lfo2.sine = document.getElementById('lfo2-sin');
@@ -58,7 +58,7 @@ EVE = (function (module) {
             p = e.target.dataset.program;
         }
 
-        if (module.lfo2.debug && console) {
+        if (debug && console) {
             console.log(p, module.preset[p]);
         }
 
@@ -82,11 +82,14 @@ EVE = (function (module) {
             module.lfo2.type = module.preset.lfo2_type;
             break;
         default:
-            if (module.lfo2.debug && console) {
+            if (debug && console) {
                 console.log('Unhandled LFO 2 update change');
             }
         }
     };
+
+    // BIND EVENTS
+    document.addEventListener('updatelfo2', module.lfo2.update);
 
     return module;
 }(EVE));

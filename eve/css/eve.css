@@ -149,3 +149,11 @@ header {
 
 .temp-hide {
   display: none; }
+
+.module {
+  margin: 2rem 1rem; }
+  .module label {
+    display: block;
+    width: 100%; }
+    .module label input {
+      width: 100%; }

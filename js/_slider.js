@@ -2,11 +2,11 @@
 EVE = (function (module) {
     'use strict';
 
-    var i,
+    var debug = false,
+        i,
         inputs = document.querySelectorAll('input[type=range]');
 
     module.slider = {
-        debug: true,
 
         grab: function () {
             var prog = this.dataset.program,
@@ -16,7 +16,7 @@ EVE = (function (module) {
             // Update program
             module.preset[prog] = this.value * x;
 
-            if (module.slider.debug && console) {
+            if (debug && console) {
                 console.log('Updating', update);
             }
 

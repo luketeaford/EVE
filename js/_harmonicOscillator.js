@@ -1,11 +1,13 @@
 EVE = (function (module) {
     'use strict';
-    var i,
+    var debug = false,
+        i,
         osc;
 
     module.harmonicOscillator = {
-        debug: true,
+
         inputs: document.querySelectorAll('#harmonic-oscillator input'),
+
         update: function (e) {
             var p;
 
@@ -13,11 +15,12 @@ EVE = (function (module) {
                 p = e.target.dataset.program;
             }
 
-            if (module.harmonicOscillator.debug && console) {
+            module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
+
+            // DEBUG
+            if (debug && console) {
                 console.log(p, module.preset[p]);
             }
-
-            module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
         }
     };
 
@@ -45,6 +48,9 @@ EVE = (function (module) {
         // Connect the mixer to the master VCA
         module.harmonicOscillator.mixer.connect(module.vca);
     }
+
+    // EVENT BINDINGS
+    document.addEventListener('updateharmonicoscillator', module.harmonicOscillator.update);
 
     return module;
 }(EVE));

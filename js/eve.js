@@ -148,9 +148,10 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
+// TODO Test these envelopes better
 EVE = (function (module) {
     'use strict';
-    var debug = true;
+    var debug = false;
 
     module.vca = module.createGain();
     module.vca.gain.value = module.preset.vca_g;
@@ -162,6 +163,21 @@ EVE = (function (module) {
     module.vca.release = document.getElementById('vca-r');
 
     module.vca.gateOn = function () {
+        // Something feels fishy about this envelope
+        var peak = module.now() + module.preset.vca_a * module.config.egMax + module.config.egMin;
+
+        // Reset
+        module.vca.gain.cancelScheduledValues(0);
+
+        // VCA starting point
+        module.vca.gain.setTargetAtTime(module.preset.vca_g, module.now(), 0.1);
+
+        // VCA attack
+        module.vca.gain.linearRampToValueAtTime(1, module.now() + module.preset.vca_a + module.config.egMin * module.config.egMax);
+
+        // VCA decay
+        module.vca.gain.setTargetAtTime(module.preset.vca_s + module.preset.vca_g, peak, module.preset.vca_d * EVE.config.egMax);
+
         // DEBUG
         if (debug && console) {
             console.log('Begin attack stage - custom gateOn');
@@ -169,6 +185,17 @@ EVE = (function (module) {
     };
 
     module.vca.gateOff = function () {
+        var vcaPeak = module.vca.gain.value;
+
+        // Prevent decay from acting like second attack
+        module.vca.gain.cancelScheduledValues(0);
+
+        // VCA starting point
+        module.vca.gain.setValueAtTime(vcaPeak, module.now());
+
+        // VCA release
+        module.vca.gain.setTargetAtTime(module.preset.vca_g, module.now(), module.preset.vca_r * module.config.egMax + module.config.egMin);
+
         // DEBUG
         if (debug && console) {
             console.log('Begin release stage - custom gateOff');
@@ -192,9 +219,8 @@ EVE = (function (module) {
         }
     };
 
+    // BIND EVENTS
     document.addEventListener('updatevca', module.vca.update);
-
-    // The ideal way to handle multiple envelopes triggered by keyboard
     document.addEventListener('gateon', module.vca.gateOn);
     document.addEventListener('gateoff', module.vca.gateOff);
 
@@ -204,12 +230,14 @@ EVE = (function (module) {
 
 EVE = (function (module) {
     'use strict';
-    var i,
+    var debug = false,
+        i,
         osc;
 
     module.harmonicOscillator = {
-        debug: true,
+
         inputs: document.querySelectorAll('#harmonic-oscillator input'),
+
         update: function (e) {
             var p;
 
@@ -217,11 +245,12 @@ EVE = (function (module) {
                 p = e.target.dataset.program;
             }
 
-            if (module.harmonicOscillator.debug && console) {
+            module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
+
+            // DEBUG
+            if (debug && console) {
                 console.log(p, module.preset[p]);
             }
-
-            module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
         }
     };
 
@@ -250,12 +279,16 @@ EVE = (function (module) {
         module.harmonicOscillator.mixer.connect(module.vca);
     }
 
+    // EVENT BINDINGS
+    document.addEventListener('updateharmonicoscillator', module.harmonicOscillator.update);
+
     return module;
 }(EVE));
 
 EVE = (function (module) {
     'use strict';
-    var i,
+    var debug = false,
+        i,
         lfo,
         osc;
 
@@ -276,8 +309,6 @@ EVE = (function (module) {
         module[lfo].connect(module.harmonicOscillator[osc].vca.gain);
     }
 
-    module.lfo1.debug = true;
-
     module.lfo1.scope = document.getElementById('lfo1');
     module.lfo1.sine = document.getElementById('lfo1-sin');
     module.lfo1.square = document.getElementById('lfo1-sqr');
@@ -295,10 +326,6 @@ EVE = (function (module) {
 
         if (e.target && e.target.dataset && e.target.dataset.program) {
             p = e.target.dataset.program;
-        }
-
-        if (module.lfo1.debug && console) {
-            console.log(p, module.preset[p]);
         }
 
         switch (p) {
@@ -320,12 +347,19 @@ EVE = (function (module) {
             module[p].gain.setValueAtTime(module.preset[p], module.now());
             break;
         default:
-            if (module.lfo1.debug && console) {
+            if (debug && console) {
                 console.log('Unhandled LFO 1 update change');
             }
         }
 
+        // DEBUG
+        if (debug && console) {
+            console.log(p, module.preset[p]);
+        }
     };
+
+    // BIND EVENTS
+    document.addEventListener('updatelfo1', module.lfo1.update);
 
     return module;
 }(EVE));
@@ -335,7 +369,8 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
 
-    var i;
+    var debug = false,
+        i;
 
     module.lfo2 = module.createOscillator();
     module.lfo2.frequency.value = module.preset.lfo2_rate;
@@ -368,7 +403,6 @@ EVE = (function (module) {
         module.lfo2_pitch.connect(module.lfo1.frequency);
     }
 
-    module.lfo2.debug = true;
     module.lfo2.max = 40;
     module.lfo2.scope = document.getElementById('lfo2');
     module.lfo2.sine = document.getElementById('lfo2-sin');
@@ -390,7 +424,7 @@ EVE = (function (module) {
             p = e.target.dataset.program;
         }
 
-        if (module.lfo2.debug && console) {
+        if (debug && console) {
             console.log(p, module.preset[p]);
         }
 
@@ -414,11 +448,14 @@ EVE = (function (module) {
             module.lfo2.type = module.preset.lfo2_type;
             break;
         default:
-            if (module.lfo2.debug && console) {
+            if (debug && console) {
                 console.log('Unhandled LFO 2 update change');
             }
         }
     };
+
+    // BIND EVENTS
+    document.addEventListener('updatelfo2', module.lfo2.update);
 
     return module;
 }(EVE));
@@ -426,10 +463,11 @@ EVE = (function (module) {
 // TODO The random number (0.165) is a tolerable maximum: move it to a config
 EVE = (function (module) {
     'use strict';
+    var debug = false;
 
     module.performance = {
-        debug: true,
         glide: document.getElementById('glide'),
+
         update: function (e) {
             var p;
 
@@ -437,33 +475,38 @@ EVE = (function (module) {
                 p = e.target.dataset.program;
             }
 
-            if (module.performance.debug && console) {
+            if (debug && console) {
                 console.log(p, module.preset[p]);
             }
 
             switch (p) {
             case 'glide':
                 module.preset.glide = module.preset.glide * 0.165;
-                if (module.performance.debug && console) {
+                if (debug && console) {
                     console.log('Glide updated to', module.preset.glide);
                 }
                 break;
             default:
-                if (module.performance.debug && console) {
+                if (debug && console) {
                     console.log('Unhandled performance update change');
                 }
             }
         }
     };
 
+    // BIND EVENTS
+    document.addEventListener('updateperformance', module.performance.update);
+
     return module;
 }(EVE));
 
 EVE = (function (module) {
     'use strict';
+    var debug = false;
+
     module.timbreEg = {
-        debug: true,
         inputs: document.querySelectorAll('#timbre-eg input'),
+
         update: function (e) {
             var p;
 
@@ -471,24 +514,43 @@ EVE = (function (module) {
                 p = e.target.dataset.program;
             }
 
-            if (module.timbreEg.debug && console) {
+            // DEBUG
+            if (debug && console) {
                 console.log(p, module.preset[p]);
             }
         }
     };
+
+    // BIND EVENTS
+    document.addEventListener('updatetimbreeg', module.timbreEg.update);
 
     return module;
 }(EVE));
 
 EVE = (function (module) {
     'use strict';
+    var debug = false;
+
     module.timbreEnv = {
-        debug: true,
         attack: document.getElementById('timbre-a'),
         decay: document.getElementById('timbre-d'),
         sustain: document.getElementById('timbre-s'),
         release: document.getElementById('timbre-r'),
 
+        gateOff: function () {
+            if (debug && console) {
+                console.log('Timbre envelope gate on');
+            }
+            return;
+        },
+
+        gateOn: function () {
+            if (debug && console) {
+                console.log('Timbre envelope gate off!');
+            }
+            return;
+        },
+
         update: function (e) {
             var p;
 
@@ -496,11 +558,16 @@ EVE = (function (module) {
                 p = e.target.dataset.program;
             }
 
-            if (module.timbreEnv.debug && console) {
+            // DEBUG
+            if (debug && console) {
                 console.log(p, module.preset[p]);
             }
         }
     };
+
+    document.addEventListener('updatetimbreenv', module.timbreEnv.update);
+    document.addEventListener('gateon', module.timbreEnv.gateOn);
+    document.addEventListener('gateoff', module.timbreEnv.gateOff);
 
     return module;
 }(EVE));
@@ -509,13 +576,13 @@ EVE = (function (module) {
     'use strict';
 
     var buttons = document.querySelectorAll('input[type=radio]'),
+        debug = false,
         i;
 
     module.button = {
-        debug: true,
         press: function () {
             var prog = this.name,
-                update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update;
+                update = 'update' + this.parentElement.parentElement.parentElement.dataset.update;
 
             // Update program
             if (module.preset[prog] !== this.value) {
@@ -527,12 +594,13 @@ EVE = (function (module) {
                 }
             }
 
-            if (module.button.debug && console) {
+            // DEBUG
+            if (debug && console) {
                 console.log('Updating', update);
             }
 
             // Broadcast change
-            this.dispatchEvent(EVE[update]);
+            this.dispatchEvent(module.events[update]);
         }
     };
 
@@ -746,11 +814,11 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
 
-    var i,
+    var debug = false,
+        i,
         inputs = document.querySelectorAll('input[type=range]');
 
     module.slider = {
-        debug: true,
 
         grab: function () {
             var prog = this.dataset.program,
@@ -760,7 +828,7 @@ EVE = (function (module) {
             // Update program
             module.preset[prog] = this.value * x;
 
-            if (module.slider.debug && console) {
+            if (debug && console) {
                 console.log('Updating', update);
             }
 

@@ -2,13 +2,13 @@ EVE = (function (module) {
     'use strict';
 
     var buttons = document.querySelectorAll('input[type=radio]'),
+        debug = false,
         i;
 
     module.button = {
-        debug: true,
         press: function () {
             var prog = this.name,
-                update = 'update_' + this.parentElement.parentElement.parentElement.dataset.update;
+                update = 'update' + this.parentElement.parentElement.parentElement.dataset.update;
 
             // Update program
             if (module.preset[prog] !== this.value) {
@@ -20,12 +20,13 @@ EVE = (function (module) {
                 }
             }
 
-            if (module.button.debug && console) {
+            // DEBUG
+            if (debug && console) {
                 console.log('Updating', update);
             }
 
             // Broadcast change
-            this.dispatchEvent(EVE[update]);
+            this.dispatchEvent(module.events[update]);
         }
     };
 
