@@ -611,9 +611,13 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
+// TODO EVALUATE WHETHER OR NOT THINGS SHOULD BE BOUND TO THE KEYBOARD HERE
 // TODO pitch needs a fine tune added (+) after n
 EVE = (function (module) {
     'use strict';
+
+    var debug = true,
+        keyboard = document.getElementById('keyboard');
 
     EVE.calculatePitch = function (note) {
         var n = note.target ? note.target.dataset.noteValue : note,
@@ -622,10 +626,29 @@ EVE = (function (module) {
         return module.setPitch(pitch);
     };
 
-    module.calculatePitch.debug = true;
+    // DEBUG
+    if (debug && console) {
+        console.log('Calculating pitch');
+    }
 
-    //module.keyboard.addEventListener('mousedown', module.calculatePitch);
-    //module.keyboard.addEventListener('touchstart', module.calculatePitch);
+    // BIND EVENTS
+    keyboard.addEventListener('mousedown', module.calculatePitch);
+    keyboard.addEventListener('touchstart', module.calculatePitch);
+
+    return module;
+}(EVE));
+
+EVE = (function (module) {
+    'use strict';
+    var debug = true;
+
+    module.attack = function (x) {
+        if (debug && console) {
+            console.log('Attack function used');
+        }
+
+        return EVE.now() + x;
+    };
 
     return module;
 }(EVE));
@@ -884,9 +907,11 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
+// TODO Evaluate whether or not the keyboard events should be bound here
 EVE = (function (module) {
     'use strict';
-    var gateOn = false;
+    var gateOn = false,
+        keyboard = document.getElementById('keyboard');
 
     module.gate = function () {
         var gateEvent = gateOn ? 'gateOff' : 'gateOn';
@@ -897,6 +922,12 @@ EVE = (function (module) {
 
         return;
     };
+
+    // BIND EVENTS
+    keyboard.addEventListener('mousedown', module.gate);
+    keyboard.addEventListener('mouseup', module.gate);
+    keyboard.addEventListener('touchend', module.gate);
+    keyboard.addEventListener('touchstart', module.gate);
 
     return module;
 }(EVE));
