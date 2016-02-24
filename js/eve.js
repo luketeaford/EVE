@@ -619,7 +619,7 @@ EVE = (function (module) {
     var debug = true,
         keyboard = document.getElementById('keyboard');
 
-    EVE.calculatePitch = function (note) {
+    module.calculatePitch = function (note) {// This is really the event, right?
         var n = note.target ? note.target.dataset.noteValue : note,
             pitch = module.keyboard.octaveShift * 1200 + parseFloat(n);
 
@@ -657,14 +657,39 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
     var buttons = document.getElementsByClassName('shift-octave'),
-        currentKey,
-        debug = false,
+        debug,
+        i,
         keyDown,
         pitch,
-        i;
+        playing = [],
+        qwertyPitches = {
+            65: -2100,
+            87: -2000,
+            83: -1900,
+            69: -1800,
+            68: -1700,
+            70: -1600,
+            84: -1500,
+            71: -1400,
+            89: -1300,
+            72: -1200,
+            85: -1100,
+            74: -1000,
+            75: -900,
+            79: -800,
+            76: -700,
+            80: -600,
+            186: -500,
+            222: -400,
+            221: -300
+        };
+
+    // TODO Remove this
+    module.harmonicOscillator.osc1.type = 'sawtooth';
 
     module.keyboard = {
         lights: document.querySelectorAll('#performance [data-light]'),
+        keys: document.querySelectorAll('#keyboard button'),
         octaveShift: 0,
         scope: document.getElementById('keyboard'),
 
@@ -686,18 +711,31 @@ EVE = (function (module) {
             }
 
             // DEBUG
+            debug = false;
             if (debug && console) {
                 console.log(module.keyboard.octaveShift);
             }
         },
 
+        convertQwertyToPitch: function (keycode) {
+            return qwertyPitches[keycode];
+        },
+
         pressBus: function (e) {
             switch (e.which) {
-            case 122:// z
+            // z
+            case 122:
                 module.keyboard.shiftOctave(-1);
                 break;
-            case 120:// x
+            // x
+            case 120:
                 module.keyboard.shiftOctave(1);
+                break;
+            // `
+            case 96:
+                if (console) {
+                    console.log(module.preset);
+                }
                 break;
             }
 
@@ -708,97 +746,40 @@ EVE = (function (module) {
         },
 
         downBus: function (e) {
-            switch (e.which) {
-            case 65:
-                pitch = -2100;
-                break;
-            case 87:
-                pitch = -2000;
-                break;
-            case 83:
-                pitch = -1900;
-                break;
-            case 69:
-                pitch = -1800;
-                break;
-            case 68:
-                pitch = -1700;
-                break;
-            case 70:
-                pitch = -1600;
-                break;
-            case 84:
-                pitch = -1500;
-                break;
-            case 71:
-                pitch = -1400;
-                break;
-            case 89:
-                pitch = -1300;
-                break;
-            case 72:
-                pitch = -1200;
-                break;
-            case 85:
-                pitch = -1100;
-                break;
-            case 74:
-                pitch = -1000;
-                break;
-            case 75:
-                pitch = -900;
-                break;
-            case 79:
-                pitch = -800;
-                break;
-            case 76:
-                pitch = -700;
-                break;
-            case 80:
-                pitch = -600;
-                break;
-            case 186:
-                pitch = -500;
-                break;
-            case 222:
-                pitch = -400;
-                break;
-            case 221:
-                pitch = -300;
-                break;
-            case 192:
-                if (console) {
-                    console.log(module.preset);
-                }
-                break;
-            }
+            pitch = module.keyboard.convertQwertyToPitch(e.which);
 
-            if (pitch && currentKey !== e.which) {
+            if (pitch) {
+                if (playing.indexOf(pitch) === -1) {
+                    playing.push(pitch);
+                    playing.sort(function (a, b) {
+                        return a - b;
+                    });
+                }
                 if (!keyDown) {
-                    currentKey = e.which;
                     keyDown = !keyDown;
                     module.gate();
                 }
                 module.calculatePitch(pitch);
             }
 
-            // DEBUG
             if (debug && console) {
-                console.log('DOWN BUS', e.which);
+                console.log(playing);
             }
         },
 
         upBus: function (e) {
-            if (e.which === currentKey) {
-                currentKey = undefined;
-                keyDown = !keyDown;
-                pitch = undefined;
-                module.gate();
+            pitch = module.keyboard.convertQwertyToPitch(e.which);
+
+            if (pitch && playing.indexOf(pitch) !== -1) {
+                playing.splice(playing.indexOf(pitch), 1);
+                if (playing.length === 0) {
+                    keyDown = !keyDown;
+                    module.gate();
+                }
             }
 
-            // DEBUG
             if (debug && console) {
-                console.log('UP BUS', e.which);
+                console.log(playing, e);
             }
         }
 
