@@ -27,7 +27,7 @@ EVE = (function config(module) {
 
     module.config = {
         egMax: 2.125,
-        egMin: 0.05,
+        egMin: 0.025,
         masterFreq: 440
     };
 

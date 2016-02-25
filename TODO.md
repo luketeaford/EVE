@@ -1,8 +1,8 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* Refine VCA envelope so fast playing is possible
 * Create timbre Envelope
+* REMEMBER: when using a lot of (any?) parents, instead currentTarget
 * consider combining the timbre envelope and eg amounts
 * add MIDI
 * fine tune LFO 1
