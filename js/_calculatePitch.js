@@ -3,8 +3,7 @@
 EVE = (function (module) {
     'use strict';
 
-    var debug = true,
-        keyboard = document.getElementById('keyboard');
+    var keyboard = document.getElementById('keyboard');
 
     module.calculatePitch = function (note) {// This is really the event, right?
         var n = note.target ? note.target.dataset.noteValue : note,
@@ -12,11 +11,6 @@ EVE = (function (module) {
 
         return module.setPitch(pitch);
     };
-
-    // DEBUG
-    if (debug && console) {
-        console.log('Calculating pitch');
-    }
 
     // BIND EVENTS
     keyboard.addEventListener('mousedown', module.calculatePitch);

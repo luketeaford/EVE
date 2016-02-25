@@ -616,8 +616,7 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
 
-    var debug = true,
-        keyboard = document.getElementById('keyboard');
+    var keyboard = document.getElementById('keyboard');
 
     module.calculatePitch = function (note) {// This is really the event, right?
         var n = note.target ? note.target.dataset.noteValue : note,
@@ -625,11 +624,6 @@ EVE = (function (module) {
 
         return module.setPitch(pitch);
     };
-
-    // DEBUG
-    if (debug && console) {
-        console.log('Calculating pitch');
-    }
 
     // BIND EVENTS
     keyboard.addEventListener('mousedown', module.calculatePitch);
@@ -770,9 +764,11 @@ EVE = (function (module) {
         upBus: function (e) {
             pitch = module.keyboard.convertQwertyToPitch(e.which);
 
-            if (pitch && playing.indexOf(pitch) !== -1) {
+            if (pitch) {
                 playing.splice(playing.indexOf(pitch), 1);
-                if (playing.length === 0) {
+                if (playing.length >= 1) {
+                    module.calculatePitch(playing[playing.length - 1]);
+                } else {
                     keyDown = !keyDown;
                     module.gate();
                 }
