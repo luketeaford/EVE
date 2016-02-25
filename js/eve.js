@@ -651,11 +651,32 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
     var buttons = document.getElementsByClassName('shift-octave'),
-        debug,
         i,
+        key,
         keyDown,
         pitch,
         playing = [],
+        qwertyKeys = {
+            65: 0,
+            87: 1,
+            83: 2,
+            69: 3,
+            68: 4,
+            70: 5,
+            84: 6,
+            71: 7,
+            89: 8,
+            72: 9,
+            85: 10,
+            74: 11,
+            75: 12,
+            79: 13,
+            76: 14,
+            80: 15,
+            186: 16,
+            222: 17,
+            221: 18
+        },
         qwertyPitches = {
             65: -2100,
             87: -2000,
@@ -703,16 +724,17 @@ EVE = (function (module) {
                 module.keyboard.octaveShift = oct + parseFloat(shift);
                 switchLights();
             }
-
-            // DEBUG
-            debug = false;
-            if (debug && console) {
-                console.log(module.keyboard.octaveShift);
-            }
+            return;
         },
 
         convertQwertyToPitch: function (keycode) {
             return qwertyPitches[keycode];
+        },
+
+        highlightKey: function (keycode) {
+            key = qwertyKeys[keycode];
+            module.keyboard.keys[key].classList.toggle('key-active');
+            return;
         },
 
         pressBus: function (e) {
@@ -732,11 +754,7 @@ EVE = (function (module) {
                 }
                 break;
             }
-
-            // DEBUG
-            if (debug && console) {
-                console.log('PRESS:', e.which);
-            }
+            return;
         },
 
         downBus: function (e) {
@@ -754,11 +772,9 @@ EVE = (function (module) {
                     module.gate();
                 }
                 module.calculatePitch(pitch);
+                module.keyboard.highlightKey(e.which);
             }
-
-            if (debug && console) {
-                console.log(playing);
-            }
+            return;
         },
 
         upBus: function (e) {
@@ -772,11 +788,9 @@ EVE = (function (module) {
                     keyDown = !keyDown;
                     module.gate();
                 }
+                module.keyboard.highlightKey(e.which);
             }
-
-            if (debug && console) {
-                console.log(playing, e);
-            }
+            return;
         }
 
     };
