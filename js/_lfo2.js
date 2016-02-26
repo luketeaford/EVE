@@ -1,4 +1,3 @@
-// TODO module.lfo2.max is better as 139 than 40...
 EVE = (function (module) {
     'use strict';
 

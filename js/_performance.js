@@ -1,7 +1,6 @@
-// TODO The random number (0.165) is a tolerable maximum: move it to a config
 EVE = (function (module) {
     'use strict';
-    var debug = false;
+    var debug = true;
 
     module.performance = {
         glide: document.getElementById('glide'),
@@ -19,7 +18,8 @@ EVE = (function (module) {
 
             switch (p) {
             case 'glide':
-                module.preset.glide = module.preset.glide * 0.165;
+                debug = false;
+                module.preset.glide = module.preset.glide * module.config.glideMax;
                 if (debug && console) {
                     console.log('Glide updated to', module.preset.glide);
                 }

@@ -62,7 +62,7 @@ EVE = (function (module) {
         vca_g: 0,
 
         // Performance
-        glide: 0.000001//tolerable maximum = 0.165
+        glide: 0
 
     };
 
