@@ -85,7 +85,7 @@ EVE = (function (module) {
         lfo2_type: 'sine',
         lfo2_amp: 0,
         lfo2_pitch: 0,
-        lfo2_d: 0,
+        lfo2_delay: 0,
         lfo2_a: 0,
         lfo2_r: 0.0001,
         lfo2_g: 0,
@@ -93,7 +93,7 @@ EVE = (function (module) {
         // VCA
         vca_a: 0,
         vca_d: 0.1,
-        vca_s: 0,
+        vca_s: 0.5,
         vca_r: 0.1,
         vca_g: 0,
 
@@ -363,7 +363,6 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO Figure out why lfo2_vca gain is hardcoded to 0 here
 // TODO module.lfo2.max is better as 139 than 40...
 EVE = (function (module) {
     'use strict';
@@ -416,6 +415,31 @@ EVE = (function (module) {
     module.lfo2.release = document.getElementById('lfo2-release');
     module.lfo2.gain = document.getElementById('lfo2-gain');
 
+    module.lfo2.gateOff = function () {
+        // Prevent decay from acting like second attack
+        module.lfo2_vca.gain.cancelScheduledValues(module.now());
+
+        // Set starting point
+        module.lfo2_vca.gain.setValueAtTime(module.lfo2_vca.gain.value, module.now());
+
+        // Release
+        module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), module.preset.lfo2_r);
+        return;
+    };
+
+    module.lfo2.gateOn = function () {
+        // Reset
+        module.lfo2_vca.gain.cancelScheduledValues(0);
+
+        // Set starting point
+        module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), 0.1);
+
+        // Attack with delay
+        module.lfo2_vca.gain.setTargetAtTime(1, module.now() + module.preset.lfo2_delay * module.config.egMax, module.preset.lfo2_a * module.config.egMax + module.config.egMin);
+
+        return;
+    };
+
     module.lfo2.update = function (e) {
         var p;
 
@@ -455,6 +479,8 @@ EVE = (function (module) {
 
     // BIND EVENTS
     document.addEventListener('updatelfo2', module.lfo2.update);
+    document.addEventListener('gateon', module.lfo2.gateOn);
+    document.addEventListener('gateoff', module.lfo2.gateOff);
 
     return module;
 }(EVE));
@@ -536,7 +562,6 @@ EVE = (function (module) {
         sustain: document.getElementById('timbre-s'),
         release: document.getElementById('timbre-r'),
 
-        // FIGURE OUT WHAT NEEDS EG MIN
         gateOn: function () {
             var env,
                 i = 1,

@@ -35,7 +35,7 @@
   "lfo2_type": "sawtooth",
   "lfo2_amp": 0,
   "lfo2_pitch": 1,
-  "lfo2_d": 0,
+  "lfo2_delay": 0,
   "lfo2_a": 0,
   "lfo2_r": 0.12439729000000001,
   "lfo2_g": 1,

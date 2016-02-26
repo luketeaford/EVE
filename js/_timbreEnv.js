@@ -8,7 +8,6 @@ EVE = (function (module) {
         sustain: document.getElementById('timbre-s'),
         release: document.getElementById('timbre-r'),
 
-        // FIGURE OUT WHAT NEEDS EG MIN
         gateOn: function () {
             var env,
                 i = 1,

@@ -49,7 +49,7 @@ EVE = (function (module) {
         lfo2_type: 'sine',
         lfo2_amp: 0,
         lfo2_pitch: 0,
-        lfo2_d: 0,
+        lfo2_delay: 0,
         lfo2_a: 0,
         lfo2_r: 0.0001,
         lfo2_g: 0,
@@ -57,7 +57,7 @@ EVE = (function (module) {
         // VCA
         vca_a: 0,
         vca_d: 0.1,
-        vca_s: 0,
+        vca_s: 0.5,
         vca_r: 0.1,
         vca_g: 0,
 

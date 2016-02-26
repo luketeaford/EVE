@@ -35,7 +35,7 @@
   "lfo2_type": "sine",
   "lfo2_amp": 0.5924,
   "lfo2_pitch": 0,
-  "lfo2_d": 0.5624,
+  "lfo2_delay": 0.5624,
   "lfo2_a": 0.20666116,
   "lfo2_r": 0.19855936,
   "lfo2_g": 0,
