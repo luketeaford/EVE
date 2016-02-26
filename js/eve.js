@@ -28,6 +28,7 @@ EVE = (function config(module) {
     module.config = {
         egMax: 2.125,
         egMin: 0.025,
+        lfo2Max: 139,
         masterFreq: 440
     };
 
@@ -401,7 +402,6 @@ EVE = (function (module) {
         module.lfo2_pitch.connect(module.lfo1.frequency);
     }
 
-    module.lfo2.max = 40;
     module.lfo2.scope = document.getElementById('lfo2');
     module.lfo2.sine = document.getElementById('lfo2-sin');
     module.lfo2.square = document.getElementById('lfo2-sqr');
@@ -459,13 +459,10 @@ EVE = (function (module) {
             module.lfo2_vca.gain.setValueAtTime(module.preset.lfo2_g, module.now());
             break;
         case 'lfo2_pitch':
-            // TODO: Why multiply preset.lfo2_pitch by some weird number?
-            // Because I want to keep the preset 0-1
-            // Move 139 into module.config somewhere
-            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * 139, module.now());
+            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2Max, module.now());
             break;
         case 'lfo2_rate':
-            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.lfo2.max, module.now());
+            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2Max, module.now());
             break;
         case 'lfo2_type':
             module.lfo2.type = module.preset.lfo2_type;
