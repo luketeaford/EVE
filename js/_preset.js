@@ -28,7 +28,7 @@ EVE = (function (module) {
         // Timbre envelope
         timbre_a: 0,
         timbre_d: 0.125,
-        timbre_s: 0,
+        timbre_s: 0.5,
         timbre_r: 0.125,
 
         // LFO 1

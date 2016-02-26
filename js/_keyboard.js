@@ -50,9 +50,6 @@ EVE = (function (module) {
             221: -300
         };
 
-    // TODO Remove this
-    module.harmonicOscillator.osc1.type = 'sawtooth';
-
     module.keyboard = {
         lights: document.querySelectorAll('#performance [data-light]'),
         keys: document.querySelectorAll('#keyboard button'),

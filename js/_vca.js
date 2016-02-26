@@ -13,7 +13,6 @@ EVE = (function (module) {
     module.vca.release = document.getElementById('vca-r');
 
     module.vca.gateOn = function () {
-        // Something feels fishy about this envelope
         var peak = module.now() + module.preset.vca_a * module.config.egMax + module.config.egMin;
 
         // Reset
@@ -23,10 +22,10 @@ EVE = (function (module) {
         module.vca.gain.setTargetAtTime(module.preset.vca_g, module.now(), 0.1);
 
         // VCA attack
-        module.vca.gain.linearRampToValueAtTime(1, module.now() + module.preset.vca_a + module.config.egMin * module.config.egMax);
+        module.vca.gain.linearRampToValueAtTime(1, peak);
 
         // VCA decay
-        module.vca.gain.setTargetAtTime(module.preset.vca_s + module.preset.vca_g, peak, module.preset.vca_d * EVE.config.egMax);
+        module.vca.gain.setTargetAtTime(module.preset.vca_s + module.preset.vca_g, peak, module.preset.vca_d * module.config.egMax);
 
         // DEBUG
         if (debug && console) {
