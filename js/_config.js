@@ -5,6 +5,7 @@ EVE = (function config(module) {
         egMax: 2.125,
         egMin: 0.025,
         glideMax: 0.165,
+        glideMin: 0.0001,
         lfo2Max: 139,
         masterFreq: 440
     };

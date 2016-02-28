@@ -62,7 +62,7 @@ EVE = (function (module) {
         vca_g: 0,
 
         // Performance
-        glide: 0
+        glide: 0.00001
 
     };
 

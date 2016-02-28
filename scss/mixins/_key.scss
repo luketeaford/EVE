@@ -47,7 +47,7 @@
   }
 
   &:hover,
-  &.key-active {
+  &[data-active=true] {
 
     &::after {
       opacity: 1;

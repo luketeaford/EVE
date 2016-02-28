@@ -81,7 +81,11 @@ EVE = (function (module) {
 
         highlightKey: function (keycode) {
             key = qwertyKeys[keycode];
-            module.keyboard.keys[key].classList.toggle('key-active');
+
+            module.keyboard.keys[key].dataset.active =
+                module.keyboard.keys[key].dataset.active === "false" ?
+                        "true" :
+                        "false";
             return;
         },
 

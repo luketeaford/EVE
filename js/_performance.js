@@ -1,6 +1,6 @@
 EVE = (function (module) {
     'use strict';
-    var debug = true;
+    var debug = false;
 
     module.performance = {
         glide: document.getElementById('glide'),
@@ -18,16 +18,8 @@ EVE = (function (module) {
 
             switch (p) {
             case 'glide':
-                debug = false;
-                module.preset.glide = module.preset.glide * module.config.glideMax;
-                if (debug && console) {
-                    console.log('Glide updated to', module.preset.glide);
-                }
+                module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;
                 break;
-            default:
-                if (debug && console) {
-                    console.log('Unhandled performance update change');
-                }
             }
         }
     };

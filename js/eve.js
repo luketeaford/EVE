@@ -29,6 +29,7 @@ EVE = (function config(module) {
         egMax: 2.125,
         egMin: 0.025,
         glideMax: 0.165,
+        glideMin: 0.0001,
         lfo2Max: 139,
         masterFreq: 440
     };
@@ -100,7 +101,7 @@ EVE = (function (module) {
         vca_g: 0,
 
         // Performance
-        glide: 0
+        glide: 0.00001
 
     };
 
@@ -484,7 +485,7 @@ EVE = (function (module) {
 
 EVE = (function (module) {
     'use strict';
-    var debug = true;
+    var debug = false;
 
     module.performance = {
         glide: document.getElementById('glide'),
@@ -502,16 +503,8 @@ EVE = (function (module) {
 
             switch (p) {
             case 'glide':
-                debug = false;
-                module.preset.glide = module.preset.glide * module.config.glideMax;
-                if (debug && console) {
-                    console.log('Glide updated to', module.preset.glide);
-                }
+                module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;
                 break;
-            default:
-                if (debug && console) {
-                    console.log('Unhandled performance update change');
-                }
             }
         }
     };
@@ -794,7 +787,11 @@ EVE = (function (module) {
 
         highlightKey: function (keycode) {
             key = qwertyKeys[keycode];
-            module.keyboard.keys[key].classList.toggle('key-active');
+
+            module.keyboard.keys[key].dataset.active =
+                module.keyboard.keys[key].dataset.active === "false" ?
+                        "true" :
+                        "false";
             return;
         },
 

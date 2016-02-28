@@ -81,7 +81,7 @@ header {
     top: 0;
     transition: opacity 95ms ease-in; }
   .key:hover::after,
-  .key.key-active::after {
+  .key[data-active=true]::after {
     opacity: 1;
     transition: none; }
 
@@ -118,7 +118,7 @@ header {
     top: 0;
     transition: opacity 95ms ease-in; }
   .key-sharp:hover::after,
-  .key-sharp.key-active::after {
+  .key-sharp[data-active=true]::after {
     opacity: 1;
     transition: none; }
 
