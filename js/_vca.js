@@ -68,10 +68,19 @@ EVE = (function (module) {
         }
     };
 
+    module.vca.load = function () {
+        module.vca.attack.value = Math.sqrt(module.preset.vca_a);
+        module.vca.decay.value = Math.sqrt(module.preset.vca_d);
+        module.vca.sustain.value = module.preset.vca_s;
+        module.vca.release.value = Math.sqrt(module.preset.vca_r);
+        module.vca.gain.value = Math.sqrt(module.preset.vca_g);
+    };
+
     // BIND EVENTS
     document.addEventListener('updatevca', module.vca.update);
     document.addEventListener('gateon', module.vca.gateOn);
     document.addEventListener('gateoff', module.vca.gateOff);
+    document.addEventListener('loadpreset', module.vca.load);
 
     return module;
 

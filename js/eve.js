@@ -223,10 +223,19 @@ EVE = (function (module) {
         }
     };
 
+    module.vca.load = function () {
+        module.vca.attack.value = Math.sqrt(module.preset.vca_a);
+        module.vca.decay.value = Math.sqrt(module.preset.vca_d);
+        module.vca.sustain.value = module.preset.vca_s;
+        module.vca.release.value = Math.sqrt(module.preset.vca_r);
+        module.vca.gain.value = Math.sqrt(module.preset.vca_g);
+    };
+
     // BIND EVENTS
     document.addEventListener('updatevca', module.vca.update);
     document.addEventListener('gateon', module.vca.gateOn);
     document.addEventListener('gateoff', module.vca.gateOff);
+    document.addEventListener('loadpreset', module.vca.load);
 
     return module;
 
@@ -236,29 +245,10 @@ EVE = (function (module) {
     'use strict';
     var debug = false,
         i,
+        inputs = document.querySelectorAll('#harmonic-oscillator input'),
         osc;
 
-    module.harmonicOscillator = {
-
-        inputs: document.querySelectorAll('#harmonic-oscillator input'),
-
-        update: function (e) {
-            var p;
-
-            if (e.target && e.target.dataset && e.target.dataset.program) {
-                p = e.target.dataset.program;
-            }
-
-            module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
-
-            // DEBUG
-            if (debug && console) {
-                console.log(p, module.preset[p]);
-            }
-        }
-    };
-
-    // Harmonic oscillator mixer
+    module.harmonicOscillator = {};
     module.harmonicOscillator.mixer = module.createGain();
     module.harmonicOscillator.mixer.gain.value = -1;
 
@@ -283,8 +273,31 @@ EVE = (function (module) {
         module.harmonicOscillator.mixer.connect(module.vca);
     }
 
+    module.harmonicOscillator.update = function (e) {
+        var p;
+
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
+        }
+
+        module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
+
+        // DEBUG
+        if (debug && console) {
+            console.log(p, module.preset[p]);
+        }
+    };
+
+    module.harmonicOscillator.load = function () {
+        for (i = 1; i <= 8; i += 1) {
+            osc = 'osc' + i;
+            inputs[i - 1].value = Math.sqrt(module.preset[osc]);
+        }
+    };
+
     // EVENT BINDINGS
     document.addEventListener('updateharmonicoscillator', module.harmonicOscillator.update);
+    document.addEventListener('loadpreset', module.harmonicOscillator.load);
 
     return module;
 }(EVE));
@@ -591,7 +604,7 @@ EVE = (function (module) {
 
         gateOn: function () {
             var env,
-                i = 1,
+                i,
                 osc,
                 peak = module.now() + module.preset.timbre_a * module.config.egMax + module.config.egMin,
                 vca;
@@ -621,11 +634,11 @@ EVE = (function (module) {
         },
 
         gateOff: function () {
-            var i = 1,
+            var i,
                 peak,
                 vca;
 
-            for (i; i <= 8; i += 1) {
+            for (i = 1; i <= 8; i += 1) {
                 vca = module.harmonicOscillator['osc' + i].vca;
 
                 // Prevent decay from acting like second attack
@@ -656,12 +669,20 @@ EVE = (function (module) {
             if (debug && console) {
                 console.log(p, module.preset[p]);
             }
+        },
+
+        load: function () {
+            module.timbreEnv.attack.value = Math.sqrt(module.preset.timbre_a);
+            module.timbreEnv.decay.value = Math.sqrt(module.preset.timbre_d);
+            module.timbreEnv.sustain.value = module.preset.timbre_s;
+            module.timbreEnv.release.value = Math.sqrt(module.preset.timbre_r);
         }
     };
 
     document.addEventListener('updatetimbreenv', module.timbreEnv.update);
     document.addEventListener('gateon', module.timbreEnv.gateOn);
     document.addEventListener('gateoff', module.timbreEnv.gateOff);
+    document.addEventListener('loadpreset', module.timbreEnv.load);
 
     return module;
 }(EVE));

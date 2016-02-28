@@ -2,29 +2,10 @@ EVE = (function (module) {
     'use strict';
     var debug = false,
         i,
+        inputs = document.querySelectorAll('#harmonic-oscillator input'),
         osc;
 
-    module.harmonicOscillator = {
-
-        inputs: document.querySelectorAll('#harmonic-oscillator input'),
-
-        update: function (e) {
-            var p;
-
-            if (e.target && e.target.dataset && e.target.dataset.program) {
-                p = e.target.dataset.program;
-            }
-
-            module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
-
-            // DEBUG
-            if (debug && console) {
-                console.log(p, module.preset[p]);
-            }
-        }
-    };
-
-    // Harmonic oscillator mixer
+    module.harmonicOscillator = {};
     module.harmonicOscillator.mixer = module.createGain();
     module.harmonicOscillator.mixer.gain.value = -1;
 
@@ -49,8 +30,31 @@ EVE = (function (module) {
         module.harmonicOscillator.mixer.connect(module.vca);
     }
 
+    module.harmonicOscillator.update = function (e) {
+        var p;
+
+        if (e.target && e.target.dataset && e.target.dataset.program) {
+            p = e.target.dataset.program;
+        }
+
+        module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
+
+        // DEBUG
+        if (debug && console) {
+            console.log(p, module.preset[p]);
+        }
+    };
+
+    module.harmonicOscillator.load = function () {
+        for (i = 1; i <= 8; i += 1) {
+            osc = 'osc' + i;
+            inputs[i - 1].value = Math.sqrt(module.preset[osc]);
+        }
+    };
+
     // EVENT BINDINGS
     document.addEventListener('updateharmonicoscillator', module.harmonicOscillator.update);
+    document.addEventListener('loadpreset', module.harmonicOscillator.load);
 
     return module;
 }(EVE));

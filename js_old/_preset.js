@@ -73,13 +73,13 @@ EVE.preset.update = function update() {
         EVE.timbreEg.inputs[i - 1].value = EVE.program[osc];
     }
 
-    // TIMBRE ENVELOPE
+    // TIMBRE ENVELOPE (REFACTORED)
     EVE.timbreEnv.attack.value = Math.sqrt(EVE.program.timbre_a);
     EVE.timbreEnv.decay.value = Math.sqrt(EVE.program.timbre_d);
     EVE.timbreEnv.sustain.value = EVE.program.timbre_s;
     EVE.timbreEnv.release.value = Math.sqrt(EVE.program.timbre_r);
 
-    // VCA ENVELOPE
+    // VCA ENVELOPE (REFACTORED)
     EVE.vca.attack.value = Math.sqrt(EVE.program.vca_a);
     EVE.vca.decay.value = Math.sqrt(EVE.program.vca_d);
     EVE.vca.sustain.value = EVE.program.vca_s;

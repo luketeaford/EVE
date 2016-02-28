@@ -10,7 +10,7 @@ EVE = (function (module) {
 
         gateOn: function () {
             var env,
-                i = 1,
+                i,
                 osc,
                 peak = module.now() + module.preset.timbre_a * module.config.egMax + module.config.egMin,
                 vca;
@@ -40,11 +40,11 @@ EVE = (function (module) {
         },
 
         gateOff: function () {
-            var i = 1,
+            var i,
                 peak,
                 vca;
 
-            for (i; i <= 8; i += 1) {
+            for (i = 1; i <= 8; i += 1) {
                 vca = module.harmonicOscillator['osc' + i].vca;
 
                 // Prevent decay from acting like second attack
@@ -75,12 +75,20 @@ EVE = (function (module) {
             if (debug && console) {
                 console.log(p, module.preset[p]);
             }
+        },
+
+        load: function () {
+            module.timbreEnv.attack.value = Math.sqrt(module.preset.timbre_a);
+            module.timbreEnv.decay.value = Math.sqrt(module.preset.timbre_d);
+            module.timbreEnv.sustain.value = module.preset.timbre_s;
+            module.timbreEnv.release.value = Math.sqrt(module.preset.timbre_r);
         }
     };
 
     document.addEventListener('updatetimbreenv', module.timbreEnv.update);
     document.addEventListener('gateon', module.timbreEnv.gateOn);
     document.addEventListener('gateoff', module.timbreEnv.gateOff);
+    document.addEventListener('loadpreset', module.timbreEnv.load);
 
     return module;
 }(EVE));
