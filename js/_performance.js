@@ -21,11 +21,16 @@ EVE = (function (module) {
                 module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;
                 break;
             }
+        },
+
+        load: function () {
+            module.performance.glide.value = module.preset.glide;
         }
     };
 
     // BIND EVENTS
     document.addEventListener('updateperformance', module.performance.update);
+    document.addEventListener('loadpreset', module.performance.load);
 
     return module;
 }(EVE));

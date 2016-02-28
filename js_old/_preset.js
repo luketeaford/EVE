@@ -86,7 +86,7 @@ EVE.preset.update = function update() {
     EVE.vca.release.value = Math.sqrt(EVE.program.vca_r);
     EVE.vca.gain.value = Math.sqrt(EVE.program.vca_g);
 
-    // LFO 1
+    // LFO 1 (REFACTORED)
     switch (EVE.program.lfo1_type) {
     case 'sine':
         EVE.lfo1.sine.checked = true;
@@ -150,7 +150,7 @@ EVE.preset.update = function update() {
     EVE.lfo2.release.value = Math.sqrt(EVE.program.lfo2_r);
     EVE.lfo2.gain.value = Math.sqrt(EVE.program.lfo2_g);
 
-    // PERFORMANCE
+    // PERFORMANCE (REFACTORED)
     EVE.performance.glide.value = EVE.program.glide;
 };
 

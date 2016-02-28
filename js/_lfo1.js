@@ -1,3 +1,4 @@
+// TODO oscInputs is kind of a confusing name and it's a bad selector
 EVE = (function (module) {
     'use strict';
     var debug = false,
@@ -24,8 +25,8 @@ EVE = (function (module) {
 
     module.lfo1.sine = document.getElementById('lfo1-sin');
     module.lfo1.square = document.getElementById('lfo1-sqr');
-    module.lfo1.tri = document.getElementById('lfo1-tri');
-    module.lfo1.saw = document.getElementById('lfo1-saw');
+    module.lfo1.triangle = document.getElementById('lfo1-tri');
+    module.lfo1.sawtooth = document.getElementById('lfo1-saw');
     module.lfo1.low = document.getElementById('lfo1-low');
     module.lfo1.mid = document.getElementById('lfo1-mid');
     module.lfo1.high = document.getElementById('lfo1-high');
@@ -70,8 +71,27 @@ EVE = (function (module) {
         }
     };
 
+    module.lfo1.load = function () {
+        var lfo1Ranges = {
+            20: 'low',
+            40: 'mid',
+            80: 'high',
+            440: 'track'
+        };
+
+        module.lfo1[module.preset.lfo1_type].checked = true;
+        module.lfo1[lfo1Ranges[module.preset.lfo1_range]].checked = true;
+        module.lfo1.rate.value = Math.sqrt(module.preset.lfo1_rate);
+
+        for (i = 1; i < EVE.lfo1.oscInputs.length; i += 1) {
+            osc = 'osc' + i + '_lfo';
+            module.lfo1.oscInputs[i - 1].value = module.preset[osc];
+        }
+    };
+
     // BIND EVENTS
     document.addEventListener('updatelfo1', module.lfo1.update);
+    document.addEventListener('loadpreset', module.lfo1.load);
 
     return module;
 }(EVE));

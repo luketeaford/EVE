@@ -14,7 +14,7 @@ EVE = (function (module) {
         updateLfo1: new CustomEvent('updatelfo1', {bubbles: true}),
         updateLfo2: new CustomEvent('updatelfo2', {bubbles: true}),
         updatePerformance: new CustomEvent('updateperformance', {bubbles: true}),
-        updatePreset: new CustomEvent('updatepreset', {bubbles: true}),
+        loadPreset: new CustomEvent('loadpreset', {bubbles: true}),
         updateTimbreEg: new CustomEvent('updatetimbreeg', {bubbles: true}),
         updateTimbreEnv: new CustomEvent('updatetimbreenv', {bubbles: true}),
         updateVca: new CustomEvent('updatevca', {bubbles: true})
@@ -289,6 +289,7 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
+// TODO oscInputs is kind of a confusing name and it's a bad selector
 EVE = (function (module) {
     'use strict';
     var debug = false,
@@ -315,8 +316,8 @@ EVE = (function (module) {
 
     module.lfo1.sine = document.getElementById('lfo1-sin');
     module.lfo1.square = document.getElementById('lfo1-sqr');
-    module.lfo1.tri = document.getElementById('lfo1-tri');
-    module.lfo1.saw = document.getElementById('lfo1-saw');
+    module.lfo1.triangle = document.getElementById('lfo1-tri');
+    module.lfo1.sawtooth = document.getElementById('lfo1-saw');
     module.lfo1.low = document.getElementById('lfo1-low');
     module.lfo1.mid = document.getElementById('lfo1-mid');
     module.lfo1.high = document.getElementById('lfo1-high');
@@ -361,8 +362,27 @@ EVE = (function (module) {
         }
     };
 
+    module.lfo1.load = function () {
+        var lfo1Ranges = {
+            20: 'low',
+            40: 'mid',
+            80: 'high',
+            440: 'track'
+        };
+
+        module.lfo1[module.preset.lfo1_type].checked = true;
+        module.lfo1[lfo1Ranges[module.preset.lfo1_range]].checked = true;
+        module.lfo1.rate.value = Math.sqrt(module.preset.lfo1_rate);
+
+        for (i = 1; i < EVE.lfo1.oscInputs.length; i += 1) {
+            osc = 'osc' + i + '_lfo';
+            module.lfo1.oscInputs[i - 1].value = module.preset[osc];
+        }
+    };
+
     // BIND EVENTS
     document.addEventListener('updatelfo1', module.lfo1.update);
+    document.addEventListener('loadpreset', module.lfo1.load);
 
     return module;
 }(EVE));
@@ -475,7 +495,6 @@ EVE = (function (module) {
         }
     };
 
-    // DO THE WORK FROM PRESET HERE...
     module.lfo2.load = function () {
         module.lfo2[module.preset.lfo2_type].checked = true;
         module.lfo2.rate.value = Math.sqrt(module.preset.lfo2_rate);
@@ -491,8 +510,7 @@ EVE = (function (module) {
     document.addEventListener('updatelfo2', module.lfo2.update);
     document.addEventListener('gateon', module.lfo2.gateOn);
     document.addEventListener('gateoff', module.lfo2.gateOff);
-    // experimental event binding
-    document.addEventListener('updatepreset', module.lfo2.load);
+    document.addEventListener('loadpreset', module.lfo2.load);
 
     return module;
 }(EVE));
@@ -520,11 +538,16 @@ EVE = (function (module) {
                 module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;
                 break;
             }
+        },
+
+        load: function () {
+            module.performance.glide.value = module.preset.glide;
         }
     };
 
     // BIND EVENTS
     document.addEventListener('updateperformance', module.performance.update);
+    document.addEventListener('loadpreset', module.performance.load);
 
     return module;
 }(EVE));
@@ -895,7 +918,7 @@ EVE = (function (module) {
                     data = JSON.parse(ajax.responseText);
                     console.log(data);
                     module.preset = data;
-                    document.dispatchEvent(module.events.updatePreset);
+                    document.dispatchEvent(module.events.loadPreset);
                 } else {
                     data = module.preset;
                 }

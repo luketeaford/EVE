@@ -106,7 +106,6 @@ EVE = (function (module) {
         }
     };
 
-    // DO THE WORK FROM PRESET HERE...
     module.lfo2.load = function () {
         module.lfo2[module.preset.lfo2_type].checked = true;
         module.lfo2.rate.value = Math.sqrt(module.preset.lfo2_rate);
@@ -122,8 +121,7 @@ EVE = (function (module) {
     document.addEventListener('updatelfo2', module.lfo2.update);
     document.addEventListener('gateon', module.lfo2.gateOn);
     document.addEventListener('gateoff', module.lfo2.gateOff);
-    // experimental event binding
-    document.addEventListener('updatepreset', module.lfo2.load);
+    document.addEventListener('loadpreset', module.lfo2.load);
 
     return module;
 }(EVE));

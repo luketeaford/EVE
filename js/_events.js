@@ -9,7 +9,7 @@ EVE = (function (module) {
         updateLfo1: new CustomEvent('updatelfo1', {bubbles: true}),
         updateLfo2: new CustomEvent('updatelfo2', {bubbles: true}),
         updatePerformance: new CustomEvent('updateperformance', {bubbles: true}),
-        updatePreset: new CustomEvent('updatepreset', {bubbles: true}),
+        loadPreset: new CustomEvent('loadpreset', {bubbles: true}),
         updateTimbreEg: new CustomEvent('updatetimbreeg', {bubbles: true}),
         updateTimbreEnv: new CustomEvent('updatetimbreenv', {bubbles: true}),
         updateVca: new CustomEvent('updatevca', {bubbles: true})

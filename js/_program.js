@@ -14,7 +14,7 @@ EVE = (function (module) {
                     data = JSON.parse(ajax.responseText);
                     console.log(data);
                     module.preset = data;
-                    document.dispatchEvent(module.events.updatePreset);
+                    document.dispatchEvent(module.events.loadPreset);
                 } else {
                     data = module.preset;
                 }
