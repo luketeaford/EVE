@@ -12,20 +12,23 @@
 
 <main>
 
-<div class=temp-hide>
   <section class=module id=program>
       <h2>Program</h2>
-      <button class=push-button id=prev-preset>Previous</button>
+      <button id=prev-preset>Previous</button>
       <div class=display>
         <h3 id=display-name>Sample Program</h3>
       </div>
-      <button value=test-patch>test patch</button>
-      <button value=distorted-sawtooth>distorted sawtooth</button>
-      <button value=problematic-patch>problematic patch</button>
-      <button value=test-patch>test patch</button>
-      <button class=push-button id=next-preset>Next</button>
+      <div class=preset-bank>
+        <button value=test-patch>test patch</button>
+        <button value=distorted-sawtooth>distorted sawtooth</button>
+        <button value=problematic-patch>problematic patch</button>
+      </div>
+      <button id=next-preset>Next</button>
   </section>
 
+
+
+<div class=Ztemp-hide>
   <section class=module id=oscilloscope>
     <h2>Oscilloscope</h2>
     <div>
@@ -249,7 +252,7 @@
       </label>
       <label>
         <span>D</span>
-        <input data-curve=lin data-program=lfo2_d id=lfo2-delay max=1 min=0 step=0.0001 type=range value=0>
+        <input data-curve=lin data-program=lfo2_delay id=lfo2-delay max=1 min=0 step=0.0001 type=range value=0>
       </label>
       <label>
         <span>A</span>
@@ -286,9 +289,7 @@
     </div>
   </section>
 </div>
-  <!-- KEYBOARD -->
   <div id=keyboard class=keyboard-wrapper>
-    <!-- It would be nice to get pitch another way here -->
     <button class=key data-active=false data-note-value=-2100>C</button>
     <button class=key-sharp data-active=false data-note-value=-2000>C<sup>#</sup></button>
     <button class=key data-active=false data-note-value=-1900>D</button>

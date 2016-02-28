@@ -14,6 +14,7 @@ EVE = (function (module) {
         updateLfo1: new CustomEvent('updatelfo1', {bubbles: true}),
         updateLfo2: new CustomEvent('updatelfo2', {bubbles: true}),
         updatePerformance: new CustomEvent('updateperformance', {bubbles: true}),
+        updatePreset: new CustomEvent('updatepreset', {bubbles: true}),
         updateTimbreEg: new CustomEvent('updatetimbreeg', {bubbles: true}),
         updateTimbreEnv: new CustomEvent('updatetimbreenv', {bubbles: true}),
         updateVca: new CustomEvent('updatevca', {bubbles: true})
@@ -311,7 +312,6 @@ EVE = (function (module) {
         module[lfo].connect(module.harmonicOscillator[osc].vca.gain);
     }
 
-    module.lfo1.scope = document.getElementById('lfo1');
     module.lfo1.sine = document.getElementById('lfo1-sin');
     module.lfo1.square = document.getElementById('lfo1-sqr');
     module.lfo1.tri = document.getElementById('lfo1-tri');
@@ -403,11 +403,10 @@ EVE = (function (module) {
         module.lfo2_pitch.connect(module.lfo1.frequency);
     }
 
-    module.lfo2.scope = document.getElementById('lfo2');
     module.lfo2.sine = document.getElementById('lfo2-sin');
     module.lfo2.square = document.getElementById('lfo2-sqr');
-    module.lfo2.saw = document.getElementById('lfo2-saw');
-    module.lfo2.tri = document.getElementById('lfo2-tri');
+    module.lfo2.sawtooth = document.getElementById('lfo2-saw');
+    module.lfo2.triangle = document.getElementById('lfo2-tri');
     module.lfo2.rate = document.getElementById('lfo2-rate');
     module.lfo2.amp = document.getElementById('lfo2-amp');
     module.lfo2.pitch = document.getElementById('lfo2-pitch');
@@ -435,7 +434,7 @@ EVE = (function (module) {
         // Set starting point
         module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), 0.1);
 
-        // Attack with delay
+        // Attack with delay (delay should be multiplied by an LFO2 config)
         module.lfo2_vca.gain.setTargetAtTime(1, module.now() + module.preset.lfo2_delay * module.config.egMax, module.preset.lfo2_a * module.config.egMax + module.config.egMin);
 
         return;
@@ -475,10 +474,24 @@ EVE = (function (module) {
         }
     };
 
+    // DO THE WORK FROM PRESET HERE...
+    module.lfo2.load = function () {
+        module.lfo2[module.preset.lfo2_type].checked = true;
+        module.lfo2.rate.value = Math.sqrt(module.preset.lfo2_rate);
+        module.lfo2.amp.value = module.preset.lfo2_amp;
+        module.lfo2.pitch.value = Math.sqrt(module.preset.lfo2_pitch);
+        module.lfo2.delay.value = Math.sqrt(module.preset.lfo2_delay);
+        module.lfo2.attack.value = Math.sqrt(module.preset.lfo2_a);
+        module.lfo2.release.value = Math.sqrt(module.preset.lfo2_r);
+        module.lfo2.gain.value = Math.sqrt(module.preset.lfo2_g);
+    };
+
     // BIND EVENTS
     document.addEventListener('updatelfo2', module.lfo2.update);
     document.addEventListener('gateon', module.lfo2.gateOn);
     document.addEventListener('gateoff', module.lfo2.gateOff);
+    // experimental event binding
+    document.addEventListener('updatepreset', module.lfo2.load);
 
     return module;
 }(EVE));
@@ -861,6 +874,35 @@ EVE = (function (module) {
     document.addEventListener('keypress', module.keyboard.pressBus);
     document.addEventListener('keydown', module.keyboard.downBus);
     document.addEventListener('keyup', module.keyboard.upBus);
+
+    return module;
+}(EVE));
+
+EVE = (function (module) {
+    'use strict';
+
+    module.program = {
+        load: function load() {
+            var ajax = new XMLHttpRequest();
+
+            ajax.open('GET', '/presets/cool-sci-fi-sound.json', true);
+
+            ajax.onload = function () {
+                var data;
+
+                if (ajax.status >= 200 && ajax.status < 400) {
+                    data = JSON.parse(ajax.responseText);
+                    console.log(data);
+                    module.preset = data;
+                    document.dispatchEvent(module.events.updatePreset);
+                } else {
+                    data = module.preset;
+                }
+            };
+
+            ajax.send();
+        }
+    };
 
     return module;
 }(EVE));

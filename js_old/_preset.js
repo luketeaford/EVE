@@ -124,7 +124,7 @@ EVE.preset.update = function update() {
         EVE.lfo1.oscInputs[i - 1].value = EVE.program[osc];
     }
 
-    // LFO 2
+    // LFO 2 (REFACTORED IN NEW ONE)
     switch (EVE.program.lfo2_type) {
     case 'sine':
         EVE.lfo2.sine.checked = true;

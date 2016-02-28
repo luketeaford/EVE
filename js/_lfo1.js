@@ -22,7 +22,6 @@ EVE = (function (module) {
         module[lfo].connect(module.harmonicOscillator[osc].vca.gain);
     }
 
-    module.lfo1.scope = document.getElementById('lfo1');
     module.lfo1.sine = document.getElementById('lfo1-sin');
     module.lfo1.square = document.getElementById('lfo1-sqr');
     module.lfo1.tri = document.getElementById('lfo1-tri');

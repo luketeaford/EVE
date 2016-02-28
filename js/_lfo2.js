@@ -35,11 +35,10 @@ EVE = (function (module) {
         module.lfo2_pitch.connect(module.lfo1.frequency);
     }
 
-    module.lfo2.scope = document.getElementById('lfo2');
     module.lfo2.sine = document.getElementById('lfo2-sin');
     module.lfo2.square = document.getElementById('lfo2-sqr');
-    module.lfo2.saw = document.getElementById('lfo2-saw');
-    module.lfo2.tri = document.getElementById('lfo2-tri');
+    module.lfo2.sawtooth = document.getElementById('lfo2-saw');
+    module.lfo2.triangle = document.getElementById('lfo2-tri');
     module.lfo2.rate = document.getElementById('lfo2-rate');
     module.lfo2.amp = document.getElementById('lfo2-amp');
     module.lfo2.pitch = document.getElementById('lfo2-pitch');
@@ -67,7 +66,7 @@ EVE = (function (module) {
         // Set starting point
         module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), 0.1);
 
-        // Attack with delay
+        // Attack with delay (delay should be multiplied by an LFO2 config)
         module.lfo2_vca.gain.setTargetAtTime(1, module.now() + module.preset.lfo2_delay * module.config.egMax, module.preset.lfo2_a * module.config.egMax + module.config.egMin);
 
         return;
@@ -107,10 +106,24 @@ EVE = (function (module) {
         }
     };
 
+    // DO THE WORK FROM PRESET HERE...
+    module.lfo2.load = function () {
+        module.lfo2[module.preset.lfo2_type].checked = true;
+        module.lfo2.rate.value = Math.sqrt(module.preset.lfo2_rate);
+        module.lfo2.amp.value = module.preset.lfo2_amp;
+        module.lfo2.pitch.value = Math.sqrt(module.preset.lfo2_pitch);
+        module.lfo2.delay.value = Math.sqrt(module.preset.lfo2_delay);
+        module.lfo2.attack.value = Math.sqrt(module.preset.lfo2_a);
+        module.lfo2.release.value = Math.sqrt(module.preset.lfo2_r);
+        module.lfo2.gain.value = Math.sqrt(module.preset.lfo2_g);
+    };
+
     // BIND EVENTS
     document.addEventListener('updatelfo2', module.lfo2.update);
     document.addEventListener('gateon', module.lfo2.gateOn);
     document.addEventListener('gateoff', module.lfo2.gateOff);
+    // experimental event binding
+    document.addEventListener('updatepreset', module.lfo2.load);
 
     return module;
 }(EVE));

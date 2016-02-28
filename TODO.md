@@ -1,8 +1,8 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* add program bank and change buttons
 * ability to ajax in presets
+* write load method for each section (like LFO2)
 * add oscilloscope
 * add MIDI
 * midi learn
@@ -22,6 +22,7 @@ Playing legato doesn't work -- turns gateOff (playing array should move to calcu
 
 #CLEAN UP IDEAS
 * sliders and buttons could use event.path[x] instead of finding a bunch of parentElements
+* Eliminate switches where feasible
 
 #NOTES:
 * Custom Events will require capitalizing HTML data-attributes in the short term (fix THAT later)
