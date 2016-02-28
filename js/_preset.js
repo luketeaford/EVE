@@ -66,5 +66,7 @@ EVE = (function (module) {
 
     };
 
+    module.defaultPreset = module.preset;
+
     return module;
 }(EVE));

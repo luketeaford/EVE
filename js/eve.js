@@ -107,6 +107,8 @@ EVE = (function (module) {
 
     };
 
+    module.defaultPreset = module.preset;
+
     return module;
 }(EVE));
 
@@ -567,34 +569,8 @@ EVE = (function (module) {
 
 EVE = (function (module) {
     'use strict';
-    var debug = false;
-
-    module.timbreEg = {
-        inputs: document.querySelectorAll('#timbre-eg input'),
-
-        update: function (e) {
-            var p;
-
-            if (e.target && e.target.dataset && e.target.dataset.program) {
-                p = e.target.dataset.program;
-            }
-
-            // DEBUG
-            if (debug && console) {
-                console.log(p, module.preset[p]);
-            }
-        }
-    };
-
-    // BIND EVENTS
-    document.addEventListener('updatetimbreeg', module.timbreEg.update);
-
-    return module;
-}(EVE));
-
-EVE = (function (module) {
-    'use strict';
-    var debug = true;
+    var debug = true,
+        inputs = document.querySelectorAll('#timbre-eg input');
 
     module.timbreEnv = {
         attack: document.getElementById('timbre-a'),
@@ -672,6 +648,14 @@ EVE = (function (module) {
         },
 
         load: function () {
+            var i,
+                osc;
+
+            for (i = 1; i <= 8; i += 1) {
+                osc = 'osc' + i + '_eg';
+                inputs[i - 1].value = module.preset[osc];
+            }
+
             module.timbreEnv.attack.value = Math.sqrt(module.preset.timbre_a);
             module.timbreEnv.decay.value = Math.sqrt(module.preset.timbre_d);
             module.timbreEnv.sustain.value = module.preset.timbre_s;
@@ -925,29 +909,73 @@ EVE = (function (module) {
 
 EVE = (function (module) {
     'use strict';
+    var bank = [
+        'init',
+        'cool-sci-fi-sound',
+        'problematic-patch',
+        'test-patch'
+    ],
+        cycleBackward,
+        cycleForward,
+        debug = true,
+        displayName = document.getElementById('display-name'),
+        nextPreset = document.getElementById('next-preset'),
+        number = 0,
+        numberOfPresets = bank.length - 1,
+        prevPreset = document.getElementById('prev-preset');
 
     module.program = {
-        load: function load() {
+        cycle: function (n) {
+            var i = n && n < 0 ? -1 : 1,
+                x = number + i;
+
+            if (x >= 0 && x <= numberOfPresets) {
+                number = x;
+            }
+            // EXPERIMENT
+            console.log('Preset number', number);
+            console.log('PROGRAM:', bank[number]);
+
+            return module.program.loadPreset(i);
+        },
+
+        loadPreset: function (index) {
             var ajax = new XMLHttpRequest();
 
-            ajax.open('GET', '/presets/cool-sci-fi-sound.json', true);
+            ajax.open('GET', '/presets/' + bank[index] + '.json', true);
 
             ajax.onload = function () {
                 var data;
 
                 if (ajax.status >= 200 && ajax.status < 400) {
                     data = JSON.parse(ajax.responseText);
-                    console.log(data);
                     module.preset = data;
-                    document.dispatchEvent(module.events.loadPreset);
                 } else {
-                    data = module.preset;
+                    module.preset = module.defaultPreset;
+                    if (debug && console) {
+                        console.log('Error loading program');
+                    }
                 }
+                document.dispatchEvent(module.events.loadPreset);
             };
 
             ajax.send();
+
+            return;
+        },
+
+        load: function () {
+            displayName.textContent = module.preset.name;
+            return;
         }
     };
+
+    cycleBackward = module.program.cycle.bind(null, -1);
+    cycleForward = module.program.cycle.bind(null, 1);
+
+    nextPreset.addEventListener('click', cycleForward);
+    prevPreset.addEventListener('click', cycleBackward);
+    document.addEventListener('loadpreset', module.program.load);
 
     return module;
 }(EVE));

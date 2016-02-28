@@ -21,7 +21,6 @@ var gulp = require('gulp'),
         'js/_lfo1.js',
         'js/_lfo2.js',
         'js/_performance.js',
-        'js/_timbreEg.js',
         'js/_timbreEnv.js',
         // FUNCTIONALITY
         'js/_button.js',

@@ -1,6 +1,7 @@
 EVE = (function (module) {
     'use strict';
-    var debug = true;
+    var debug = true,
+        inputs = document.querySelectorAll('#timbre-eg input');
 
     module.timbreEnv = {
         attack: document.getElementById('timbre-a'),
@@ -78,6 +79,14 @@ EVE = (function (module) {
         },
 
         load: function () {
+            var i,
+                osc;
+
+            for (i = 1; i <= 8; i += 1) {
+                osc = 'osc' + i + '_eg';
+                inputs[i - 1].value = module.preset[osc];
+            }
+
             module.timbreEnv.attack.value = Math.sqrt(module.preset.timbre_a);
             module.timbreEnv.decay.value = Math.sqrt(module.preset.timbre_d);
             module.timbreEnv.sustain.value = module.preset.timbre_s;
