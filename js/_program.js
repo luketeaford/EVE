@@ -2,9 +2,10 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
+        'test-patch',
+        'distorted-sawtooth',
         'cool-sci-fi-sound',
-        'problematic-patch',
-        'test-patch'
+        'problematic-patch'
     ],
         cycleBackward,
         cycleForward,
@@ -23,11 +24,8 @@ EVE = (function (module) {
             if (x >= 0 && x <= numberOfPresets) {
                 number = x;
             }
-            // EXPERIMENT
-            console.log('Preset number', number);
-            console.log('PROGRAM:', bank[number]);
 
-            return module.program.loadPreset(i);
+            return module.program.loadPreset(number);
         },
 
         loadPreset: function (index) {
@@ -41,13 +39,15 @@ EVE = (function (module) {
                 if (ajax.status >= 200 && ajax.status < 400) {
                     data = JSON.parse(ajax.responseText);
                     module.preset = data;
+                    document.dispatchEvent(module.events.loadPreset);
+                    console.log('A new preset!', module.preset.name);
                 } else {
                     module.preset = module.defaultPreset;
+                    document.dispatchEvent(module.events.loadPreset);
                     if (debug && console) {
                         console.log('Error loading program');
                     }
                 }
-                document.dispatchEvent(module.events.loadPreset);
             };
 
             ajax.send();
@@ -61,6 +61,7 @@ EVE = (function (module) {
         }
     };
 
+    // THIS SUCKS FOR SOME REASON
     cycleBackward = module.program.cycle.bind(null, -1);
     cycleForward = module.program.cycle.bind(null, 1);
 
