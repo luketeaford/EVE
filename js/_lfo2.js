@@ -66,8 +66,8 @@ EVE = (function (module) {
         // Set starting point
         module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), 0.1);
 
-        // Attack with delay (delay should be multiplied by an LFO2 config)
-        module.lfo2_vca.gain.setTargetAtTime(1, module.now() + module.preset.lfo2_delay * module.config.egMax, module.preset.lfo2_a * module.config.egMax + module.config.egMin);
+        // Attack with delay
+        module.lfo2_vca.gain.setTargetAtTime(1, module.now() + module.preset.lfo2_delay * module.config.lfo2DelayMax, module.preset.lfo2_a * module.config.egMax + module.config.egMin);
 
         return;
     };
@@ -91,10 +91,10 @@ EVE = (function (module) {
             module.lfo2_vca.gain.setValueAtTime(module.preset.lfo2_g, module.now());
             break;
         case 'lfo2_pitch':
-            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2Max, module.now());
+            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2RateMax, module.now());
             break;
         case 'lfo2_rate':
-            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2Max, module.now());
+            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
             break;
         case 'lfo2_type':
             module.lfo2.type = module.preset.lfo2_type;
