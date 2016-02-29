@@ -150,10 +150,10 @@ header {
 .temp-hide {
   display: none; }
 
-.module {
+section {
   margin: 2rem 1rem; }
-  .module label {
+  section label {
     display: block;
     width: 100%; }
-    .module label input {
+    section label input {
       width: 100%; }
