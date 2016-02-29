@@ -1,12 +1,10 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* ability to ajax in presets
-* write load method for each section (like LFO2)
+* combine the timbre envelope and eg amounts (visually)
 * add oscilloscope
 * add MIDI
 * midi learn
-* consider combining the timbre envelope and eg amounts (visually)
 * fix scss
 
 #BEFORE MAKING PRESETS

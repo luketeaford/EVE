@@ -570,7 +570,7 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
     var debug = true,
-        inputs = document.querySelectorAll('#timbre-eg input');
+        inputs = document.getElementsByClassName('js-eg-amt');
 
     module.timbreEnv = {
         attack: document.getElementById('timbre-a'),
@@ -645,6 +645,7 @@ EVE = (function (module) {
             if (debug && console) {
                 console.log(p, module.preset[p]);
             }
+            console.log('Why is the timbre envelope update not firing?');
         },
 
         load: function () {
@@ -1010,7 +1011,7 @@ EVE = (function (module) {
 
         grab: function () {
             var prog = this.dataset.program,
-                update = 'update' + this.parentElement.parentElement.parentElement.dataset.update,
+                update = 'update' + this.parentElement.parentElement.dataset.update,
                 x = this.dataset.curve === 'lin' ? 1 : this.value;
 
             // Update program

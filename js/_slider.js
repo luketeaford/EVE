@@ -10,7 +10,7 @@ EVE = (function (module) {
 
         grab: function () {
             var prog = this.dataset.program,
-                update = 'update' + this.parentElement.parentElement.parentElement.dataset.update,
+                update = 'update' + this.parentElement.parentElement.dataset.update,
                 x = this.dataset.curve === 'lin' ? 1 : this.value;
 
             // Update program

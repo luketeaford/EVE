@@ -1,7 +1,7 @@
 EVE = (function (module) {
     'use strict';
     var debug = true,
-        inputs = document.querySelectorAll('#timbre-eg input');
+        inputs = document.getElementsByClassName('js-eg-amt');
 
     module.timbreEnv = {
         attack: document.getElementById('timbre-a'),
@@ -76,6 +76,7 @@ EVE = (function (module) {
             if (debug && console) {
                 console.log(p, module.preset[p]);
             }
+            console.log('Why is the timbre envelope update not firing?');
         },
 
         load: function () {
