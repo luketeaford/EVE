@@ -157,3 +157,7 @@ section {
     width: 100%; }
     section label input {
       width: 100%; }
+
+canvas {
+  background: #a3b8a4;
+  box-shadow: inset 0 0.3rem 2.2rem -0.2rem #333a34; }

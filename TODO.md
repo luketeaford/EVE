@@ -1,13 +1,11 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* combine the timbre envelope and eg amounts (visually)
-* add oscilloscope
-* add MIDI
-* midi learn
+* add MIDI / midi learn
 * fix scss
 
 #BEFORE MAKING PRESETS
+* fine tune envelopes
 * fine tune lfo 1
 * fine tune lfo 2
 
