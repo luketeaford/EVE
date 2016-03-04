@@ -6,11 +6,10 @@ EVE = (function (module) {
         i;
 
     module.button = {
-        press: function () {
+        press: function (e) {
             var prog = this.name,
-                update = 'update' + this.parentElement.parentElement.parentElement.dataset.update;
+                update = 'update' + e.path[2].dataset.update;
 
-            // Update program
             if (module.preset[prog] !== this.value) {
                 // Prevents numbers being stored as strings
                 if (typeof this.value === 'string' && !isNaN(this.value - 1)) {
@@ -20,13 +19,14 @@ EVE = (function (module) {
                 }
             }
 
-            // DEBUG
             if (debug && console) {
                 console.log('Updating', update);
             }
 
             // Broadcast change
             this.dispatchEvent(module.events[update]);
+
+            return;
         }
     };
 

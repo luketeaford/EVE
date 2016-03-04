@@ -4,7 +4,9 @@ EVE = (function (module) {
     var debug = false,
         i,
         lfo,
-        osc;
+        osc,
+        oscInputs = document.querySelectorAll('#lfo1 .js-osc'),
+        rate = document.getElementById('lfo1-rate');
 
     // The LFO itself
     module.lfo1 = module.createOscillator();
@@ -31,8 +33,6 @@ EVE = (function (module) {
     module.lfo1.mid = document.getElementById('lfo1-mid');
     module.lfo1.high = document.getElementById('lfo1-high');
     module.lfo1.track = document.getElementById('lfo1-track');
-    module.lfo1.rate = document.getElementById('lfo1-rate');
-    module.lfo1.oscInputs = document.querySelectorAll('#lfo1 .js-osc');
 
     module.lfo1.update = function (e) {
         var p;
@@ -65,10 +65,11 @@ EVE = (function (module) {
             }
         }
 
-        // DEBUG
         if (debug && console) {
             console.log(p, module.preset[p]);
         }
+
+        return;
     };
 
     module.lfo1.load = function () {
@@ -81,12 +82,14 @@ EVE = (function (module) {
 
         module.lfo1[module.preset.lfo1_type].checked = true;
         module.lfo1[lfo1Ranges[module.preset.lfo1_range]].checked = true;
-        module.lfo1.rate.value = Math.sqrt(module.preset.lfo1_rate);
+        rate.value = Math.sqrt(module.preset.lfo1_rate);
 
-        for (i = 1; i < EVE.lfo1.oscInputs.length; i += 1) {
+        for (i = 1; i < oscInputs.length; i += 1) {
             osc = 'osc' + i + '_lfo';
-            module.lfo1.oscInputs[i - 1].value = module.preset[osc];
+            oscInputs[i - 1].value = module.preset[osc];
         }
+
+        return;
     };
 
     // BIND EVENTS

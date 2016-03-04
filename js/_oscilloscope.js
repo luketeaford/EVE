@@ -1,4 +1,3 @@
-// TODO Figure out what 128 means
 EVE = (function (module) {
     'use strict';
     var fft = 1024,

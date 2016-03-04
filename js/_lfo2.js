@@ -1,8 +1,15 @@
 EVE = (function (module) {
     'use strict';
 
-    var debug = false,
-        i;
+    var amp = document.getElementById('lfo2-amp'),
+        attack = document.getElementById('lfo2-attack'),
+        debug = false,
+        delay = document.getElementById('lfo2-delay'),
+        gain = document.getElementById('lfo2-gain'),
+        i,
+        pitch = document.getElementById('lfo2-pitch'),
+        rate = document.getElementById('lfo2-rate'),
+        release = document.getElementById('lfo2-release');
 
     module.lfo2 = module.createOscillator();
     module.lfo2.frequency.value = module.preset.lfo2_rate;
@@ -39,13 +46,6 @@ EVE = (function (module) {
     module.lfo2.square = document.getElementById('lfo2-sqr');
     module.lfo2.sawtooth = document.getElementById('lfo2-saw');
     module.lfo2.triangle = document.getElementById('lfo2-tri');
-    module.lfo2.rate = document.getElementById('lfo2-rate');
-    module.lfo2.amp = document.getElementById('lfo2-amp');
-    module.lfo2.pitch = document.getElementById('lfo2-pitch');
-    module.lfo2.delay = document.getElementById('lfo2-delay');
-    module.lfo2.attack = document.getElementById('lfo2-attack');
-    module.lfo2.release = document.getElementById('lfo2-release');
-    module.lfo2.gain = document.getElementById('lfo2-gain');
 
     module.lfo2.gateOff = function () {
         // Prevent decay from acting like second attack
@@ -56,6 +56,7 @@ EVE = (function (module) {
 
         // Release
         module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), module.preset.lfo2_r);
+
         return;
     };
 
@@ -104,17 +105,21 @@ EVE = (function (module) {
                 console.log('Unhandled LFO 2 update change');
             }
         }
+
+        return;
     };
 
     module.lfo2.load = function () {
         module.lfo2[module.preset.lfo2_type].checked = true;
-        module.lfo2.rate.value = Math.sqrt(module.preset.lfo2_rate);
-        module.lfo2.amp.value = module.preset.lfo2_amp;
-        module.lfo2.pitch.value = Math.sqrt(module.preset.lfo2_pitch);
-        module.lfo2.delay.value = Math.sqrt(module.preset.lfo2_delay);
-        module.lfo2.attack.value = Math.sqrt(module.preset.lfo2_a);
-        module.lfo2.release.value = Math.sqrt(module.preset.lfo2_r);
-        module.lfo2.gain.value = Math.sqrt(module.preset.lfo2_g);
+        rate.value = Math.sqrt(module.preset.lfo2_rate);
+        amp.value = module.preset.lfo2_amp;
+        pitch.value = Math.sqrt(module.preset.lfo2_pitch);
+        delay.value = Math.sqrt(module.preset.lfo2_delay);
+        attack.value = Math.sqrt(module.preset.lfo2_a);
+        release.value = Math.sqrt(module.preset.lfo2_r);
+        gain.value = Math.sqrt(module.preset.lfo2_g);
+
+        return;
     };
 
     // BIND EVENTS

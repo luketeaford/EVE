@@ -6,18 +6,55 @@ var EVE = new AudioContext();
 EVE = (function (module) {
     'use strict';
 
-    // If events were lowercased, that would solve the problem, too
     module.events = {
-        gateOff: new CustomEvent('gateoff', {bubbles: true}),
-        gateOn: new CustomEvent('gateon', {bubbles: true}),
-        updateHarmonicOscillator: new CustomEvent('updateharmonicoscillator', {bubbles: true}),
-        updateLfo1: new CustomEvent('updatelfo1', {bubbles: true}),
-        updateLfo2: new CustomEvent('updatelfo2', {bubbles: true}),
-        updatePerformance: new CustomEvent('updateperformance', {bubbles: true}),
-        loadPreset: new CustomEvent('loadpreset', {bubbles: true}),
-        updateTimbreEg: new CustomEvent('updatetimbreeg', {bubbles: true}),
-        updateTimbreEnv: new CustomEvent('updatetimbreenv', {bubbles: true}),
-        updateVca: new CustomEvent('updatevca', {bubbles: true})
+        gateoff: new CustomEvent('gateoff', {
+            bubbles: true
+        }),
+
+        gateon: new CustomEvent('gateon', {
+            bubbles: true
+        }),
+
+        testpitch: new CustomEvent('testpitch', {
+            detail: {
+                'xfiles': 'chinese',
+                'david': 'duchovny',
+                'gillian': 'anderson'
+            },
+            bubbles: true
+        }),
+
+        updateharmonicoscillator: new CustomEvent('updateharmonicoscillator', {
+            bubbles: true
+        }),
+
+        updatelfo1: new CustomEvent('updatelfo1', {
+            bubbles: true
+        }),
+
+        updatelfo2: new CustomEvent('updatelfo2', {
+            bubbles: true
+        }),
+
+        updateperformance: new CustomEvent('updateperformance', {
+            bubbles: true
+        }),
+
+        loadpreset: new CustomEvent('loadpreset', {
+            bubbles: true
+        }),
+
+        updatetimbreeg: new CustomEvent('updatetimbreeg', {
+            bubbles: true
+        }),
+
+        updatetimbreenv: new CustomEvent('updatetimbreenv', {
+            bubbles: true
+        }),
+
+        updatevca: new CustomEvent('updatevca', {
+            bubbles: true
+        })
     };
 
     return module;
@@ -114,7 +151,6 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO Figure out what 128 means
 EVE = (function (module) {
     'use strict';
     var fft = 1024,
@@ -159,19 +195,18 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO Test these envelopes better
 EVE = (function (module) {
     'use strict';
-    var debug = false;
+    var attack = document.getElementById('vca-a'),
+        decay = document.getElementById('vca-d'),
+        sustain = document.getElementById('vca-s'),
+        release = document.getElementById('vca-r'),
+        gain = document.getElementById('vca-g');
 
     module.vca = module.createGain();
     module.vca.gain.value = module.preset.vca_g;
     module.vca.connect(module.destination);
     module.vca.connect(module.oscilloscope);
-    module.vca.attack = document.getElementById('vca-a');
-    module.vca.decay = document.getElementById('vca-d');
-    module.vca.sustain = document.getElementById('vca-s');
-    module.vca.release = document.getElementById('vca-r');
 
     module.vca.gateOn = function () {
         var peak = module.now() + module.preset.vca_a * module.config.egMax + module.config.egMin;
@@ -188,10 +223,7 @@ EVE = (function (module) {
         // VCA decay
         module.vca.gain.setTargetAtTime(module.preset.vca_s + module.preset.vca_g, peak, module.preset.vca_d * module.config.egMax);
 
-        // DEBUG
-        if (debug && console) {
-            console.log('Begin attack stage - custom gateOn');
-        }
+        return;
     };
 
     module.vca.gateOff = function () {
@@ -206,10 +238,7 @@ EVE = (function (module) {
         // VCA release
         module.vca.gain.setTargetAtTime(module.preset.vca_g, module.now(), module.preset.vca_r * module.config.egMax + module.config.egMin);
 
-        // DEBUG
-        if (debug && console) {
-            console.log('Begin release stage - custom gateOff');
-        }
+        return;
     };
 
     module.vca.update = function (e) {
@@ -223,18 +252,17 @@ EVE = (function (module) {
             module.vca.gain.setValueAtTime(module.preset.vca_g, module.now());
         }
 
-        // DEBUG
-        if (debug && console) {
-            console.log(p, module.preset[p]);
-        }
+        return;
     };
 
     module.vca.load = function () {
-        module.vca.attack.value = Math.sqrt(module.preset.vca_a);
-        module.vca.decay.value = Math.sqrt(module.preset.vca_d);
-        module.vca.sustain.value = module.preset.vca_s;
-        module.vca.release.value = Math.sqrt(module.preset.vca_r);
-        module.vca.gain.value = Math.sqrt(module.preset.vca_g);
+        attack.value = Math.sqrt(module.preset.vca_a);
+        decay.value = Math.sqrt(module.preset.vca_d);
+        sustain.value = module.preset.vca_s;
+        release.value = Math.sqrt(module.preset.vca_r);
+        gain.value = Math.sqrt(module.preset.vca_g);
+
+        return;
     };
 
     // BIND EVENTS
@@ -288,10 +316,11 @@ EVE = (function (module) {
 
         module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
 
-        // DEBUG
         if (debug && console) {
             console.log(p, module.preset[p]);
         }
+
+        return;
     };
 
     module.harmonicOscillator.load = function () {
@@ -299,6 +328,8 @@ EVE = (function (module) {
             osc = 'osc' + i;
             inputs[i - 1].value = Math.sqrt(module.preset[osc]);
         }
+
+        return;
     };
 
     // EVENT BINDINGS
@@ -314,7 +345,9 @@ EVE = (function (module) {
     var debug = false,
         i,
         lfo,
-        osc;
+        osc,
+        oscInputs = document.querySelectorAll('#lfo1 .js-osc'),
+        rate = document.getElementById('lfo1-rate');
 
     // The LFO itself
     module.lfo1 = module.createOscillator();
@@ -341,8 +374,6 @@ EVE = (function (module) {
     module.lfo1.mid = document.getElementById('lfo1-mid');
     module.lfo1.high = document.getElementById('lfo1-high');
     module.lfo1.track = document.getElementById('lfo1-track');
-    module.lfo1.rate = document.getElementById('lfo1-rate');
-    module.lfo1.oscInputs = document.querySelectorAll('#lfo1 .js-osc');
 
     module.lfo1.update = function (e) {
         var p;
@@ -375,10 +406,11 @@ EVE = (function (module) {
             }
         }
 
-        // DEBUG
         if (debug && console) {
             console.log(p, module.preset[p]);
         }
+
+        return;
     };
 
     module.lfo1.load = function () {
@@ -391,12 +423,14 @@ EVE = (function (module) {
 
         module.lfo1[module.preset.lfo1_type].checked = true;
         module.lfo1[lfo1Ranges[module.preset.lfo1_range]].checked = true;
-        module.lfo1.rate.value = Math.sqrt(module.preset.lfo1_rate);
+        rate.value = Math.sqrt(module.preset.lfo1_rate);
 
-        for (i = 1; i < EVE.lfo1.oscInputs.length; i += 1) {
+        for (i = 1; i < oscInputs.length; i += 1) {
             osc = 'osc' + i + '_lfo';
-            module.lfo1.oscInputs[i - 1].value = module.preset[osc];
+            oscInputs[i - 1].value = module.preset[osc];
         }
+
+        return;
     };
 
     // BIND EVENTS
@@ -409,8 +443,15 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
 
-    var debug = false,
-        i;
+    var amp = document.getElementById('lfo2-amp'),
+        attack = document.getElementById('lfo2-attack'),
+        debug = false,
+        delay = document.getElementById('lfo2-delay'),
+        gain = document.getElementById('lfo2-gain'),
+        i,
+        pitch = document.getElementById('lfo2-pitch'),
+        rate = document.getElementById('lfo2-rate'),
+        release = document.getElementById('lfo2-release');
 
     module.lfo2 = module.createOscillator();
     module.lfo2.frequency.value = module.preset.lfo2_rate;
@@ -447,13 +488,6 @@ EVE = (function (module) {
     module.lfo2.square = document.getElementById('lfo2-sqr');
     module.lfo2.sawtooth = document.getElementById('lfo2-saw');
     module.lfo2.triangle = document.getElementById('lfo2-tri');
-    module.lfo2.rate = document.getElementById('lfo2-rate');
-    module.lfo2.amp = document.getElementById('lfo2-amp');
-    module.lfo2.pitch = document.getElementById('lfo2-pitch');
-    module.lfo2.delay = document.getElementById('lfo2-delay');
-    module.lfo2.attack = document.getElementById('lfo2-attack');
-    module.lfo2.release = document.getElementById('lfo2-release');
-    module.lfo2.gain = document.getElementById('lfo2-gain');
 
     module.lfo2.gateOff = function () {
         // Prevent decay from acting like second attack
@@ -464,6 +498,7 @@ EVE = (function (module) {
 
         // Release
         module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), module.preset.lfo2_r);
+
         return;
     };
 
@@ -512,17 +547,21 @@ EVE = (function (module) {
                 console.log('Unhandled LFO 2 update change');
             }
         }
+
+        return;
     };
 
     module.lfo2.load = function () {
         module.lfo2[module.preset.lfo2_type].checked = true;
-        module.lfo2.rate.value = Math.sqrt(module.preset.lfo2_rate);
-        module.lfo2.amp.value = module.preset.lfo2_amp;
-        module.lfo2.pitch.value = Math.sqrt(module.preset.lfo2_pitch);
-        module.lfo2.delay.value = Math.sqrt(module.preset.lfo2_delay);
-        module.lfo2.attack.value = Math.sqrt(module.preset.lfo2_a);
-        module.lfo2.release.value = Math.sqrt(module.preset.lfo2_r);
-        module.lfo2.gain.value = Math.sqrt(module.preset.lfo2_g);
+        rate.value = Math.sqrt(module.preset.lfo2_rate);
+        amp.value = module.preset.lfo2_amp;
+        pitch.value = Math.sqrt(module.preset.lfo2_pitch);
+        delay.value = Math.sqrt(module.preset.lfo2_delay);
+        attack.value = Math.sqrt(module.preset.lfo2_a);
+        release.value = Math.sqrt(module.preset.lfo2_r);
+        gain.value = Math.sqrt(module.preset.lfo2_g);
+
+        return;
     };
 
     // BIND EVENTS
@@ -534,14 +573,15 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO What would happen if glide is 1 when preset is loaded? it would be longer than the tolerable maximum?
+// TODO If glide is 1 when preset is loaded, it would be longer than the
+// tolerable maximum. Fix this!
 EVE = (function (module) {
     'use strict';
-    var debug = true;
+    var debug = true,
+        fine = document.getElementById('fine'),
+        glide = document.getElementById('glide');
 
     module.performance = {
-        fine: document.getElementById('fine'),
-        glide: document.getElementById('glide'),
 
         update: function (e) {
             var p;
@@ -555,15 +595,22 @@ EVE = (function (module) {
             }
 
             switch (p) {
+            case 'fine':
+                this.dispatchEvent(module.events.testpitch);
+                break;
             case 'glide':
                 module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;
                 break;
             }
+
+            return;
         },
 
         load: function () {
-            module.performance.fine.value = module.preset.fine;
-            module.performance.glide.value = module.preset.glide;
+            fine.value = module.preset.fine;
+            glide.value = module.preset.glide;
+
+            return;
         }
     };
 
@@ -573,16 +620,17 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
+// TODO Inputs here is kind of a bad name
 EVE = (function (module) {
     'use strict';
-    var debug = true,
-        inputs = document.getElementsByClassName('js-eg-amt');
+    var attack = document.getElementById('timbre-a'),
+        debug = true,
+        decay = document.getElementById('timbre-d'),
+        inputs = document.getElementsByClassName('js-eg-amt'),
+        release = document.getElementById('timbre-r'),
+        sustain = document.getElementById('timbre-s');
 
     module.timbreEnv = {
-        attack: document.getElementById('timbre-a'),
-        decay: document.getElementById('timbre-d'),
-        sustain: document.getElementById('timbre-s'),
-        release: document.getElementById('timbre-r'),
 
         gateOn: function () {
             var env,
@@ -612,6 +660,7 @@ EVE = (function (module) {
             if (debug && console) {
                 console.log('Timbre envelope on');
             }
+
             return;
         },
 
@@ -637,6 +686,7 @@ EVE = (function (module) {
             if (debug && console) {
                 console.log('Timbre envelope off');
             }
+
             return;
         },
 
@@ -647,11 +697,11 @@ EVE = (function (module) {
                 p = e.target.dataset.program;
             }
 
-            // DEBUG
             if (debug && console) {
                 console.log(p, module.preset[p]);
             }
-            console.log('Why is the timbre envelope update not firing?');
+
+            return;
         },
 
         load: function () {
@@ -663,10 +713,12 @@ EVE = (function (module) {
                 inputs[i - 1].value = module.preset[osc];
             }
 
-            module.timbreEnv.attack.value = Math.sqrt(module.preset.timbre_a);
-            module.timbreEnv.decay.value = Math.sqrt(module.preset.timbre_d);
-            module.timbreEnv.sustain.value = module.preset.timbre_s;
-            module.timbreEnv.release.value = Math.sqrt(module.preset.timbre_r);
+            attack.value = Math.sqrt(module.preset.timbre_a);
+            decay.value = Math.sqrt(module.preset.timbre_d);
+            sustain.value = module.preset.timbre_s;
+            release.value = Math.sqrt(module.preset.timbre_r);
+
+            return;
         }
     };
 
@@ -686,11 +738,10 @@ EVE = (function (module) {
         i;
 
     module.button = {
-        press: function () {
+        press: function (e) {
             var prog = this.name,
-                update = 'update' + this.parentElement.parentElement.parentElement.dataset.update;
+                update = 'update' + e.path[2].dataset.update;
 
-            // Update program
             if (module.preset[prog] !== this.value) {
                 // Prevents numbers being stored as strings
                 if (typeof this.value === 'string' && !isNaN(this.value - 1)) {
@@ -700,13 +751,14 @@ EVE = (function (module) {
                 }
             }
 
-            // DEBUG
             if (debug && console) {
                 console.log('Updating', update);
             }
 
             // Broadcast change
             this.dispatchEvent(module.events[update]);
+
+            return;
         }
     };
 
@@ -717,38 +769,29 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO EVALUATE WHETHER OR NOT THINGS SHOULD BE BOUND TO THE KEYBOARD HERE
-// TODO pitch needs a fine tune added (+) after n
 EVE = (function (module) {
     'use strict';
 
     var keyboard = document.getElementById('keyboard');
 
-    module.calculatePitch = function (note) {// This is really the event, right?
+    module.calculatePitch = function (note) {
         var n = note.target ? note.target.dataset.noteValue : note,
             pitch = module.keyboard.octaveShift * 1200 + parseFloat(n) + module.preset.fine * module.config.fineTuneRange;
 
         return module.setPitch(pitch);
     };
 
+    module.testPitch = function (foo) {
+        console.log('Foo is', foo);
+        return;
+    };
+
     // BIND EVENTS
     keyboard.addEventListener('mousedown', module.calculatePitch);
     keyboard.addEventListener('touchstart', module.calculatePitch);
 
-    return module;
-}(EVE));
-
-EVE = (function (module) {
-    'use strict';
-    var debug = true;
-
-    module.attack = function (x) {
-        if (debug && console) {
-            console.log('Attack function used');
-        }
-
-        return EVE.now() + x;
-    };
+    // EXPERIMENT
+    document.addEventListener('testpitch', module.testPitch);
 
     return module;
 }(EVE));
@@ -827,6 +870,7 @@ EVE = (function (module) {
                 module.keyboard.octaveShift = oct + parseFloat(shift);
                 switchLights();
             }
+
             return;
         },
 
@@ -956,11 +1000,11 @@ EVE = (function (module) {
                 if (ajax.status >= 200 && ajax.status < 400) {
                     data = JSON.parse(ajax.responseText);
                     module.preset = data;
-                    document.dispatchEvent(module.events.loadPreset);
+                    document.dispatchEvent(module.events.loadpreset);
                     console.log('A new preset!', module.preset.name);
                 } else {
                     module.preset = module.defaultPreset;
-                    document.dispatchEvent(module.events.loadPreset);
+                    document.dispatchEvent(module.events.loadpreset);
                     if (debug && console) {
                         console.log('Error loading program');
                     }
@@ -978,7 +1022,6 @@ EVE = (function (module) {
         }
     };
 
-    // THIS SUCKS FOR SOME REASON
     cycleBackward = module.program.cycle.bind(null, -1);
     cycleForward = module.program.cycle.bind(null, 1);
 
@@ -1001,28 +1044,29 @@ EVE = (function (module) {
         if (module.preset.lfo1_range >= 440) {
             module.lfo1.detune.setValueAtTime(pitch, module.now(), module.preset.glide);
         }
+
+        return;
     };
 
     return module;
 }(EVE));
 
-// TODO Here, 'prog' is used instead of 'p'. And it's really a 'parameter' or something.
 EVE = (function (module) {
     'use strict';
 
-    var debug = false,
+    var debug = true,
         i,
         inputs = document.querySelectorAll('input[type=range]');
 
     module.slider = {
 
-        grab: function () {
-            var prog = this.dataset.program,
-                update = 'update' + this.parentElement.parentElement.dataset.update,
+        grab: function (e) {
+            var program = this.dataset.program,
+                update = 'update' + e.path[2].dataset.update,
                 x = this.dataset.curve === 'lin' ? 1 : this.value;
 
             // Update program
-            module.preset[prog] = this.value * x;
+            module.preset[program] = this.value * x;
 
             if (debug && console) {
                 console.log('Updating', update);
@@ -1030,6 +1074,8 @@ EVE = (function (module) {
 
             // Broadcast change
             this.dispatchEvent(module.events[update]);
+
+            return;
         }
     };
 
@@ -1080,14 +1126,13 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO Evaluate whether or not the keyboard events should be bound here
 EVE = (function (module) {
     'use strict';
     var gateOn = false,
         keyboard = document.getElementById('keyboard');
 
     module.gate = function () {
-        var gateEvent = gateOn ? 'gateOff' : 'gateOn';
+        var gateEvent = gateOn ? 'gateoff' : 'gateon';
 
         gateOn = !gateOn;
 

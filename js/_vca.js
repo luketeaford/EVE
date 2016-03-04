@@ -1,16 +1,15 @@
-// TODO Test these envelopes better
 EVE = (function (module) {
     'use strict';
-    var debug = false;
+    var attack = document.getElementById('vca-a'),
+        decay = document.getElementById('vca-d'),
+        sustain = document.getElementById('vca-s'),
+        release = document.getElementById('vca-r'),
+        gain = document.getElementById('vca-g');
 
     module.vca = module.createGain();
     module.vca.gain.value = module.preset.vca_g;
     module.vca.connect(module.destination);
     module.vca.connect(module.oscilloscope);
-    module.vca.attack = document.getElementById('vca-a');
-    module.vca.decay = document.getElementById('vca-d');
-    module.vca.sustain = document.getElementById('vca-s');
-    module.vca.release = document.getElementById('vca-r');
 
     module.vca.gateOn = function () {
         var peak = module.now() + module.preset.vca_a * module.config.egMax + module.config.egMin;
@@ -27,10 +26,7 @@ EVE = (function (module) {
         // VCA decay
         module.vca.gain.setTargetAtTime(module.preset.vca_s + module.preset.vca_g, peak, module.preset.vca_d * module.config.egMax);
 
-        // DEBUG
-        if (debug && console) {
-            console.log('Begin attack stage - custom gateOn');
-        }
+        return;
     };
 
     module.vca.gateOff = function () {
@@ -45,10 +41,7 @@ EVE = (function (module) {
         // VCA release
         module.vca.gain.setTargetAtTime(module.preset.vca_g, module.now(), module.preset.vca_r * module.config.egMax + module.config.egMin);
 
-        // DEBUG
-        if (debug && console) {
-            console.log('Begin release stage - custom gateOff');
-        }
+        return;
     };
 
     module.vca.update = function (e) {
@@ -62,18 +55,17 @@ EVE = (function (module) {
             module.vca.gain.setValueAtTime(module.preset.vca_g, module.now());
         }
 
-        // DEBUG
-        if (debug && console) {
-            console.log(p, module.preset[p]);
-        }
+        return;
     };
 
     module.vca.load = function () {
-        module.vca.attack.value = Math.sqrt(module.preset.vca_a);
-        module.vca.decay.value = Math.sqrt(module.preset.vca_d);
-        module.vca.sustain.value = module.preset.vca_s;
-        module.vca.release.value = Math.sqrt(module.preset.vca_r);
-        module.vca.gain.value = Math.sqrt(module.preset.vca_g);
+        attack.value = Math.sqrt(module.preset.vca_a);
+        decay.value = Math.sqrt(module.preset.vca_d);
+        sustain.value = module.preset.vca_s;
+        release.value = Math.sqrt(module.preset.vca_r);
+        gain.value = Math.sqrt(module.preset.vca_g);
+
+        return;
     };
 
     // BIND EVENTS

@@ -1,20 +1,19 @@
-// TODO Here, 'prog' is used instead of 'p'. And it's really a 'parameter' or something.
 EVE = (function (module) {
     'use strict';
 
-    var debug = false,
+    var debug = true,
         i,
         inputs = document.querySelectorAll('input[type=range]');
 
     module.slider = {
 
-        grab: function () {
-            var prog = this.dataset.program,
-                update = 'update' + this.parentElement.parentElement.dataset.update,
+        grab: function (e) {
+            var program = this.dataset.program,
+                update = 'update' + e.path[2].dataset.update,
                 x = this.dataset.curve === 'lin' ? 1 : this.value;
 
             // Update program
-            module.preset[prog] = this.value * x;
+            module.preset[program] = this.value * x;
 
             if (debug && console) {
                 console.log('Updating', update);
@@ -22,6 +21,8 @@ EVE = (function (module) {
 
             // Broadcast change
             this.dispatchEvent(module.events[update]);
+
+            return;
         }
     };
 

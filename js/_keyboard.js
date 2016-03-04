@@ -72,6 +72,7 @@ EVE = (function (module) {
                 module.keyboard.octaveShift = oct + parseFloat(shift);
                 switchLights();
             }
+
             return;
         },
 

@@ -24,6 +24,4 @@ Playing legato doesn't work -- turns gateOff (playing array should move to calcu
 * Eliminate switches where feasible
 
 #NOTES:
-* Custom Events will require capitalizing HTML data-attributes in the short term (fix THAT later)
-* Figure out a good place to bind events
 * Reduce HTML as much as possible

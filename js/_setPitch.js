@@ -10,6 +10,8 @@ EVE = (function (module) {
         if (module.preset.lfo1_range >= 440) {
             module.lfo1.detune.setValueAtTime(pitch, module.now(), module.preset.glide);
         }
+
+        return;
     };
 
     return module;

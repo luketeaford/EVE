@@ -39,11 +39,11 @@ EVE = (function (module) {
                 if (ajax.status >= 200 && ajax.status < 400) {
                     data = JSON.parse(ajax.responseText);
                     module.preset = data;
-                    document.dispatchEvent(module.events.loadPreset);
+                    document.dispatchEvent(module.events.loadpreset);
                     console.log('A new preset!', module.preset.name);
                 } else {
                     module.preset = module.defaultPreset;
-                    document.dispatchEvent(module.events.loadPreset);
+                    document.dispatchEvent(module.events.loadpreset);
                     if (debug && console) {
                         console.log('Error loading program');
                     }
@@ -61,7 +61,6 @@ EVE = (function (module) {
         }
     };
 
-    // THIS SUCKS FOR SOME REASON
     cycleBackward = module.program.cycle.bind(null, -1);
     cycleForward = module.program.cycle.bind(null, 1);
 

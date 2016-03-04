@@ -1,11 +1,10 @@
-// TODO Evaluate whether or not the keyboard events should be bound here
 EVE = (function (module) {
     'use strict';
     var gateOn = false,
         keyboard = document.getElementById('keyboard');
 
     module.gate = function () {
-        var gateEvent = gateOn ? 'gateOff' : 'gateOn';
+        var gateEvent = gateOn ? 'gateoff' : 'gateon';
 
         gateOn = !gateOn;
 

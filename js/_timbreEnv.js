@@ -1,13 +1,14 @@
+// TODO Inputs here is kind of a bad name
 EVE = (function (module) {
     'use strict';
-    var debug = true,
-        inputs = document.getElementsByClassName('js-eg-amt');
+    var attack = document.getElementById('timbre-a'),
+        debug = true,
+        decay = document.getElementById('timbre-d'),
+        inputs = document.getElementsByClassName('js-eg-amt'),
+        release = document.getElementById('timbre-r'),
+        sustain = document.getElementById('timbre-s');
 
     module.timbreEnv = {
-        attack: document.getElementById('timbre-a'),
-        decay: document.getElementById('timbre-d'),
-        sustain: document.getElementById('timbre-s'),
-        release: document.getElementById('timbre-r'),
 
         gateOn: function () {
             var env,
@@ -37,6 +38,7 @@ EVE = (function (module) {
             if (debug && console) {
                 console.log('Timbre envelope on');
             }
+
             return;
         },
 
@@ -62,6 +64,7 @@ EVE = (function (module) {
             if (debug && console) {
                 console.log('Timbre envelope off');
             }
+
             return;
         },
 
@@ -72,11 +75,11 @@ EVE = (function (module) {
                 p = e.target.dataset.program;
             }
 
-            // DEBUG
             if (debug && console) {
                 console.log(p, module.preset[p]);
             }
-            console.log('Why is the timbre envelope update not firing?');
+
+            return;
         },
 
         load: function () {
@@ -88,10 +91,12 @@ EVE = (function (module) {
                 inputs[i - 1].value = module.preset[osc];
             }
 
-            module.timbreEnv.attack.value = Math.sqrt(module.preset.timbre_a);
-            module.timbreEnv.decay.value = Math.sqrt(module.preset.timbre_d);
-            module.timbreEnv.sustain.value = module.preset.timbre_s;
-            module.timbreEnv.release.value = Math.sqrt(module.preset.timbre_r);
+            attack.value = Math.sqrt(module.preset.timbre_a);
+            decay.value = Math.sqrt(module.preset.timbre_d);
+            sustain.value = module.preset.timbre_s;
+            release.value = Math.sqrt(module.preset.timbre_r);
+
+            return;
         }
     };
 

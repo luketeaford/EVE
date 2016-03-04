@@ -1,11 +1,12 @@
-// TODO What would happen if glide is 1 when preset is loaded? it would be longer than the tolerable maximum?
+// TODO If glide is 1 when preset is loaded, it would be longer than the
+// tolerable maximum. Fix this!
 EVE = (function (module) {
     'use strict';
-    var debug = true;
+    var debug = true,
+        fine = document.getElementById('fine'),
+        glide = document.getElementById('glide');
 
     module.performance = {
-        fine: document.getElementById('fine'),
-        glide: document.getElementById('glide'),
 
         update: function (e) {
             var p;
@@ -19,15 +20,22 @@ EVE = (function (module) {
             }
 
             switch (p) {
+            case 'fine':
+                this.dispatchEvent(module.events.testpitch);
+                break;
             case 'glide':
                 module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;
                 break;
             }
+
+            return;
         },
 
         load: function () {
-            module.performance.fine.value = module.preset.fine;
-            module.performance.glide.value = module.preset.glide;
+            fine.value = module.preset.fine;
+            glide.value = module.preset.glide;
+
+            return;
         }
     };
 

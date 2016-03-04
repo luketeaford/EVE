@@ -39,10 +39,11 @@ EVE = (function (module) {
 
         module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
 
-        // DEBUG
         if (debug && console) {
             console.log(p, module.preset[p]);
         }
+
+        return;
     };
 
     module.harmonicOscillator.load = function () {
@@ -50,6 +51,8 @@ EVE = (function (module) {
             osc = 'osc' + i;
             inputs[i - 1].value = Math.sqrt(module.preset[osc]);
         }
+
+        return;
     };
 
     // EVENT BINDINGS
