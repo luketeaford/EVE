@@ -1,8 +1,11 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
+* fine tune must happen in real time
 * add MIDI / midi learn
+* need ability to advance presets with - and = and possibly , and .
 * fix scss
+* better pub/sub for keyboard so pitch and highlight aren't called unnecessarily
 
 #BEFORE MAKING PRESETS
 * fine tune envelopes

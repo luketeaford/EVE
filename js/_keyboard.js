@@ -141,6 +141,7 @@ EVE = (function (module) {
                     module.gate();
                 }
                 module.keyboard.highlightKey(e.which);
+
             }
             return;
         }

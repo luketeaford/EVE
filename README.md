@@ -4,8 +4,6 @@ Web Audio Synthesizer by Luke Teaford
 EVE is an additive monosynth built with Web Audio.
 
 ##Requirements
-###Audio
-* Fine tune scaling before making presets
 
 ###Routing (http://evesynth.com)
 * /login
@@ -24,12 +22,6 @@ EVE is an additive monosynth built with Web Audio.
 ###MIDI
 * Must have MIDI learn
 
-###Code Standards
-* camelCasing even though it's ugly
-* alphabetizing
-* whatever else I think of
-* uses editorConfig
-
 ###Navigation
 * Should be page level kinds of things:
   * Register/Sign In
@@ -47,7 +39,3 @@ EVE is an additive monosynth built with Web Audio.
 * Basically, should be clone it, read directions, type npm install, and go!
 * Eliminate all confusion about what goes where
 * Probably want to use the convention where final script is called eve.min.js
-  * Maybe even with semantic versioning
-
-###Gulp
-* Add a watch to the gulpfile itself in case it changes, it should stop and rerun

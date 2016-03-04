@@ -29,6 +29,7 @@ EVE = (function config(module) {
     module.config = {
         egMax: 2.125,
         egMin: 0.025,
+        fineTuneRange: 50,
         glideMax: 0.165,
         glideMin: 0.0001,
         lfo2DelayMax: 2,
@@ -103,6 +104,7 @@ EVE = (function (module) {
         vca_g: 0,
 
         // Performance
+        fine: 0,
         glide: 0.00001
 
     };
@@ -532,11 +534,13 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
+// TODO What would happen if glide is 1 when preset is loaded? it would be longer than the tolerable maximum?
 EVE = (function (module) {
     'use strict';
-    var debug = false;
+    var debug = true;
 
     module.performance = {
+        fine: document.getElementById('fine'),
         glide: document.getElementById('glide'),
 
         update: function (e) {
@@ -558,11 +562,11 @@ EVE = (function (module) {
         },
 
         load: function () {
+            module.performance.fine.value = module.preset.fine;
             module.performance.glide.value = module.preset.glide;
         }
     };
 
-    // BIND EVENTS
     document.addEventListener('updateperformance', module.performance.update);
     document.addEventListener('loadpreset', module.performance.load);
 
@@ -722,7 +726,7 @@ EVE = (function (module) {
 
     module.calculatePitch = function (note) {// This is really the event, right?
         var n = note.target ? note.target.dataset.noteValue : note,
-            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n);
+            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n) + module.preset.fine * module.config.fineTuneRange;
 
         return module.setPitch(pitch);
     };
@@ -892,6 +896,7 @@ EVE = (function (module) {
                     module.gate();
                 }
                 module.keyboard.highlightKey(e.which);
+
             }
             return;
         }

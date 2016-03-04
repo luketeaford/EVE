@@ -7,7 +7,7 @@ EVE = (function (module) {
 
     module.calculatePitch = function (note) {// This is really the event, right?
         var n = note.target ? note.target.dataset.noteValue : note,
-            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n);
+            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n) + module.preset.fine * module.config.fineTuneRange;
 
         return module.setPitch(pitch);
     };
