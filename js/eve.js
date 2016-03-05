@@ -913,6 +913,8 @@ EVE = (function (module) {
 
             if (pitch) {
                 if (playing.indexOf(pitch) === -1) {
+                    module.calculatePitch(pitch);
+                    module.keyboard.highlightKey(e.which);
                     playing.push(pitch);
                     playing.sort(function (a, b) {
                         return a - b;
@@ -922,8 +924,6 @@ EVE = (function (module) {
                     keyDown = !keyDown;
                     module.gate();
                 }
-                module.calculatePitch(pitch);
-                module.keyboard.highlightKey(e.which);
             }
             return;
         },
