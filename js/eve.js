@@ -581,7 +581,6 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
     var debug = true,
-        fine = document.getElementById('fine'),
         glide = document.getElementById('glide');
 
     module.performance = {
@@ -611,7 +610,6 @@ EVE = (function (module) {
         },
 
         load: function () {
-            fine.value = module.preset.fine;
             glide.value = module.preset.glide;
 
             return;
@@ -886,6 +884,12 @@ EVE = (function (module) {
 
         pressBus: function (e) {
             switch (e.which) {
+            case 44:
+                module.program.cycleBackward();
+                break;
+            case 46:
+                module.program.cycleForward();
+                break;
             // z
             case 122:
                 module.keyboard.shiftOctave(-1);
@@ -901,6 +905,7 @@ EVE = (function (module) {
                 }
                 break;
             }
+            console.log('PRESSED:', e.which);
             return;
         },
 
@@ -964,8 +969,6 @@ EVE = (function (module) {
         'cool-sci-fi-sound',
         'problematic-patch'
     ],
-        cycleBackward,
-        cycleForward,
         debug = true,
         displayName = document.getElementById('display-name'),
         nextPreset = document.getElementById('next-preset'),
@@ -1018,11 +1021,11 @@ EVE = (function (module) {
         }
     };
 
-    cycleBackward = module.program.cycle.bind(null, -1);
-    cycleForward = module.program.cycle.bind(null, 1);
+    module.program.cycleBackward = module.program.cycle.bind(null, -1);
+    module.program.cycleForward = module.program.cycle.bind(null, 1);
 
-    nextPreset.addEventListener('click', cycleForward);
-    prevPreset.addEventListener('click', cycleBackward);
+    nextPreset.addEventListener('click', module.program.cycleForward);
+    prevPreset.addEventListener('click', module.program.cycleBackward);
     document.addEventListener('loadpreset', module.program.load);
 
     return module;
@@ -1052,7 +1055,7 @@ EVE = (function (module) {
 
     var debug = true,
         i,
-        inputs = document.querySelectorAll('input[type=range])'),
+        inputs = document.querySelectorAll('input[type=range]'),
         updateMethods = {
             'harmonic-oscillator': 'updateharmonicoscillator',
             'timbre-env': 'updatetimbreenv',

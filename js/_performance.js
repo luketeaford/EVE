@@ -3,7 +3,6 @@
 EVE = (function (module) {
     'use strict';
     var debug = true,
-        fine = document.getElementById('fine'),
         glide = document.getElementById('glide');
 
     module.performance = {
@@ -33,7 +32,6 @@ EVE = (function (module) {
         },
 
         load: function () {
-            fine.value = module.preset.fine;
             glide.value = module.preset.glide;
 
             return;

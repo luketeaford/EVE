@@ -1,7 +1,6 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* need ability to advance presets with - and = and possibly , and .
 * add MIDI / midi learn
 * fix scss
 

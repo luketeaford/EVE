@@ -92,6 +92,12 @@ EVE = (function (module) {
 
         pressBus: function (e) {
             switch (e.which) {
+            case 44:
+                module.program.cycleBackward();
+                break;
+            case 46:
+                module.program.cycleForward();
+                break;
             // z
             case 122:
                 module.keyboard.shiftOctave(-1);
@@ -107,6 +113,7 @@ EVE = (function (module) {
                 }
                 break;
             }
+            console.log('PRESSED:', e.which);
             return;
         },
 

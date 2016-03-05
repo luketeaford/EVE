@@ -7,8 +7,6 @@ EVE = (function (module) {
         'cool-sci-fi-sound',
         'problematic-patch'
     ],
-        cycleBackward,
-        cycleForward,
         debug = true,
         displayName = document.getElementById('display-name'),
         nextPreset = document.getElementById('next-preset'),
@@ -61,11 +59,11 @@ EVE = (function (module) {
         }
     };
 
-    cycleBackward = module.program.cycle.bind(null, -1);
-    cycleForward = module.program.cycle.bind(null, 1);
+    module.program.cycleBackward = module.program.cycle.bind(null, -1);
+    module.program.cycleForward = module.program.cycle.bind(null, 1);
 
-    nextPreset.addEventListener('click', cycleForward);
-    prevPreset.addEventListener('click', cycleBackward);
+    nextPreset.addEventListener('click', module.program.cycleForward);
+    prevPreset.addEventListener('click', module.program.cycleBackward);
     document.addEventListener('loadpreset', module.program.load);
 
     return module;

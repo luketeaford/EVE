@@ -3,7 +3,7 @@ EVE = (function (module) {
 
     var debug = true,
         i,
-        inputs = document.querySelectorAll('input[type=range])'),
+        inputs = document.querySelectorAll('input[type=range]'),
         updateMethods = {
             'harmonic-oscillator': 'updateharmonicoscillator',
             'timbre-env': 'updatetimbreenv',
