@@ -2,12 +2,11 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
-        'test-patch',
         'distorted-sawtooth',
+        'test-patch',
         'cool-sci-fi-sound',
         'problematic-patch'
     ],
-        debug = true,
         displayName = document.getElementById('display-name'),
         nextPreset = document.getElementById('next-preset'),
         number = 0,
@@ -38,13 +37,9 @@ EVE = (function (module) {
                     data = JSON.parse(ajax.responseText);
                     module.preset = data;
                     document.dispatchEvent(module.events.loadpreset);
-                    console.log('A new preset!', module.preset.name);
                 } else {
                     module.preset = module.defaultPreset;
                     document.dispatchEvent(module.events.loadpreset);
-                    if (debug && console) {
-                        console.log('Error loading program');
-                    }
                 }
             };
 

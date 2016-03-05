@@ -52,6 +52,7 @@ EVE = (function (module) {
     module.harmonicOscillator.load = function () {
         for (i = 1; i <= 8; i += 1) {
             osc = 'osc' + i;
+
             inputs[i - 1].value = Math.sqrt(module.preset[osc]);
         }
 

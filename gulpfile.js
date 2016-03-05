@@ -27,7 +27,7 @@ var gulp = require('gulp'),
         'js/_calculatePitch.js',
             'js/_envelopes.js',// currently unused
         'js/_keyboard.js',
-            'js/_midi.js',
+        'js/_midi.js',
         'js/_program.js',
         'js/_setPitch.js',
         'js/_slider.js',

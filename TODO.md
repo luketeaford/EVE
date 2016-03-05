@@ -17,7 +17,7 @@
 
 
 #TOUCH PROBLEMS:
-Playing legato doesn't work -- turns gateOff (playing array should move to calculatePitch, I guess)
+* Playing legato doesn't work -- turns gateOff (playing array should move to calculatePitch, I guess) - THIS IS PROBABLY BECAUSE TOUCHSTART/END NOT LIMITED TO ONE AT A TIME
 
 
 #CLEAN UP IDEAS
