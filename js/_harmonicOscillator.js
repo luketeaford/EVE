@@ -1,9 +1,11 @@
 EVE = (function (module) {
     'use strict';
     var debug = false,
+        fine = module.config.fineTune * module.config.fineTuneRange,
         i,
         inputs = document.querySelectorAll('#harmonic-oscillator input'),
-        osc;
+        osc,
+        tuning;
 
     module.harmonicOscillator = {};
     module.harmonicOscillator.mixer = module.createGain();
@@ -11,9 +13,10 @@ EVE = (function (module) {
 
     for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
+        tuning = module.config.masterFreq + fine;
         // Oscillators
         module.harmonicOscillator[osc] = module.createOscillator();
-        module.harmonicOscillator[osc].frequency.value = module.config.masterFreq * i;
+        module.harmonicOscillator[osc].frequency.value = tuning * i;
         module.harmonicOscillator[osc].type = 'sine';
 
         // VCAs

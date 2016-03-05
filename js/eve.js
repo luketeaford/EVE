@@ -66,7 +66,8 @@ EVE = (function config(module) {
     module.config = {
         egMax: 2.125,
         egMin: 0.025,
-        fineTuneRange: 50,
+        fineTune: 0,
+        fineTuneRange: 51,
         glideMax: 0.165,
         glideMin: 0.0001,
         lfo2DelayMax: 2,
@@ -141,7 +142,6 @@ EVE = (function (module) {
         vca_g: 0,
 
         // Performance
-        fine: 0,
         glide: 0.00001
 
     };
@@ -278,9 +278,11 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
     var debug = false,
+        fine = module.config.fineTune * module.config.fineTuneRange,
         i,
         inputs = document.querySelectorAll('#harmonic-oscillator input'),
-        osc;
+        osc,
+        tuning;
 
     module.harmonicOscillator = {};
     module.harmonicOscillator.mixer = module.createGain();
@@ -288,9 +290,10 @@ EVE = (function (module) {
 
     for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
+        tuning = module.config.masterFreq + fine;
         // Oscillators
         module.harmonicOscillator[osc] = module.createOscillator();
-        module.harmonicOscillator[osc].frequency.value = module.config.masterFreq * i;
+        module.harmonicOscillator[osc].frequency.value = tuning * i;
         module.harmonicOscillator[osc].type = 'sine';
 
         // VCAs
@@ -769,7 +772,7 @@ EVE = (function (module) {
 
     module.calculatePitch = function (note) {
         var n = note.target ? note.target.dataset.noteValue : note,
-            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n) + module.preset.fine * module.config.fineTuneRange;
+            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n);
 
         return module.setPitch(pitch);
     };
@@ -1049,7 +1052,7 @@ EVE = (function (module) {
 
     var debug = true,
         i,
-        inputs = document.querySelectorAll('input[type=range]'),
+        inputs = document.querySelectorAll('input[type=range])'),
         updateMethods = {
             'harmonic-oscillator': 'updateharmonicoscillator',
             'timbre-env': 'updatetimbreenv',
