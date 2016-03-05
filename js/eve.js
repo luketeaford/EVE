@@ -734,7 +734,7 @@ EVE = (function (module) {
     'use strict';
 
     var buttons = document.querySelectorAll('input[type=radio]'),
-        debug = false,
+        debug = true,
         i;
 
     module.button = {
@@ -1056,13 +1056,22 @@ EVE = (function (module) {
 
     var debug = true,
         i,
-        inputs = document.querySelectorAll('input[type=range]');
+        inputs = document.querySelectorAll('input[type=range]'),
+        updateMethods = {
+            'harmonic-oscillator': 'updateharmonicoscillator',
+            'timbre-env': 'updatetimbreenv',
+            'vca': 'updatevca',
+            'lfo1': 'updatelfo1',
+            'lfo2': 'updatelfo2',
+            'performance': 'updateperformance'
+        };
+
 
     module.slider = {
 
         grab: function (e) {
             var program = this.dataset.program,
-                update = 'update' + e.path[2].dataset.update,
+                update = updateMethods[e.path[2].id],
                 x = this.dataset.curve === 'lin' ? 1 : this.value;
 
             // Update program

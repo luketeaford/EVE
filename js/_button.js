@@ -2,7 +2,7 @@ EVE = (function (module) {
     'use strict';
 
     var buttons = document.querySelectorAll('input[type=radio]'),
-        debug = false,
+        debug = true,
         i;
 
     module.button = {
