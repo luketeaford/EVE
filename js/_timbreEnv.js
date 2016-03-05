@@ -35,10 +35,6 @@ EVE = (function (module) {
                 vca.gain.setTargetAtTime(osc + (env * module.preset.timbre_s), peak, module.preset.timbre_d * module.config.egMax);
             }
 
-            if (debug && console) {
-                console.log('Timbre envelope on');
-            }
-
             return;
         },
 
@@ -59,10 +55,6 @@ EVE = (function (module) {
 
                 // Release
                 vca.gain.setTargetAtTime(module.preset['osc' + i], module.now(), module.preset.timbre_r);
-            }
-
-            if (debug && console) {
-                console.log('Timbre envelope off');
             }
 
             return;

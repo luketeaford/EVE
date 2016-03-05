@@ -22,6 +22,7 @@ EVE = (function (module) {
             switch (p) {
             case 'fine':
                 this.dispatchEvent(module.events.testpitch);
+                module.adjustFineTune();
                 break;
             case 'glide':
                 module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;

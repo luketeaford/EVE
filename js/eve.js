@@ -597,6 +597,7 @@ EVE = (function (module) {
             switch (p) {
             case 'fine':
                 this.dispatchEvent(module.events.testpitch);
+                module.adjustFineTune();
                 break;
             case 'glide':
                 module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;
@@ -657,10 +658,6 @@ EVE = (function (module) {
                 vca.gain.setTargetAtTime(osc + (env * module.preset.timbre_s), peak, module.preset.timbre_d * module.config.egMax);
             }
 
-            if (debug && console) {
-                console.log('Timbre envelope on');
-            }
-
             return;
         },
 
@@ -681,10 +678,6 @@ EVE = (function (module) {
 
                 // Release
                 vca.gain.setTargetAtTime(module.preset['osc' + i], module.now(), module.preset.timbre_r);
-            }
-
-            if (debug && console) {
-                console.log('Timbre envelope off');
             }
 
             return;

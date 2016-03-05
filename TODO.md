@@ -1,11 +1,12 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
+* FINE TUNE SHOULD BE FREQUENCY CHANGE TO ALL OSCILLATORS AND LFOS
 * fine tune must happen in real time
-* add MIDI / midi learn
 * need ability to advance presets with - and = and possibly , and .
+* add MIDI / midi learn
 * fix scss
-* better pub/sub for keyboard so pitch and highlight aren't called unnecessarily
+
 
 #BEFORE MAKING PRESETS
 * fine tune envelopes
@@ -20,7 +21,6 @@
 Playing legato doesn't work -- turns gateOff (playing array should move to calculatePitch, I guess)
 
 #CLEAN UP IDEAS
-* sliders and buttons could use event.path[x] instead of finding a bunch of parentElements
 * Eliminate switches where feasible
 
 #NOTES:

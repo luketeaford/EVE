@@ -120,27 +120,27 @@ header {
     opacity: 1;
     transition: none; }
 
-.keyboard-wrapper {
+.keyboard {
   font-size: 0; }
   @media screen and (min-width: 0px) and (max-width: 959px) {
-    .keyboard-wrapper .key {
+    .keyboard .key {
       height: calc(100vw / 2);
       width: calc(100% / 8); }
-      .keyboard-wrapper .key:nth-child(13) ~ .key,
-      .keyboard-wrapper .key:nth-child(13) ~ .key-sharp {
+      .keyboard .key:nth-child(13) ~ .key,
+      .keyboard .key:nth-child(13) ~ .key-sharp {
         display: none; }
-    .keyboard-wrapper .key-sharp {
+    .keyboard .key-sharp {
       height: calc(60vw / 2);
       margin: 0 calc(-66.66667% / 16);
       width: calc(66.66667% / 8); } }
   @media screen and (min-width: 960px) {
-    .keyboard-wrapper .key {
+    .keyboard .key {
       height: calc(50vw / 2);
       width: calc(100% / 15); }
-      .keyboard-wrapper .key:nth-child(25) ~ .key,
-      .keyboard-wrapper .key:nth-child(25) ~ .key-sharp {
+      .keyboard .key:nth-child(25) ~ .key,
+      .keyboard .key:nth-child(25) ~ .key-sharp {
         display: none; }
-    .keyboard-wrapper .key-sharp {
+    .keyboard .key-sharp {
       height: calc(30vw / 2);
       margin: 0 calc(-66.66667% / 30);
       width: calc(66.66667% / 15); } }
