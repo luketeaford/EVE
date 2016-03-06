@@ -280,17 +280,21 @@ EVE = (function (module) {
     var debug = false,
         fine = module.config.fineTune * module.config.fineTuneRange,
         i,
-        inputs = document.querySelectorAll('#harmonic-oscillator input'),
         osc,
         tuning;
 
-    module.harmonicOscillator = {};
+    module.harmonicOscillator = {
+        inputs: document.querySelectorAll('#harmonic-oscillator input')
+    };
+
     module.harmonicOscillator.mixer = module.createGain();
+
     module.harmonicOscillator.mixer.gain.value = -1;
 
     for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
         tuning = module.config.masterFreq + fine;
+
         // Oscillators
         module.harmonicOscillator[osc] = module.createOscillator();
         module.harmonicOscillator[osc].frequency.value = tuning * i;
@@ -311,13 +315,14 @@ EVE = (function (module) {
     }
 
     module.harmonicOscillator.update = function (e) {
-        var p;
+        var harmonicOsc = module.harmonicOscillator,
+            p;
 
         if (e.target && e.target.dataset && e.target.dataset.program) {
             p = e.target.dataset.program;
         }
 
-        module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
+        harmonicOsc[p].vca.gain.setValueAtTime(module.preset[p], module.now());
 
         if (debug && console) {
             console.log(p, module.preset[p]);
@@ -327,6 +332,8 @@ EVE = (function (module) {
     };
 
     module.harmonicOscillator.load = function () {
+        var inputs = module.harmonicOscillator.inputs;
+
         for (i = 1; i <= 8; i += 1) {
             osc = 'osc' + i;
 
@@ -973,6 +980,11 @@ EVE = (function (module) {
                 var n = e.data[1];
 
                 switch (e.data[0]) {
+                case module.midi.messages.listen:
+                    if (debug && console) {
+                        console.log('MIDI listen');
+                    }
+                    break;
                 case module.midi.messages.noteOn:
                     if (e.data[2] >= 1) {
                         if (module.midi.active === null) {
@@ -994,6 +1006,17 @@ EVE = (function (module) {
                 case module.midi.messages.noteOff:
                     module.midi.active = null;
                     module.gate();
+                    break;
+                // NEEDS WORK, BUT IS A GOOD ROUGH DRAFT
+                case module.midi.messages.volume:
+                    module.preset.osc2 = (e.data[2] / 127) * (e.data[2] / 127);
+                    module.harmonicOscillator.inputs[1].dispatchEvent(module.events.updateharmonicoscillator);
+                    module.harmonicOscillator.inputs[1].value = Math.sqrt(module.preset.osc2);
+//                    module.harmonicOscillator.inputs[1].dispatchEvent(module.events.loadpreset);
+                    console.log('Moving the volume slider', e.data[2]);
+                    break;
+                case module.midi.messages.bankSelect:
+                    console.log('You have selected a new bank');
                     break;
                 default:
                     if (debug && console) {
@@ -1024,7 +1047,9 @@ EVE = (function (module) {
             messages: {
                 noteOn: 144,
                 noteOff: 128,
-                pitchWheel: 224
+                pitchWheel: 224,
+                bankSelect: 192,
+                volume: 176
             },
 
             toCents: function (midiNote) {

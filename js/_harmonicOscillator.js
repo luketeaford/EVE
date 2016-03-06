@@ -3,17 +3,21 @@ EVE = (function (module) {
     var debug = false,
         fine = module.config.fineTune * module.config.fineTuneRange,
         i,
-        inputs = document.querySelectorAll('#harmonic-oscillator input'),
         osc,
         tuning;
 
-    module.harmonicOscillator = {};
+    module.harmonicOscillator = {
+        inputs: document.querySelectorAll('#harmonic-oscillator input')
+    };
+
     module.harmonicOscillator.mixer = module.createGain();
+
     module.harmonicOscillator.mixer.gain.value = -1;
 
     for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
         tuning = module.config.masterFreq + fine;
+
         // Oscillators
         module.harmonicOscillator[osc] = module.createOscillator();
         module.harmonicOscillator[osc].frequency.value = tuning * i;
@@ -34,13 +38,14 @@ EVE = (function (module) {
     }
 
     module.harmonicOscillator.update = function (e) {
-        var p;
+        var harmonicOsc = module.harmonicOscillator,
+            p;
 
         if (e.target && e.target.dataset && e.target.dataset.program) {
             p = e.target.dataset.program;
         }
 
-        module.harmonicOscillator[p].vca.gain.setValueAtTime(module.preset[p], module.now());
+        harmonicOsc[p].vca.gain.setValueAtTime(module.preset[p], module.now());
 
         if (debug && console) {
             console.log(p, module.preset[p]);
@@ -50,6 +55,8 @@ EVE = (function (module) {
     };
 
     module.harmonicOscillator.load = function () {
+        var inputs = module.harmonicOscillator.inputs;
+
         for (i = 1; i <= 8; i += 1) {
             osc = 'osc' + i;
 
