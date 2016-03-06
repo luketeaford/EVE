@@ -79,7 +79,7 @@ EVE = (function (module) {
                 noteOff: 128,
                 pitchWheel: 224,
                 bankSelect: 192,
-                volume: 176
+                volumeX: 176
             },
 
             toCents: function (midiNote) {

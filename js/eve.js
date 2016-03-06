@@ -589,9 +589,32 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
     var debug = true,
-        glide = document.getElementById('glide');
+        glide = document.getElementById('glide'),
+        lights = document.querySelectorAll('#performance [data-light]');
 
     module.performance = {
+        octaveShift: 0,
+
+        shiftOctave: function (direction) {
+            var i = 0,
+                oct = module.performance.octaveShift,
+                shift = this.dataset ? this.dataset.shift : direction;
+
+            console.log('DIRECTION:', direction);
+            console.log('SHIFT:', shift);
+
+            if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
+                module.performance.octaveShift = oct + parseFloat(shift);
+                for (i = 0; i < lights.length; i += 1) {
+                    lights[i].dataset.light =
+                        i === module.performance.octaveShift + 2 ?
+                                'on' :
+                                'off';
+                }
+            }
+
+            return;
+        },
 
         update: function (e) {
             var p;
@@ -778,7 +801,7 @@ EVE = (function (module) {
 
     module.calculatePitch = function (note) {
         var n = note.target ? note.target.dataset.noteValue : note,
-            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n);
+            pitch = module.performance.octaveShift * 1200 + parseFloat(n);
 
         return module.setPitch(pitch);
     };
@@ -851,30 +874,7 @@ EVE = (function (module) {
         };
 
     module.keyboard = {
-        lights: document.querySelectorAll('#performance [data-light]'),
         keys: document.querySelectorAll('#keyboard button'),
-        octaveShift: 0,
-        scope: document.getElementById('keyboard'),
-
-        shiftOctave: function (direction) {
-            var oct = module.keyboard.octaveShift,
-                shift = this.dataset ? this.dataset.shift : direction;
-
-            function switchLights() {
-                var n = module.keyboard.octaveShift + 2;
-
-                for (i = 0; i < module.keyboard.lights.length; i += 1) {
-                    module.keyboard.lights[i].dataset.light = i === n ? 'on' : 'off';
-                }
-            }
-
-            if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
-                module.keyboard.octaveShift = oct + parseFloat(shift);
-                switchLights();
-            }
-
-            return;
-        },
 
         convertQwertyToPitch: function (keycode) {
             return qwertyPitches[keycode];
@@ -884,9 +884,9 @@ EVE = (function (module) {
             key = qwertyKeys[keycode];
 
             module.keyboard.keys[key].dataset.active =
-                module.keyboard.keys[key].dataset.active === "false" ?
-                        "true" :
-                        "false";
+                module.keyboard.keys[key].dataset.active === 'false' ?
+                        'true' :
+                        'false';
             return;
         },
 
@@ -900,11 +900,11 @@ EVE = (function (module) {
                 break;
             // z
             case 122:
-                module.keyboard.shiftOctave(-1);
+                module.performance.shiftOctave(-1);
                 break;
             // x
             case 120:
-                module.keyboard.shiftOctave(1);
+                module.performance.shiftOctave(1);
                 break;
             // `
             case 96:
@@ -913,7 +913,6 @@ EVE = (function (module) {
                 }
                 break;
             }
-            console.log('PRESSED:', e.which);
             return;
         },
 
@@ -957,8 +956,8 @@ EVE = (function (module) {
     };
 
     for (i = 0; i < buttons.length; i += 1) {
-        buttons[i].addEventListener('click', module.keyboard.shiftOctave);
-        buttons[i].addEventListener('touchstart', module.keyboard.shiftOctave);
+        buttons[i].addEventListener('click', module.performance.shiftOctave);
+        buttons[i].addEventListener('touchstart', module.performance.shiftOctave);
     }
 
     document.addEventListener('keypress', module.keyboard.pressBus);
@@ -1049,7 +1048,7 @@ EVE = (function (module) {
                 noteOff: 128,
                 pitchWheel: 224,
                 bankSelect: 192,
-                volume: 176
+                volumeX: 176
             },
 
             toCents: function (midiNote) {

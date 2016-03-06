@@ -5,7 +5,7 @@ EVE = (function (module) {
 
     module.calculatePitch = function (note) {
         var n = note.target ? note.target.dataset.noteValue : note,
-            pitch = module.keyboard.octaveShift * 1200 + parseFloat(n);
+            pitch = module.performance.octaveShift * 1200 + parseFloat(n);
 
         return module.setPitch(pitch);
     };
