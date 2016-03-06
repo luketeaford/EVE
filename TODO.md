@@ -1,6 +1,7 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
+* fix glide and anything else where that will be a problem
 * add MIDI / midi learn
 * fix scss
 

@@ -14,9 +14,6 @@ EVE = (function (module) {
                 oct = module.performance.octaveShift,
                 shift = this.dataset ? this.dataset.shift : direction;
 
-            console.log('DIRECTION:', direction);
-            console.log('SHIFT:', shift);
-
             if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
                 module.performance.octaveShift = oct + parseFloat(shift);
                 for (i = 0; i < lights.length; i += 1) {
@@ -39,16 +36,6 @@ EVE = (function (module) {
 
             if (debug && console) {
                 console.log(p, module.preset[p]);
-            }
-
-            switch (p) {
-            case 'fine':
-                this.dispatchEvent(module.events.testpitch);
-                module.adjustFineTune();
-                break;
-            case 'glide':
-                module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;
-                break;
             }
 
             return;

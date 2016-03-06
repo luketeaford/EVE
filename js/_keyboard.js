@@ -1,4 +1,3 @@
-// TODO Consider moving shiftOctave to performance controls
 EVE = (function (module) {
     'use strict';
     var buttons = document.getElementsByClassName('shift-octave'),

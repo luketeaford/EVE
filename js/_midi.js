@@ -42,7 +42,6 @@ EVE = (function (module) {
                     module.preset.osc2 = (e.data[2] / 127) * (e.data[2] / 127);
                     module.harmonicOscillator.inputs[1].dispatchEvent(module.events.updateharmonicoscillator);
                     module.harmonicOscillator.inputs[1].value = Math.sqrt(module.preset.osc2);
-//                    module.harmonicOscillator.inputs[1].dispatchEvent(module.events.loadpreset);
                     console.log('Moving the volume slider', e.data[2]);
                     break;
                 case module.midi.messages.bankSelect:

@@ -1,7 +1,7 @@
 EVE = (function (module) {
     'use strict';
 
-    var debug = true,
+    var debug = false,
         i,
         inputs = document.querySelectorAll('input[type=range]'),
         updateMethods = {
@@ -23,6 +23,9 @@ EVE = (function (module) {
 
             // Update program
             module.preset[program] = this.value * x;
+
+            // LUKE'S WEIRD TEST TO REDUCE EVENT LISTENERS
+            console.dir(e);
 
             if (debug && console) {
                 console.log('Updating', update);

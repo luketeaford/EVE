@@ -600,9 +600,6 @@ EVE = (function (module) {
                 oct = module.performance.octaveShift,
                 shift = this.dataset ? this.dataset.shift : direction;
 
-            console.log('DIRECTION:', direction);
-            console.log('SHIFT:', shift);
-
             if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
                 module.performance.octaveShift = oct + parseFloat(shift);
                 for (i = 0; i < lights.length; i += 1) {
@@ -625,16 +622,6 @@ EVE = (function (module) {
 
             if (debug && console) {
                 console.log(p, module.preset[p]);
-            }
-
-            switch (p) {
-            case 'fine':
-                this.dispatchEvent(module.events.testpitch);
-                module.adjustFineTune();
-                break;
-            case 'glide':
-                module.preset.glide = module.preset.glide * module.config.glideMax + module.config.glideMin;
-                break;
             }
 
             return;
@@ -821,7 +808,6 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO Consider moving shiftOctave to performance controls
 EVE = (function (module) {
     'use strict';
     var buttons = document.getElementsByClassName('shift-octave'),
@@ -1011,7 +997,6 @@ EVE = (function (module) {
                     module.preset.osc2 = (e.data[2] / 127) * (e.data[2] / 127);
                     module.harmonicOscillator.inputs[1].dispatchEvent(module.events.updateharmonicoscillator);
                     module.harmonicOscillator.inputs[1].value = Math.sqrt(module.preset.osc2);
-//                    module.harmonicOscillator.inputs[1].dispatchEvent(module.events.loadpreset);
                     console.log('Moving the volume slider', e.data[2]);
                     break;
                 case module.midi.messages.bankSelect:
@@ -1143,14 +1128,15 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
     module.setPitch = function (pitch) {
-        var i;
+        var glide = module.preset.glide * module.config.glideMax + module.config.glideMin,
+            i;
 
         for (i = 1; i <= 8; i += 1) {
-            module.harmonicOscillator['osc' + i].detune.setTargetAtTime(pitch, module.now(), module.preset.glide);
+            module.harmonicOscillator['osc' + i].detune.setTargetAtTime(pitch, module.now(), glide);
         }
 
         if (module.preset.lfo1_range >= 440) {
-            module.lfo1.detune.setValueAtTime(pitch, module.now(), module.preset.glide);
+            module.lfo1.detune.setTargetAtTime(pitch, module.now(), glide);
         }
 
         return;
@@ -1162,7 +1148,7 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
 
-    var debug = true,
+    var debug = false,
         i,
         inputs = document.querySelectorAll('input[type=range]'),
         updateMethods = {
@@ -1184,6 +1170,9 @@ EVE = (function (module) {
 
             // Update program
             module.preset[program] = this.value * x;
+
+            // LUKE'S WEIRD TEST TO REDUCE EVENT LISTENERS
+            console.dir(e);
 
             if (debug && console) {
                 console.log('Updating', update);
