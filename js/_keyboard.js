@@ -1,3 +1,4 @@
+// TODO CLEAN UP EVENT BINDINGS FOR THE OCTAVE SHIFTING
 EVE = (function (module) {
     'use strict';
     var buttons = document.getElementsByClassName('shift-octave'),

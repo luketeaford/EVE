@@ -1,46 +1,36 @@
 EVE = (function (module) {
     'use strict';
 
-    var debug = false,
-        i,
-        inputs = document.querySelectorAll('input[type=range]'),
-        updateMethods = {
-            'harmonic-oscillator': 'updateharmonicoscillator',
-            'timbre-env': 'updatetimbreenv',
-            'vca': 'updatevca',
-            'lfo1': 'updatelfo1',
-            'lfo2': 'updatelfo2',
-            'performance': 'updateperformance'
-        };
-
+    var updateMethods = {
+        'harmonic-oscillator': 'updateharmonicoscillator',
+        'lfo1': 'updatelfo1',
+        'lfo2': 'updatelfo2',
+        'performance': 'updateperformance',
+        'timbre-env': 'updatetimbreenv',
+        'vca': 'updatevca'
+    };
 
     module.slider = {
-
         grab: function (e) {
-            var program = this.dataset.program,
-                update = updateMethods[e.path[2].id],
-                x = this.dataset.curve === 'lin' ? 1 : this.value;
+            var program,
+                update,
+                x;
 
-            // Update program
-            module.preset[program] = this.value * x;
+            if (e.target.type === 'range') {
+                program = e.target.dataset.program;
+                update = updateMethods[e.path[2].id];
+                x = e.target.dataset.curve === 'lin' ? 1 : e.target.value;
 
-            // LUKE'S WEIRD TEST TO REDUCE EVENT LISTENERS
-            console.dir(e);
+                module.preset[program] = e.target.value * x;
 
-            if (debug && console) {
-                console.log('Updating', update);
+                e.target.dispatchEvent(module.events[update]);
             }
-
-            // Broadcast change
-            this.dispatchEvent(module.events[update]);
 
             return;
         }
     };
 
-    for (i = 0; i < inputs.length; i += 1) {
-        inputs[i].addEventListener('input', module.slider.grab);
-    }
+    document.addEventListener('input', module.slider.grab);
 
     return module;
 }(EVE));

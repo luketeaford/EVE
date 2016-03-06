@@ -1,38 +1,34 @@
 EVE = (function (module) {
     'use strict';
 
-    var buttons = document.querySelectorAll('input[type=radio]'),
-        debug = true,
-        i;
-
     module.button = {
         press: function (e) {
-            var prog = this.name,
+            var prog,
+                update,
+                value;
+
+            if (e.target.type === 'radio') {
+                prog = e.target.name;
                 update = 'update' + e.path[2].dataset.update;
+                value = e.target.value;
 
-            if (module.preset[prog] !== this.value) {
-                // Prevents numbers being stored as strings
-                if (typeof this.value === 'string' && !isNaN(this.value - 1)) {
-                    module.preset[prog] = parseFloat(this.value);
-                } else {
-                    module.preset[prog] = this.value;
+                if (module.preset[prog] !== value) {
+                    // Prevent numbers being stored as strings
+                    if (typeof value === 'string' && !isNaN(value - 1)) {
+                        module.preset[prog] = parseFloat(value);
+                    } else {
+                        module.preset[prog] = value;
+                    }
                 }
-            }
 
-            if (debug && console) {
-                console.log('Updating', update);
+                e.target.dispatchEvent(module.events[update]);
             }
-
-            // Broadcast change
-            this.dispatchEvent(module.events[update]);
 
             return;
         }
     };
 
-    for (i = 0; i < buttons.length; i += 1) {
-        buttons[i].addEventListener('change', module.button.press);
-    }
+    document.addEventListener('change', module.button.press);
 
     return module;
 }(EVE));

@@ -10,15 +10,6 @@ EVE = (function (module) {
             bubbles: true
         }),
 
-        testpitch: new CustomEvent('testpitch', {
-            detail: {
-                'xfiles': 'chinese',
-                'david': 'duchovny',
-                'gillian': 'anderson'
-            },
-            bubbles: true
-        }),
-
         updateharmonicoscillator: new CustomEvent('updateharmonicoscillator', {
             bubbles: true
         }),

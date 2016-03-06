@@ -1,3 +1,4 @@
+// TODO Fix these dumb event bindings for cycling forward and backward
 EVE = (function (module) {
     'use strict';
     var bank = [

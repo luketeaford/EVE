@@ -92,7 +92,6 @@ EVE = (function (module) {
         return;
     };
 
-    // BIND EVENTS
     document.addEventListener('updatelfo1', module.lfo1.update);
     document.addEventListener('loadpreset', module.lfo1.load);
 

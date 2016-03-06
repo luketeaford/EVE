@@ -15,15 +15,6 @@ EVE = (function (module) {
             bubbles: true
         }),
 
-        testpitch: new CustomEvent('testpitch', {
-            detail: {
-                'xfiles': 'chinese',
-                'david': 'duchovny',
-                'gillian': 'anderson'
-            },
-            bubbles: true
-        }),
-
         updateharmonicoscillator: new CustomEvent('updateharmonicoscillator', {
             bubbles: true
         }),
@@ -265,7 +256,6 @@ EVE = (function (module) {
         return;
     };
 
-    // BIND EVENTS
     document.addEventListener('updatevca', module.vca.update);
     document.addEventListener('gateon', module.vca.gateOn);
     document.addEventListener('gateoff', module.vca.gateOff);
@@ -343,7 +333,6 @@ EVE = (function (module) {
         return;
     };
 
-    // EVENT BINDINGS
     document.addEventListener('updateharmonicoscillator', module.harmonicOscillator.update);
     document.addEventListener('loadpreset', module.harmonicOscillator.load);
 
@@ -444,7 +433,6 @@ EVE = (function (module) {
         return;
     };
 
-    // BIND EVENTS
     document.addEventListener('updatelfo1', module.lfo1.update);
     document.addEventListener('loadpreset', module.lfo1.load);
 
@@ -584,8 +572,6 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO If glide is 1 when preset is loaded, it would be longer than the
-// tolerable maximum. Fix this!
 EVE = (function (module) {
     'use strict';
     var debug = true,
@@ -745,38 +731,34 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
 
-    var buttons = document.querySelectorAll('input[type=radio]'),
-        debug = true,
-        i;
-
     module.button = {
         press: function (e) {
-            var prog = this.name,
+            var prog,
+                update,
+                value;
+
+            if (e.target.type === 'radio') {
+                prog = e.target.name;
                 update = 'update' + e.path[2].dataset.update;
+                value = e.target.value;
 
-            if (module.preset[prog] !== this.value) {
-                // Prevents numbers being stored as strings
-                if (typeof this.value === 'string' && !isNaN(this.value - 1)) {
-                    module.preset[prog] = parseFloat(this.value);
-                } else {
-                    module.preset[prog] = this.value;
+                if (module.preset[prog] !== value) {
+                    // Prevent numbers being stored as strings
+                    if (typeof value === 'string' && !isNaN(value - 1)) {
+                        module.preset[prog] = parseFloat(value);
+                    } else {
+                        module.preset[prog] = value;
+                    }
                 }
-            }
 
-            if (debug && console) {
-                console.log('Updating', update);
+                e.target.dispatchEvent(module.events[update]);
             }
-
-            // Broadcast change
-            this.dispatchEvent(module.events[update]);
 
             return;
         }
     };
 
-    for (i = 0; i < buttons.length; i += 1) {
-        buttons[i].addEventListener('change', module.button.press);
-    }
+    document.addEventListener('change', module.button.press);
 
     return module;
 }(EVE));
@@ -793,21 +775,14 @@ EVE = (function (module) {
         return module.setPitch(pitch);
     };
 
-    module.testPitch = function (foo) {
-        console.log('Foo is', foo);
-        return;
-    };
-
     // BIND EVENTS
     keyboard.addEventListener('mousedown', module.calculatePitch);
     keyboard.addEventListener('touchstart', module.calculatePitch);
 
-    // EXPERIMENT
-    document.addEventListener('testpitch', module.testPitch);
-
     return module;
 }(EVE));
 
+// TODO CLEAN UP EVENT BINDINGS FOR THE OCTAVE SHIFTING
 EVE = (function (module) {
     'use strict';
     var buttons = document.getElementsByClassName('shift-octave'),
@@ -1059,6 +1034,7 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
+// TODO Fix these dumb event bindings for cycling forward and backward
 EVE = (function (module) {
     'use strict';
     var bank = [
@@ -1148,46 +1124,36 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
 
-    var debug = false,
-        i,
-        inputs = document.querySelectorAll('input[type=range]'),
-        updateMethods = {
-            'harmonic-oscillator': 'updateharmonicoscillator',
-            'timbre-env': 'updatetimbreenv',
-            'vca': 'updatevca',
-            'lfo1': 'updatelfo1',
-            'lfo2': 'updatelfo2',
-            'performance': 'updateperformance'
-        };
-
+    var updateMethods = {
+        'harmonic-oscillator': 'updateharmonicoscillator',
+        'lfo1': 'updatelfo1',
+        'lfo2': 'updatelfo2',
+        'performance': 'updateperformance',
+        'timbre-env': 'updatetimbreenv',
+        'vca': 'updatevca'
+    };
 
     module.slider = {
-
         grab: function (e) {
-            var program = this.dataset.program,
-                update = updateMethods[e.path[2].id],
-                x = this.dataset.curve === 'lin' ? 1 : this.value;
+            var program,
+                update,
+                x;
 
-            // Update program
-            module.preset[program] = this.value * x;
+            if (e.target.type === 'range') {
+                program = e.target.dataset.program;
+                update = updateMethods[e.path[2].id];
+                x = e.target.dataset.curve === 'lin' ? 1 : e.target.value;
 
-            // LUKE'S WEIRD TEST TO REDUCE EVENT LISTENERS
-            console.dir(e);
+                module.preset[program] = e.target.value * x;
 
-            if (debug && console) {
-                console.log('Updating', update);
+                e.target.dispatchEvent(module.events[update]);
             }
-
-            // Broadcast change
-            this.dispatchEvent(module.events[update]);
 
             return;
         }
     };
 
-    for (i = 0; i < inputs.length; i += 1) {
-        inputs[i].addEventListener('input', module.slider.grab);
-    }
+    document.addEventListener('input', module.slider.grab);
 
     return module;
 }(EVE));

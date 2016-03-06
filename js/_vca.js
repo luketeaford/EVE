@@ -68,7 +68,6 @@ EVE = (function (module) {
         return;
     };
 
-    // BIND EVENTS
     document.addEventListener('updatevca', module.vca.update);
     document.addEventListener('gateon', module.vca.gateOn);
     document.addEventListener('gateoff', module.vca.gateOff);

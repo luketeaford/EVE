@@ -66,7 +66,6 @@ EVE = (function (module) {
         return;
     };
 
-    // EVENT BINDINGS
     document.addEventListener('updateharmonicoscillator', module.harmonicOscillator.update);
     document.addEventListener('loadpreset', module.harmonicOscillator.load);
 

@@ -10,17 +10,9 @@ EVE = (function (module) {
         return module.setPitch(pitch);
     };
 
-    module.testPitch = function (foo) {
-        console.log('Foo is', foo);
-        return;
-    };
-
     // BIND EVENTS
     keyboard.addEventListener('mousedown', module.calculatePitch);
     keyboard.addEventListener('touchstart', module.calculatePitch);
-
-    // EXPERIMENT
-    document.addEventListener('testpitch', module.testPitch);
 
     return module;
 }(EVE));

@@ -1,5 +1,3 @@
-// TODO If glide is 1 when preset is loaded, it would be longer than the
-// tolerable maximum. Fix this!
 EVE = (function (module) {
     'use strict';
     var debug = true,
