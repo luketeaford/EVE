@@ -2,26 +2,30 @@ EVE = (function (module) {
     'use strict';
     var debug = true,
         glide = document.getElementById('glide'),
-        lights = document.querySelectorAll('#performance [data-light]');
+        lights = document.querySelectorAll('#octave-shift [data-light]');
 
     module.performance = {
         octaveShift: 0,
 
         shiftOctave: function (direction) {
-            var i = 0,
-                oct = module.performance.octaveShift,
-                shift = this.dataset ? this.dataset.shift : direction;
+            var i,
+                oct,
+                shift;
 
-            if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
-                module.performance.octaveShift = oct + parseFloat(shift);
-                for (i = 0; i < lights.length; i += 1) {
-                    lights[i].dataset.light =
-                        i === module.performance.octaveShift + 2 ?
-                                'on' :
-                                'off';
+            if (event.target.dataset.shift || event.type === 'keypress') {
+                oct = module.performance.octaveShift;
+                shift = event.target.dataset.shift || direction;
+
+                if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
+                    module.performance.octaveShift = oct + parseFloat(shift);
+                    for (i = 0; i < lights.length; i += 1) {
+                        lights[i].dataset.light =
+                            i === module.performance.octaveShift + 2 ?
+                                    'on' :
+                                    'off';
+                    }
                 }
             }
-
             return;
         },
 

@@ -250,15 +250,15 @@
 
   <section data-update=performance id=performance>
     <h2>Performance Controls</h2>
-    <div class=octave-shift>
+    <div class=octave-shift id=octave-shift>
       <h3>Octave Shift</h3>
       <span data-light=off>-2</span>
       <span data-light=off>-1</span>
       <span data-light=on>0</span>
       <span data-light=off>1</span>
       <span data-light=off>2</span>
-      <button class=shift-octave data-shift=-1 type=button>-1</button>
-      <button class=shift-octave data-shift=1 type=button>+1</button>
+      <button data-shift=-1 type=button>-1</button>
+      <button data-shift=1 type=button>+1</button>
     </div>
     <label>
       <span>Glide</span>
@@ -266,7 +266,7 @@
     </label>
   </section>
 
-  <div id=keyboard class=keyboard>
+  <div class=keyboard id=keyboard>
     <button class=key data-active=false data-note-value=-2100>C</button>
     <button class=key-sharp data-active=false data-note-value=-2000>C<sup>#</sup></button>
     <button class=key data-active=false data-note-value=-1900>D</button>
