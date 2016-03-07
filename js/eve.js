@@ -858,11 +858,13 @@ EVE = (function (module) {
 
         pressBus: function (e) {
             switch (e.which) {
+            // ,
             case 44:
-                module.program.cycleBackward();
+                module.program.cycle(-1);
                 break;
+            // .
             case 46:
-                module.program.cycleForward();
+                module.program.cycle(1);
                 break;
             // z
             case 122:
@@ -1033,7 +1035,6 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO Fix these dumb event bindings for cycling forward and backward
 EVE = (function (module) {
     'use strict';
     var bank = [
@@ -1044,21 +1045,24 @@ EVE = (function (module) {
         'problematic-patch'
     ],
         displayName = document.getElementById('display-name'),
-        nextPreset = document.getElementById('next-preset'),
         number = 0,
         numberOfPresets = bank.length - 1,
-        prevPreset = document.getElementById('prev-preset');
+        program = document.getElementById('program');
 
     module.program = {
-        cycle: function (n) {
-            var i = n && n < 0 ? -1 : 1,
-                x = number + i;
+        cycle: function (direction) {
+            var i = 0,
+                x = parseFloat(event.target.dataset.cycle) || direction;
 
-            if (x >= 0 && x <= numberOfPresets) {
-                number = x;
+            if (event.target.dataset.cycle || event.type === 'keypress') {
+                i = number + x;
+                if (i >= 0 && i <= numberOfPresets) {
+                    number += x;
+                    return module.program.loadPreset(number);
+                }
             }
 
-            return module.program.loadPreset(number);
+            return;
         },
 
         loadPreset: function (index) {
@@ -1090,11 +1094,7 @@ EVE = (function (module) {
         }
     };
 
-    module.program.cycleBackward = module.program.cycle.bind(null, -1);
-    module.program.cycleForward = module.program.cycle.bind(null, 1);
-
-    nextPreset.addEventListener('click', module.program.cycleForward);
-    prevPreset.addEventListener('click', module.program.cycleBackward);
+    program.addEventListener('click', module.program.cycle);
     document.addEventListener('loadpreset', module.program.load);
 
     return module;

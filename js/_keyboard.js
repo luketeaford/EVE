@@ -66,11 +66,13 @@ EVE = (function (module) {
 
         pressBus: function (e) {
             switch (e.which) {
+            // ,
             case 44:
-                module.program.cycleBackward();
+                module.program.cycle(-1);
                 break;
+            // .
             case 46:
-                module.program.cycleForward();
+                module.program.cycle(1);
                 break;
             // z
             case 122:
