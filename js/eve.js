@@ -1039,7 +1039,11 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
+        'test-lfo1',
         'distorted-sawtooth',
+        'miranda',
+        'percusso',
+        'oranges',
         'test-patch',
         'cool-sci-fi-sound',
         'problematic-patch'

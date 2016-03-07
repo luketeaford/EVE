@@ -1,6 +1,7 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
+* TEST THAT EACH SECTION LOADS PROPERLY FROM PRESETS (LFO1 is broken)
 * fix glide and anything else where that will be a problem
 * add MIDI / midi learn
 * fix scss
