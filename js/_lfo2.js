@@ -110,10 +110,24 @@ EVE = (function (module) {
     };
 
     module.lfo2.load = function () {
+        // TYPE
+        module.lfo2.type = module.preset.lfo2_type;
         module.lfo2[module.preset.lfo2_type].checked = true;
+
+        // RATE
+        module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
         rate.value = Math.sqrt(module.preset.lfo2_rate);
+
+        // AMP
+        module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp, module.now());
         amp.value = module.preset.lfo2_amp;
+
+        // PITCH
+        module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2RateMax, module.now());
         pitch.value = Math.sqrt(module.preset.lfo2_pitch);
+
+
+        // ENVELOPE
         delay.value = Math.sqrt(module.preset.lfo2_delay);
         attack.value = Math.sqrt(module.preset.lfo2_a);
         release.value = Math.sqrt(module.preset.lfo2_r);

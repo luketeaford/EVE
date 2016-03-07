@@ -21,7 +21,7 @@
   "timbre_s": 0.5,
   "timbre_r": 0.125,
   "lfo1_rate": 0.06832996000000001,
-  "lfo1_range": 40,
+  "lfo1_range": 80,
   "lfo1_type": "square",
   "osc1_lfo": 0.5457,
   "osc2_lfo": 0.3514,

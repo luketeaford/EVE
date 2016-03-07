@@ -80,12 +80,15 @@ EVE = (function (module) {
             440: 'track'
         };
 
+        module.lfo1.type = module.preset.lfo1_type;
         module.lfo1[module.preset.lfo1_type].checked = true;
+        module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * module.preset.lfo1_range, module.now());
         module.lfo1[lfo1Ranges[module.preset.lfo1_range]].checked = true;
         rate.value = Math.sqrt(module.preset.lfo1_rate);
 
-        for (i = 1; i < oscInputs.length; i += 1) {
+        for (i = 1; i <= 8; i += 1) {
             osc = 'osc' + i + '_lfo';
+            module[osc].gain.setValueAtTime(module.preset[osc], module.now());
             oscInputs[i - 1].value = module.preset[osc];
         }
 

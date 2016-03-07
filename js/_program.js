@@ -2,6 +2,7 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
+        'test-lfo2',
         'test-lfo1',
         'distorted-sawtooth',
         'miranda',

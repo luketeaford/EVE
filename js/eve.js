@@ -421,12 +421,15 @@ EVE = (function (module) {
             440: 'track'
         };
 
+        module.lfo1.type = module.preset.lfo1_type;
         module.lfo1[module.preset.lfo1_type].checked = true;
+        module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * module.preset.lfo1_range, module.now());
         module.lfo1[lfo1Ranges[module.preset.lfo1_range]].checked = true;
         rate.value = Math.sqrt(module.preset.lfo1_rate);
 
-        for (i = 1; i < oscInputs.length; i += 1) {
+        for (i = 1; i <= 8; i += 1) {
             osc = 'osc' + i + '_lfo';
+            module[osc].gain.setValueAtTime(module.preset[osc], module.now());
             oscInputs[i - 1].value = module.preset[osc];
         }
 
@@ -551,10 +554,24 @@ EVE = (function (module) {
     };
 
     module.lfo2.load = function () {
+        // TYPE
+        module.lfo2.type = module.preset.lfo2_type;
         module.lfo2[module.preset.lfo2_type].checked = true;
+
+        // RATE
+        module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
         rate.value = Math.sqrt(module.preset.lfo2_rate);
+
+        // AMP
+        module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp, module.now());
         amp.value = module.preset.lfo2_amp;
+
+        // PITCH
+        module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2RateMax, module.now());
         pitch.value = Math.sqrt(module.preset.lfo2_pitch);
+
+
+        // ENVELOPE
         delay.value = Math.sqrt(module.preset.lfo2_delay);
         attack.value = Math.sqrt(module.preset.lfo2_a);
         release.value = Math.sqrt(module.preset.lfo2_r);
@@ -1039,6 +1056,7 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
+        'test-lfo2',
         'test-lfo1',
         'distorted-sawtooth',
         'miranda',
