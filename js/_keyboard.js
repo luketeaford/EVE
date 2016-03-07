@@ -1,9 +1,7 @@
-// TODO CLEAN UP EVENT BINDINGS FOR THE OCTAVE SHIFTING
 EVE = (function (module) {
     'use strict';
     var key,
         keyDown,
-        octaveShift = document.getElementById('octave-shift'),
         pitch,
         playing = [],
         qwertyKeys = {
@@ -128,11 +126,7 @@ EVE = (function (module) {
             }
             return;
         }
-
     };
-
-    octaveShift.addEventListener('click', module.performance.shiftOctave);
-    octaveShift.addEventListener('touchend', module.performance.shiftOctave);
 
     document.addEventListener('keypress', module.keyboard.pressBus);
     document.addEventListener('keydown', module.keyboard.downBus);

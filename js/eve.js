@@ -576,7 +576,8 @@ EVE = (function (module) {
     'use strict';
     var debug = true,
         glide = document.getElementById('glide'),
-        lights = document.querySelectorAll('#octave-shift [data-light]');
+        lights = document.querySelectorAll('#octave-shift [data-light]'),
+        octaveShift = document.getElementById('octave-shift');
 
     module.performance = {
         octaveShift: 0,
@@ -623,6 +624,9 @@ EVE = (function (module) {
             return;
         }
     };
+
+    octaveShift.addEventListener('click', module.performance.shiftOctave);
+    octaveShift.addEventListener('touchend', module.performance.shiftOctave);
 
     document.addEventListener('updateperformance', module.performance.update);
     document.addEventListener('loadpreset', module.performance.load);
@@ -786,12 +790,10 @@ EVE = (function (module) {
     return module;
 }(EVE));
 
-// TODO CLEAN UP EVENT BINDINGS FOR THE OCTAVE SHIFTING
 EVE = (function (module) {
     'use strict';
     var key,
         keyDown,
-        octaveShift = document.getElementById('octave-shift'),
         pitch,
         playing = [],
         qwertyKeys = {
@@ -916,11 +918,7 @@ EVE = (function (module) {
             }
             return;
         }
-
     };
-
-    octaveShift.addEventListener('click', module.performance.shiftOctave);
-    octaveShift.addEventListener('touchend', module.performance.shiftOctave);
 
     document.addEventListener('keypress', module.keyboard.pressBus);
     document.addEventListener('keydown', module.keyboard.downBus);
