@@ -11,19 +11,19 @@ EVE = (function (module) {
     };
 
     module.slider = {
-        grab: function (e) {
+        grab: function () {
             var program,
                 update,
                 x;
 
-            if (e.target.type === 'range') {
-                program = e.target.dataset.program;
-                update = updateMethods[e.path[2].id];
-                x = e.target.dataset.curve === 'lin' ? 1 : e.target.value;
+            if (event.target.type === 'range') {
+                program = event.target.dataset.program;
+                update = updateMethods[event.path[2].id];
+                x = event.target.dataset.curve === 'lin' ? 1 : event.target.value;
 
-                module.preset[program] = e.target.value * x;
+                module.preset[program] = event.target.value * x;
 
-                e.target.dispatchEvent(module.events[update]);
+                event.target.dispatchEvent(module.events[update]);
             }
 
             return;

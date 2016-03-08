@@ -64,8 +64,8 @@ EVE = (function (module) {
             return;
         },
 
-        pressBus: function (e) {
-            switch (e.which) {
+        pressBus: function () {
+            switch (event.which) {
             // ,
             case 44:
                 module.program.cycle(-1);
@@ -82,23 +82,17 @@ EVE = (function (module) {
             case 120:
                 module.performance.shiftOctave(1);
                 break;
-            // `
-            case 96:
-                if (console) {
-                    console.log(module.preset);
-                }
-                break;
             }
             return;
         },
 
-        downBus: function (e) {
-            pitch = module.keyboard.convertQwertyToPitch(e.which);
+        downBus: function () {
+            pitch = module.keyboard.convertQwertyToPitch(event.which);
 
             if (pitch) {
                 if (playing.indexOf(pitch) === -1) {
                     module.calculatePitch(pitch);
-                    module.keyboard.highlightKey(e.which);
+                    module.keyboard.highlightKey(event.which);
                     playing.push(pitch);
                     playing.sort(function (a, b) {
                         return a - b;
@@ -112,8 +106,8 @@ EVE = (function (module) {
             return;
         },
 
-        upBus: function (e) {
-            pitch = module.keyboard.convertQwertyToPitch(e.which);
+        upBus: function () {
+            pitch = module.keyboard.convertQwertyToPitch(event.which);
 
             if (pitch) {
                 playing.splice(playing.indexOf(pitch), 1);
@@ -123,7 +117,7 @@ EVE = (function (module) {
                     keyDown = !keyDown;
                     module.gate();
                 }
-                module.keyboard.highlightKey(e.which);
+                module.keyboard.highlightKey(event.which);
 
             }
             return;

@@ -62,8 +62,8 @@ EVE = (function (module) {
         }
     };
 
-    program.addEventListener('click', module.program.cycle);
     document.addEventListener('loadpreset', module.program.load);
+    program.addEventListener('click', module.program.cycle);
 
     return module;
 }(EVE));

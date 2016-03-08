@@ -60,11 +60,11 @@ EVE = (function (module) {
             return;
         },
 
-        update: function (e) {
+        update: function () {
             var p;
 
-            if (e.target && e.target.dataset && e.target.dataset.program) {
-                p = e.target.dataset.program;
+            if (event.target && event.target.dataset && event.target.dataset.program) {
+                p = event.target.dataset.program;
             }
 
             if (debug && console) {

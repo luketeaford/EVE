@@ -6,17 +6,17 @@ EVE = (function (module) {
         module.midi = {
             active: null,
 
-            events: function (e) {
-                var n = e.data[1];
+            events: function () {
+                var n = event.data[1];
 
-                switch (e.data[0]) {
+                switch (event.data[0]) {
                 case module.midi.messages.listen:
                     if (debug && console) {
                         console.log('MIDI listen');
                     }
                     break;
                 case module.midi.messages.noteOn:
-                    if (e.data[2] >= 1) {
+                    if (event.data[2] >= 1) {
                         if (module.midi.active === null) {
                             module.midi.active = n;
                             module.gate();
@@ -39,17 +39,17 @@ EVE = (function (module) {
                     break;
                 // NEEDS WORK, BUT IS A GOOD ROUGH DRAFT
                 case module.midi.messages.volume:
-                    module.preset.osc2 = (e.data[2] / 127) * (e.data[2] / 127);
+                    module.preset.osc2 = (event.data[2] / 127) * (event.data[2] / 127);
                     module.harmonicOscillator.inputs[1].dispatchEvent(module.events.updateharmonicoscillator);
                     module.harmonicOscillator.inputs[1].value = Math.sqrt(module.preset.osc2);
-                    console.log('Moving the volume slider', e.data[2]);
+                    console.log('Moving the volume slider', event.data[2]);
                     break;
                 case module.midi.messages.bankSelect:
                     console.log('You have selected a new bank');
                     break;
                 default:
                     if (debug && console) {
-                        console.log('Unsupported MIDI event', e.data);
+                        console.log('Unsupported MIDI event', event.data);
                     }
                     break;
                 }
@@ -65,6 +65,7 @@ EVE = (function (module) {
                         devices.push(input.value[1]);
                     }
 
+                    debug = false;
                     if (debug && console) {
                         console.log('Available devices:', devices);
                     }

@@ -2,15 +2,15 @@ EVE = (function (module) {
     'use strict';
 
     module.button = {
-        press: function (e) {
+        press: function () {
             var prog,
                 update,
                 value;
 
-            if (e.target.type === 'radio') {
-                prog = e.target.name;
-                update = 'update' + e.path[2].dataset.update;
-                value = e.target.value;
+            if (event.target.type === 'radio') {
+                prog = event.target.name;
+                update = 'update' + event.path[2].dataset.update;
+                value = event.target.value;
 
                 if (module.preset[prog] !== value) {
                     // Prevent numbers being stored as strings
@@ -21,7 +21,7 @@ EVE = (function (module) {
                     }
                 }
 
-                e.target.dispatchEvent(module.events[update]);
+                event.target.dispatchEvent(module.events[update]);
             }
 
             return;

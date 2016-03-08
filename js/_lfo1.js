@@ -34,11 +34,13 @@ EVE = (function (module) {
     module.lfo1.high = document.getElementById('lfo1-high');
     module.lfo1.track = document.getElementById('lfo1-track');
 
-    module.lfo1.update = function (e) {
+    module.lfo1.update = function () {
         var p;
 
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
+        if (event.target && event.target.dataset && event.target.dataset.program) {
+            p = event.target.dataset.program;
+        } else {
+            console.log('Something is wrong with LFO1');
         }
 
         switch (p) {

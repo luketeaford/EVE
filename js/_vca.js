@@ -44,11 +44,11 @@ EVE = (function (module) {
         return;
     };
 
-    module.vca.update = function (e) {
+    module.vca.update = function () {
         var p;
 
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
+        if (event.target && event.target.dataset && event.target.dataset.program) {
+            p = event.target.dataset.program;
         }
 
         if (p === 'vca_g') {

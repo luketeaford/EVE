@@ -76,11 +76,13 @@ EVE = (function (module) {
         return;
     };
 
-    module.lfo2.update = function (e) {
+    module.lfo2.update = function () {
         var p;
 
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
+        if (event.target && event.target.dataset && event.target.dataset.program) {
+            p = event.target.dataset.program;
+        } else {
+            console.log('Something is wrong with LFO2');
         }
 
         if (debug && console) {
@@ -144,7 +146,6 @@ EVE = (function (module) {
         return;
     };
 
-    // BIND EVENTS
     document.addEventListener('gateoff', module.lfo2.gateOff);
     document.addEventListener('gateon', module.lfo2.gateOn);
     document.addEventListener('loadpreset', module.lfo2.load);

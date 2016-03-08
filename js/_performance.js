@@ -30,16 +30,20 @@ EVE = (function (module) {
             return;
         },
 
-        update: function (e) {
+        update: function () {
             var p;
 
-            if (e.target && e.target.dataset && e.target.dataset.program) {
-                p = e.target.dataset.program;
+            if (event.target && event.target.dataset && event.target.dataset.program) {
+                p = event.target.dataset.program;
+            } else {
+                console.log('Something wrong with performance');
             }
 
             if (debug && console) {
                 console.log(p, module.preset[p]);
             }
+
+            console.log('Updating performance');
 
             return;
         },
@@ -51,11 +55,12 @@ EVE = (function (module) {
         }
     };
 
+
+    document.addEventListener('loadpreset', module.performance.load);
+    document.addEventListener('updateperformance', module.performance.update);
+
     octaveShift.addEventListener('click', module.performance.shiftOctave);
     octaveShift.addEventListener('touchend', module.performance.shiftOctave);
-
-    document.addEventListener('updateperformance', module.performance.update);
-    document.addEventListener('loadpreset', module.performance.load);
 
     return module;
 }(EVE));

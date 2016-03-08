@@ -233,11 +233,11 @@ EVE = (function (module) {
         return;
     };
 
-    module.vca.update = function (e) {
+    module.vca.update = function () {
         var p;
 
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
+        if (event.target && event.target.dataset && event.target.dataset.program) {
+            p = event.target.dataset.program;
         }
 
         if (p === 'vca_g') {
@@ -376,11 +376,13 @@ EVE = (function (module) {
     module.lfo1.high = document.getElementById('lfo1-high');
     module.lfo1.track = document.getElementById('lfo1-track');
 
-    module.lfo1.update = function (e) {
+    module.lfo1.update = function () {
         var p;
 
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
+        if (event.target && event.target.dataset && event.target.dataset.program) {
+            p = event.target.dataset.program;
+        } else {
+            console.log('Something is wrong with LFO1');
         }
 
         switch (p) {
@@ -521,11 +523,13 @@ EVE = (function (module) {
         return;
     };
 
-    module.lfo2.update = function (e) {
+    module.lfo2.update = function () {
         var p;
 
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
+        if (event.target && event.target.dataset && event.target.dataset.program) {
+            p = event.target.dataset.program;
+        } else {
+            console.log('Something is wrong with LFO2');
         }
 
         if (debug && console) {
@@ -589,7 +593,6 @@ EVE = (function (module) {
         return;
     };
 
-    // BIND EVENTS
     document.addEventListener('gateoff', module.lfo2.gateOff);
     document.addEventListener('gateon', module.lfo2.gateOn);
     document.addEventListener('loadpreset', module.lfo2.load);
@@ -630,16 +633,20 @@ EVE = (function (module) {
             return;
         },
 
-        update: function (e) {
+        update: function () {
             var p;
 
-            if (e.target && e.target.dataset && e.target.dataset.program) {
-                p = e.target.dataset.program;
+            if (event.target && event.target.dataset && event.target.dataset.program) {
+                p = event.target.dataset.program;
+            } else {
+                console.log('Something wrong with performance');
             }
 
             if (debug && console) {
                 console.log(p, module.preset[p]);
             }
+
+            console.log('Updating performance');
 
             return;
         },
@@ -651,11 +658,12 @@ EVE = (function (module) {
         }
     };
 
+
+    document.addEventListener('loadpreset', module.performance.load);
+    document.addEventListener('updateperformance', module.performance.update);
+
     octaveShift.addEventListener('click', module.performance.shiftOctave);
     octaveShift.addEventListener('touchend', module.performance.shiftOctave);
-
-    document.addEventListener('updateperformance', module.performance.update);
-    document.addEventListener('loadpreset', module.performance.load);
 
     return module;
 }(EVE));
@@ -722,11 +730,11 @@ EVE = (function (module) {
             return;
         },
 
-        update: function (e) {
+        update: function () {
             var p;
 
-            if (e.target && e.target.dataset && e.target.dataset.program) {
-                p = e.target.dataset.program;
+            if (event.target && event.target.dataset && event.target.dataset.program) {
+                p = event.target.dataset.program;
             }
 
             if (debug && console) {
@@ -766,15 +774,15 @@ EVE = (function (module) {
     'use strict';
 
     module.button = {
-        press: function (e) {
+        press: function () {
             var prog,
                 update,
                 value;
 
-            if (e.target.type === 'radio') {
-                prog = e.target.name;
-                update = 'update' + e.path[2].dataset.update;
-                value = e.target.value;
+            if (event.target.type === 'radio') {
+                prog = event.target.name;
+                update = 'update' + event.path[2].dataset.update;
+                value = event.target.value;
 
                 if (module.preset[prog] !== value) {
                     // Prevent numbers being stored as strings
@@ -785,7 +793,7 @@ EVE = (function (module) {
                     }
                 }
 
-                e.target.dispatchEvent(module.events[update]);
+                event.target.dispatchEvent(module.events[update]);
             }
 
             return;
@@ -803,13 +811,12 @@ EVE = (function (module) {
     var keyboard = document.getElementById('keyboard');
 
     module.calculatePitch = function (note) {
-        var n = note.target ? note.target.dataset.noteValue : note,
+        var n = event.target.dataset.noteValue || note,
             pitch = module.performance.octaveShift * 1200 + parseFloat(n);
 
         return module.setPitch(pitch);
     };
 
-    // BIND EVENTS
     keyboard.addEventListener('mousedown', module.calculatePitch);
     keyboard.addEventListener('touchstart', module.calculatePitch);
 
@@ -882,8 +889,8 @@ EVE = (function (module) {
             return;
         },
 
-        pressBus: function (e) {
-            switch (e.which) {
+        pressBus: function () {
+            switch (event.which) {
             // ,
             case 44:
                 module.program.cycle(-1);
@@ -900,23 +907,17 @@ EVE = (function (module) {
             case 120:
                 module.performance.shiftOctave(1);
                 break;
-            // `
-            case 96:
-                if (console) {
-                    console.log(module.preset);
-                }
-                break;
             }
             return;
         },
 
-        downBus: function (e) {
-            pitch = module.keyboard.convertQwertyToPitch(e.which);
+        downBus: function () {
+            pitch = module.keyboard.convertQwertyToPitch(event.which);
 
             if (pitch) {
                 if (playing.indexOf(pitch) === -1) {
                     module.calculatePitch(pitch);
-                    module.keyboard.highlightKey(e.which);
+                    module.keyboard.highlightKey(event.which);
                     playing.push(pitch);
                     playing.sort(function (a, b) {
                         return a - b;
@@ -930,8 +931,8 @@ EVE = (function (module) {
             return;
         },
 
-        upBus: function (e) {
-            pitch = module.keyboard.convertQwertyToPitch(e.which);
+        upBus: function () {
+            pitch = module.keyboard.convertQwertyToPitch(event.which);
 
             if (pitch) {
                 playing.splice(playing.indexOf(pitch), 1);
@@ -941,7 +942,7 @@ EVE = (function (module) {
                     keyDown = !keyDown;
                     module.gate();
                 }
-                module.keyboard.highlightKey(e.which);
+                module.keyboard.highlightKey(event.which);
 
             }
             return;
@@ -963,17 +964,17 @@ EVE = (function (module) {
         module.midi = {
             active: null,
 
-            events: function (e) {
-                var n = e.data[1];
+            events: function () {
+                var n = event.data[1];
 
-                switch (e.data[0]) {
+                switch (event.data[0]) {
                 case module.midi.messages.listen:
                     if (debug && console) {
                         console.log('MIDI listen');
                     }
                     break;
                 case module.midi.messages.noteOn:
-                    if (e.data[2] >= 1) {
+                    if (event.data[2] >= 1) {
                         if (module.midi.active === null) {
                             module.midi.active = n;
                             module.gate();
@@ -996,17 +997,17 @@ EVE = (function (module) {
                     break;
                 // NEEDS WORK, BUT IS A GOOD ROUGH DRAFT
                 case module.midi.messages.volume:
-                    module.preset.osc2 = (e.data[2] / 127) * (e.data[2] / 127);
+                    module.preset.osc2 = (event.data[2] / 127) * (event.data[2] / 127);
                     module.harmonicOscillator.inputs[1].dispatchEvent(module.events.updateharmonicoscillator);
                     module.harmonicOscillator.inputs[1].value = Math.sqrt(module.preset.osc2);
-                    console.log('Moving the volume slider', e.data[2]);
+                    console.log('Moving the volume slider', event.data[2]);
                     break;
                 case module.midi.messages.bankSelect:
                     console.log('You have selected a new bank');
                     break;
                 default:
                     if (debug && console) {
-                        console.log('Unsupported MIDI event', e.data);
+                        console.log('Unsupported MIDI event', event.data);
                     }
                     break;
                 }
@@ -1022,6 +1023,7 @@ EVE = (function (module) {
                         devices.push(input.value[1]);
                     }
 
+                    debug = false;
                     if (debug && console) {
                         console.log('Available devices:', devices);
                     }
@@ -1125,8 +1127,8 @@ EVE = (function (module) {
         }
     };
 
-    program.addEventListener('click', module.program.cycle);
     document.addEventListener('loadpreset', module.program.load);
+    program.addEventListener('click', module.program.cycle);
 
     return module;
 }(EVE));
@@ -1164,19 +1166,19 @@ EVE = (function (module) {
     };
 
     module.slider = {
-        grab: function (e) {
+        grab: function () {
             var program,
                 update,
                 x;
 
-            if (e.target.type === 'range') {
-                program = e.target.dataset.program;
-                update = updateMethods[e.path[2].id];
-                x = e.target.dataset.curve === 'lin' ? 1 : e.target.value;
+            if (event.target.type === 'range') {
+                program = event.target.dataset.program;
+                update = updateMethods[event.path[2].id];
+                x = event.target.dataset.curve === 'lin' ? 1 : event.target.value;
 
-                module.preset[program] = e.target.value * x;
+                module.preset[program] = event.target.value * x;
 
-                e.target.dispatchEvent(module.events[update]);
+                event.target.dispatchEvent(module.events[update]);
             }
 
             return;
