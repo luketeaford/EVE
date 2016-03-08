@@ -192,32 +192,14 @@ EVE = (function (module) {
     'use strict';
     var attack = document.getElementById('vca-a'),
         decay = document.getElementById('vca-d'),
-        sustain = document.getElementById('vca-s'),
+        gain = document.getElementById('vca-g'),
         release = document.getElementById('vca-r'),
-        gain = document.getElementById('vca-g');
+        sustain = document.getElementById('vca-s');
 
     module.vca = module.createGain();
     module.vca.gain.value = module.preset.vca_g;
     module.vca.connect(module.destination);
     module.vca.connect(module.oscilloscope);
-
-    module.vca.gateOn = function () {
-        var peak = module.now() + module.preset.vca_a * module.config.egMax + module.config.egMin;
-
-        // Reset
-        module.vca.gain.cancelScheduledValues(0);
-
-        // VCA starting point
-        module.vca.gain.setTargetAtTime(module.preset.vca_g, module.now(), 0.1);
-
-        // VCA attack
-        module.vca.gain.linearRampToValueAtTime(1, peak);
-
-        // VCA decay
-        module.vca.gain.setTargetAtTime(module.preset.vca_s + module.preset.vca_g, peak, module.preset.vca_d * module.config.egMax);
-
-        return;
-    };
 
     module.vca.gateOff = function () {
         var vcaPeak = module.vca.gain.value;
@@ -234,14 +216,29 @@ EVE = (function (module) {
         return;
     };
 
+    module.vca.gateOn = function () {
+        var peak = module.now() + module.preset.vca_a * module.config.egMax + module.config.egMin;
+
+        // Reset
+        module.vca.gain.cancelScheduledValues(0);
+
+        // VCA starting point
+        module.vca.gain.setTargetAtTime(module.preset.vca_g, module.now(), 0.1);
+
+        // VCA attack
+        module.vca.gain.linearRampToValueAtTime(1, peak);
+
+        // VCA decay
+        module.vca.gain.setTargetAtTime(module.preset.vca_s + module.preset.vca_g, peak, module.preset.vca_d * module.config.egMax + module.config.egMin);
+
+        return;
+    };
+
     module.vca.update = function () {
-        var p;
+        var program = event.target.dataset.program;
 
-        if (event.target && event.target.dataset && event.target.dataset.program) {
-            p = event.target.dataset.program;
-        }
 
-        if (p === 'vca_g') {
+        if (program === 'vca_g') {
             module.vca.gain.setValueAtTime(module.preset.vca_g, module.now());
         }
 
@@ -492,7 +489,7 @@ EVE = (function (module) {
 
     module.lfo2.gateOff = function () {
         // Prevent decay from acting like second attack
-        module.lfo2_vca.gain.cancelScheduledValues(module.now());
+        module.lfo2_vca.gain.cancelScheduledValues(0);
 
         // Set starting point
         module.lfo2_vca.gain.setValueAtTime(module.lfo2_vca.gain.value, module.now());
@@ -656,13 +653,35 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
     var attack = document.getElementById('timbre-a'),
-        debug = true,
+        debug = false,
         decay = document.getElementById('timbre-d'),
         inputs = document.getElementsByClassName('js-eg-amt'),
         release = document.getElementById('timbre-r'),
         sustain = document.getElementById('timbre-s');
 
     module.timbreEnv = {
+
+        gateOff: function () {
+            var i,
+                peak,
+                vca;
+
+            for (i = 1; i <= 8; i += 1) {
+                vca = module.harmonicOscillator['osc' + i].vca;
+
+                // Prevent decay from acting like second attack
+                vca.gain.cancelScheduledValues(0);
+
+                // Set starting point
+                peak = vca.gain.value;
+                vca.gain.setValueAtTime(peak, module.now());
+
+                // Release
+                vca.gain.setTargetAtTime(module.preset['osc' + i], module.now(), module.preset.timbre_r * module.config.egMax + module.config.egMin);
+            }
+
+            return;
+        },
 
         gateOn: function () {
             var env,
@@ -686,29 +705,7 @@ EVE = (function (module) {
                 vca.gain.linearRampToValueAtTime(osc + env, peak);
 
                 // Decay
-                vca.gain.setTargetAtTime(osc + (env * module.preset.timbre_s), peak, module.preset.timbre_d * module.config.egMax);
-            }
-
-            return;
-        },
-
-        gateOff: function () {
-            var i,
-                peak,
-                vca;
-
-            for (i = 1; i <= 8; i += 1) {
-                vca = module.harmonicOscillator['osc' + i].vca;
-
-                // Prevent decay from acting like second attack
-                vca.gain.cancelScheduledValues(module.now());
-
-                // Set starting point
-                peak = vca.gain.value;
-                vca.gain.setValueAtTime(peak, module.now());
-
-                // Release
-                vca.gain.setTargetAtTime(module.preset['osc' + i], module.now(), module.preset.timbre_r);
+                vca.gain.setTargetAtTime(osc + (env * module.preset.timbre_s), peak, module.preset.timbre_d * module.config.egMax + module.config.egMin);
             }
 
             return;

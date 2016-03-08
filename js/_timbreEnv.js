@@ -2,13 +2,35 @@
 EVE = (function (module) {
     'use strict';
     var attack = document.getElementById('timbre-a'),
-        debug = true,
+        debug = false,
         decay = document.getElementById('timbre-d'),
         inputs = document.getElementsByClassName('js-eg-amt'),
         release = document.getElementById('timbre-r'),
         sustain = document.getElementById('timbre-s');
 
     module.timbreEnv = {
+
+        gateOff: function () {
+            var i,
+                peak,
+                vca;
+
+            for (i = 1; i <= 8; i += 1) {
+                vca = module.harmonicOscillator['osc' + i].vca;
+
+                // Prevent decay from acting like second attack
+                vca.gain.cancelScheduledValues(0);
+
+                // Set starting point
+                peak = vca.gain.value;
+                vca.gain.setValueAtTime(peak, module.now());
+
+                // Release
+                vca.gain.setTargetAtTime(module.preset['osc' + i], module.now(), module.preset.timbre_r * module.config.egMax + module.config.egMin);
+            }
+
+            return;
+        },
 
         gateOn: function () {
             var env,
@@ -32,29 +54,7 @@ EVE = (function (module) {
                 vca.gain.linearRampToValueAtTime(osc + env, peak);
 
                 // Decay
-                vca.gain.setTargetAtTime(osc + (env * module.preset.timbre_s), peak, module.preset.timbre_d * module.config.egMax);
-            }
-
-            return;
-        },
-
-        gateOff: function () {
-            var i,
-                peak,
-                vca;
-
-            for (i = 1; i <= 8; i += 1) {
-                vca = module.harmonicOscillator['osc' + i].vca;
-
-                // Prevent decay from acting like second attack
-                vca.gain.cancelScheduledValues(module.now());
-
-                // Set starting point
-                peak = vca.gain.value;
-                vca.gain.setValueAtTime(peak, module.now());
-
-                // Release
-                vca.gain.setTargetAtTime(module.preset['osc' + i], module.now(), module.preset.timbre_r);
+                vca.gain.setTargetAtTime(osc + (env * module.preset.timbre_s), peak, module.preset.timbre_d * module.config.egMax + module.config.egMin);
             }
 
             return;

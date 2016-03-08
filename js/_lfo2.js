@@ -52,7 +52,7 @@ EVE = (function (module) {
 
     module.lfo2.gateOff = function () {
         // Prevent decay from acting like second attack
-        module.lfo2_vca.gain.cancelScheduledValues(module.now());
+        module.lfo2_vca.gain.cancelScheduledValues(0);
 
         // Set starting point
         module.lfo2_vca.gain.setValueAtTime(module.lfo2_vca.gain.value, module.now());
