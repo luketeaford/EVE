@@ -7,9 +7,17 @@ EVE = (function (module) {
         delay = document.getElementById('lfo2-delay'),
         gain = document.getElementById('lfo2-gain'),
         i,
+        negative = document.getElementById('lfo2-negative'),
         pitch = document.getElementById('lfo2-pitch'),
+        positive = document.getElementById('lfo2-positive'),
         rate = document.getElementById('lfo2-rate'),
-        release = document.getElementById('lfo2-release');
+        release = document.getElementById('lfo2-release'),
+        lfo2Types = {
+            'sawtooth': document.getElementById('lfo2-saw'),
+            'sine': document.getElementById('lfo2-sin'),
+            'square': document.getElementById('lfo2-sqr'),
+            'triangle': document.getElementById('lfo2-tri')
+        };
 
     module.lfo2 = module.createOscillator();
     module.lfo2.frequency.value = module.preset.lfo2_rate;
@@ -41,11 +49,6 @@ EVE = (function (module) {
     if (module.preset.lfo1_track) {
         module.lfo2_pitch.connect(module.lfo1.frequency);
     }
-
-    module.lfo2.sine = document.getElementById('lfo2-sin');
-    module.lfo2.square = document.getElementById('lfo2-sqr');
-    module.lfo2.sawtooth = document.getElementById('lfo2-saw');
-    module.lfo2.triangle = document.getElementById('lfo2-tri');
 
     module.lfo2.gateOff = function () {
         // Prevent decay from acting like second attack
@@ -95,7 +98,7 @@ EVE = (function (module) {
             module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2RateMax, module.now());
             break;
         case 'lfo2_rate':
-            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
+            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax * module.preset.lfo2_polarity, module.now());
             break;
         case 'lfo2_type':
             module.lfo2.type = module.preset.lfo2_type;
@@ -112,11 +115,16 @@ EVE = (function (module) {
     module.lfo2.load = function () {
         // TYPE
         module.lfo2.type = module.preset.lfo2_type;
-        module.lfo2[module.preset.lfo2_type].checked = true;
+        lfo2Types[module.preset.lfo2_type].checked = true;
 
-        // RATE
-        module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
+        // RATE AND POLARITY
+        module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax * module.preset.lfo2_polarity, module.now());
         rate.value = Math.sqrt(module.preset.lfo2_rate);
+        if (module.preset.lfo2_polarity > 0) {
+            positive.checked = true;
+        } else {
+            negative.checked = true;
+        }
 
         // AMP
         module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp, module.now());
@@ -137,10 +145,10 @@ EVE = (function (module) {
     };
 
     // BIND EVENTS
-    document.addEventListener('updatelfo2', module.lfo2.update);
-    document.addEventListener('gateon', module.lfo2.gateOn);
     document.addEventListener('gateoff', module.lfo2.gateOff);
+    document.addEventListener('gateon', module.lfo2.gateOn);
     document.addEventListener('loadpreset', module.lfo2.load);
+    document.addEventListener('updatelfo2', module.lfo2.update);
 
     return module;
 }(EVE));

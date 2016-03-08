@@ -46,6 +46,7 @@ EVE = (function (module) {
 
         // LFO 2
         lfo2_rate: 3,
+        lfo2_polarity: 1,
         lfo2_type: 'sine',
         lfo2_amp: 0,
         lfo2_pitch: 0,

@@ -32,6 +32,7 @@
   "osc7_lfo": -0.0369,
   "osc8_lfo": 0,
   "lfo2_rate": 3,
+  "lfo2_polarity": 1,
   "lfo2_type": "sine",
   "lfo2_amp": 0,
   "lfo2_pitch": 0,

@@ -32,6 +32,7 @@
   "osc7_lfo": 0,
   "osc8_lfo": 0,
   "lfo2_rate": 0.62869041,
+  "lfo2_polarity": -1,
   "lfo2_type": "square",
   "lfo2_amp": 0.4814,
   "lfo2_pitch": 0.32160241000000006,
