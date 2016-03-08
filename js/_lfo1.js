@@ -35,15 +35,9 @@ EVE = (function (module) {
     module.lfo1.track = document.getElementById('lfo1-track');
 
     module.lfo1.update = function () {
-        var p;
+        var program = event.target.dataset.program;
 
-        if (event.target && event.target.dataset && event.target.dataset.program) {
-            p = event.target.dataset.program;
-        } else {
-            console.log('Something is wrong with LFO1');
-        }
-
-        switch (p) {
+        switch (program) {
         case 'lfo1_type':
             module.lfo1.type = module.preset.lfo1_type;
             break;
@@ -59,7 +53,7 @@ EVE = (function (module) {
         case 'osc6_lfo':
         case 'osc7_lfo':
         case 'osc8_lfo':
-            module[p].gain.setValueAtTime(module.preset[p], module.now());
+            module[program].gain.setValueAtTime(module.preset[program], module.now());
             break;
         default:
             if (debug && console) {
@@ -68,7 +62,7 @@ EVE = (function (module) {
         }
 
         if (debug && console) {
-            console.log(p, module.preset[p]);
+            console.log(program, module.preset[program]);
         }
 
         return;

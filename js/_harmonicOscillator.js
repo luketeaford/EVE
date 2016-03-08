@@ -37,19 +37,17 @@ EVE = (function (module) {
         module.harmonicOscillator.mixer.connect(module.vca);
     }
 
-    module.harmonicOscillator.update = function (e) {
+    module.harmonicOscillator.update = function () {
         var harmonicOsc = module.harmonicOscillator,
-            p;
+            program = event.target.dataset.program;
 
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
-        }
-
-        harmonicOsc[p].vca.gain.setValueAtTime(module.preset[p], module.now());
+        harmonicOsc[program].vca.gain.setValueAtTime(module.preset[program], module.now());
 
         if (debug && console) {
-            console.log(p, module.preset[p]);
+            console.log(program, module.preset[program]);
         }
+
+        console.log('Harmonic oscillator updating');
 
         return;
     };

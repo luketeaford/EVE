@@ -1,6 +1,9 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
+* LFO2 envelopes should match VCA
+* LFO2 polarity could be reworked to only work on sawtooth
+
 * TEST THAT EACH SECTION LOADS PROPERLY FROM PRESETS (LFO2 is broken)
 * fix glide and anything else where that will be a problem
 * add MIDI / midi learn

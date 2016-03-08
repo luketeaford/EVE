@@ -62,6 +62,7 @@ EVE = (function config(module) {
         glideMax: 0.165,
         glideMin: 0.0001,
         lfo2DelayMax: 2,
+        lfo2PitchMaxDepth: 3520,
         lfo2RateMax: 139,
         masterFreq: 440
     };
@@ -305,19 +306,17 @@ EVE = (function (module) {
         module.harmonicOscillator.mixer.connect(module.vca);
     }
 
-    module.harmonicOscillator.update = function (e) {
+    module.harmonicOscillator.update = function () {
         var harmonicOsc = module.harmonicOscillator,
-            p;
+            program = event.target.dataset.program;
 
-        if (e.target && e.target.dataset && e.target.dataset.program) {
-            p = e.target.dataset.program;
-        }
-
-        harmonicOsc[p].vca.gain.setValueAtTime(module.preset[p], module.now());
+        harmonicOsc[program].vca.gain.setValueAtTime(module.preset[program], module.now());
 
         if (debug && console) {
-            console.log(p, module.preset[p]);
+            console.log(program, module.preset[program]);
         }
+
+        console.log('Harmonic oscillator updating');
 
         return;
     };
@@ -377,15 +376,9 @@ EVE = (function (module) {
     module.lfo1.track = document.getElementById('lfo1-track');
 
     module.lfo1.update = function () {
-        var p;
+        var program = event.target.dataset.program;
 
-        if (event.target && event.target.dataset && event.target.dataset.program) {
-            p = event.target.dataset.program;
-        } else {
-            console.log('Something is wrong with LFO1');
-        }
-
-        switch (p) {
+        switch (program) {
         case 'lfo1_type':
             module.lfo1.type = module.preset.lfo1_type;
             break;
@@ -401,7 +394,7 @@ EVE = (function (module) {
         case 'osc6_lfo':
         case 'osc7_lfo':
         case 'osc8_lfo':
-            module[p].gain.setValueAtTime(module.preset[p], module.now());
+            module[program].gain.setValueAtTime(module.preset[program], module.now());
             break;
         default:
             if (debug && console) {
@@ -410,7 +403,7 @@ EVE = (function (module) {
         }
 
         if (debug && console) {
-            console.log(p, module.preset[p]);
+            console.log(program, module.preset[program]);
         }
 
         return;
@@ -505,7 +498,7 @@ EVE = (function (module) {
         module.lfo2_vca.gain.setValueAtTime(module.lfo2_vca.gain.value, module.now());
 
         // Release
-        module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), module.preset.lfo2_r);
+        module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), module.preset.lfo2_r * module.config.egMax + module.config.egMin);
 
         return;
     };
@@ -524,30 +517,29 @@ EVE = (function (module) {
     };
 
     module.lfo2.update = function () {
-        var p;
-
-        if (event.target && event.target.dataset && event.target.dataset.program) {
-            p = event.target.dataset.program;
-        } else {
-            console.log('Something is wrong with LFO2');
-        }
+        var program = event.target.dataset.program;
 
         if (debug && console) {
-            console.log(p, module.preset[p]);
+            console.log(program, module.preset[program]);
         }
 
-        switch (p) {
+        switch (program) {
         case 'lfo2_amp':
-            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp, module.now());
+            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.preset.lfo2_polarity, module.now());
             break;
         case 'lfo2_g':
             module.lfo2_vca.gain.setValueAtTime(module.preset.lfo2_g, module.now());
             break;
         case 'lfo2_pitch':
-            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2RateMax, module.now());
+            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2PitchMaxDepth * module.preset.lfo2_polarity, module.now());
+            break;
+        case 'lfo2_polarity':
+            console.log('Polarity changed!');
+            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.preset.lfo2_polarity, module.now());
+            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2PitchMaxDepth * module.preset.lfo2_polarity, module.now());
             break;
         case 'lfo2_rate':
-            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax * module.preset.lfo2_polarity, module.now());
+            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
             break;
         case 'lfo2_type':
             module.lfo2.type = module.preset.lfo2_type;
@@ -603,7 +595,7 @@ EVE = (function (module) {
 
 EVE = (function (module) {
     'use strict';
-    var debug = true,
+    var debug = false,
         glide = document.getElementById('glide'),
         lights = document.querySelectorAll('#octave-shift [data-light]'),
         octaveShift = document.getElementById('octave-shift');
@@ -634,19 +626,11 @@ EVE = (function (module) {
         },
 
         update: function () {
-            var p;
-
-            if (event.target && event.target.dataset && event.target.dataset.program) {
-                p = event.target.dataset.program;
-            } else {
-                console.log('Something wrong with performance');
-            }
+            var program = event.target.dataset.program;
 
             if (debug && console) {
-                console.log(p, module.preset[p]);
+                console.log(program, module.preset[program]);
             }
-
-            console.log('Updating performance');
 
             return;
         },
@@ -731,14 +715,10 @@ EVE = (function (module) {
         },
 
         update: function () {
-            var p;
-
-            if (event.target && event.target.dataset && event.target.dataset.program) {
-                p = event.target.dataset.program;
-            }
+            var program = event.target.dataset.program;
 
             if (debug && console) {
-                console.log(p, module.preset[p]);
+                console.log(program, module.preset[program]);
             }
 
             return;
@@ -773,27 +753,32 @@ EVE = (function (module) {
 EVE = (function (module) {
     'use strict';
 
+    var updateMethods = {
+        'lfo1': 'updatelfo1',
+        'lfo2': 'updatelfo2'
+    };
+
     module.button = {
         press: function () {
-            var prog,
+            var program,
                 update,
-                value;
+                x;
 
             if (event.target.type === 'radio') {
-                prog = event.target.name;
-                update = 'update' + event.path[2].dataset.update;
-                value = event.target.value;
+                program = event.target.name;
+                update = updateMethods[event.path[2].id];
+                x = event.target.value;
 
-                if (module.preset[prog] !== value) {
+                if (module.preset[program] !== x) {
                     // Prevent numbers being stored as strings
-                    if (typeof value === 'string' && !isNaN(value - 1)) {
-                        module.preset[prog] = parseFloat(value);
+                    if (typeof x === 'string' && !isNaN(x - 1)) {
+                        module.preset[program] = parseFloat(x);
                     } else {
-                        module.preset[prog] = value;
+                        module.preset[program] = x;
                     }
                 }
 
-                event.target.dispatchEvent(module.events[update]);
+                return event.target.dispatchEvent(module.events[update]);
             }
 
             return;
@@ -1178,7 +1163,7 @@ EVE = (function (module) {
 
                 module.preset[program] = event.target.value * x;
 
-                event.target.dispatchEvent(module.events[update]);
+                return event.target.dispatchEvent(module.events[update]);
             }
 
             return;

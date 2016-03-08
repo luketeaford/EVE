@@ -1,27 +1,32 @@
 EVE = (function (module) {
     'use strict';
 
+    var updateMethods = {
+        'lfo1': 'updatelfo1',
+        'lfo2': 'updatelfo2'
+    };
+
     module.button = {
         press: function () {
-            var prog,
+            var program,
                 update,
-                value;
+                x;
 
             if (event.target.type === 'radio') {
-                prog = event.target.name;
-                update = 'update' + event.path[2].dataset.update;
-                value = event.target.value;
+                program = event.target.name;
+                update = updateMethods[event.path[2].id];
+                x = event.target.value;
 
-                if (module.preset[prog] !== value) {
+                if (module.preset[program] !== x) {
                     // Prevent numbers being stored as strings
-                    if (typeof value === 'string' && !isNaN(value - 1)) {
-                        module.preset[prog] = parseFloat(value);
+                    if (typeof x === 'string' && !isNaN(x - 1)) {
+                        module.preset[program] = parseFloat(x);
                     } else {
-                        module.preset[prog] = value;
+                        module.preset[program] = x;
                     }
                 }
 
-                event.target.dispatchEvent(module.events[update]);
+                return event.target.dispatchEvent(module.events[update]);
             }
 
             return;

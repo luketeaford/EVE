@@ -1,6 +1,6 @@
 EVE = (function (module) {
     'use strict';
-    var debug = true,
+    var debug = false,
         glide = document.getElementById('glide'),
         lights = document.querySelectorAll('#octave-shift [data-light]'),
         octaveShift = document.getElementById('octave-shift');
@@ -31,19 +31,11 @@ EVE = (function (module) {
         },
 
         update: function () {
-            var p;
-
-            if (event.target && event.target.dataset && event.target.dataset.program) {
-                p = event.target.dataset.program;
-            } else {
-                console.log('Something wrong with performance');
-            }
+            var program = event.target.dataset.program;
 
             if (debug && console) {
-                console.log(p, module.preset[p]);
+                console.log(program, module.preset[program]);
             }
-
-            console.log('Updating performance');
 
             return;
         },

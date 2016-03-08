@@ -61,14 +61,10 @@ EVE = (function (module) {
         },
 
         update: function () {
-            var p;
-
-            if (event.target && event.target.dataset && event.target.dataset.program) {
-                p = event.target.dataset.program;
-            }
+            var program = event.target.dataset.program;
 
             if (debug && console) {
-                console.log(p, module.preset[p]);
+                console.log(program, module.preset[program]);
             }
 
             return;

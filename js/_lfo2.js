@@ -58,7 +58,7 @@ EVE = (function (module) {
         module.lfo2_vca.gain.setValueAtTime(module.lfo2_vca.gain.value, module.now());
 
         // Release
-        module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), module.preset.lfo2_r);
+        module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), module.preset.lfo2_r * module.config.egMax + module.config.egMin);
 
         return;
     };
@@ -77,30 +77,29 @@ EVE = (function (module) {
     };
 
     module.lfo2.update = function () {
-        var p;
-
-        if (event.target && event.target.dataset && event.target.dataset.program) {
-            p = event.target.dataset.program;
-        } else {
-            console.log('Something is wrong with LFO2');
-        }
+        var program = event.target.dataset.program;
 
         if (debug && console) {
-            console.log(p, module.preset[p]);
+            console.log(program, module.preset[program]);
         }
 
-        switch (p) {
+        switch (program) {
         case 'lfo2_amp':
-            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp, module.now());
+            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.preset.lfo2_polarity, module.now());
             break;
         case 'lfo2_g':
             module.lfo2_vca.gain.setValueAtTime(module.preset.lfo2_g, module.now());
             break;
         case 'lfo2_pitch':
-            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2RateMax, module.now());
+            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2PitchMaxDepth * module.preset.lfo2_polarity, module.now());
+            break;
+        case 'lfo2_polarity':
+            console.log('Polarity changed!');
+            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.preset.lfo2_polarity, module.now());
+            module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2PitchMaxDepth * module.preset.lfo2_polarity, module.now());
             break;
         case 'lfo2_rate':
-            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax * module.preset.lfo2_polarity, module.now());
+            module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
             break;
         case 'lfo2_type':
             module.lfo2.type = module.preset.lfo2_type;

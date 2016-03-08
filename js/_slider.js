@@ -23,7 +23,7 @@ EVE = (function (module) {
 
                 module.preset[program] = event.target.value * x;
 
-                event.target.dispatchEvent(module.events[update]);
+                return event.target.dispatchEvent(module.events[update]);
             }
 
             return;

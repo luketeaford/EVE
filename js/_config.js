@@ -9,6 +9,7 @@ EVE = (function config(module) {
         glideMax: 0.165,
         glideMin: 0.0001,
         lfo2DelayMax: 2,
+        lfo2PitchMaxDepth: 3520,
         lfo2RateMax: 139,
         masterFreq: 440
     };
