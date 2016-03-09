@@ -147,11 +147,13 @@ header {
 .temp-hide {
   display: none; }
 
-section label {
-  display: block;
-  width: 100%; }
-  section label input {
+.module {
+  margin: 2rem; }
+  .module label {
+    display: block;
     width: 100%; }
+    .module label input {
+      width: 100%; }
 
 canvas {
   background: #a3b8a4;
@@ -164,6 +166,9 @@ canvas {
   cursor: pointer;
   display: flex;
   position: relative; }
+
+[data-state=closed] {
+  opacity: 0; }
 
 [data-state=open] {
   z-index: 2; }
@@ -189,7 +194,7 @@ canvas {
     outline: 1px solid #333a34;
     outline-offset: -2px;
     text-transform: uppercase;
-    width: 25%; }
+    width: 100%; }
 
 [data-cycle] {
   background: #333;

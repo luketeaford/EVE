@@ -1,7 +1,6 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* FIX LOADING PRESETS
 * TEST THAT EACH SECTION LOADS PROPERLY FROM PRESETS
 * fix glide and anything else where that will be a problem
 * add midi pitchbend
@@ -27,7 +26,6 @@
 
 #CLEAN UP IDEAS
 * Eliminate switches where feasible
-* LFO2 polarity could be reworked to only work on sawtooth
 
 
 #NOTES:

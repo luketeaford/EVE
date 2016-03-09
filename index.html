@@ -21,10 +21,10 @@
       <button data-cycle=1>Next</button>
       <div class=preset-bank data-state=closed id=preset-bank>
         <button value=init>INIT</button>
+        <button value=square-overtone>square overtone</button>
         <button value=test-patch>test patch</button>
         <button value=distorted-sawtooth>distorted sawtooth</button>
         <button value=miranda>miranda</button>
-        <button value=oranges>oranges</button>
         <button value=peach-fuzz>peach fuzz</button>
         <button value=percusso>percusso</button>
         <button value=problematic-patch>problematic patch</button>
@@ -35,13 +35,12 @@
       </div>
   </section>
 
-<div class=temp-hide>
-  <section id=oscilloscope>
+  <section class=module id=oscilloscope>
     <h2>Oscilloscope</h2>
-    <canvas id=scope></canvas>
+    <canvas></canvas>
   </section>
 
-  <section id=harmonic-oscillator>
+  <section class=module id=harmonic-oscillator>
     <h2>Harmonic Oscillator</h2>
     <label>
       <span>1</span>
@@ -77,7 +76,7 @@
     </label>
   </section>
 
-  <section id=timbre-env>
+  <section class=module id=timbre-env>
     <h2>Timbre Envelope</h2>
     <label>
       <span>1</span>
@@ -129,7 +128,7 @@
     </label>
   </section>
 
-  <section id=vca>
+  <section class=module id=vca>
     <h2>VCA Envelope</h2>
     <label>
       <span>A</span>
@@ -153,7 +152,7 @@
     </label>
   </section>
 
-  <section id=lfo1>
+  <section class=module id=lfo1>
     <h2>LFO 1</h2>
     <fieldset>
       <legend>Shape</legend>
@@ -215,7 +214,7 @@
     </label>
   </section>
 
-  <section id=lfo2>
+  <section class=module id=lfo2>
     <h2>LFO 2</h2>
     <fieldset>
       <legend>Shape</legend>
@@ -265,7 +264,7 @@
     </label>
   </section>
 
-  <section id=performance>
+  <section class=module id=performance>
     <h2>Performance Controls</h2>
     <div class=octave-shift id=octave-shift>
       <h3>Octave Shift</h3>
@@ -282,8 +281,6 @@
       <input data-curve=lin data-program=glide id=glide max=1 min=0 step=0.0001 type=range value=0>
     </label>
   </section>
-
-</div>
 
   <div class=keyboard id=keyboard>
     <button class=key data-active=false data-note-value=-2100>C</button>

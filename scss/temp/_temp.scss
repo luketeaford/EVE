@@ -3,7 +3,9 @@
 }
 
 // "MODULES"
-section {
+.module {
+  margin: 2rem;
+
   label {
     display: block;
     width: 100%;
@@ -31,6 +33,10 @@ canvas {
   position: relative;
 }
 
+[data-state=closed] {
+  opacity: 0;
+}
+
 [data-state=open] {
   z-index: 2;
 }
@@ -48,6 +54,8 @@ canvas {
   transform: translateY(6.5rem);
 
   button {
+    $columns: 1;
+
     background: $light-grey;
     border: 0;
     cursor: pointer;
@@ -57,7 +65,7 @@ canvas {
     outline: 1px solid $dark-grey;
     outline-offset: -2px;
     text-transform: uppercase;
-    width: 25%;
+    width: (100% / $columns);
   }
 }
 

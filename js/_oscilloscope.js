@@ -1,12 +1,12 @@
 EVE = (function (module) {
     'use strict';
     var fft = 1024,
-        oscope = document.getElementById('scope'),
-        ctx = oscope.getContext('2d'),
+        scope = document.querySelector('#oscilloscope canvas'),
+        context = scope.getContext('2d'),
         lineColor = 'rgb(51, 58, 52)',// dark grey
         scopeData = new Uint8Array(fft),
-        scopeHeight = 150,
-        scopeWidth = 300;
+        scopeHeight = scope.height,
+        scopeWidth = scope.width;
 
     module.oscilloscope = module.createAnalyser();
 
@@ -19,24 +19,24 @@ EVE = (function (module) {
 
         window.requestAnimationFrame(draw);
 
-        ctx.clearRect(0, 0, scopeWidth, scopeHeight);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = lineColor;
-        ctx.beginPath();
+        context.clearRect(0, 0, scopeWidth, scopeHeight);
+        context.lineWidth = 2;
+        context.strokeStyle = lineColor;
+        context.beginPath();
         module.oscilloscope.getByteTimeDomainData(scopeData);
         for (i = 0; i < fft; i += 1) {
             v = scopeData[i] / 128;
             y = v * scopeHeight / 2;
 
             if (i === 0) {
-                ctx.moveTo(x, y);
+                context.moveTo(x, y);
             } else {
-                ctx.lineTo(x, y);
+                context.lineTo(x, y);
             }
             x += sliceWidth;
         }
-        ctx.lineTo(scopeWidth, scopeHeight / 2);
-        ctx.stroke();
+        context.lineTo(scopeWidth, scopeHeight / 2);
+        context.stroke();
     }());
 
     return module;

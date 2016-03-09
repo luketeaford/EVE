@@ -2,10 +2,10 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
+        'square-overtone',
         'cool-sci-fi-sound',
         'distorted-sawtooth',
         'miranda',
-        'oranges',
         'peach-fuzz',
         'percusso',
         'problematic-patch',
@@ -33,12 +33,11 @@ EVE = (function (module) {
                 }
             } else {
                 if (event.target === displayName) {
-                    console.log(presetBank.dataset.state);
-                    presetBank.dataset.state = presetBank.dataset.state === 'open' ? 'closed' : 'open';
+                    presetBank.dataset.state = presetBank.dataset.state === 'closed' ? 'open' : 'closed';
                 }
                 if (event.target.value) {
-                    number = bank.indexOf(event.target.value);
                     presetBank.dataset.state = 'closed';
+                    number = bank.indexOf(event.target.value);
                     return module.program.loadPreset(number);
                 }
             }
