@@ -11,7 +11,7 @@ EVE = (function (module) {
     };
 
     module.slider = {
-        grab: function () {
+        grab: function (event) {
             var program,
                 update,
                 x;

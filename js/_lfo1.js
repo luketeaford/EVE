@@ -34,7 +34,7 @@ EVE = (function (module) {
     module.lfo1.high = document.getElementById('lfo1-high');
     module.lfo1.track = document.getElementById('lfo1-track');
 
-    module.lfo1.update = function () {
+    module.lfo1.update = function (event) {
         var program = event.target.dataset.program;
 
         switch (program) {

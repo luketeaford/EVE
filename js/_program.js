@@ -21,7 +21,7 @@ EVE = (function (module) {
         program = document.getElementById('program');
 
     module.program = {
-        cycle: function (direction) {
+        cycle: function (direction) {// TODO PROBLEM
             var i = 0,
                 x = parseFloat(event.target.dataset.cycle) || direction;
 

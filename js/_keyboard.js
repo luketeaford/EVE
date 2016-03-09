@@ -64,7 +64,7 @@ EVE = (function (module) {
             return;
         },
 
-        pressBus: function () {
+        pressBus: function (event) {
             switch (event.which) {
             // ,
             case 44:
@@ -86,7 +86,7 @@ EVE = (function (module) {
             return;
         },
 
-        downBus: function () {
+        downBus: function (event) {
             pitch = module.keyboard.convertQwertyToPitch(event.which);
 
             if (pitch) {
@@ -106,7 +106,7 @@ EVE = (function (module) {
             return;
         },
 
-        upBus: function () {
+        upBus: function (event) {
             pitch = module.keyboard.convertQwertyToPitch(event.which);
 
             if (pitch) {

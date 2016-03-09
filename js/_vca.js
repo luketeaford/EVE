@@ -44,7 +44,7 @@ EVE = (function (module) {
         return;
     };
 
-    module.vca.update = function () {
+    module.vca.update = function (event) {
         var program = event.target.dataset.program;
 
 

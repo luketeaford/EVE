@@ -13,7 +13,6 @@ EVE = (function (module) {
         return;
     };
 
-    // BIND EVENTS
     keyboard.addEventListener('mousedown', module.gate);
     keyboard.addEventListener('mouseup', module.gate);
     keyboard.addEventListener('touchend', module.gate);

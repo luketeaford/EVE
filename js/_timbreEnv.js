@@ -60,7 +60,7 @@ EVE = (function (module) {
             return;
         },
 
-        update: function () {
+        update: function (event) {
             var program = event.target.dataset.program;
 
             if (debug && console) {

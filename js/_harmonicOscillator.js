@@ -37,7 +37,7 @@ EVE = (function (module) {
         module.harmonicOscillator.mixer.connect(module.vca);
     }
 
-    module.harmonicOscillator.update = function () {
+    module.harmonicOscillator.update = function (event) {
         var harmonicOsc = module.harmonicOscillator,
             program = event.target.dataset.program;
 
@@ -46,8 +46,6 @@ EVE = (function (module) {
         if (debug && console) {
             console.log(program, module.preset[program]);
         }
-
-        console.log('Harmonic oscillator updating');
 
         return;
     };

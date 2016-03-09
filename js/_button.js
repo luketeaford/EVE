@@ -7,7 +7,7 @@ EVE = (function (module) {
     };
 
     module.button = {
-        press: function () {
+        press: function (event) {
             var program,
                 update,
                 x;

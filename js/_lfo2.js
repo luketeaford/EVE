@@ -76,7 +76,7 @@ EVE = (function (module) {
         return;
     };
 
-    module.lfo2.update = function () {
+    module.lfo2.update = function (event) {
         var program = event.target.dataset.program;
 
         if (debug && console) {

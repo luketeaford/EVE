@@ -8,7 +8,7 @@ EVE = (function (module) {
     module.performance = {
         octaveShift: 0,
 
-        shiftOctave: function (direction) {
+        shiftOctave: function (direction) {// TODO PROBLEM
             var i,
                 oct,
                 shift;
@@ -30,7 +30,7 @@ EVE = (function (module) {
             return;
         },
 
-        update: function () {
+        update: function (event) {
             var program = event.target.dataset.program;
 
             if (debug && console) {
