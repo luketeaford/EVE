@@ -85,7 +85,7 @@ EVE = (function (module) {
 
         switch (program) {
         case 'lfo2_amp':
-            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.preset.lfo2_polarity, module.now());
+            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.config.lfo2AmpMaxDepth * module.preset.lfo2_polarity, module.now());
             break;
         case 'lfo2_g':
             module.lfo2_vca.gain.setValueAtTime(module.preset.lfo2_g, module.now());
@@ -94,8 +94,7 @@ EVE = (function (module) {
             module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2PitchMaxDepth * module.preset.lfo2_polarity, module.now());
             break;
         case 'lfo2_polarity':
-            console.log('Polarity changed!');
-            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.preset.lfo2_polarity, module.now());
+            module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.config.lfo2AmpMaxDepth * module.preset.lfo2_polarity, module.now());
             module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2PitchMaxDepth * module.preset.lfo2_polarity, module.now());
             break;
         case 'lfo2_rate':
@@ -118,9 +117,11 @@ EVE = (function (module) {
         module.lfo2.type = module.preset.lfo2_type;
         lfo2Types[module.preset.lfo2_type].checked = true;
 
-        // RATE AND POLARITY
-        module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax * module.preset.lfo2_polarity, module.now());
+        // RATE
+        module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
         rate.value = Math.sqrt(module.preset.lfo2_rate);
+
+        // POLARITY
         if (module.preset.lfo2_polarity > 0) {
             positive.checked = true;
         } else {
@@ -128,13 +129,12 @@ EVE = (function (module) {
         }
 
         // AMP
-        module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp, module.now());
+        module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.config.lfo2AmpMaxDepth * module.preset.lfo2_polarity, module.now());
         amp.value = module.preset.lfo2_amp;
 
         // PITCH
-        module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2RateMax, module.now());
+        module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2PitchMaxDepth * module.preset.lfo2_polarity, module.now());
         pitch.value = Math.sqrt(module.preset.lfo2_pitch);
-
 
         // ENVELOPE
         delay.value = Math.sqrt(module.preset.lfo2_delay);
