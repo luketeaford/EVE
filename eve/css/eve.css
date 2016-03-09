@@ -42,7 +42,6 @@ footer {
 
 header {
   background: #1b1f1c;
-  margin-bottom: 2rem;
   padding: 1rem; }
   header > h1 {
     font-size: 3rem;
@@ -148,14 +147,68 @@ header {
 .temp-hide {
   display: none; }
 
-section {
-  margin: 2rem 1rem; }
-  section label {
-    display: block;
+section label {
+  display: block;
+  width: 100%; }
+  section label input {
     width: 100%; }
-    section label input {
-      width: 100%; }
 
 canvas {
   background: #a3b8a4;
   box-shadow: inset 0 0.3rem 2.2rem -0.2rem #333a34; }
+
+.program {
+  align-items: center;
+  background: #8ea580;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  position: relative; }
+
+[data-state=open] {
+  z-index: 2; }
+
+.preset-bank {
+  background: rgba(255, 0, 0, 0.8);
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  left: 0;
+  margin: 0 6.5rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translateY(6.5rem); }
+  .preset-bank button {
+    background: #a3b8a4;
+    border: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-family: 'source code pro', monospace;
+    height: 100%;
+    outline: 1px solid #333a34;
+    outline-offset: -2px;
+    text-transform: uppercase;
+    width: 25%; }
+
+[data-cycle] {
+  background: #333;
+  border: 0;
+  color: #89f48c;
+  font-family: 'source code pro';
+  font-size: 0;
+  height: 6.5rem;
+  width: 6.5rem; }
+  [data-cycle]::after {
+    font-size: 5rem; }
+
+[data-cycle="-1"]::after {
+  content: '<'; }
+
+[data-cycle="1"]::after {
+  content: '>'; }
+
+.display {
+  flex: 1;
+  font-size: 2rem;
+  padding: 2rem; }

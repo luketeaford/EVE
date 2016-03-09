@@ -12,20 +12,30 @@
 
 <main>
 
-  <section id=program>
-      <h2>Program</h2>
+  <section class=program id=program>
+      <h2 class=temp-hide>Program</h2>
       <button data-cycle=-1>Previous</button>
       <div class=display>
         <h3 id=display-name>Sample Program</h3>
       </div>
-      <div class=preset-bank>
+      <button data-cycle=1>Next</button>
+      <div class=preset-bank data-state=closed id=preset-bank>
+        <button value=init>INIT</button>
         <button value=test-patch>test patch</button>
         <button value=distorted-sawtooth>distorted sawtooth</button>
+        <button value=miranda>miranda</button>
+        <button value=oranges>oranges</button>
+        <button value=peach-fuzz>peach fuzz</button>
+        <button value=percusso>percusso</button>
         <button value=problematic-patch>problematic patch</button>
+        <button value=test-lfo1>test lfo1</button>
+        <button value=test-lfo2>test lfo2</button>
+        <button value=test-patch>test patch</button>
+        <button value=work-song>work song</button>
       </div>
-      <button data-cycle=1>Next</button>
   </section>
 
+<div class=temp-hide>
   <section id=oscilloscope>
     <h2>Oscilloscope</h2>
     <canvas id=scope></canvas>
@@ -272,6 +282,8 @@
       <input data-curve=lin data-program=glide id=glide max=1 min=0 step=0.0001 type=range value=0>
     </label>
   </section>
+
+</div>
 
   <div class=keyboard id=keyboard>
     <button class=key data-active=false data-note-value=-2100>C</button>

@@ -62,7 +62,7 @@ EVE = (function config(module) {
         glideMax: 0.165,
         glideMin: 0.0001,
         lfo2DelayMax: 2,
-        lfo2AmpMaxDepth: 12,
+        lfo2AmpMaxDepth: 1.28,
         lfo2PitchMaxDepth: 3520,
         lfo2RateMax: 139,
         masterFreq: 440
@@ -1051,19 +1051,22 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
-        'test-lfo2',
-        'test-lfo1',
+        'cool-sci-fi-sound',
         'distorted-sawtooth',
         'miranda',
-        'percusso',
         'oranges',
+        'peach-fuzz',
+        'percusso',
+        'problematic-patch',
+        'test-lfo1',
+        'test-lfo2',
         'test-patch',
-        'cool-sci-fi-sound',
-        'problematic-patch'
+        'work-song'
     ],
         displayName = document.getElementById('display-name'),
         number = 0,
         numberOfPresets = bank.length - 1,
+        presetBank = document.getElementById('preset-bank'),
         program = document.getElementById('program');
 
     module.program = {
@@ -1077,8 +1080,23 @@ EVE = (function (module) {
                     number += x;
                     return module.program.loadPreset(number);
                 }
+            } else {
+                if (event.target === displayName) {
+                    console.log(presetBank.dataset.state);
+                    presetBank.dataset.state = presetBank.dataset.state === 'open' ? 'closed' : 'open';
+                }
+                if (event.target.value) {
+                    number = bank.indexOf(event.target.value);
+                    presetBank.dataset.state = 'closed';
+                    return module.program.loadPreset(number);
+                }
             }
 
+            return;
+        },
+
+        load: function () {
+            displayName.textContent = module.preset.name;
             return;
         },
 
@@ -1103,12 +1121,8 @@ EVE = (function (module) {
             ajax.send();
 
             return;
-        },
-
-        load: function () {
-            displayName.textContent = module.preset.name;
-            return;
         }
+
     };
 
     document.addEventListener('loadpreset', module.program.load);

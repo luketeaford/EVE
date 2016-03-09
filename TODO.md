@@ -1,11 +1,12 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* LFO 2 PROBLEMS: MUST BE APPLIED TO PITCH AND AMP AND NOT OVERALL GAIN!
-* LFO 2 NEEDS TO BE CORRECTED IN THE LOAD SECTION
+* FIX LOADING PRESETS
 * TEST THAT EACH SECTION LOADS PROPERLY FROM PRESETS
 * fix glide and anything else where that will be a problem
-* add MIDI / midi learn
+* add midi pitchbend
+* add midi learn
+* make config editable
 * fix scss
 
 
