@@ -8,17 +8,14 @@ EVE = (function (module) {
     module.performance = {
         octaveShift: 0,
 
-        shiftOctave: function (direction) {// TODO PROBLEM
+        shiftOctave: function (event, direction) {
             var i,
-                oct,
-                shift;
+                oct = module.performance.octaveShift,
+                shift = direction || event.target.dataset.shift;
 
-            if (event.target.dataset.shift || event.type === 'keypress') {
-                oct = module.performance.octaveShift;
-                shift = event.target.dataset.shift || direction;
-
+            if (shift) {
                 if ((oct > -2 && shift < 0) || (oct < 2 && shift > 0)) {
-                    module.performance.octaveShift = oct + parseFloat(shift);
+                    module.performance.octaveShift += parseFloat(shift);
                     for (i = 0; i < lights.length; i += 1) {
                         lights[i].dataset.light =
                             i === module.performance.octaveShift + 2 ?
@@ -27,6 +24,7 @@ EVE = (function (module) {
                     }
                 }
             }
+
             return;
         },
 

@@ -76,11 +76,11 @@ EVE = (function (module) {
                 break;
             // z
             case 122:
-                module.performance.shiftOctave(-1);
+                module.performance.shiftOctave(null, -1);
                 break;
             // x
             case 120:
-                module.performance.shiftOctave(1);
+                module.performance.shiftOctave(null, 1);
                 break;
             }
             return;
