@@ -68,11 +68,11 @@ EVE = (function (module) {
             switch (event.which) {
             // ,
             case 44:
-                module.program.cycle(-1);
+                module.program.cycle(null, -1);
                 break;
             // .
             case 46:
-                module.program.cycle(1);
+                module.program.cycle(null, 1);
                 break;
             // z
             case 122:

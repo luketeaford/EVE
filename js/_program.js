@@ -14,36 +14,43 @@ EVE = (function (module) {
         'test-patch',
         'work-song'
     ],
-        displayName = document.getElementById('display-name'),
+        display = document.getElementById('display'),
+        displayName = document.querySelector('#display > h3'),
         number = 0,
         numberOfPresets = bank.length - 1,
         presetBank = document.getElementById('preset-bank'),
         program = document.getElementById('program');
 
     module.program = {
-        cycle: function (direction) {// TODO PROBLEM
-            var i = 0,
-                x = parseFloat(event.target.dataset.cycle) || direction;
 
-            if (event.target.dataset.cycle || event.type === 'keypress') {
-                i = number + x;
+        cycle: function (event, direction) {
+            var i,
+                offset = direction || parseFloat(event.target.dataset.cycle);
+
+            if (offset) {
+                i = number + offset;
                 if (i >= 0 && i <= numberOfPresets) {
-                    number += x;
-                    return module.program.loadPreset(number);
-                }
-            } else {
-                if (event.target === displayName) {
-                    presetBank.dataset.state = presetBank.dataset.state === 'closed' ? 'open' : 'closed';
-                }
-                if (event.target.value) {
-                    presetBank.dataset.state = 'closed';
-                    number = bank.indexOf(event.target.value);
+                    number += offset;
                     return module.program.loadPreset(number);
                 }
             }
 
+            if (event && event.path.indexOf(display) >= 0) {
+                presetBank.dataset.state =
+                    presetBank.dataset.state === 'closed' ?
+                            'open' :
+                            'closed';
+            }
+
+            if (event && event.target.value) {
+                presetBank.dataset.state = 'closed';
+                number = bank.indexOf(event.target.value);
+                return module.program.loadPreset(number);
+            }
+
             return;
         },
+
 
         load: function () {
             displayName.textContent = module.preset.name;
@@ -76,7 +83,7 @@ EVE = (function (module) {
     };
 
     document.addEventListener('loadpreset', module.program.load);
-    program.addEventListener('click', module.program.cycle);
+    program.addEventListener('click', module.program.cycle, true);
 
     return module;
 }(EVE));
