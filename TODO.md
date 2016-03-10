@@ -1,12 +1,13 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* Add event to functions
 * TEST THAT EACH SECTION LOADS PROPERLY FROM PRESETS
 * fix glide and anything else where that will be a problem
+* add MIDI keyboard highlighting
 * add midi pitchbend
 * add midi learn
 * make config editable
+* check various JavaScript TODO items
 * fix scss
 
 
