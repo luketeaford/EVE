@@ -33,26 +33,23 @@ EVE = (function (module) {
                     number += offset;
                     return module.program.loadPreset(number);
                 }
-            } else if (event) {
-
-                if (event.path.indexOf(display) >= 0) {
-                    presetBank.dataset.state =
-                        presetBank.dataset.state === 'closed' ?
-                                'open' :
-                                'closed';
-                }
-
-                if (event.target.value) {
-                    presetBank.dataset.state = 'closed';
-                    number = bank.indexOf(event.target.value);
-                    return module.program.loadPreset(number);
-                }
             }
 
+            if (event && event.path.indexOf(display) >= 0) {
+                presetBank.dataset.state =
+                    presetBank.dataset.state === 'closed' ?
+                            'open' :
+                            'closed';
+            }
+
+            if (event && event.target.value) {
+                presetBank.dataset.state = 'closed';
+                number = bank.indexOf(event.target.value);
+                return module.program.loadPreset(number);
+            }
 
             return;
         },
-
 
         load: function () {
             displayName.textContent = module.preset.name;
@@ -85,7 +82,7 @@ EVE = (function (module) {
     };
 
     document.addEventListener('loadpreset', module.program.load);
-    program.addEventListener('click', module.program.cycle, true);
+    program.addEventListener('click', module.program.cycle);
 
     return module;
 }(EVE));
