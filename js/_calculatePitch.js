@@ -3,11 +3,9 @@ EVE = (function (module) {
 
     var keyboard = document.getElementById('keyboard');
 
-    module.calculatePitch = function (note) {// TODO PROBLEM
-        var n = event.target.dataset ?
-                event.target.dataset.noteValue || note : note,
+    module.calculatePitch = function (event, note) {
+        var n = note === 0 ? 0 : note || event.target.dataset.noteValue,
             pitch = module.performance.octaveShift * 1200 + parseFloat(n);
-
         return module.setPitch(pitch);
     };
 

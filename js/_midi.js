@@ -1,6 +1,6 @@
 EVE = (function (module) {
     'use strict';
-    var debug = true;
+    var debug = false;
 
     if (navigator.requestMIDIAccess) {
         module.midi = {
@@ -21,7 +21,7 @@ EVE = (function (module) {
                             module.midi.active = n;
                             module.gate();
                         }
-                        module.calculatePitch(module.midi.toCents(n));
+                        module.calculatePitch(null, module.midi.toCents(n));
                     } else {
                         // Cheap MIDI controller note off
                         if (module.midi.active === n) {
@@ -29,7 +29,7 @@ EVE = (function (module) {
                             module.gate();
                         } else {
                             // Return to initial note (for legato playing)
-                            module.calculatePitch(module.midi.toCents(module.midi.active));
+                            module.calculatePitch(null, module.midi.toCents(module.midi.active));
                         }
                     }
                     break;
@@ -65,7 +65,6 @@ EVE = (function (module) {
                         devices.push(input.value[1]);
                     }
 
-                    debug = false;
                     if (debug && console) {
                         console.log('Available devices:', devices);
                     }

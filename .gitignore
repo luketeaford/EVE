@@ -29,3 +29,5 @@ node_modules
 js/eve.js
 
 eve/js/eve.js
+
+*.css

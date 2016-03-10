@@ -91,7 +91,7 @@ EVE = (function (module) {
 
             if (pitch) {
                 if (playing.indexOf(pitch) === -1) {
-                    module.calculatePitch(pitch);
+                    module.calculatePitch(null, pitch);
                     module.keyboard.highlightKey(event.which);
                     playing.push(pitch);
                     playing.sort(function (a, b) {
@@ -112,7 +112,7 @@ EVE = (function (module) {
             if (pitch) {
                 playing.splice(playing.indexOf(pitch), 1);
                 if (playing.length >= 1) {
-                    module.calculatePitch(playing[playing.length - 1]);
+                    module.calculatePitch(null, playing[playing.length - 1]);
                 } else {
                     keyDown = !keyDown;
                     module.gate();
