@@ -1,7 +1,6 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* TEST THAT EACH SECTION LOADS PROPERLY FROM PRESETS
 * fix glide and anything else where that will be a problem
 * add MIDI keyboard highlighting
 * add midi pitchbend

@@ -8,7 +8,7 @@ EVE = (function (module) {
             module.harmonicOscillator['osc' + i].detune.setTargetAtTime(pitch, module.now(), glide);
         }
 
-        if (module.preset.lfo1_range >= 440) {
+        if (module.preset.lfo1_range === 'track') {
             module.lfo1.detune.setTargetAtTime(pitch, module.now(), glide);
         }
 

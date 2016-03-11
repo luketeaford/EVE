@@ -1,11 +1,22 @@
-// TODO oscInputs is kind of a confusing name and it's a bad selector
 EVE = (function (module) {
     'use strict';
     var debug = false,
         i,
         lfo,
+        lfoRangeButtons = {
+            'low': document.getElementById('lfo1-low'),
+            'middle': document.getElementById('lfo1-middle'),
+            'high': document.getElementById('lfo1-high'),
+            'track': document.getElementById('lfo1-track')
+        },
+        lfoRanges = {
+            'low': 27.5,
+            'middle': 110,
+            'high': 440,
+            'track': 1760
+        },
         osc,
-        oscInputs = document.querySelectorAll('#lfo1 .js-osc'),
+        oscInputs = document.querySelectorAll('#lfo1 [data-program^=osc]'),
         rate = document.getElementById('lfo1-rate');
 
     // The LFO itself
@@ -29,10 +40,7 @@ EVE = (function (module) {
     module.lfo1.square = document.getElementById('lfo1-sqr');
     module.lfo1.triangle = document.getElementById('lfo1-tri');
     module.lfo1.sawtooth = document.getElementById('lfo1-saw');
-    module.lfo1.low = document.getElementById('lfo1-low');
-    module.lfo1.mid = document.getElementById('lfo1-mid');
-    module.lfo1.high = document.getElementById('lfo1-high');
-    module.lfo1.track = document.getElementById('lfo1-track');
+
 
     module.lfo1.update = function (event) {
         var program = event.target.dataset.program;
@@ -43,7 +51,7 @@ EVE = (function (module) {
             break;
         case 'lfo1_range':
         case 'lfo1_rate':
-            module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * module.preset.lfo1_range, module.now());
+            module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * lfoRanges[module.preset.lfo1_range], module.now());
             break;
         case 'osc1_lfo':
         case 'osc2_lfo':
@@ -61,33 +69,20 @@ EVE = (function (module) {
             }
         }
 
-        if (debug && console) {
-            console.log(program, module.preset[program]);
-        }
-
         return;
     };
 
     module.lfo1.load = function () {
-        var lfo1Ranges = {
-            20: 'low',
-            40: 'mid',
-            80: 'high',
-            440: 'track'
-        };
-
-        module.lfo1.type = module.preset.lfo1_type;
-        module.lfo1[module.preset.lfo1_type].checked = true;
-        module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * module.preset.lfo1_range, module.now());
-        module.lfo1[lfo1Ranges[module.preset.lfo1_range]].checked = true;
-        rate.value = Math.sqrt(module.preset.lfo1_rate);
-
+        module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * lfoRanges[module.preset.lfo1_range], module.now());
         for (i = 1; i <= 8; i += 1) {
             osc = 'osc' + i + '_lfo';
             module[osc].gain.setValueAtTime(module.preset[osc], module.now());
             oscInputs[i - 1].value = module.preset[osc];
         }
-
+        module.lfo1.type = module.preset.lfo1_type;
+        module.lfo1[module.preset.lfo1_type].checked = true;
+        lfoRangeButtons[module.preset.lfo1_range].checked = true;
+        rate.value = Math.sqrt(module.preset.lfo1_rate);
         return;
     };
 

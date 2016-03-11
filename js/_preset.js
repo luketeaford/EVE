@@ -33,7 +33,7 @@ EVE = (function (module) {
 
         // LFO 1
         lfo1_rate: 1,
-        lfo1_range: 20,
+        lfo1_range: 'low',
         lfo1_type: 'sine',
         osc1_lfo: 0,
         osc2_lfo: 0,

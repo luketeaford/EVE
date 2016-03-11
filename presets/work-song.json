@@ -21,7 +21,7 @@
   "timbre_s": 0.5,
   "timbre_r": 0.125,
   "lfo1_rate": 1,
-  "lfo1_range": 20,
+  "lfo1_range": "middle",
   "lfo1_type": "sine",
   "osc1_lfo": 0,
   "osc2_lfo": 0,

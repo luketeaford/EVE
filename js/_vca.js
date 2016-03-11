@@ -47,7 +47,6 @@ EVE = (function (module) {
     module.vca.update = function (event) {
         var program = event.target.dataset.program;
 
-
         if (program === 'vca_g') {
             module.vca.gain.setValueAtTime(module.preset.vca_g, module.now());
         }
@@ -56,12 +55,12 @@ EVE = (function (module) {
     };
 
     module.vca.load = function () {
+        module.vca.gain.setValueAtTime(module.preset.vca_g, module.now());
         attack.value = Math.sqrt(module.preset.vca_a);
         decay.value = Math.sqrt(module.preset.vca_d);
         sustain.value = module.preset.vca_s;
         release.value = Math.sqrt(module.preset.vca_r);
         gain.value = Math.sqrt(module.preset.vca_g);
-
         return;
     };
 
