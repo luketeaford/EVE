@@ -2,6 +2,7 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
+        'mirage',
         'square-overtone',
         'cool-sci-fi-sound',
         'distorted-sawtooth',

@@ -14,6 +14,9 @@ EVE = (function (module) {
 
     module.harmonicOscillator.mixer.gain.value = -1;
 
+    module.harmonicOscillator.limiter = module.createGain();
+    module.harmonicOscillator.limiter.gain.value = 1;
+
     for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
         tuning = module.config.masterFreq + fine;
@@ -32,10 +35,10 @@ EVE = (function (module) {
 
         // Connect each VCA to the harmonic oscillator mixer
         module.harmonicOscillator[osc].vca.connect(module.harmonicOscillator.mixer);
-
-        // Connect the mixer to the master VCA
-        module.harmonicOscillator.mixer.connect(module.vca);
     }
+
+    // Connect the mixer to the master VCA
+    module.harmonicOscillator.mixer.connect(module.vca);
 
     module.harmonicOscillator.update = function (event) {
         var harmonicOsc = module.harmonicOscillator,

@@ -7,17 +7,17 @@ EVE = (function (module) {
         delay = document.getElementById('lfo2-delay'),
         gain = document.getElementById('lfo2-gain'),
         i,
-        negative = document.getElementById('lfo2-negative'),
-        pitch = document.getElementById('lfo2-pitch'),
-        positive = document.getElementById('lfo2-positive'),
-        rate = document.getElementById('lfo2-rate'),
-        release = document.getElementById('lfo2-release'),
         lfo2Types = {
             'sawtooth': document.getElementById('lfo2-saw'),
             'sine': document.getElementById('lfo2-sin'),
             'square': document.getElementById('lfo2-sqr'),
             'triangle': document.getElementById('lfo2-tri')
-        };
+        },
+        negative = document.getElementById('lfo2-negative'),
+        pitch = document.getElementById('lfo2-pitch'),
+        positive = document.getElementById('lfo2-positive'),
+        rate = document.getElementById('lfo2-rate'),
+        release = document.getElementById('lfo2-release');
 
     module.lfo2 = module.createOscillator();
     module.lfo2.frequency.value = module.preset.lfo2_rate;
@@ -77,7 +77,7 @@ EVE = (function (module) {
     };
 
     module.lfo2.update = function (event) {
-        var program = event.target.dataset.program;
+        var program = event.target.dataset.program || event.target.name;
 
         if (debug && console) {
             console.log(program, module.preset[program]);

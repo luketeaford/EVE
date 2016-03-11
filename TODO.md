@@ -1,14 +1,12 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* fix glide and anything else where that will be a problem
+* check various JavaScript TODO items
 * add MIDI keyboard highlighting
 * add midi pitchbend
 * add midi learn
 * make config editable
-* check various JavaScript TODO items
 * fix scss
-
 
 #BEFORE MAKING PRESETS
 * fine tune envelopes
@@ -32,6 +30,9 @@
 #NOTES:
 * Reduce HTML as much as possible
 
+#2.0 FEATURES
+* Fine Tune
+* LFO 1 expansion: amp, pitch, and phase per channel
 
 #FINE TUNE
 * [] FINE TUNE CANNOT BE PART OF THE PRESET (IT'S A CONFIG)

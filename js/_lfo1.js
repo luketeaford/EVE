@@ -1,3 +1,4 @@
+// TODO No reason to have sine, square, etc selectors on the module
 EVE = (function (module) {
     'use strict';
     var debug = false,
@@ -43,7 +44,7 @@ EVE = (function (module) {
 
 
     module.lfo1.update = function (event) {
-        var program = event.target.dataset.program;
+        var program = event.target.dataset.program || event.target.name;
 
         switch (program) {
         case 'lfo1_type':
