@@ -4,7 +4,7 @@ EVE = (function (module) {
     var attack = document.getElementById('timbre-a'),
         debug = false,
         decay = document.getElementById('timbre-d'),
-        inputs = document.getElementsByClassName('js-eg-amt'),
+        inputs = document.querySelectorAll('#timbre-env [data-program^=osc]'),
         release = document.getElementById('timbre-r'),
         sustain = document.getElementById('timbre-s');
 
