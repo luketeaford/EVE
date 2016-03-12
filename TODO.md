@@ -1,12 +1,12 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* check various JavaScript TODO items
-* add MIDI keyboard highlighting
+* MIDI modwheel should control lfo2 gain
 * add midi pitchbend
 * add midi learn
 * make config editable
 * fix scss
+
 
 #BEFORE MAKING PRESETS
 * fine tune envelopes
@@ -30,9 +30,11 @@
 #NOTES:
 * Reduce HTML as much as possible
 
+
 #2.0 FEATURES
 * Fine Tune
 * LFO 1 expansion: amp, pitch, and phase per channel
+
 
 #FINE TUNE
 * [] FINE TUNE CANNOT BE PART OF THE PRESET (IT'S A CONFIG)

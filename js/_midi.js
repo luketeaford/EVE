@@ -32,6 +32,7 @@ EVE = (function (module) {
                             module.calculatePitch(null, module.midi.toCents(module.midi.active));
                         }
                     }
+                    module.midi.highlightKey(n);
                     break;
                 case module.midi.messages.noteOff:
                     module.midi.active = null;
@@ -71,6 +72,17 @@ EVE = (function (module) {
 
                     return devices;
                 });
+            },
+
+            highlightKey: function (note) {
+                var key = note - 48;
+
+                module.keyboard.keys[key].dataset.active =
+                    module.keyboard.keys[key].dataset.active === 'false' ?
+                            'true' :
+                            'false';
+
+                return;
             },
 
             messages: {
