@@ -1,12 +1,12 @@
 // TODO Inputs here is kind of a bad name
 EVE = (function (module) {
     'use strict';
-    var attack = document.getElementById('timbre-a'),
+    var attack = document.querySelector('[data-program=timbre_a]'),
         debug = false,
-        decay = document.getElementById('timbre-d'),
+        decay = document.querySelector('[data-program=timbre_d]'),
         inputs = document.querySelectorAll('#timbre-env [data-program^=osc]'),
-        release = document.getElementById('timbre-r'),
-        sustain = document.getElementById('timbre-s');
+        release = document.querySelector('[data-program=timbre_r]'),
+        sustain = document.querySelector('[data-program=timbre_s]');
 
     module.timbreEnv = {
 
