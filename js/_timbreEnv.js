@@ -1,10 +1,9 @@
-// TODO Inputs here is kind of a bad name
 EVE = (function (module) {
     'use strict';
     var attack = document.querySelector('[data-program=timbre_a]'),
         debug = false,
         decay = document.querySelector('[data-program=timbre_d]'),
-        inputs = document.querySelectorAll('#timbre-env [data-program^=osc]'),
+        amounts = document.querySelectorAll('#timbre-env [data-program^=osc]'),
         release = document.querySelector('[data-program=timbre_r]'),
         sustain = document.querySelector('[data-program=timbre_s]');
 
@@ -76,7 +75,7 @@ EVE = (function (module) {
 
             for (i = 1; i <= 8; i += 1) {
                 osc = 'osc' + i + '_eg';
-                inputs[i - 1].value = module.preset[osc];
+                amounts[i - 1].value = module.preset[osc];
             }
 
             attack.value = Math.sqrt(module.preset.timbre_a);
