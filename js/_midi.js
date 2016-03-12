@@ -37,6 +37,7 @@ EVE = (function (module) {
                 case module.midi.messages.noteOff:
                     module.midi.active = null;
                     module.gate();
+                    module.midi.highlightKey(n);
                     break;
                 // NEEDS WORK, BUT IS A GOOD ROUGH DRAFT
                 case module.midi.messages.volume:
@@ -77,10 +78,12 @@ EVE = (function (module) {
             highlightKey: function (note) {
                 var key = note - 48;
 
-                module.keyboard.keys[key].dataset.active =
-                    module.keyboard.keys[key].dataset.active === 'false' ?
-                            'true' :
-                            'false';
+                if (key > -1 && key < module.keyboard.keys.length) {
+                    module.keyboard.keys[key].dataset.active =
+                        module.keyboard.keys[key].dataset.active === 'false' ?
+                                'true' :
+                                'false';
+                }
 
                 return;
             },

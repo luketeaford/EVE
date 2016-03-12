@@ -5,6 +5,7 @@
 * add midi pitchbend
 * add midi learn
 * make config editable
+* keyboard improvements: tab through preset buttons, esc to close preset bank
 * fix scss
 
 
