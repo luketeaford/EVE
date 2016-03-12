@@ -1,10 +1,10 @@
 EVE = (function (module) {
     'use strict';
-    var attack = document.getElementById('vca-a'),
-        decay = document.getElementById('vca-d'),
-        gain = document.getElementById('vca-g'),
-        release = document.getElementById('vca-r'),
-        sustain = document.getElementById('vca-s');
+    var attack = document.querySelector('[data-program=vca_a]'),
+        decay = document.querySelector('[data-program=vca_d]'),
+        gain = document.querySelector('[data-program=vca_g]'),
+        release = document.querySelector('[data-program=vca_r]'),
+        sustain = document.querySelector('[data-program=vca_s]');
 
     module.vca = module.createGain();
     module.vca.gain.value = module.preset.vca_g;
