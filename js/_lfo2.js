@@ -1,23 +1,23 @@
 EVE = (function (module) {
     'use strict';
 
-    var amp = document.getElementById('lfo2-amp'),
-        attack = document.getElementById('lfo2-attack'),
+    var amp = document.querySelector('[data-program=lfo2_amp]'),
+        attack = document.querySelector('[data-program=lfo2_a]'),
         debug = false,
-        delay = document.getElementById('lfo2-delay'),
-        gain = document.getElementById('lfo2-gain'),
+        delay = document.querySelector('[data-program=lfo2_delay]'),
+        gain = document.querySelector('[data-program=lfo2_g]'),
         i,
-        lfo2Types = {
-            'sawtooth': document.getElementById('lfo2-saw'),
-            'sine': document.getElementById('lfo2-sin'),
-            'square': document.getElementById('lfo2-sqr'),
-            'triangle': document.getElementById('lfo2-tri')
+        lfoTypes = {
+            'sawtooth': document.querySelector('#lfo2 [value=sawtooth]'),
+            'sine': document.querySelector('#lfo2 [value=sine]'),
+            'square': document.querySelector('#lfo2 [value=square]'),
+            'triangle': document.querySelector('#lfo2 [value=triangle]')
         },
-        negative = document.getElementById('lfo2-negative'),
-        pitch = document.getElementById('lfo2-pitch'),
-        positive = document.getElementById('lfo2-positive'),
-        rate = document.getElementById('lfo2-rate'),
-        release = document.getElementById('lfo2-release');
+        negative = document.querySelectorAll('[name=lfo2_polarity]')[1],
+        pitch = document.querySelector('[data-program=lfo2_pitch]'),
+        positive = document.querySelectorAll('[name=lfo2_polarity]')[0],
+        rate = document.querySelector('[data-program=lfo2_rate]'),
+        release = document.querySelector('[data-program=lfo2_r]');
 
     module.lfo2 = module.createOscillator();
     module.lfo2.frequency.value = module.preset.lfo2_rate;
@@ -115,7 +115,7 @@ EVE = (function (module) {
     module.lfo2.load = function () {
         // TYPE
         module.lfo2.type = module.preset.lfo2_type;
-        lfo2Types[module.preset.lfo2_type].checked = true;
+        lfoTypes[module.preset.lfo2_type].checked = true;
 
         // RATE
         module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
