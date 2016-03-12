@@ -1,12 +1,14 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
+* RIBBON CONTROLLER should be one/two octaves (not pitch bend)
+* keyboard/performance separated
 * MIDI modwheel should control lfo2 gain
-* add midi pitchbend
 * add midi learn
 * make config editable
-* keyboard improvements: tab through preset buttons, esc to close preset bank
+* keyboard improvements: tab through preset buttons, esc to close preset bank (make radio buttons)
 * fix scss
+* now() is kind of worthless
 
 
 #BEFORE MAKING PRESETS

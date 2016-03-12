@@ -164,13 +164,15 @@ header {
   width: 100%; }
 
 .ribbon {
-  background: #f00;
-  border: 0;
+  background-color: #62cf65;
+  background-image: radial-gradient(#89db8b 2px, transparent 2px);
+  background-size: 8px 8px;
+  box-shadow: inset 0 0 10px -2px #1b1f1c;
+  border: 0.8rem inset #333a34;
+  border-left: 0;
+  border-right: 0;
   cursor: pointer;
-  display: block;
-  height: 8rem;
-  margin: 2rem 0;
-  width: 100%; }
+  height: 8rem; }
 
 canvas {
   background: #a3b8a4;

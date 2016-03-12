@@ -28,10 +28,8 @@ EVE = (function (module) {
 
         ribbon: function (event) {
             var x = event.pageX - ribbon.size;
-//            var x = event.pageX;// This works on ipad
 
             event.preventDefault();
-
 
             module.performance.pitchBend = x * module.config.ribbonBendRange / module.config.ribbonBendRange;
 
@@ -71,7 +69,7 @@ EVE = (function (module) {
 
             event.target.addEventListener('touchmove', module.performance.ribbon);
 
-//            event.target.style.cursor = 'col-resize';
+            event.target.style.cursor = 'col-resize';
 
             ribbon.size = (ribbon.offsetWidth - 1) / 2;
 
@@ -81,13 +79,13 @@ EVE = (function (module) {
         stopRibbon: function (event) {
             event.preventDefault();
 
-            bugzone.style.backgroundColor = '#fff';
+            bugzone.style.backgroundColor = '';
 
             event.target.removeEventListener('mousemove', module.performance.ribbon);
 
             event.target.removeEventListener('touchmove', module.performance.ribbon);
 
-//            event.target.style.cursor = 'pointer';
+            event.target.style.cursor = '';
 
             return;
         },
