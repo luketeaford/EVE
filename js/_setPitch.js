@@ -4,15 +4,10 @@ EVE = (function (module) {
         var glide = module.preset.glide * module.config.glideMax + module.config.glideMin,
             i;
 
-        for (i = 1; i <= 8; i += 1) {
-            module.harmonicOscillator['osc' + i].detune.setTargetAtTime(pitch, module.now(), glide);
+        for (i = 0; i < module.config.trackedOscs.length; i += 1) {
+            module.config.trackedOscs[i].detune.setTargetAtTime(pitch, module.currentTime, glide);
         }
 
-        if (module.preset.lfo1_range === 'track') {
-            module.lfo1.detune.setTargetAtTime(pitch, module.now(), glide);
-        }
-
-        return;
     };
 
     return module;

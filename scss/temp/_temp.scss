@@ -16,6 +16,27 @@
   }
 }
 
+// BUG ZONE
+.bug-zone {
+  background: #fff;
+  color: #000;
+  font-family: sans-serif;
+  font-size: 1.2rem;
+  padding: 2rem;
+  width: 100%;
+}
+
+// RIBBON CONTROLLER
+.ribbon {
+  background: #f00;
+  border: 0;
+  cursor: pointer;
+  display: block;
+  height: 8rem;
+  margin: 2rem 0;
+  width: 100%;
+}
+
 // OSCILLOSCOPE
 canvas {
   background: $light-grey;

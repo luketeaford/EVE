@@ -12,7 +12,11 @@ EVE = (function config(module) {
         lfo2AmpMaxDepth: 1.28,
         lfo2PitchMaxDepth: 3520,
         lfo2RateMax: 139,
-        masterFreq: 440
+        masterFreq: 440,
+        pitchBendRange: 1200,
+        pitchBendSlew: 0.0001,
+        ribbonBendRange: 4800,
+        trackedOscs: []
     };
 
     return module;

@@ -33,8 +33,7 @@ var gulp = require('gulp'),
         'js/_slider.js',
         'js/_startSynth.js',
         'js/_now.js',
-        'js/_gate.js',
-        'js/_calculatePitch.js'
+        'js/_gate.js'
     ];
 
 gulp.task('browsersync', function() {

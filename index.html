@@ -35,10 +35,12 @@
       </div>
   </section>
 
+<div class=temp-hide>
   <section class=module id=oscilloscope>
     <h2>Oscilloscope</h2>
     <canvas></canvas>
   </section>
+</div>
 
   <section class=module id=harmonic-oscillator>
     <h2>Harmonic Oscillator</h2>
@@ -75,6 +77,8 @@
       <input data-program=osc8 max=1 min=0 step=0.0001 type=range value=0>
     </label>
   </section>
+
+<div class=temp-hide>
 
   <section class=module id=timbre-env>
     <h2>Timbre Envelope</h2>
@@ -281,6 +285,12 @@
       <input data-curve=lin data-program=glide max=1 min=0 step=0.0001 type=range value=0>
     </label>
   </section>
+
+</div>
+
+  <div class=bug-zone id=bugzone>X is ?</div>
+  <button class=ribbon id=ribbon>
+  </button>
 
   <div class=keyboard id=keyboard>
     <button class=key data-active=false data-note-value=-2100>C</button>

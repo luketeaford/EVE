@@ -6,6 +6,8 @@ EVE = (function (module) {
     module.calculatePitch = function (event, note) {
         var n = note === 0 ? 0 : note || event.target.dataset.noteValue,
             pitch = module.performance.octaveShift * 1200 + parseFloat(n);
+
+        module.performance.pitch = pitch;
         return module.setPitch(pitch);
     };
 

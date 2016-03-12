@@ -10,6 +10,10 @@ EVE = (function (module) {
             bubbles: true
         }),
 
+        pitchbend: new CustomEvent('pitchbend', {
+            bubbles: true
+        }),
+
         updateharmonicoscillator: new CustomEvent('updateharmonicoscillator', {
             bubbles: true
         }),

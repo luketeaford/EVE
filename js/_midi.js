@@ -1,18 +1,34 @@
 EVE = (function (module) {
     'use strict';
-    var debug = false;
+    var debug = true,
+        lfo2Gain = document.querySelector('[data-program=lfo2_g]'),
+        pitchBendOffset = 64,
+        z;
 
     if (navigator.requestMIDIAccess) {
         module.midi = {
             active: null,
 
             events: function () {
-                var n = event.data[1];
+                var a = event.data[0],
+                    b = event.data[1],
+                    c = event.data[2],
+                    n = event.data[1];
 
-                switch (event.data[0]) {
+                switch (a) {
                 case module.midi.messages.listen:
                     if (debug && console) {
                         console.log('MIDI listen');
+                    }
+                    break;
+                case module.midi.messages.modWheel:
+                    if (event.data[1] === 1) {
+                        module.preset.lfo2_g = Math.pow(event.data[2] / 127, 2);
+                        module.lfo2_vca.gain.setTargetAtTime(module.preset.lfo2_g, module.now(), 0.1);
+                        lfo2Gain.value = Math.sqrt(module.preset.lfo2_g);
+                        if (debug && console) {
+                            console.log('Moving the modwheel!');
+                        }
                     }
                     break;
                 case module.midi.messages.noteOn:
@@ -39,17 +55,15 @@ EVE = (function (module) {
                     module.gate();
                     module.midi.highlightKey(n);
                     break;
-                // NEEDS WORK, BUT IS A GOOD ROUGH DRAFT
-                case module.midi.messages.volume:
-                    module.preset.osc2 = (event.data[2] / 127) * (event.data[2] / 127);
-                    module.harmonicOscillator.inputs[1].dispatchEvent(module.events.updateharmonicoscillator);
-                    module.harmonicOscillator.inputs[1].value = Math.sqrt(module.preset.osc2);
-                    console.log('Moving the volume slider', event.data[2]);
-                    break;
-                case module.midi.messages.bankSelect:
-                    console.log('You have selected a new bank');
+                case module.midi.messages.pitchWheel:
+                    z = b ? 1 : 0;
+
+                    module.performance.pitchBend = (z + c - pitchBendOffset) / pitchBendOffset * module.config.pitchBendRange;
+
+                    document.dispatchEvent(module.events.pitchbend);
                     break;
                 default:
+                    debug = true;
                     if (debug && console) {
                         console.log('Unsupported MIDI event', event.data);
                     }
@@ -89,10 +103,11 @@ EVE = (function (module) {
             },
 
             messages: {
+                bankSelect: 192,
+                modWheel: 176,// 176, 1, 0-127
                 noteOn: 144,
                 noteOff: 128,
                 pitchWheel: 224,
-                bankSelect: 192,
                 volumeX: 176
             },
 
