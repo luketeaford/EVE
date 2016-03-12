@@ -1,7 +1,7 @@
 EVE = (function (module) {
     'use strict';
     var debug = false,
-        glide = document.getElementById('glide'),
+        glide = document.querySelector('[data-program=glide]'),
         lights = document.querySelectorAll('#octave-shift [data-light]'),
         octaveShift = document.getElementById('octave-shift');
 
