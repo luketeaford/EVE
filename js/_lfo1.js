@@ -1,14 +1,13 @@
-// TODO No reason to have sine, square, etc selectors on the module
 EVE = (function (module) {
     'use strict';
     var debug = false,
         i,
         lfo,
         lfoRangeButtons = {
-            'low': document.getElementById('lfo1-low'),
-            'middle': document.getElementById('lfo1-middle'),
-            'high': document.getElementById('lfo1-high'),
-            'track': document.getElementById('lfo1-track')
+            'low': document.querySelector('#lfo1 [value=low]'),
+            'middle': document.querySelector('#lfo1 [value=middle]'),
+            'high': document.querySelector('#lfo1 [value=high]'),
+            'track': document.querySelector('#lfo1 [value=track]')
         },
         lfoRanges = {
             'low': 27.5,
@@ -16,9 +15,15 @@ EVE = (function (module) {
             'high': 440,
             'track': 1760
         },
+        lfoTypes = {
+            'sawtooth': document.querySelector('#lfo1 [value=sawtooth]'),
+            'sine': document.querySelector('#lfo1 [value=sine]'),
+            'square': document.querySelector('#lfo1 [value=square]'),
+            'triangle': document.querySelector('#lfo1 [value=triangle]')
+        },
         osc,
         oscInputs = document.querySelectorAll('#lfo1 [data-program^=osc]'),
-        rate = document.getElementById('lfo1-rate');
+        rate = document.querySelector('[data-program=lfo1_rate]');
 
     // The LFO itself
     module.lfo1 = module.createOscillator();
@@ -36,12 +41,6 @@ EVE = (function (module) {
         // Connect to harmonic oscillator VCAs
         module[lfo].connect(module.harmonicOscillator[osc].vca.gain);
     }
-
-    module.lfo1.sine = document.getElementById('lfo1-sin');
-    module.lfo1.square = document.getElementById('lfo1-sqr');
-    module.lfo1.triangle = document.getElementById('lfo1-tri');
-    module.lfo1.sawtooth = document.getElementById('lfo1-saw');
-
 
     module.lfo1.update = function (event) {
         var program = event.target.dataset.program || event.target.name;
@@ -75,15 +74,21 @@ EVE = (function (module) {
 
     module.lfo1.load = function () {
         module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * lfoRanges[module.preset.lfo1_range], module.now());
+
         for (i = 1; i <= 8; i += 1) {
             osc = 'osc' + i + '_lfo';
             module[osc].gain.setValueAtTime(module.preset[osc], module.now());
             oscInputs[i - 1].value = module.preset[osc];
         }
+
         module.lfo1.type = module.preset.lfo1_type;
-        module.lfo1[module.preset.lfo1_type].checked = true;
+
+        lfoTypes[module.preset.lfo1_type].checked = true;
+
         lfoRangeButtons[module.preset.lfo1_range].checked = true;
+
         rate.value = Math.sqrt(module.preset.lfo1_rate);
+
         return;
     };
 

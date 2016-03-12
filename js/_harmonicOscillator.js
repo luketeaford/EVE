@@ -11,11 +11,7 @@ EVE = (function (module) {
     };
 
     module.harmonicOscillator.mixer = module.createGain();
-
     module.harmonicOscillator.mixer.gain.value = -1;
-
-    module.harmonicOscillator.limiter = module.createGain();
-    module.harmonicOscillator.limiter.gain.value = 1;
 
     for (i = 1; i <= 8; i += 1) {
         osc = 'osc' + i;
