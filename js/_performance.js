@@ -1,6 +1,7 @@
 EVE = (function (module) {
     'use strict';
     var debug = false,
+        bugzone = document.getElementById('bugzone'),
         glide = document.querySelector('[data-program=glide]'),
         lights = document.querySelectorAll('#octave-shift [data-light]'),
         octaveShift = document.getElementById('octave-shift'),
@@ -26,17 +27,42 @@ EVE = (function (module) {
         },
 
         ribbon: function (event) {
-//            var x = event.pageX - ribbon.size;// Correct for pitchBend
-            var x = event.pageX;// 0-1920
+            var bend,
+                i,
+                x = event.pageX;
 
             event.preventDefault();
 
+            switch (module.config.ribbonBehavior) {
+            case 'pitch bend':
+                bend = ((x - ribbon.origin) / module.config.ribbonBendScale) * module.config.ribbonBendRange + module.performance.pitch;
+
+                for (i = 0; i < module.config.trackedOscs.length; i += 1) {
+                    module.config.trackedOscs[i].detune.setTargetAtTime(bend, module.currentTime, module.config.ribbonBendSlew);
+                }
+
+                break;
+            case 'pitch control':
+                module.performance.pitch = module.performance.octaveShift * 1200 + (-2100 + x * ribbon.scale);
+
+
+                console.log('This is the standard behavior');
+                break;
+            }
+
+
             // The right idea for pitch bend, but I want ribbon control
-            //module.performance.pitchBend = x * module.config.ribbonRange / module.config.ribbonRange;
+            //module.performance.pitchBend = bend * module.config.ribbonRange / module.config.ribbonRange;
 
-            module.performance.pitch = module.performance.octaveShift * 1200 + (-2100 + x * ribbon.scale);
 
-            module.setPitch(module.performance.pitch);
+            // RIBBON CONTROL
+            //module.performance.pitch = module.performance.octaveShift * 1200 + (-2100 + x * ribbon.scale);
+
+//            module.setPitch(module.performance.pitch);// Pitch bend
+
+            // for (i = 0; i < module.config.trackedOscs.length; i += 1) {
+            //     module.config.trackedOscs[i].detune.setTargetAtTime(module.performance.pitch, module.currentTime, module.config.ribbonControlSlew);
+            // }
 
             return;
         },
@@ -64,18 +90,19 @@ EVE = (function (module) {
         startRibbon: function (event) {
             event.preventDefault();
 
-            bugzone.style.backgroundColor = '#0f0';
-
             event.target.addEventListener('mousemove', module.performance.ribbon);
 
             event.target.addEventListener('touchmove', module.performance.ribbon);
 
             event.target.style.cursor = 'col-resize';
 
-            //ribbon.size = (ribbon.offsetWidth - 1) / 2;// ok for pitch bend
+            // V2 PITCH BEND
+            ribbon.origin = event.pageX;
+            bugzone.innerText = ribbon.origin;
 
-            ribbon.size = (ribbon.offsetWidth - 1);
-            ribbon.scale = ribbon.size / module.config.ribbonRange;
+            // PITCH CONTROL (V1)
+            ribbon.size = ribbon.offsetWidth - 1;
+            ribbon.scale = ribbon.size / module.config.ribbonControlRange;
 
             return;
         },
@@ -83,13 +110,13 @@ EVE = (function (module) {
         stopRibbon: function (event) {
             event.preventDefault();
 
-            bugzone.style.backgroundColor = '';
-
             event.target.removeEventListener('mousemove', module.performance.ribbon);
 
             event.target.removeEventListener('touchmove', module.performance.ribbon);
 
             event.target.style.cursor = '';
+
+            module.setPitch(module.performance.pitch);
 
             return;
         },

@@ -155,24 +155,24 @@ header {
     .module label input {
       width: 100%; }
 
-.bug-zone {
+.bugzone {
   background: #fff;
   color: #000;
-  font-family: sans-serif;
   font-size: 1.2rem;
-  padding: 2rem;
-  width: 100%; }
+  margin: 2rem 0;
+  padding: 2rem; }
 
 .ribbon {
   background-color: #62cf65;
   background-image: radial-gradient(#89db8b 2px, transparent 2px);
   background-size: 8px 8px;
   box-shadow: inset 0 0 10px -2px #1b1f1c;
-  border: 0.8rem inset #333a34;
+  border-bottom: 0.7rem solid #2c322d;
+  border-top: 0.8rem solid #1b1f1c;
   border-left: 0;
   border-right: 0;
   cursor: pointer;
-  height: 8rem; }
+  height: 9rem; }
 
 canvas {
   background: #a3b8a4;

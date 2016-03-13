@@ -1,7 +1,9 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* RIBBON CONTROLLER should be one/two octaves (not pitch bend)
+* RIBBON: pitch bend and pitch control
+* TOUCH: prevent default on keys
+* TOUCH: ribbon control should do gate stuff
 * keyboard/performance separated
 * add midi learn
 * make config editable
