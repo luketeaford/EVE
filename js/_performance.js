@@ -49,6 +49,14 @@ EVE = (function (module) {
             // RIBBON FOR CONTROL
             case 'pitch control':
                 bugzone.style.backgroundColor = '#9f9';
+
+                // TODO THIS MAY NEED TWEAKING
+                module.performance.pitch = module.performance.octaveShift * 1200 + -2100 + (x / ribbon.size) * module.config.ribbonControlRange;
+
+                for (i = 0; i < module.config.trackedOscs.length; i += 1) {
+                    module.config.trackedOscs[i].detune.setTargetAtTime(module.performance.pitch, module.currentTime, module.config.ribbonControlSlew);
+                }
+
                 break;
             }
 

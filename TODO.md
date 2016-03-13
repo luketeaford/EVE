@@ -1,14 +1,13 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* TOUCH: prevent default on keys
-* keyboard/performance separated
-* add midi learn
-* make config editable
 * qwerty improvements: tab through preset buttons, esc to close preset bank (make radio buttons)
+* TOUCH: prevent default on keys
+* make config editable
 * fix scss
-* now() is kind of worthless
 * MIDI modwheel should control lfo2 gain (in a useful way)
+* keyboard/performance separated
+* now() is kind of worthless
 
 
 #BEFORE MAKING PRESETS
@@ -35,6 +34,7 @@
 
 
 #2.0 FEATURES
+* add midi learn
 * Fine Tune
 * LFO 1 expansion: amp, pitch, and phase per channel
 
