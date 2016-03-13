@@ -34,6 +34,7 @@ EVE = (function (module) {
             event.preventDefault();
 
             switch (module.config.ribbonBehavior) {
+            // RIBBON FOR PITCH BENDING
             case 'pitch bend':
                 bend = ((x - ribbon.origin) / module.config.ribbonBendScale) * module.config.ribbonBendRange + module.performance.pitch;
 
@@ -41,28 +42,17 @@ EVE = (function (module) {
                     module.config.trackedOscs[i].detune.setTargetAtTime(bend, module.currentTime, module.config.ribbonBendSlew);
                 }
 
+                bugzone.style.backgroundColor = '#f00';
+
                 break;
+
+            // RIBBON FOR CONTROL
             case 'pitch control':
-                module.performance.pitch = module.performance.octaveShift * 1200 + (-2100 + x * ribbon.scale);
-
-
-                console.log('This is the standard behavior');
+                bugzone.style.backgroundColor = '#9f9';
                 break;
             }
 
 
-            // The right idea for pitch bend, but I want ribbon control
-            //module.performance.pitchBend = bend * module.config.ribbonRange / module.config.ribbonRange;
-
-
-            // RIBBON CONTROL
-            //module.performance.pitch = module.performance.octaveShift * 1200 + (-2100 + x * ribbon.scale);
-
-//            module.setPitch(module.performance.pitch);// Pitch bend
-
-            // for (i = 0; i < module.config.trackedOscs.length; i += 1) {
-            //     module.config.trackedOscs[i].detune.setTargetAtTime(module.performance.pitch, module.currentTime, module.config.ribbonControlSlew);
-            // }
 
             return;
         },
@@ -88,6 +78,8 @@ EVE = (function (module) {
         },
 
         startRibbon: function (event) {
+            var i;
+
             event.preventDefault();
 
             event.target.addEventListener('mousemove', module.performance.ribbon);
@@ -96,13 +88,23 @@ EVE = (function (module) {
 
             event.target.style.cursor = 'col-resize';
 
-            // V2 PITCH BEND
+            // PITCH BEND
             ribbon.origin = event.pageX;
-            bugzone.innerText = ribbon.origin;
 
-            // PITCH CONTROL (V1)
+            // PITCH CONTROL
             ribbon.size = ribbon.offsetWidth - 1;
             ribbon.scale = ribbon.size / module.config.ribbonControlRange;
+
+            if (module.config.ribbonBehavior === 'pitch control') {
+
+                module.performance.pitch = module.performance.octaveShift * 1200 + -2100 + (ribbon.origin / ribbon.size) * module.config.ribbonControlRange;
+
+                for (i = 0; i < module.config.trackedOscs.length; i += 1) {
+                    module.config.trackedOscs[i].detune.setTargetAtTime(module.performance.pitch, module.currentTime, module.config.ribbonControlSlew);
+                }
+
+                module.gate();
+            }
 
             return;
         },
@@ -116,7 +118,13 @@ EVE = (function (module) {
 
             event.target.style.cursor = '';
 
+            // Setting the pitch may only be required by bend?
             module.setPitch(module.performance.pitch);
+
+            // IN CONTROL MODE, THE GATE MUST HAPPEN
+            if (module.config.ribbonBehavior === 'pitch control') {
+                module.gate();
+            }
 
             return;
         },

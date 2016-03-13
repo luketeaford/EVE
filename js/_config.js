@@ -15,11 +15,11 @@ EVE = (function config(module) {
         masterFreq: 440,
         pitchBendRange: 1200,
         pitchBendSlew: 0.0001,
-        ribbonBehavior: 'pitch bend',
+        ribbonBehavior: 'pitch control',
         ribbonBendRange: 300,
         ribbonBendScale: 60,
         ribbonBendSlew: 0.01,
-        ribbonControlRange: 2400,
+        ribbonControlRange: 2400,// number of octaves
         ribbonControlSlew: 0.01,
         trackedOscs: []
     };

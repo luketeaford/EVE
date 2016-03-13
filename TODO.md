@@ -1,13 +1,11 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* RIBBON: pitch bend and pitch control
 * TOUCH: prevent default on keys
-* TOUCH: ribbon control should do gate stuff
 * keyboard/performance separated
 * add midi learn
 * make config editable
-* keyboard improvements: tab through preset buttons, esc to close preset bank (make radio buttons)
+* qwerty improvements: tab through preset buttons, esc to close preset bank (make radio buttons)
 * fix scss
 * now() is kind of worthless
 * MIDI modwheel should control lfo2 gain (in a useful way)
