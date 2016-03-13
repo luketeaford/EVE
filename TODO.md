@@ -2,6 +2,9 @@
 
 #NEXT STEPS:
 * qwerty improvements: tab through preset buttons, esc to close preset bank (make radio buttons)
+
+* ADD IDS BACK INTO RADIO BUTTONS SO THEY CAN BE LEGITIMATE LABELS
+
 * TOUCH: prevent default on keys
 * make config editable
 * fix scss

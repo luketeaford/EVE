@@ -37,17 +37,18 @@ EVE = (function (module) {
                 }
             }
 
-            if (event && event.path.indexOf(display) >= 0) {
-                presetBank.dataset.state =
-                    presetBank.dataset.state === 'closed' ?
-                            'open' :
-                            'closed';
-            }
+            if (event) {
+                // Click display to open/close preset bank
+                if (event.path.indexOf(display) >= 0) {
+                    module.program.togglePresetBank();
+                }
 
-            if (event && event.target.value) {
-                presetBank.dataset.state = 'closed';
-                number = bank.indexOf(event.target.value);
-                return module.program.loadPreset(number);
+                // Load selected preset and close preset bank
+                if (event.target.value) {
+                    number = bank.indexOf(event.target.value);
+                    module.program.togglePresetBank();
+                    return module.program.loadPreset(number);
+                }
             }
 
             return;
@@ -79,7 +80,16 @@ EVE = (function (module) {
             ajax.send();
 
             return;
+        },
+
+        togglePresetBank: function () {
+            presetBank.dataset.state =
+                presetBank.dataset.state === 'closed' ?
+                        'open' :
+                        'closed';
+            return;
         }
+
 
     };
 

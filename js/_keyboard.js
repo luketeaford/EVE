@@ -74,6 +74,10 @@ EVE = (function (module) {
             case 46:
                 module.program.cycle(null, 1);
                 break;
+            // /
+            case 47:
+                module.program.togglePresetBank();
+                break;
             // z
             case 122:
                 module.performance.shiftOctave(null, -1);
@@ -82,6 +86,8 @@ EVE = (function (module) {
             case 120:
                 module.performance.shiftOctave(null, 1);
                 break;
+            default:
+                console.log(event);
             }
             return;
         },
