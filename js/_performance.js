@@ -1,7 +1,6 @@
 EVE = (function (module) {
     'use strict';
-    var bugzone = document.getElementById('bugzone'),
-        debug = false,
+    var debug = false,
         glide = document.querySelector('[data-program=glide]'),
         lights = document.querySelectorAll('#octave-shift [data-light]'),
         octaveShift = document.getElementById('octave-shift'),
@@ -27,15 +26,17 @@ EVE = (function (module) {
         },
 
         ribbon: function (event) {
-            var x = event.pageX - ribbon.size;
+//            var x = event.pageX - ribbon.size;// Correct for pitchBend
+            var x = event.pageX;// 0-1920
 
             event.preventDefault();
 
-            module.performance.pitchBend = x * module.config.ribbonBendRange / module.config.ribbonBendRange;
+            // The right idea for pitch bend, but I want ribbon control
+            //module.performance.pitchBend = x * module.config.ribbonRange / module.config.ribbonRange;
 
-            bugzone.innerText = 'X is ' + module.performance.pitchBend;
+            module.performance.pitch = module.performance.octaveShift * 1200 + (-2100 + x * ribbon.scale);
 
-            document.dispatchEvent(module.events.pitchbend);
+            module.setPitch(module.performance.pitch);
 
             return;
         },
@@ -71,7 +72,10 @@ EVE = (function (module) {
 
             event.target.style.cursor = 'col-resize';
 
-            ribbon.size = (ribbon.offsetWidth - 1) / 2;
+            //ribbon.size = (ribbon.offsetWidth - 1) / 2;// ok for pitch bend
+
+            ribbon.size = (ribbon.offsetWidth - 1);
+            ribbon.scale = ribbon.size / module.config.ribbonRange;
 
             return;
         },

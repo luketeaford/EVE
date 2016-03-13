@@ -15,7 +15,8 @@ EVE = (function config(module) {
         masterFreq: 440,
         pitchBendRange: 1200,
         pitchBendSlew: 0.0001,
-        ribbonBendRange: 4800,
+        ribbonRange: 2400,
+        ribbonSlew: 0.01,
         trackedOscs: []
     };
 
