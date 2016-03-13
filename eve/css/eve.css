@@ -155,13 +155,6 @@ header {
     .module label input {
       width: 100%; }
 
-.bugzone {
-  background: #fff;
-  color: #000;
-  font-size: 1.2rem;
-  margin: 2rem 0;
-  padding: 2rem; }
-
 .ribbon {
   background-color: #62cf65;
   background-image: radial-gradient(#89db8b 2px, transparent 2px);

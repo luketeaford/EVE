@@ -1,7 +1,6 @@
 EVE = (function (module) {
     'use strict';
     var debug = false,
-        bugzone = document.getElementById('bugzone'),
         glide = document.querySelector('[data-program=glide]'),
         lights = document.querySelectorAll('#octave-shift [data-light]'),
         octaveShift = document.getElementById('octave-shift'),
@@ -42,15 +41,11 @@ EVE = (function (module) {
                     module.config.trackedOscs[i].detune.setTargetAtTime(bend, module.currentTime, module.config.ribbonBendSlew);
                 }
 
-                bugzone.style.backgroundColor = '#f00';
-
                 break;
 
             // RIBBON FOR CONTROL
             case 'pitch control':
-                bugzone.style.backgroundColor = '#9f9';
-
-                // TODO THIS MAY NEED TWEAKING
+                // THESE HARD CODED NUMBERS COULD BE CONFIGS
                 module.performance.pitch = module.performance.octaveShift * 1200 + -2100 + (x / ribbon.size) * module.config.ribbonControlRange;
 
                 for (i = 0; i < module.config.trackedOscs.length; i += 1) {
