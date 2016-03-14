@@ -14,7 +14,7 @@ EVE = (function (module) {
 
             if (event.target.type === 'radio') {
                 program = event.target.name;
-                update = updateMethods[event.path[2].id];
+                update = updateMethods[event.target.parentElement.parentElement.id];
                 x = event.target.value;
 
                 if (module.preset[program] !== x) {

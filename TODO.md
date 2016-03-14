@@ -1,7 +1,6 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* event.path doesn't work on IOS and must be fixed
 * fix scss
 * TOUCH: FIX LEGATO
 * TOUCH: prevent default on keys
