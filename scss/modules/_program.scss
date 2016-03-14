@@ -1,0 +1,94 @@
+.program {
+  $columns: 1;// Of presets
+  $height: 65;// Of the program bar
+
+  align-items: stretch;
+  background: #8ea580;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  position: relative;
+
+  > h2 {
+    // Only here for semantic meaning
+    font-size: 0;
+  }
+
+  [data-cycle] {
+    background: #333;
+    border: 0;
+    color: $pale-green;
+    font-family: $monospace;
+    font-size: 0;
+    height: $height * 0.1rem;
+    width: $height * 0.1rem;
+
+    &::after {
+      font-size: 5rem;
+    }
+  }
+
+  [data-cycle="-1"]::after {
+    content: '<';
+  }
+
+  [data-cycle="1"]::after {
+    content: '>';
+  }
+
+  @at-root {
+    .display {
+      flex: 1;
+      font-family: $monospace;
+      overflow: hidden;
+      padding: 0 2rem;
+      text-transform: uppercase;
+      white-space: nowrap;
+
+      > h3 {
+        font-size: 16 * 0.1rem;
+        line-height: $height / 16;
+        overflow: inherit;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .preset-bank {
+      background: transparentize(#f00, 0.2);
+      bottom: 0;
+      display: flex;
+      flex-wrap: wrap;
+      height: 200px;// FISHY
+      left: 0;
+      margin: 0 $height * 0.1rem;
+      overflow: scroll;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform: translateY($height * 0.1rem);
+
+      &[data-state=closed] {
+        cursor: default;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      &[data-state=open] {
+        z-index: 2;
+      }
+
+      button {
+        background: $light-grey;
+        border: 0;
+        cursor: pointer;
+        flex-shrink: 0;
+        font-family: $monospace;
+        min-height: 5rem;
+        outline: 1px solid $dark-grey;
+        outline-offset: -2px;
+        text-transform: uppercase;
+        width: (100% / $columns);
+      }
+    }
+  }
+}

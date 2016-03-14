@@ -13,7 +13,7 @@
 <main>
 
   <section class=program id=program>
-      <h2 class=temp-hide>Program</h2>
+      <h2>Program</h2>
       <button data-cycle=-1>Previous</button>
       <div class=display id=display>
         <h3>Sample Program</h3>
@@ -35,7 +35,11 @@
       </div>
   </section>
 
-  <section class=module id=oscilloscope>
+<div class=bugzone id=bugzone></div>
+
+<div class=tZemp-hide>
+
+  <section class=oscilloscope id=oscilloscope>
     <h2>Oscilloscope</h2>
     <canvas></canvas>
   </section>
@@ -281,6 +285,8 @@
       <input data-curve=lin data-program=glide max=1 min=0 step=0.0001 type=range value=0>
     </label>
   </section>
+
+</div>
 
   <div class=ribbon id=ribbon></div>
 

@@ -1,6 +1,7 @@
 EVE = (function (module) {
     'use strict';
-    var key,
+    var debug = false,
+        key,
         keyDown,
         pitch,
         playing = [],
@@ -87,7 +88,9 @@ EVE = (function (module) {
                 module.performance.shiftOctave(null, 1);
                 break;
             default:
-                console.log(event);
+                if (debug && console) {
+                    console.log(event);
+                }
             }
             return;
         },

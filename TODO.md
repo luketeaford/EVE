@@ -1,16 +1,15 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* qwerty improvements: tab through preset buttons, esc to close preset bank (make radio buttons)
-
-* ADD IDS BACK INTO RADIO BUTTONS SO THEY CAN BE LEGITIMATE LABELS
-
+* event.path doesn't work on IOS and must be fixed
+* fix scss
+* TOUCH: FIX LEGATO
 * TOUCH: prevent default on keys
 * make config editable
-* fix scss
 * MIDI modwheel should control lfo2 gain (in a useful way)
 * keyboard/performance separated
 * now() is kind of worthless
+* make envelope functions?
 
 
 #BEFORE MAKING PRESETS

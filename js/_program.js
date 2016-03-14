@@ -39,8 +39,14 @@ EVE = (function (module) {
 
             if (event) {
                 // Click display to open/close preset bank
-                if (event.path.indexOf(display) >= 0) {
+                if (event.target === displayName) {
                     module.program.togglePresetBank();
+                    console.log('CLICKED DISPLAY');
+                    console.log(event);
+                } else {
+                    console.log('Did not work');
+                    console.log(event);
+                    console.log(display);
                 }
 
                 // Load selected preset and close preset bank
@@ -94,7 +100,10 @@ EVE = (function (module) {
     };
 
     document.addEventListener('loadpreset', module.program.load);
+    // CLICK AND TOUCHEND DO NOT WORK WELL TOGETHER
     program.addEventListener('click', module.program.cycle);
+
+//    program.addEventListener('touchstart', module.program.cycle);
 
     return module;
 }(EVE));
