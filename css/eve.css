@@ -243,25 +243,30 @@ header {
 #harmonic-oscillator {
   margin: 8rem 2rem; }
   #harmonic-oscillator .knob-group {
-    display: flex; }
-  #harmonic-oscillator .knob {
-    background: #090;
     display: flex;
-    flex: 1;
+    flex-wrap: wrap;
+    max-width: 320px; }
+  #harmonic-oscillator .knob {
+    display: flex;
+    flex: 1 0 auto;
     position: relative; }
   #harmonic-oscillator input[type=range] {
-    background: linear-gradient(#333, #000);
+    background: none;
+    border-radius: 0;
     flex: 1;
     height: 6.5rem;
     position: relative;
     -webkit-appearance: none; }
   #harmonic-oscillator input[type=range]::-webkit-slider-thumb {
     background: #fff;
+    opacity: 0.4;
     cursor: pointer;
     height: 6.5rem;
     margin-top: 0;
     width: 6.5rem;
-    -webkit-appearance: none; }
+    -webkit-appearance: none;
+    box-sizing: content-box;
+    padding: 0 2.5rem; }
   #harmonic-oscillator label {
     background: radial-gradient(#000, #000), linear-gradient(#fff 50%, #fff 50%);
     background-size: 5px 20px, cover;
@@ -273,8 +278,9 @@ header {
     display: block;
     font-size: 0;
     height: 6.5rem;
-    left: calc(100% - 13rem);
     pointer-events: none;
     position: absolute;
     transform: rotate(-135deg);
-    width: 6.5rem; }
+    width: 6.5rem;
+    left: calc(50% - 3.25rem);
+    right: calc(50% - 3.25rem); }

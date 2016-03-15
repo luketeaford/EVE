@@ -21,18 +21,20 @@
 
   .knob-group {
     display: flex;
+    flex-wrap: wrap;
+    max-width: 320px;
   }
 
   .knob {
-    background: #090;
     display: flex;
-    flex: 1;
+    flex: 1 0 auto;
     position: relative;
   }
 
   // SIMPLE VERSION OF THE TRACK
   input[type=range] {
-    background: linear-gradient(#333, #000);
+    background: none;
+    border-radius: 0;
     flex: 1;
     height: $knob-size * 0.1rem;
     position: relative;
@@ -42,11 +44,15 @@
   // THE KNOB
   input[type=range]::-webkit-slider-thumb {
     background: #fff;
+    opacity: 0.4;
     cursor: pointer;
     height: $knob-size * 0.1rem;
     margin-top: 0;
     width: $knob-size * 0.1rem;
     -webkit-appearance: none;
+    // EXPERIMENTS TO MAKE LARGER CLICKABLE AREA
+    box-sizing: content-box;
+    padding: 0 2.5rem;
   }
 
   // LABEL
@@ -62,11 +68,13 @@
     display: block;
     font-size: 0;
     height: $knob-size * 0.1rem;
-    left: calc(100% - #{$knob-size * 2 * 0.1rem});// MAKE A FUNCTION
     pointer-events: none;
     position: absolute;
     transform: rotate(-135deg);
     width: $knob-size * 0.1rem;
+    // EXPERIMENTAL POSITIONING
+    left: calc(50% - #{$knob-size/2 * 0.1rem});
+    right: calc(50% - #{$knob-size/2 * 0.1rem});
   }
 
 
