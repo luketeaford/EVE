@@ -11,3 +11,93 @@
     }
   }
 }
+
+
+// EXPERIMENT
+#harmonic-oscillator {
+  $knob-size: 65;
+
+  margin: 8rem 2rem;
+
+  .knob-group {
+    display: flex;
+  }
+
+  .knob {
+    background: #090;
+    display: flex;
+    flex: 1;
+    position: relative;
+  }
+
+  // SIMPLE VERSION OF THE TRACK
+  input[type=range] {
+    background: linear-gradient(#333, #000);
+    flex: 1;
+    height: $knob-size * 0.1rem;
+    position: relative;
+    -webkit-appearance: none;
+  }
+
+  // THE KNOB
+  input[type=range]::-webkit-slider-thumb {
+    background: #fff;
+    cursor: pointer;
+    height: $knob-size * 0.1rem;
+    margin-top: 0;
+    width: $knob-size * 0.1rem;
+    -webkit-appearance: none;
+  }
+
+  // LABEL
+  label {
+    background: radial-gradient(#000, #000),
+                linear-gradient(#fff 50%, #fff 50%);
+    background-size: 5px 20px, cover;
+    background-position: top center;
+    background-repeat: no-repeat, repeat;
+    border: 5px solid #000;
+    border-radius: 50%;
+    color: #000;
+    display: block;
+    font-size: 0;
+    height: $knob-size * 0.1rem;
+    left: calc(100% - #{$knob-size * 2 * 0.1rem});// MAKE A FUNCTION
+    pointer-events: none;
+    position: absolute;
+    transform: rotate(-135deg);
+    width: $knob-size * 0.1rem;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // THE ROTATING KNOB
+  // label {
+  //   background: radial-gradient(#000, #000),
+  //               linear-gradient(#fff 50%, #fff 50%);
+  //   background-size: 5px 20px, cover;
+  //   background-position: top center;
+  //   background-repeat: no-repeat, repeat;
+  //   border: 5px solid #000;
+  //   border-radius: 50%;
+  //   color: #000;
+  //   display: block;
+  //   font-size: 0;
+  //   height: $knob-size * 0.1rem;
+  //   margin-top: -$knob-size * 0.1rem;
+  //   pointer-events: none;
+  //   transform: rotate(-135deg);
+  //   width: $knob-size * 0.1rem;
+  // }
+}

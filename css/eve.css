@@ -239,3 +239,42 @@ header {
     width: 100%; }
     .module label input {
       width: 100%; }
+
+#harmonic-oscillator {
+  margin: 8rem 2rem; }
+  #harmonic-oscillator .knob-group {
+    display: flex; }
+  #harmonic-oscillator .knob {
+    background: #090;
+    display: flex;
+    flex: 1;
+    position: relative; }
+  #harmonic-oscillator input[type=range] {
+    background: linear-gradient(#333, #000);
+    flex: 1;
+    height: 6.5rem;
+    position: relative;
+    -webkit-appearance: none; }
+  #harmonic-oscillator input[type=range]::-webkit-slider-thumb {
+    background: #fff;
+    cursor: pointer;
+    height: 6.5rem;
+    margin-top: 0;
+    width: 6.5rem;
+    -webkit-appearance: none; }
+  #harmonic-oscillator label {
+    background: radial-gradient(#000, #000), linear-gradient(#fff 50%, #fff 50%);
+    background-size: 5px 20px, cover;
+    background-position: top center;
+    background-repeat: no-repeat, repeat;
+    border: 5px solid #000;
+    border-radius: 50%;
+    color: #000;
+    display: block;
+    font-size: 0;
+    height: 6.5rem;
+    left: calc(100% - 13rem);
+    pointer-events: none;
+    position: absolute;
+    transform: rotate(-135deg);
+    width: 6.5rem; }
