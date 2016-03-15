@@ -17,12 +17,11 @@
 #harmonic-oscillator {
   $knob-size: 65;
 
-  margin: 8rem 2rem;
+  margin: 2rem 0;
 
   .knob-group {
     display: flex;
     flex-wrap: wrap;
-    max-width: 320px;
   }
 
   .knob {
