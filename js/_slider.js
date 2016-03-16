@@ -25,7 +25,7 @@ EVE = (function (module) {
                         event.target.value :
                         Math.sqrt(event.target.value);
 
-                event.target.nextElementSibling.style.transform = module.slider.rotate(module.preset[program]);
+                event.target.nextElementSibling.style.transform = module.slider.rotate(module.preset[program], event.target.min === '-1');
 
                 return event.target.dispatchEvent(module.events[update]);
             }
@@ -33,8 +33,8 @@ EVE = (function (module) {
             return;
         },
 
-        rotate: function (x) {// might need polarity
-            var r = offset + (x * 270);
+        rotate: function (x, unipolar) {
+            var r = unipolar ? x * 135 : x * 270 + offset;
 
             return 'rotate(' + r + 'deg)';
         }
