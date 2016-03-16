@@ -260,6 +260,23 @@ html {
   height: 6.5rem;
   position: relative;
   -webkit-appearance: none; }
+  .module input[type=range] + label {
+    background: radial-gradient(#000, #000), linear-gradient(#fff 50%, #fff 50%);
+    background-size: 5px 20px, cover;
+    background-position: top center;
+    background-repeat: no-repeat, repeat;
+    border: 5px solid #000;
+    border-radius: 50%;
+    color: #000;
+    display: block;
+    font-size: 0;
+    height: 6.5rem;
+    left: calc(50% - 3.25rem);
+    pointer-events: none;
+    position: absolute;
+    right: calc(50% - 3.25rem);
+    transform: rotate(-135deg);
+    width: 6.5rem; }
 
 .module input[type=range]::-webkit-slider-thumb {
   box-sizing: content-box;
@@ -270,21 +287,3 @@ html {
   padding: 0 2.5rem;
   width: 6.5rem;
   -webkit-appearance: none; }
-
-.module label {
-  background: radial-gradient(#000, #000), linear-gradient(#fff 50%, #fff 50%);
-  background-size: 5px 20px, cover;
-  background-position: top center;
-  background-repeat: no-repeat, repeat;
-  border: 5px solid #000;
-  border-radius: 50%;
-  color: #000;
-  display: block;
-  font-size: 0;
-  height: 6.5rem;
-  left: calc(50% - 3.25rem);
-  pointer-events: none;
-  position: absolute;
-  right: calc(50% - 3.25rem);
-  transform: rotate(-135deg);
-  width: 6.5rem; }

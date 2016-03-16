@@ -34,6 +34,27 @@ html {
     height: $knob-size * 0.1rem;
     position: relative;
     -webkit-appearance: none;
+
+    // THE LABEL IS THE KNOB
+    + label {
+      background: radial-gradient(#000, #000),
+                  linear-gradient(#fff 50%, #fff 50%);
+      background-size: 5px 20px, cover;
+      background-position: top center;
+      background-repeat: no-repeat, repeat;
+      border: 5px solid #000;
+      border-radius: 50%;
+      color: #000;
+      display: block;
+      font-size: 0;
+      height: $knob-size * 0.1rem;
+      left: calc(50% - #{$knob-size/2 * 0.1rem});// MAKE FUNCTION
+      pointer-events: none;
+      position: absolute;
+      right: calc(50% - #{$knob-size/2 * 0.1rem});// MAKE FUNCTION
+      transform: rotate(-135deg);
+      width: $knob-size * 0.1rem;
+    }
   }
 
   // THE KNOB (INVISIBLE)
@@ -46,26 +67,5 @@ html {
     padding: 0 2.5rem;
     width: $knob-size * 0.1rem;
     -webkit-appearance: none;
-  }
-
-  // THE LABEL IS THE KNOB
-  label {
-    background: radial-gradient(#000, #000),
-                linear-gradient(#fff 50%, #fff 50%);
-    background-size: 5px 20px, cover;
-    background-position: top center;
-    background-repeat: no-repeat, repeat;
-    border: 5px solid #000;
-    border-radius: 50%;
-    color: #000;
-    display: block;
-    font-size: 0;
-    height: $knob-size * 0.1rem;
-    left: calc(50% - #{$knob-size/2 * 0.1rem});// MAKE FUNCTION
-    pointer-events: none;
-    position: absolute;
-    right: calc(50% - #{$knob-size/2 * 0.1rem});// MAKE FUNCTION
-    transform: rotate(-135deg);
-    width: $knob-size * 0.1rem;
   }
 }

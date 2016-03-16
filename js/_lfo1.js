@@ -73,12 +73,17 @@ EVE = (function (module) {
     };
 
     module.lfo1.load = function () {
+        var unipolar;
+
         module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * lfoRanges[module.preset.lfo1_range], module.now());
 
         for (i = 1; i <= 8; i += 1) {
+            unipolar = i === 1 ? false : true;
             osc = 'osc' + i + '_lfo';
             module[osc].gain.setValueAtTime(module.preset[osc], module.now());
             oscInputs[i - 1].value = module.preset[osc];
+
+            oscInputs[i - 1].nextElementSibling.style.transform = module.slider.rotate(module.preset[osc], unipolar);
         }
 
         module.lfo1.type = module.preset.lfo1_type;
