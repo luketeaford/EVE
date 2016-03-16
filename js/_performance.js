@@ -144,6 +144,7 @@ EVE = (function (module) {
 
         load: function () {
             glide.value = module.preset.glide;
+            glide.nextElementSibling.style.transform = module.slider.rotate(module.preset.glide);
             return;
         }
     };

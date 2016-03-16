@@ -1,8 +1,7 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* PRESET LOADING FUNCTION NEEDS TO SET KNOBS PROPERLY
-* KNOBS FOR ALL RANGE SLIDERS
+* text that knobs move correctly (linear/exponential)
 * fix scss
 * TOUCH: FIX LEGATO
 * TOUCH: prevent default on keys

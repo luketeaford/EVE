@@ -148,12 +148,12 @@ header {
       margin: 0 calc(-66.66667% / 30);
       width: calc(66.66667% / 15); } }
 
-.oscilloscope {
-  margin: 2rem; }
-  .oscilloscope canvas {
-    background: #a3b8a4;
-    box-shadow: inset 0 0.3rem 2.2rem -0.2rem #333a34;
-    width: 100%; }
+.oscilloscope canvas {
+  background: #a3b8a4;
+  box-shadow: inset 0 0.3rem 2.2rem -0.2rem #333a34;
+  margin: 0 2rem;
+  max-width: 30rem;
+  width: 100%; }
 
 .program {
   align-items: stretch;

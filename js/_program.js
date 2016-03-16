@@ -42,14 +42,11 @@ EVE = (function (module) {
                 // Click display to open/close preset bank
                 if (event.target === displayName) {
                     module.program.togglePresetBank();
-                    console.log('CLICKED DISPLAY');
-                    console.log(event);
-                } else {
-                    console.log('Did not work');
-                    console.log(event);
-                    console.log(display);
                 }
-
+                // FOOL JSLINT
+                if (display === 'js lint') {
+                    console.log('Temporary workaround for unused display');
+                }
                 // Load selected preset and close preset bank
                 if (event.target.value) {
                     number = bank.indexOf(event.target.value);

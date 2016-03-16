@@ -113,6 +113,37 @@ EVE = (function (module) {
     };
 
     module.lfo2.load = function () {
+        var inputs = [
+            {
+                element: rate,
+                p: module.preset.lfo2_rate
+            },
+            {
+                element: amp,
+                p: module.preset.lfo2_amp
+            },
+            {
+                element: pitch,
+                p: module.preset.lfo2_pitch
+            },
+            {
+                element: delay,
+                p: module.preset.lfo2_delay
+            },
+            {
+                element: attack,
+                p: module.preset.lfo2_a
+            },
+            {
+                element: release,
+                p: module.preset.lfo2_r
+            },
+            {
+                element: gain,
+                p: module.preset.lfo2_g
+            }
+        ];
+
         // TYPE
         module.lfo2.type = module.preset.lfo2_type;
         lfoTypes[module.preset.lfo2_type].checked = true;
@@ -141,6 +172,10 @@ EVE = (function (module) {
         attack.value = Math.sqrt(module.preset.lfo2_a);
         release.value = Math.sqrt(module.preset.lfo2_r);
         gain.value = Math.sqrt(module.preset.lfo2_g);
+
+        for (i = 0; i < inputs.length; i += 1) {
+            inputs[i].element.nextElementSibling.style.transform = module.slider.rotate(inputs[i].p);
+        }
 
         return;
     };
