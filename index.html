@@ -160,80 +160,7 @@
     </div>
   </section>
 
-<!-- NEW LFO -->
-<section class=module id=lfo1>
-  <h2>LFO 1</h2>
-  <fieldset>
-    <legend>Shape</legend>
-    <input id=lfo1-sin name=lfo1_type type=radio value=sine>
-    <label for=lfo1-sin>Sine</label>
-    <input id=lfo1-tri name=lfo1_type type=radio value=triangle>
-    <label for=lfo1-tri>Triangle</label>
-    <input id=lfo1-sqr name=lfo1_type type=radio value=square>
-    <label for=lfo1-sqr>Square</label>
-    <input id=lfo1-saw name=lfo1_type type=radio value=sawtooth>
-    <label for=lfo1-saw>Saw</label>
-  </fieldset>
-  <fieldset>
-    <legend>Range</legend>
-    <input id=lfo1-low name=lfo1_range type=radio value=low>
-    <label for=lfo1-low>Low</label>
-    <input id=lfo1-mid name=lfo1_range type=radio value=middle>
-    <label for=lfo1-mid>Middle</label>
-    <input id=lfo1-high name=lfo1_range type=radio value=high>
-    <label for=lfo1-high>High</label>
-    <input id=lfo1-track name=lfo1_range type=radio value=track>
-    <label for=lfo1-track>Track</label>
-  </fieldset>
-  <div class=knob-group>
-    <div class=knob>
-      <input data-program=lfo1_rate max=1 min=0 step=0.0001 type=range value=0>
-      <label>Rate</label>
-    </div>
-    <div class=knob>
-      <input data-curve=lin data-program=osc1_lfo max=1 min=-1 step=0.0001 type=range value=0>
-      <label>Osc 1 Depth</label>
-    </div>
-    <div class=knob>
-      <input data-curve=lin data-program=osc2_lfo max=1 min=-1 step=0.0001 type=range value=0>
-      <label>Osc 2 Depth</label>
-    </div>
-    <div class=knob>
-      <input data-curve=lin data-program=osc3_lfo max=1 min=-1 step=0.0001 type=range value=0>
-      <label>Osc 3 Depth</label>
-    </div>
-    <div class=knob>
-      <input data-curve=lin data-program=osc4_lfo max=1 min=-1 step=0.0001 type=range value=0>
-      <label>Osc 4 Depth</label>
-    </div>
-    <div class=knob>
-      <input data-curve=lin data-program=osc5_lfo max=1 min=-1 step=0.0001 type=range value=0>
-      <label>Osc 5 Depth</label>
-    </div>
-    <div class=knob>
-      <input data-curve=lin data-program=osc6_lfo max=1 min=-1 step=0.0001 type=range value=0>
-      <label>Osc 6 Depth</label>
-    </div>
-    <div class=knob>
-      <input data-curve=lin data-program=osc7_lfo max=1 min=-1 step=0.0001 type=range value=0>
-      <label>Osc 7 Depth</label>
-    </div>
-    <div class=knob>
-      <input data-curve=lin data-program=osc8_lfo max=1 min=-1 step=0.0001 type=range value=0>
-      <label>Osc 8 Depth</label>
-    </div>
-  </div>
-</section>
-
-
-
-
-
-<!-- OLD STUFF-->
-<div class=temp-hide>
-
-<!--
-  <section class=module id=Zlfo1>
+  <section class=module id=lfo1>
     <h2>LFO 1</h2>
     <fieldset>
       <legend>Shape</legend>
@@ -257,44 +184,45 @@
       <input id=lfo1-track name=lfo1_range type=radio value=track>
       <label for=lfo1-track>Track</label>
     </fieldset>
-    <label>
-      <span>Rate</span>
-      <input data-program=lfo1_rate max=1 min=0 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>1</span>
-      <input data-curve=lin data-program=osc1_lfo max=1 min=-1 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>2</span>
-      <input data-curve=lin data-program=osc2_lfo max=1 min=-1 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>3</span>
-      <input data-curve=lin data-program=osc3_lfo max=1 min=-1 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>4</span>
-      <input data-curve=lin data-program=osc4_lfo max=1 min=-1 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>5</span>
-      <input data-curve=lin data-program=osc5_lfo max=1 min=-1 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>6</span>
-      <input data-curve=lin data-program=osc6_lfo max=1 min=-1 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>7</span>
-      <input data-curve=lin data-program=osc7_lfo max=1 min=-1 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>8</span>
-      <input data-curve=lin data-program=osc8_lfo max=1 min=-1 step=0.0001 type=range value=0>
-    </label>
+    <div class=knob-group>
+      <div class=knob>
+        <input data-program=lfo1_rate max=1 min=0 step=0.0001 type=range value=0>
+        <label>Rate</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=osc1_lfo max=1 min=-1 step=0.0001 type=range value=0>
+        <label>Osc 1 Depth</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=osc2_lfo max=1 min=-1 step=0.0001 type=range value=0>
+        <label>Osc 2 Depth</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=osc3_lfo max=1 min=-1 step=0.0001 type=range value=0>
+        <label>Osc 3 Depth</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=osc4_lfo max=1 min=-1 step=0.0001 type=range value=0>
+        <label>Osc 4 Depth</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=osc5_lfo max=1 min=-1 step=0.0001 type=range value=0>
+        <label>Osc 5 Depth</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=osc6_lfo max=1 min=-1 step=0.0001 type=range value=0>
+        <label>Osc 6 Depth</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=osc7_lfo max=1 min=-1 step=0.0001 type=range value=0>
+        <label>Osc 7 Depth</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=osc8_lfo max=1 min=-1 step=0.0001 type=range value=0>
+        <label>Osc 8 Depth</label>
+      </div>
+    </div>
   </section>
--->
 
   <section class=module id=lfo2>
     <h2>LFO 2</h2>
@@ -316,34 +244,36 @@
       <input id=lfo2-negative name=lfo2_polarity type=radio value=-1>
       <label for=lfo2-negative>-</label>
     </fieldset>
-    <label>
-      <span>Rate</span>
-      <input data-program=lfo2_rate max=1 min=0 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>Amp</span>
-      <input data-curve=lin data-program=lfo2_amp max=1 min=0 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>Pitch</span>
-      <input data-program=lfo2_pitch max=1 min=0 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>D</span>
-      <input data-curve=lin data-program=lfo2_delay max=1 min=0 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>A</span>
-      <input data-program=lfo2_a max=1 min=0 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>R</span>
-      <input data-program=lfo2_r max=1 min=0 step=0.0001 type=range value=0>
-    </label>
-    <label>
-      <span>G</span>
-      <input data-program=lfo2_g max=1 min=0 step=0.0001 type=range value=0>
-    </label>
+    <div class=knob-group>
+      <div class=knob>
+        <input data-program=lfo2_rate max=1 min=0 step=0.0001 type=range value=0>
+        <label>Rate</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=lfo2_amp max=1 min=0 step=0.0001 type=range value=0>
+        <label>Amp</label>
+      </div>
+      <div class=knob>
+        <input data-program=lfo2_pitch max=1 min=0 step=0.0001 type=range value=0>
+        <label>Pitch</label>
+      </div>
+      <div class=knob>
+        <input data-curve=lin data-program=lfo2_delay max=1 min=0 step=0.0001 type=range value=0>
+        <label>Delay</label>
+      </div>
+      <div class=knob>
+        <input data-program=lfo2_a max=1 min=0 step=0.0001 type=range value=0>
+        <label>Attack</label>
+      </div>
+      <div class=knob>
+        <input data-program=lfo2_r max=1 min=0 step=0.0001 type=range value=0>
+        <label>Release</label>
+      </div>
+      <div class=knob>
+        <input data-program=lfo2_g max=1 min=0 step=0.0001 type=range value=0>
+        <label>Gain</label>
+      </div>
+    </div>
   </section>
 
   <section class=module id=performance>
@@ -358,13 +288,13 @@
       <button data-shift=-1 type=button>-1</button>
       <button data-shift=1 type=button>+1</button>
     </div>
-    <label>
-      <span>Glide</span>
-      <input data-curve=lin data-program=glide max=1 min=0 step=0.0001 type=range value=0>
-    </label>
+    <div class=knob-group>
+      <div class=knob>
+        <input data-curve=lin data-program=glide max=1 min=0 step=0.0001 type=range value=0>
+        <label>Glide</label>
+      </div>
+    </div>
   </section>
-
-</div>
 
   <div class=ribbon id=ribbon></div>
 
