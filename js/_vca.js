@@ -55,12 +55,42 @@ EVE = (function (module) {
     };
 
     module.vca.load = function () {
+        var eg = [
+            {
+                element: attack,
+                p: module.preset.vca_a
+            },
+            {
+                element: decay,
+                p: module.preset.vca_d
+            },
+            {
+                element: sustain,
+                p: module.preset.vca_s
+            },
+            {
+                element: release,
+                p: module.preset.vca_r
+            },
+            {
+                element: gain,
+                p: module.preset.vca_g
+            }
+        ],
+            i;
+
         module.vca.gain.setValueAtTime(module.preset.vca_g, module.now());
+
         attack.value = Math.sqrt(module.preset.vca_a);
         decay.value = Math.sqrt(module.preset.vca_d);
         sustain.value = module.preset.vca_s;
         release.value = Math.sqrt(module.preset.vca_r);
         gain.value = Math.sqrt(module.preset.vca_g);
+
+        for (i = 0; i < eg.length; i += 1) {
+            eg[i].element.nextElementSibling.style.transform = module.slider.rotate(eg[i].p);
+        }
+
         return;
     };
 

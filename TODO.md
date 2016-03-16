@@ -39,6 +39,7 @@
 #2.0 FEATURES
 * add midi learn
 * Fine Tune
+* cache the data-note-value for keyboard presses AND inputs
 * LFO 1 expansion: amp, pitch, and phase per channel
 
 
