@@ -1,14 +1,20 @@
 // TODO PADDING NEEDS A VARIABLE
 header {
+  $heading-size: 30;
+
   background: $black;
   padding: 1rem;
 
   > h1 {
-    font-size: 3rem;
+    font-size: $heading-size * 0.1rem;
+    font-weight: 300;
+    letter-spacing: (7/$heading-size) * 0.1em;
     text-transform: uppercase;
 
     > span {
       font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: normal;
       text-transform: lowercase;
     }
   }

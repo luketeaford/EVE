@@ -70,18 +70,38 @@ EVE = (function (module) {
         },
 
         load: function () {
-            var i,
+            var eg = [
+                {
+                    element: attack,
+                    p: module.preset.timbre_a
+                },
+                {
+                    element: decay,
+                    p: module.preset.timbre_d
+                },
+                {
+                    element: sustain,
+                    p: module.preset.timbre_s
+                },
+                {
+                    element: release,
+                    p: module.preset.timbre_r
+                }
+            ],
+                i,
                 osc;
 
             for (i = 1; i <= 8; i += 1) {
                 osc = 'osc' + i + '_eg';
                 amounts[i - 1].value = module.preset[osc];
+
+                amounts[i - 1].nextElementSibling.style.transform = module.slider.rotate(module.preset[osc]);
             }
 
-            attack.value = Math.sqrt(module.preset.timbre_a);
-            decay.value = Math.sqrt(module.preset.timbre_d);
-            sustain.value = module.preset.timbre_s;
-            release.value = Math.sqrt(module.preset.timbre_r);
+            for (i = 0; i < eg.length; i += 1) {
+                eg[i].element.value = Math.sqrt(eg[i].p);
+                eg[i].element.nextElementSibling.style.transform = module.slider.rotate(eg[i].p);
+            }
 
             return;
         }

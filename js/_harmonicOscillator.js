@@ -50,12 +50,16 @@ EVE = (function (module) {
     };
 
     module.harmonicOscillator.load = function () {
-        var inputs = module.harmonicOscillator.inputs;
+        var inputs = module.harmonicOscillator.inputs,
+            x;
 
         for (i = 1; i <= 8; i += 1) {
             osc = 'osc' + i;
+            x = Math.sqrt(module.preset[osc]);
 
-            inputs[i - 1].value = Math.sqrt(module.preset[osc]);
+            inputs[i - 1].value = x;
+
+            inputs[i - 1].nextElementSibling.style.transform = module.slider.rotate(x);
         }
 
         return;

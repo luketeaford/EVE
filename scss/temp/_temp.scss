@@ -1,36 +1,32 @@
-// "MODULES" that are components
-.module {
-  margin: 2rem;
-
-  label {
-    display: block;
-    width: 100%;
-
-    input {
-      width: 100%;
-    }
-  }
+// BODY
+html {
+  font-family: $monospace;
 }
 
-
 // EXPERIMENT
-#harmonic-oscillator {
+.module {
   $knob-size: 65;
 
-  margin: 2rem 0;
-
-  .knob-group {
-    display: flex;
-    flex-wrap: wrap;
+  > h2 {
+    margin: 2rem;
+    text-transform: uppercase;
   }
 
-  .knob {
-    display: flex;
-    flex: 1 0 auto;
-    position: relative;
+  @at-root {
+    .knob-group {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+
+    .knob {
+      display: flex;
+      flex: 1 0 auto;
+      position: relative;
+    }
   }
 
-  // SIMPLE VERSION OF THE TRACK
+  // INPUT TRACK (INVISIBLE)
   input[type=range] {
     background: none;
     border-radius: 0;
@@ -40,21 +36,19 @@
     -webkit-appearance: none;
   }
 
-  // THE KNOB
+  // THE KNOB (INVISIBLE)
   input[type=range]::-webkit-slider-thumb {
-    background: #fff;
-    opacity: 0.4;
+    box-sizing: content-box;
     cursor: pointer;
     height: $knob-size * 0.1rem;
     margin-top: 0;
+    opacity: 0;
+    padding: 0 2.5rem;
     width: $knob-size * 0.1rem;
     -webkit-appearance: none;
-    // EXPERIMENTS TO MAKE LARGER CLICKABLE AREA
-    box-sizing: content-box;
-    padding: 0 2.5rem;
   }
 
-  // LABEL
+  // THE LABEL IS THE KNOB
   label {
     background: radial-gradient(#000, #000),
                 linear-gradient(#fff 50%, #fff 50%);
@@ -67,44 +61,11 @@
     display: block;
     font-size: 0;
     height: $knob-size * 0.1rem;
+    left: calc(50% - #{$knob-size/2 * 0.1rem});// MAKE FUNCTION
     pointer-events: none;
     position: absolute;
+    right: calc(50% - #{$knob-size/2 * 0.1rem});// MAKE FUNCTION
     transform: rotate(-135deg);
     width: $knob-size * 0.1rem;
-    // EXPERIMENTAL POSITIONING
-    left: calc(50% - #{$knob-size/2 * 0.1rem});
-    right: calc(50% - #{$knob-size/2 * 0.1rem});
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // THE ROTATING KNOB
-  // label {
-  //   background: radial-gradient(#000, #000),
-  //               linear-gradient(#fff 50%, #fff 50%);
-  //   background-size: 5px 20px, cover;
-  //   background-position: top center;
-  //   background-repeat: no-repeat, repeat;
-  //   border: 5px solid #000;
-  //   border-radius: 50%;
-  //   color: #000;
-  //   display: block;
-  //   font-size: 0;
-  //   height: $knob-size * 0.1rem;
-  //   margin-top: -$knob-size * 0.1rem;
-  //   pointer-events: none;
-  //   transform: rotate(-135deg);
-  //   width: $knob-size * 0.1rem;
-  // }
 }
