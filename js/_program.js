@@ -2,6 +2,7 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
+        'middle',
         'test-oscillator',
         'test-ribbon',
         'mirage',

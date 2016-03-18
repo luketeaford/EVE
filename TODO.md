@@ -1,7 +1,8 @@
 #Eve Web Audio Synthesizer
 
+
 #NEXT STEPS:
-* text that knobs move correctly (linear/exponential)
+* Some presets, for whatever reason, are stored as strings
 * fix scss
 * TOUCH: FIX LEGATO
 * TOUCH: prevent default on keys
@@ -10,6 +11,12 @@
 * keyboard/performance separated
 * now() is kind of worthless
 * make envelope functions?
+
+
+#HOW LOADING PRESETS WORKS
+* the knob should be set to the sliders' value
+* the presets value is transformed based on that amount
+* linear/exponential makes no difference
 
 
 #BEFORE MAKING PRESETS

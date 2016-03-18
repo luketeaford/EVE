@@ -12,6 +12,7 @@ EVE = (function (module) {
         };
 
     module.slider = {
+        // TODO Can't decide if rotate should use event.target.value or module.preset[program]
         grab: function (event) {
             var program,
                 update;
@@ -23,9 +24,9 @@ EVE = (function (module) {
 
                 module.preset[program] = event.target.dataset.curve === 'lin' ?
                         event.target.value :
-                        Math.sqrt(event.target.value);
+                        Math.pow(event.target.value, 2);
 
-                event.target.nextElementSibling.style.transform = module.slider.rotate(module.preset[program], event.target.min === '-1');
+                event.target.nextElementSibling.style.transform = module.slider.rotate(event.target.value, event.target.min === '-1');
 
                 return event.target.dispatchEvent(module.events[update]);
             }
@@ -35,7 +36,6 @@ EVE = (function (module) {
 
         rotate: function (x, unipolar) {
             var r = unipolar ? x * 135 : x * 270 + offset;
-
             return 'rotate(' + r + 'deg)';
         }
     };

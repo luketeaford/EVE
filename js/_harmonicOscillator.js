@@ -59,7 +59,7 @@ EVE = (function (module) {
 
             inputs[i - 1].value = x;
 
-            inputs[i - 1].nextElementSibling.style.transform = module.slider.rotate(x);
+            inputs[i - 1].nextElementSibling.style.transform = module.slider.rotate(module.preset[osc]);
         }
 
         return;
