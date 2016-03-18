@@ -2,7 +2,6 @@
 
 
 #NEXT STEPS:
-* Some presets, for whatever reason, are stored as strings
 * fix scss
 * TOUCH: FIX LEGATO
 * TOUCH: prevent default on keys
@@ -11,12 +10,6 @@
 * keyboard/performance separated
 * now() is kind of worthless
 * make envelope functions?
-
-
-#HOW LOADING PRESETS WORKS
-* the knob should be set to the sliders' value
-* the presets value is transformed based on that amount
-* linear/exponential makes no difference
 
 
 #BEFORE MAKING PRESETS
@@ -36,7 +29,7 @@
 
 #CLEAN UP IDEAS
 * Eliminate switches where feasible
-
+* value as number instead of parseFloat
 
 #NOTES:
 * Reduce HTML as much as possible

@@ -23,7 +23,7 @@ EVE = (function (module) {
                 update = updateMethods[event.target.parentElement.parentElement.parentElement.id];
 
                 module.preset[program] = event.target.dataset.curve === 'lin' ?
-                        event.target.value :
+                        parseFloat(event.target.value) :
                         Math.pow(event.target.value, 2);
 
                 event.target.nextElementSibling.style.transform = module.slider.rotate(event.target.value, event.target.min === '-1');
