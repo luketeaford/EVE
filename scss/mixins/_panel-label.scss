@@ -1,0 +1,15 @@
+@mixin panel-label($for: knob) {
+  background: $light-grey;
+  color: $dark-grey;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  width: if($for == knob, 50%, 100%);
+
+  @if $for == knob {
+    content: attr(data-label);
+    position: absolute;
+  }
+}

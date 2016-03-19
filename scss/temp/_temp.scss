@@ -1,13 +1,6 @@
-// BODY
-html {
-  font-family: $monospace;
-}
-
 // EXPERIMENT
 .module {
   $knob-size: 65;
-  $unipolar-minimum: 0;
-  $bipolar-minimum: -1;
 
   > h2 {
     margin: 2rem 1rem;// GLOBAL PADDING
@@ -86,16 +79,8 @@ html {
   padding: 2rem;
 }
 
-[type=range]::before {// SUBSTITUTE LABEL
-  background: $light-grey;
-  color: $dark-grey;
-  content: attr(data-label);
-  font-family: $monospace;
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: 0.1rem;
-  padding: 0.5rem 1rem;
-  position: absolute;
-  text-transform: uppercase;
-  width: 50%;
+
+
+[type=range]::before {
+  @include panel-label;
 }

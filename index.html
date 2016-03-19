@@ -35,6 +35,7 @@
       </div>
   </section>
 
+<div class=temp-hide>
   <!-- THIS IS A PROBLEM: REMOVE OSCILLOSCOPE CLASS -->
   <section class="module oscilloscope" id=oscilloscope>
     <h2>Oscilloscope</h2>
@@ -161,7 +162,7 @@
 
   <section class=module id=lfo1>
     <h2>LFO 1</h2>
-    <fieldset>
+    <div class=fieldset>
       <legend>Shape</legend>
       <input id=lfo1-sin name=lfo1_type type=radio value=sine>
       <label for=lfo1-sin>Sine</label>
@@ -171,8 +172,8 @@
       <label for=lfo1-sqr>Square</label>
       <input id=lfo1-saw name=lfo1_type type=radio value=sawtooth>
       <label for=lfo1-saw>Saw</label>
-    </fieldset>
-    <fieldset>
+    </div>
+    <div class=fieldset>
       <legend>Range</legend>
       <input id=lfo1-low name=lfo1_range type=radio value=low>
       <label for=lfo1-low>Low</label>
@@ -182,7 +183,7 @@
       <label for=lfo1-high>High</label>
       <input id=lfo1-track name=lfo1_range type=radio value=track>
       <label for=lfo1-track>Track</label>
-    </fieldset>
+    </>
     <div class=knob-group>
       <div class=knob>
         <input data-label=rate data-program=lfo1_rate max=1 min=0 step=0.0001 type=range value=0>
@@ -223,9 +224,11 @@
     </div>
   </section>
 
+</div>
+
   <section class=module id=lfo2>
     <h2>LFO 2</h2>
-    <fieldset>
+    <div class=fieldset>
       <legend>Shape</legend>
       <input id=lfo2-sin name=lfo2_type type=radio value=sine>
       <label for=lfo2-sin>Sine</label>
@@ -235,14 +238,14 @@
       <label for=lfo2-sqr>Square</label>
       <input id=lfo2-saw name=lfo2_type type=radio value=sawtooth>
       <label for=lfo2-saw>Saw</label>
-    </fieldset>
-    <fieldset>
+    </div>
+    <div class=fieldset>
       <legend>Polarity</legend>
       <input id=lfo2-positive name=lfo2_polarity type=radio value=1>
-      <label for=lfo2-positive>+</label>
+      <label for=lfo2-positive>Positive</label>
       <input id=lfo2-negative name=lfo2_polarity type=radio value=-1>
-      <label for=lfo2-negative>-</label>
-    </fieldset>
+      <label for=lfo2-negative>Negative</label>
+    </div>
     <div class=knob-group>
       <div class=knob>
         <input data-label=rate data-program=lfo2_rate max=1 min=0 step=0.0001 type=range value=0>
@@ -275,6 +278,8 @@
     </div>
   </section>
 
+<div class=temp-hide>
+
   <section class=module id=performance>
     <h2>Performance Controls</h2>
     <div class=octave-shift id=octave-shift>
@@ -294,6 +299,8 @@
       </div>
     </div>
   </section>
+
+</div>
 
   <div class=ribbon id=ribbon></div>
 

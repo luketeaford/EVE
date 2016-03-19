@@ -29,6 +29,7 @@
 //------------------------------------------------------------------------------
 @import 'mixins/key';
 @import 'mixins/media-query';
+@import 'mixins/panel-label';
 @import 'mixins/show-octaves';
 //==============================================================================
 
@@ -38,8 +39,12 @@
 @import 'elements/(universal-selector)';
 @import 'elements/a';
 @import 'elements/body';
+@import 'elements/fieldset';
+@import 'elements/input';
 @import 'elements/html';
 @import 'elements/h1-h6';
+@import 'elements/label';
+@import 'elements/legend';
 @import 'elements/main';
 //==============================================================================
 

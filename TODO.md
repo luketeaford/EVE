@@ -2,14 +2,20 @@
 
 
 #NEXT STEPS:
-* fix scss
+* style radio buttons
+* clean up scss
+* style performance controls
+
 * stop committing min files
 * min files should be eve*.min.js and eve*.min.css
+
 * TOUCH: FIX LEGATO
 * TOUCH: prevent default on keys
+
 * make config editable
 * MIDI modwheel should control lfo2 gain (in a useful way)
 * keyboard/performance separated
+
 * now() is kind of worthless
 * make envelope functions?
 
@@ -38,10 +44,12 @@
 
 
 #2.0 FEATURES
+* top level nav for section to edit: (oscillator, timbre envelope, config, etc)
 * add midi learn
 * Fine Tune
 * cache the data-note-value for keyboard presses AND inputs
 * LFO 1 expansion: amp, pitch, and phase per channel
+* perhaps ribbon glide should be linked to the preset glide
 
 
 #FINE TUNE
