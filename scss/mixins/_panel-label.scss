@@ -12,4 +12,8 @@
     content: attr(data-label);
     position: absolute;
   }
+
+  @if $for == switch {
+    border-bottom: 1px dotted;
+  }
 }

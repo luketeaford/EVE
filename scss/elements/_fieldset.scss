@@ -1,6 +1,7 @@
 .fieldset {
-  background: #ff0;
+  background: $light-grey;
   border: 0;
   display: flex;
   flex-wrap: wrap;
+  margin: 2rem 0;
 }

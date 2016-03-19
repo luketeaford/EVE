@@ -21,10 +21,11 @@ body {
   color: #89db8b; }
 
 .fieldset {
-  background: #ff0;
+  background: #a3b8a4;
   border: 0;
   display: flex;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  margin: 2rem 0; }
 
 input {
   font-family: "source code pro", "menlo", monospace; }
@@ -32,12 +33,26 @@ input {
 [type=radio] {
   display: none; }
   [type=radio] + label {
-    background: #06f;
-    color: #fff;
+    color: #1b1f1c;
     flex: 1 1 auto;
     padding: 2rem 0;
+    position: relative;
     text-align: center;
     text-transform: uppercase; }
+    [type=radio] + label::before {
+      background: rgba(0, 0, 0, 0.25);
+      content: '';
+      display: block;
+      height: 100%;
+      pointer-events: none;
+      position: absolute;
+      transition: transform 200ms;
+      transform: scaleY(0);
+      top: 0;
+      width: 100%; }
+  [type=radio]:checked + label::before {
+    transform: scaleY(1);
+    transform-origin: top; }
 
 html {
   background: #333a34;
@@ -65,7 +80,8 @@ legend {
   letter-spacing: 0.1rem;
   padding: 0.5rem 1rem;
   text-transform: uppercase;
-  width: 100%; }
+  width: 100%;
+  border-bottom: 1px dotted; }
 
 footer {
   font-size: 1rem;
