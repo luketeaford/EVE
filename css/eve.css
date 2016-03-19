@@ -151,7 +151,7 @@ header {
 .oscilloscope canvas {
   background: #a3b8a4;
   box-shadow: inset 0 0.3rem 2.2rem -0.2rem #333a34;
-  margin: 0 2rem;
+  margin: 0 1rem;
   max-width: 30rem;
   width: 100%; }
 
@@ -240,7 +240,7 @@ html {
   font-family: "source code pro", monospace; }
 
 .module > h2 {
-  margin: 2rem;
+  margin: 2rem 1rem;
   text-transform: uppercase; }
 
 .knob-group {
@@ -253,14 +253,14 @@ html {
   flex: 1 0 auto;
   position: relative; }
 
-.module input[type=range] {
+.module [type=range] {
   background: none;
   border-radius: 0;
   flex: 1;
   height: 6.5rem;
   position: relative;
   -webkit-appearance: none; }
-  .module input[type=range] + label {
+  .module [type=range] + label {
     background: radial-gradient(#000, #000), linear-gradient(#fff 50%, #fff 50%);
     background-size: 5px 20px, cover;
     background-position: top center;
@@ -275,15 +275,25 @@ html {
     pointer-events: none;
     position: absolute;
     right: calc(50% - 3.25rem);
-    transform: rotate(-135deg);
     width: 6.5rem; }
 
-.module input[type=range]::-webkit-slider-thumb {
+.module [type=range]::-webkit-slider-thumb {
+  background: #ff0;
   box-sizing: content-box;
   cursor: pointer;
   height: 6.5rem;
   margin-top: 0;
-  opacity: 0;
   padding: 0 2.5rem;
-  width: 6.5rem;
+  width: calc(50% - 3.25rem);
   -webkit-appearance: none; }
+
+.module [type=range][min="0"] + label {
+  transform: rotate(-135deg); }
+
+[data-shift] {
+  background: linear-gradient(#a3b8a4, #545950);
+  border: 0;
+  border-radius: 0.25rem;
+  color: #333a34;
+  font-size: 2rem;
+  padding: 2rem; }

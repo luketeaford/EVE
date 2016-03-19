@@ -3,6 +3,8 @@
 
 #NEXT STEPS:
 * fix scss
+* stop committing min files
+* min files should be eve*.min.js and eve*.min.css
 * TOUCH: FIX LEGATO
 * TOUCH: prevent default on keys
 * make config editable
@@ -46,7 +48,3 @@
 * [] FINE TUNE CANNOT BE PART OF THE PRESET (IT'S A CONFIG)
 * [] FINE TUNE SHOULD BE FREQUENCY CHANGE TO ALL OSCILLATORS AND LFOS
 * [] fine tune must happen in real time
-
-
-#CRAZY IDEAS
-* Could be cool to animate key color with envelope times

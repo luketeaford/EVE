@@ -6,9 +6,11 @@ html {
 // EXPERIMENT
 .module {
   $knob-size: 65;
+  $unipolar-minimum: 0;
+  $bipolar-minimum: -1;
 
   > h2 {
-    margin: 2rem;
+    margin: 2rem 1rem;// GLOBAL PADDING
     text-transform: uppercase;
   }
 
@@ -27,7 +29,7 @@ html {
   }
 
   // INPUT TRACK (INVISIBLE)
-  input[type=range] {
+  [type=range] {
     background: none;
     border-radius: 0;
     flex: 1;
@@ -52,20 +54,34 @@ html {
       pointer-events: none;
       position: absolute;
       right: calc(50% - #{$knob-size/2 * 0.1rem});// MAKE FUNCTION
-      transform: rotate(-135deg);
       width: $knob-size * 0.1rem;
     }
   }
 
   // THE KNOB (INVISIBLE)
-  input[type=range]::-webkit-slider-thumb {
+  [type=range]::-webkit-slider-thumb {
+    background: #ff0;
     box-sizing: content-box;
     cursor: pointer;
     height: $knob-size * 0.1rem;
     margin-top: 0;
-    opacity: 0;
+//    opacity: 0;// USE TO HIDE THE THUMB
     padding: 0 2.5rem;
-    width: $knob-size * 0.1rem;
+    width: calc(50% - 3.25rem);// half the knob size
     -webkit-appearance: none;
   }
+
+  [type=range][min="0"] + label {
+    transform: rotate(-135deg);
+  }
+}
+
+
+[data-shift] {
+  background: linear-gradient($light-grey, #545950);
+  border: 0;
+  border-radius: 0.25rem;
+  color: $dark-grey;
+  font-size: 2rem;
+  padding: 2rem;
 }

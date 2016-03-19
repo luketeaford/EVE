@@ -155,7 +155,6 @@ EVE = (function (module) {
     document.addEventListener('updateperformance', module.performance.update);
 
     octaveShift.addEventListener('click', module.performance.shiftOctave);
-    octaveShift.addEventListener('touchend', module.performance.shiftOctave);
 
     // EXPERIMENT
     ribbon.addEventListener('mousedown', module.performance.startRibbon);
