@@ -283,6 +283,7 @@ html {
   cursor: pointer;
   height: 6.5rem;
   margin-top: 0;
+  opacity: 0;
   padding: 0 2.5rem;
   width: calc(50% - 3.25rem);
   -webkit-appearance: none; }
@@ -297,3 +298,16 @@ html {
   color: #333a34;
   font-size: 2rem;
   padding: 2rem; }
+
+[type=range]::before {
+  background: #a3b8a4;
+  color: #333a34;
+  content: attr(data-label);
+  font-family: "source code pro", monospace;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  padding: 0.5rem 1rem;
+  position: absolute;
+  text-transform: uppercase;
+  width: 50%; }
