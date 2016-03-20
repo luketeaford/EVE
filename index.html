@@ -80,7 +80,7 @@
   </section>
 
   <section class=module id=timbre-env>
-    <h2>Timbre Envelope</h2>
+    <h2>Timbre Amount</h2>
     <div class=knob-group>
       <div class=knob>
         <input data-curve=lin data-label=1 data-program=osc1_eg max=1 min=0 step=0.0001 type=range value=0>
@@ -115,6 +115,7 @@
         <label>Osc 8 Amount</label>
       </div>
     </div>
+    <h2>Timbre Envelope</h2>
     <div class=knob-group>
       <div class=knob>
         <input data-label=attack data-program=timbre_a max=1 min=0 step=0.0001 type=range value=0>
@@ -186,7 +187,7 @@
       <label for=lfo1-track>Track</label>
     </div>
     <div class=knob-group>
-      <div class=knob>
+      <div class="lfo1-rate knob">
         <input data-label=rate data-program=lfo1_rate max=1 min=0 step=0.0001 type=range value=0>
         <label>Rate</label>
       </div>

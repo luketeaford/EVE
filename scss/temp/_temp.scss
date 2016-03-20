@@ -17,7 +17,18 @@
     .knob {
       display: flex;
       flex: 1 0 auto;
+      margin: 1rem 0;
       position: relative;
+      width: 100%;
+      @include media-query(360) {
+        width: 50%;
+      }
+      @include media-query(720) {
+        width: 25%;
+      }
+      @include media-query(1440) {
+        width: 12.5%;
+      }
     }
   }
 
@@ -74,9 +85,8 @@
 }
 
 
-// WEIRD SHIT TO MAKE IT ALIGN NICELY
-// ALL OF THIS SHOULD HAPPEN AT THE FIRST BREAKPOINT
-
+// KNOB GROUPINGS
+// TODO inside knob-group, the first div would be fine
 .lfo1-rate {
   width: 100%;
 }

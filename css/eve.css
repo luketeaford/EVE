@@ -341,7 +341,18 @@ header {
 .knob {
   display: flex;
   flex: 1 0 auto;
-  position: relative; }
+  margin: 1rem 0;
+  position: relative;
+  width: 100%; }
+  @media screen and (min-width: 360px) {
+    .knob {
+      width: 50%; } }
+  @media screen and (min-width: 720px) {
+    .knob {
+      width: 25%; } }
+  @media screen and (min-width: 1440px) {
+    .knob {
+      width: 12.5%; } }
 
 .module [type=range] {
   background: none;
