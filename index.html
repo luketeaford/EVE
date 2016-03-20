@@ -36,6 +36,7 @@
   </section>
 
   <!-- THIS IS A PROBLEM: REMOVE OSCILLOSCOPE CLASS -->
+<div class=temp-hide>
   <section class="module oscilloscope" id=oscilloscope>
     <h2>Oscilloscope</h2>
     <canvas></canvas>
@@ -275,15 +276,19 @@
     </div>
   </section>
 
+</div>
+
   <section class=module id=performance>
     <h2>Performance Controls</h2>
     <div class=octave-shift id=octave-shift>
-      <h3>Octave Shift</h3>
-      <span data-light=off>-2</span>
-      <span data-light=off>-1</span>
-      <span data-light=on>0</span>
-      <span data-light=off>1</span>
-      <span data-light=off>2</span>
+      <label>Octave Shift</label>
+      <div class=lights>
+        <span data-light=off>-2</span>
+        <span data-light=off>-1</span>
+        <span data-light=on>0</span>
+        <span data-light=off>1</span>
+        <span data-light=off>2</span>
+      </div>
       <button data-shift=-1 type=button>-1</button>
       <button data-shift=1 type=button>+1</button>
     </div>
