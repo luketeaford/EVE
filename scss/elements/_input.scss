@@ -11,7 +11,7 @@ input {
     color: $black;
     flex: 1 1 auto;
     padding: 2rem 0;
-    position: relative;// for pseudo element positioning
+    position: relative;
     text-align: center;
     text-transform: uppercase;
 
@@ -24,6 +24,7 @@ input {
       position: absolute;
       transition: transform 200ms;
       transform: scaleY(0);
+      transform-origin: top;
       top: 0;
       width: 100%;
     }
@@ -31,6 +32,5 @@ input {
 
   &:checked + label::before {
     transform: scaleY(1);
-    transform-origin: top;
   }
 }

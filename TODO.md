@@ -2,9 +2,8 @@
 
 
 #NEXT STEPS:
-* style radio buttons
-* clean up scss
 * style performance controls
+* clean up scss
 
 * stop committing min files
 * min files should be eve*.min.js and eve*.min.css
