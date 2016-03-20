@@ -69,61 +69,14 @@
   }
 }
 
-
-
-
-
 [type=range]::before {
   @include panel-label;
 }
 
 
+// WEIRD SHIT TO MAKE IT ALIGN NICELY
+// ALL OF THIS SHOULD HAPPEN AT THE FIRST BREAKPOINT
 
-// PERFORMANCE CONTROLS
-.octave-shift {
-  background: rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 1rem;
-  > label {
-    @include panel-label(button);
-    display: block;
-  }
-
-  @at-root {
-    .lights {
-      text-align: center;
-      width: 100%;
-    }
-
-    [data-light] {
-      border-radius: 50%;
-      display: inline-block;
-      font-size: 0;
-      height: 1.6rem;
-      margin: 1rem;
-      width: 1.6rem;
-    }
-
-    [data-light=off] {
-      background: #666;
-    }
-
-    [data-light=on] {
-      background: $bright-green;
-    }
-
-    [data-shift] {
-      background: #ccc;
-      border: 0;
-      border-radius: 0.25rem;
-      color: $dark-grey;
-      flex: 1 1 auto;
-      font-size: 2rem;
-      line-height: 1;
-      max-width: 48%;
-      padding: 2rem;
-    }
-  }
+.lfo1-rate {
+  width: 100%;
 }

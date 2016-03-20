@@ -2,7 +2,6 @@
 
 
 #NEXT STEPS:
-* style performance controls
 * consistent font for inputs (radio buttons should match knobs)
 * clean up scss
 

@@ -36,7 +36,6 @@
   </section>
 
   <!-- THIS IS A PROBLEM: REMOVE OSCILLOSCOPE CLASS -->
-<div class=temp-hide>
   <section class="module oscilloscope" id=oscilloscope>
     <h2>Oscilloscope</h2>
     <canvas></canvas>
@@ -115,6 +114,8 @@
         <input data-curve=lin data-label=8 data-program=osc8_eg max=1 min=0 step=0.0001 type=range value=0>
         <label>Osc 8 Amount</label>
       </div>
+    </div>
+    <div class=knob-group>
       <div class=knob>
         <input data-label=attack data-program=timbre_a max=1 min=0 step=0.0001 type=range value=0>
         <label>Attack</label>
@@ -275,8 +276,6 @@
       </div>
     </div>
   </section>
-
-</div>
 
   <section class=module id=performance>
     <h2>Performance Controls</h2>
