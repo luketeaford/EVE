@@ -5,9 +5,6 @@
 * consistent font for inputs (radio buttons should match knobs)
 * clean up scss
 
-* stop committing min files
-* min files should be eve*.min.js and eve*.min.css
-
 * TOUCH: FIX LEGATO
 * TOUCH: prevent default on keys
 

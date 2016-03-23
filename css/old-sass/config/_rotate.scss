@@ -1,8 +1,0 @@
-@mixin rotate($degrees) {
-  @if $supportMobileSafari == 'true' {
-    -webkit-transform: rotate($degrees * 1deg);
-  } @else {
-    @warn 'UNNECESSARY PREFIXING: Only use the rotate mixin when vendor prefixes are required.';
-  }
-  transform: rotate($degrees * 1deg);
-}

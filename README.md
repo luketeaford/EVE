@@ -38,4 +38,3 @@ EVE is an additive monosynth built with Web Audio.
 * Must be very simple for others to work on despite demanding standards
 * Basically, should be clone it, read directions, type npm install, and go!
 * Eliminate all confusion about what goes where
-* Probably want to use the convention where final script is called eve.min.js
