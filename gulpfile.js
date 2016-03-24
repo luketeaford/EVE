@@ -2,9 +2,11 @@ var browsersync = require('browser-sync'),
     concat = require('gulp-concat'),
     gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
+    htmlreplace = require('gulp-html-replace'),
     jslint = require('gulp-jslint'),
     jsonminify = require('gulp-jsonminify'),
     rename = require('gulp-rename'),
+    runsequence = require('run-sequence'),
     sass = require('gulp-sass'),
     uglify = require('gulp-uglify'),
 
@@ -65,18 +67,18 @@ gulp.task('js', function () {
 });
 
 gulp.task('sass', function () {
-  gulp.src('./scss/eve.scss')
+  return gulp.src('./scss/eve.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('css'))
 });
 
 gulp.task('watch', function () {
-    gulp.watch('js/**/*.js', ['js']);
-    gulp.watch('scss/**/*.scss', ['sass']);
+    gulp.watch('./js/**/*.js', ['js']);
+    gulp.watch('./scss/**/*.scss', ['sass']);
 });
 
 gulp.task('minifyHTML', function () {
-  return gulp.src('*.html')
+  return gulp.src('./dist/*.html')
     .pipe(htmlmin({
         collapseBooleanAttributes: true,
         collapseWhitespace: true,
@@ -84,7 +86,7 @@ gulp.task('minifyHTML', function () {
         removeAttributeQuotes: true,
         removeOptionalTags: true
     }))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('./dist'))
 });
 
 gulp.task('minifyJS', function () {
@@ -115,6 +117,15 @@ gulp.task('minifyCSS', function () {
         .pipe(gulp.dest('./dist/css'))
 });
 
+gulp.task('htmlreplace', function() {
+  return gulp.src('./index.html')
+    .pipe(htmlreplace({
+        'css': 'css/eve.min.css',
+        'js': 'js/eve.min.js'
+    }))
+    .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('default', [
     'browsersync',
     'build',
@@ -133,7 +144,9 @@ gulp.task('minify', [
     'minifyJSON'
 ]);
 
-gulp.task('release', [
-    'build',
-    'minify'
-]);
+gulp.task('release', function (callback) {
+    runsequence(
+        ['build', 'htmlreplace'],
+        'minify',
+        callback);
+});

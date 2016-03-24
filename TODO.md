@@ -2,6 +2,9 @@
 
 
 #NEXT STEPS:
+* Firefox knob fixes
+* IE knob fixes
+
 * consistent font for inputs (radio buttons should match knobs)
 * clean up scss
 
