@@ -3,9 +3,11 @@
 
 #NEXT STEPS:
 
+* figure out why iOS safari isn't making a clean sine wave
+
 * installable web apps
 
-* gulp task to minify images
+* some problem with the apple-touch-icon.png needs to be in root
 
 * clean up HTML
 

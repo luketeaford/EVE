@@ -26,9 +26,9 @@ EVE = (function (module) {
 
         promptDialog.addEventListener('touchmove', module.prompt.preventScroll);
 
-       promptDialog.addEventListener('click', module.prompt.removePrompt);
-       promptDialog.addEventListener('mousedown', module.prompt.removePrompt);
-       promptDialog.addEventListener('touchend', module.prompt.removePrompt);
+        promptDialog.addEventListener('click', module.prompt.removePrompt);
+        promptDialog.addEventListener('mousedown', module.prompt.removePrompt);
+        promptDialog.addEventListener('touchend', module.prompt.removePrompt);
     }
 
     return module;

@@ -30,3 +30,5 @@ node_modules
 dist
 js/eve.js
 css/eve.css
+
+*.css

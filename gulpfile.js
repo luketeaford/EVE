@@ -3,6 +3,7 @@ var browsersync = require('browser-sync'),
     gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
     htmlreplace = require('gulp-html-replace'),
+    imagemin = require('gulp-imagemin'),
     jslint = require('gulp-jslint'),
     jsonminify = require('gulp-jsonminify'),
     rename = require('gulp-rename'),
@@ -40,15 +41,13 @@ var browsersync = require('browser-sync'),
         'js/_gate.js'
     ];
 
-// Should be called serve
-gulp.task('browsersync', function() {
+gulp.task('serve', function() {
     browsersync({
         server: {
             baseDir: "./"
         }
     });
 });
-
 
 gulp.task('js', function () {
     return gulp.src(scripts)
@@ -91,6 +90,14 @@ gulp.task('minifyHTML', function () {
     .pipe(gulp.dest('./dist'))
 });
 
+gulp.task('minifyImages', function () {
+    return gulp.src('./img/*.*')
+        .pipe(imagemin({
+            optimizationLevel: 3
+        }))
+        .pipe(gulp.dest('./dist/img'))
+});
+
 gulp.task('minifyJS', function () {
     return gulp.src('./js/eve.js')
         .pipe(uglify({
@@ -129,8 +136,8 @@ gulp.task('htmlreplace', function() {
 });
 
 gulp.task('default', [
-    'browsersync',
     'build',
+    'serve',
     'watch'
 ]);
 
@@ -142,6 +149,7 @@ gulp.task('build', [
 gulp.task('minify', [
     'minifyCSS',
     'minifyHTML',
+    'minifyImages',
     'minifyJS',
     'minifyJSON'
 ]);
