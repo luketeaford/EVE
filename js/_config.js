@@ -19,7 +19,7 @@ EVE = (function config(module) {
         ribbonBendRange: 300,
         ribbonBendScale: 60,
         ribbonBendSlew: 0.01,
-        ribbonControlRange: 2400,// number of octaves
+        ribbonControlRange: 2400,// number of keyboard notes
         ribbonControlSlew: 0.01,
         trackedOscs: []
     };

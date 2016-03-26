@@ -90,3 +90,38 @@
 .lfo1-rate {
   width: 100%;
 }
+
+
+
+
+
+// CONSENT PROMPT
+.consent-prompt {
+  align-items: center;
+  background: transparentize($black, 0.1);
+  bottom: 0;
+  display: none;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 2;
+
+  .consent-message {
+    background: $dark-grey;
+    flex: 1;
+  }
+
+  button {
+    background: $light-grey;
+    border: 0;
+    display: block;
+    font-size: 2rem;
+    font-family: $monospace;
+    margin: 0 auto;
+    min-height: 6.5rem;
+    text-transform: uppercase;
+    width: calc(100% - 4rem);
+  }
+}

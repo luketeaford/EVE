@@ -2,14 +2,22 @@
 
 
 #NEXT STEPS:
+
+* installable web apps
+
+* gulp task to minify images
+
+* clean up HTML
+
+* consistent font for inputs (radio buttons should match knobs)
 * Firefox knob fixes
 * IE knob fixes
 
-* consistent font for inputs (radio buttons should match knobs)
 * clean up scss
 
 * TOUCH: FIX LEGATO
 * TOUCH: prevent default on keys
+* ribbon controller won't scale properly with 1octave
 
 * make config editable
 * MIDI modwheel should control lfo2 gain (in a useful way)
@@ -18,6 +26,7 @@
 * now() is kind of worthless
 * make envelope functions?
 
+* analytics?
 
 #BEFORE MAKING PRESETS
 * fine tune envelopes

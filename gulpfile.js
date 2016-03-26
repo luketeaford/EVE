@@ -14,8 +14,8 @@ var browsersync = require('browser-sync'),
         // LICENSE
         'js/legal/_license.js',
         // GENERAL SET-UP
-        'js/temp/_prefixWebAudio.js',
         'js/_eve.js',
+        'js/_prompt.js',
         'js/_events.js',
         'js/_config.js',
         'js/_preset.js',
@@ -40,6 +40,7 @@ var browsersync = require('browser-sync'),
         'js/_gate.js'
     ];
 
+// Should be called serve
 gulp.task('browsersync', function() {
     browsersync({
         server: {
@@ -47,6 +48,7 @@ gulp.task('browsersync', function() {
         }
     });
 });
+
 
 gulp.task('js', function () {
     return gulp.src(scripts)
