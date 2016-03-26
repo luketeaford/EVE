@@ -18,6 +18,7 @@
   "homepage": "https://github.com/luketeaford/EVE",
   "devDependencies": {
     "browser-sync": "^2.6.4",
+    "del": "^2.2.0",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
     "gulp-html-replace": "^1.5.5",

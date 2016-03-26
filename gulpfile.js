@@ -1,13 +1,15 @@
-var browsersync = require('browser-sync'),
+// TODO Better naming convention where hyphens turn to camelCase
+var browsersync = require('browser-sync'),// CHANGE
     concat = require('gulp-concat'),
+    del = require('del'),
     gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
-    htmlreplace = require('gulp-html-replace'),
+    htmlreplace = require('gulp-html-replace'),// CHANGE
     imagemin = require('gulp-imagemin'),
     jslint = require('gulp-jslint'),
     jsonminify = require('gulp-jsonminify'),
     rename = require('gulp-rename'),
-    runsequence = require('run-sequence'),
+    runsequence = require('run-sequence'),// CHANGE
     sass = require('gulp-sass'),
     uglify = require('gulp-uglify'),
 
@@ -39,6 +41,10 @@ var browsersync = require('browser-sync'),
         'js/_startSynth.js',
         'js/_now.js',
         'js/_gate.js'
+    ],
+
+    specialFiles = [
+        './dist/img/apple-touch-icon.png'
     ];
 
 gulp.task('js', function () {
@@ -117,6 +123,18 @@ gulp.task('minifyJSON', function () {
         .pipe(gulp.dest('./dist/presets'))
 });
 
+gulp.task('moveSpecialFiles', function () {
+    return gulp.src(specialFiles)
+        .pipe(gulp.dest('./dist'))
+});
+
+gulp.task('moveFilesToRoot', function (done) {
+    console.log('Moving special files to the root');
+    gulp.src(specialFiles)
+        .pipe(gulp.dest('./dist'))
+        del(specialFiles)
+});
+
 gulp.task('sass', function () {
   return gulp.src('./scss/eve.scss')
     .pipe(sass().on('error', sass.logError))
@@ -156,9 +174,10 @@ gulp.task('minify', [
     'minifyJSON'
 ]);
 
-gulp.task('release', function (callback) {
+gulp.task('release', function (done) {
     runsequence(
         ['build', 'htmlreplace'],
         'minify',
-        callback);
+        'moveFilesToRoot',
+        done);
 });

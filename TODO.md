@@ -1,13 +1,7 @@
 #Eve Web Audio Synthesizer
 
-
 #NEXT STEPS:
-
-* figure out why iOS safari isn't making a clean sine wave
-
 * installable web apps
-
-* some problem with the apple-touch-icon.png needs to be in root
 
 * clean up HTML
 
@@ -66,3 +60,6 @@
 * [] FINE TUNE CANNOT BE PART OF THE PRESET (IT'S A CONFIG)
 * [] FINE TUNE SHOULD BE FREQUENCY CHANGE TO ALL OSCILLATORS AND LFOS
 * [] fine tune must happen in real time
+
+# POSSIBLE ISSUES
+* iOS gets awful distortion when the app is launched as an installable web app
