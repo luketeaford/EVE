@@ -41,14 +41,6 @@ var browsersync = require('browser-sync'),
         'js/_gate.js'
     ];
 
-gulp.task('serve', function() {
-    browsersync({
-        server: {
-            baseDir: "./"
-        }
-    });
-});
-
 gulp.task('js', function () {
     return gulp.src(scripts)
     .pipe(concat('eve.js'))
@@ -67,16 +59,26 @@ gulp.task('js', function () {
     }))
 });
 
-gulp.task('sass', function () {
-  return gulp.src('./scss/eve.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('css'))
+gulp.task('htmlreplace', function() {
+  return gulp.src('./index.html')
+    .pipe(htmlreplace({
+        'css': 'css/eve.min.css',
+        'js': 'js/eve.min.js'
+    }))
+    .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('watch', function () {
-    gulp.watch('./js/**/*.js', ['js']);
-    gulp.watch('./scss/**/*.scss', ['sass']);
+gulp.task('minifyCSS', function () {
+    return gulp.src('./scss/eve.scss')
+        .pipe(sass({
+            outputStyle: 'compressed'
+        }).on('error', sass.logError))
+        .pipe(rename(function (path) {
+            path.extname = '.min.css'
+        }))
+        .pipe(gulp.dest('./dist/css'))
 });
+
 
 gulp.task('minifyHTML', function () {
   return gulp.src('./dist/*.html')
@@ -115,35 +117,35 @@ gulp.task('minifyJSON', function () {
         .pipe(gulp.dest('./dist/presets'))
 });
 
-gulp.task('minifyCSS', function () {
-    return gulp.src('./scss/eve.scss')
-        .pipe(sass({
-            outputStyle: 'compressed'
-        }).on('error', sass.logError))
-        .pipe(rename(function (path) {
-            path.extname = '.min.css'
-        }))
-        .pipe(gulp.dest('./dist/css'))
+gulp.task('sass', function () {
+  return gulp.src('./scss/eve.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('css'))
 });
 
-gulp.task('htmlreplace', function() {
-  return gulp.src('./index.html')
-    .pipe(htmlreplace({
-        'css': 'css/eve.min.css',
-        'js': 'js/eve.min.js'
-    }))
-    .pipe(gulp.dest('./dist'));
+gulp.task('serve', function() {
+    browsersync({
+        server: {
+            baseDir: "./"
+        }
+    });
 });
+
+gulp.task('watch', function () {
+    gulp.watch('./js/**/*.js', ['js']);
+    gulp.watch('./scss/**/*.scss', ['sass']);
+});
+
+// CONVENIENT ALIASES FOR RELATED TASKS
+gulp.task('build', [
+    'js',
+    'sass'
+]);
 
 gulp.task('default', [
     'build',
     'serve',
     'watch'
-]);
-
-gulp.task('build', [
-    'js',
-    'sass'
 ]);
 
 gulp.task('minify', [
