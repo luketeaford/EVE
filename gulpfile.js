@@ -1,15 +1,14 @@
-// TODO Better naming convention where hyphens turn to camelCase
-var browsersync = require('browser-sync'),// CHANGE
+var browserSync = require('browser-sync'),
     concat = require('gulp-concat'),
     del = require('del'),
     gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
-    htmlreplace = require('gulp-html-replace'),// CHANGE
+    htmlReplace = require('gulp-html-replace'),
     imagemin = require('gulp-imagemin'),
     jslint = require('gulp-jslint'),
     jsonminify = require('gulp-jsonminify'),
     rename = require('gulp-rename'),
-    runsequence = require('run-sequence'),// CHANGE
+    runSequence = require('run-sequence'),
     sass = require('gulp-sass'),
     uglify = require('gulp-uglify'),
 
@@ -65,9 +64,9 @@ gulp.task('js', function () {
     }))
 });
 
-gulp.task('htmlreplace', function() {
+gulp.task('htmlReplace', function() {
   return gulp.src('./index.html')
-    .pipe(htmlreplace({
+    .pipe(htmlReplace({
         'css': 'css/eve.min.css',
         'js': 'js/eve.min.js'
     }))
@@ -84,7 +83,6 @@ gulp.task('minifyCSS', function () {
         }))
         .pipe(gulp.dest('./dist/css'))
 });
-
 
 gulp.task('minifyHTML', function () {
   return gulp.src('./dist/*.html')
@@ -123,13 +121,13 @@ gulp.task('minifyJSON', function () {
         .pipe(gulp.dest('./dist/presets'))
 });
 
-gulp.task('moveSpecialFiles', function () {
-    return gulp.src(specialFiles)
+gulp.task('minifyManifest', function () {
+    return gulp.src('./manifest.webmanifest')
+//        .pipe(jsonminify())
         .pipe(gulp.dest('./dist'))
 });
 
 gulp.task('moveFilesToRoot', function (done) {
-    console.log('Moving special files to the root');
     gulp.src(specialFiles)
         .pipe(gulp.dest('./dist'))
         del(specialFiles)
@@ -142,7 +140,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('serve', function() {
-    browsersync({
+    browserSync({
         server: {
             baseDir: "./"
         }
@@ -171,12 +169,13 @@ gulp.task('minify', [
     'minifyHTML',
     'minifyImages',
     'minifyJS',
-    'minifyJSON'
+    'minifyJSON',
+    'minifyManifest'
 ]);
 
 gulp.task('release', function (done) {
-    runsequence(
-        ['build', 'htmlreplace'],
+    runSequence(
+        ['build', 'htmlReplace'],
         'minify',
         'moveFilesToRoot',
         done);
