@@ -1,7 +1,7 @@
 EVE = (function (module) {
     'use strict';
     var fft = 1024,
-        scope = document.querySelector('#oscilloscope canvas'),
+        scope = document.querySelector('#oscilloscope'),
         context = scope.getContext('2d'),
         lineColor = 'rgb(51, 58, 52)',// dark grey
         scopeData = new Uint8Array(fft),
