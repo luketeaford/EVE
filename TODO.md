@@ -1,7 +1,12 @@
 #Eve Web Audio Synthesizer
 
 #NEXT STEPS:
-* installable web apps
+* Clean up various manifests
+* Move appcache with gulpfile
+
+* TOUCH: FIX LEGATO
+* TOUCH: prevent default on keys
+* ribbon controller won't scale properly with 1octave
 
 * clean up HTML
 
@@ -10,10 +15,6 @@
 * IE knob fixes
 
 * clean up scss
-
-* TOUCH: FIX LEGATO
-* TOUCH: prevent default on keys
-* ribbon controller won't scale properly with 1octave
 
 * make config editable
 * MIDI modwheel should control lfo2 gain (in a useful way)
@@ -63,3 +64,6 @@
 
 # POSSIBLE ISSUES
 * iOS gets awful distortion when the app is launched as an installable web app
+
+# ATOM CONFIGURATION
+* Find a way to use the terminal with a keyboard shortcut

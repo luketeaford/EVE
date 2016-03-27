@@ -122,8 +122,8 @@ gulp.task('minifyJSON', function () {
 });
 
 gulp.task('minifyManifest', function () {
-    return gulp.src('./manifest.webmanifest')
-//        .pipe(jsonminify())
+    return gulp.src('./manifest.appcache')
+        .pipe(jsonminify())
         .pipe(gulp.dest('./dist'))
 });
 

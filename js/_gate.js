@@ -3,12 +3,14 @@ EVE = (function (module) {
     var gateOn = false,
         keyboard = document.getElementById('keyboard');
 
-    module.gate = function () {
+    module.gate = function (event) {
         var gateEvent = gateOn ? 'gateoff' : 'gateon';
 
         gateOn = !gateOn;
 
         document.dispatchEvent(module.events[gateEvent]);
+
+        console.log('The event is', event);
 
         return;
     };

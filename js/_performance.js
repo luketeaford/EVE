@@ -55,8 +55,6 @@ EVE = (function (module) {
                 break;
             }
 
-
-
             return;
         },
 
