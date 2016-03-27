@@ -1,7 +1,8 @@
 EVE = (function (module) {
     'use strict';
     var gateOn = false,
-        keyboard = document.getElementById('keyboard');
+        keyboard = document.getElementById('keyboard'),
+        mouseAndTouch = true;
 
     module.gate = function (event) {
         var gateEvent = gateOn ? 'gateoff' : 'gateon';
@@ -10,8 +11,11 @@ EVE = (function (module) {
 
         document.dispatchEvent(module.events[gateEvent]);
 
-        console.log('The event is', event);
-
+        if (mouseAndTouch && event.type === 'touchstart') {
+            keyboard.removeEventListener('mousedown', module.gate);
+            keyboard.removeEventListener('mouseup', module.gate);
+            mouseAndTouch = false;
+        }
         return;
     };
 

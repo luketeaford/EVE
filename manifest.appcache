@@ -1,9 +1,10 @@
-CACHE MANIFEST
+# DON'T DO IT
+#CACHE MANIFEST
 
 CACHE:
-css/eve.css
-js/eve.js
-index.html
+#css/eve.css
+#js/eve.js
+#index.html
 apple-touch-icon.png
 img/logo-icon1x.png
 img/logo-icon2x.png
@@ -33,4 +34,4 @@ NETWORK:
 *
 
 FALLBACK:
-index.html
+#index.html
