@@ -40,11 +40,14 @@
     height: $knob-size * 0.1rem;
     position: relative;
     -webkit-appearance: none;
+    &:focus {
+      outline: none;
+    }
 
     // THE LABEL IS THE KNOB
     + label {
-      background: radial-gradient(#000, #000),
-                  linear-gradient(#fff 50%, #fff 50%);
+      background-image: radial-gradient(#000, #000),
+                        linear-gradient(#fff 50%, #fff 50%);
       background-size: 5px 20px, cover;
       background-position: top center;
       background-repeat: no-repeat, repeat;
@@ -59,6 +62,10 @@
       position: absolute;
       right: calc(50% - #{$knob-size/2 * 0.1rem});// MAKE FUNCTION
       width: $knob-size * 0.1rem;
+    }
+    &:focus + label {
+      background-image: radial-gradient(#000, #000),
+                        linear-gradient($pale-green 50%, $intense-green 50%);
     }
   }
 

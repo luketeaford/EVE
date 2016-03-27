@@ -104,7 +104,7 @@ EVE = (function (module) {
                     module.config.trackedOscs[i].detune.setTargetAtTime(module.performance.pitch, module.currentTime, module.config.ribbonControlSlew);
                 }
 
-                module.gate();
+                module.gate(event);
             }
 
             return;
@@ -124,7 +124,7 @@ EVE = (function (module) {
 
             // IN CONTROL MODE, THE GATE MUST HAPPEN
             if (module.config.ribbonBehavior === 'pitch control') {
-                module.gate();
+                module.gate(event);
             }
 
             return;

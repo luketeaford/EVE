@@ -22,6 +22,10 @@ EVE = (function (module) {
             document.dispatchEvent(module.events[gateEvent]);
         }
 
+        if (event.type === 'touchstart') {
+            event.preventDefault();
+        }
+
         if (mouseAndTouch && event.type === 'touchstart') {
             keyboard.removeEventListener('mousedown', module.gate);
             keyboard.removeEventListener('mouseup', module.gate);
