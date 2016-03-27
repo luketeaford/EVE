@@ -5,17 +5,29 @@ EVE = (function (module) {
         mouseAndTouch = true;
 
     module.gate = function (event) {
-        var gateEvent = gateOn ? 'gateoff' : 'gateon';
+        var gateEvent = gateOn ? 'gateoff' : 'gateon',
+            mutexEvent = !!(
+                event.type === 'keydown' ||
+                event.type === 'keyup' ||
+                event.type === 'mousedown' ||
+                event.type === 'mouseup'
+            ),
+            touchGate = !!(
+                (event.type === 'touchstart' && event.touches.length === 1) ||
+                (event.type === 'touchend' && event.touches.length === 0)
+            );
 
-        gateOn = !gateOn;
-
-        document.dispatchEvent(module.events[gateEvent]);
+        if (mutexEvent || touchGate) {
+            gateOn = !gateOn;
+            document.dispatchEvent(module.events[gateEvent]);
+        }
 
         if (mouseAndTouch && event.type === 'touchstart') {
             keyboard.removeEventListener('mousedown', module.gate);
             keyboard.removeEventListener('mouseup', module.gate);
             mouseAndTouch = false;
         }
+
         return;
     };
 

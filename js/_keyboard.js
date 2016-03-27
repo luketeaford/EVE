@@ -109,7 +109,7 @@ EVE = (function (module) {
                 }
                 if (!keyDown) {
                     keyDown = !keyDown;
-                    module.gate();
+                    module.gate(event);
                 }
             }
             return;
@@ -124,7 +124,7 @@ EVE = (function (module) {
                     module.calculatePitch(null, playing[playing.length - 1]);
                 } else {
                     keyDown = !keyDown;
-                    module.gate();
+                    module.gate(event);
                 }
                 module.keyboard.highlightKey(event.which);
 
