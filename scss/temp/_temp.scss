@@ -69,8 +69,7 @@
     }
   }
 
-  // THE KNOB (INVISIBLE)
-  [type=range]::-webkit-slider-thumb {
+  @mixin range-thumb() {
     background: #ff0;
     box-sizing: content-box;
     cursor: pointer;
@@ -79,7 +78,17 @@
     opacity: 0;// USE TO HIDE THE THUMB
     padding: 0 2.5rem;
     width: calc(50% - 3.25rem);// half the knob size
+  }
+  // THE KNOB (INVISIBLE)
+  [type=range]::-webkit-slider-thumb {
+    @include range-thumb();
     -webkit-appearance: none;
+  }
+  [type=range]::-moz-range-thumb {
+    @include range-thumb();
+  }
+  [type=range]::-ms-thumb {
+    @include range-thumb();
   }
 
   [type=range][min="0"] + label {

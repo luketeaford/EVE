@@ -10,23 +10,17 @@ img/logo-icon1x.png
 img/logo-icon2x.png
 img/logo-icon3x.png
 # presets/cool-sci-fi-sound.json
+# presets/dawn.json
 # presets/distorted-sawtooth.json
 # presets/glimmer.json
 # presets/init.json
-# presets/middle.json
 # presets/mirage.json
 # presets/miranda.json
 # presets/modern-bass.json
 # presets/oranges.json
 # presets/peach-fuzz.json
 # presets/percusso.json
-# presets/problematic-patch.json
 # presets/square-overtone.json
-# presets/test-lfo1.json
-# presets/test-lfo2.json
-# presets/test-oscillator.json
-# presets/test-patch.json
-# presets/test-ribbon.json
 # presets/vocal-bass.json
 # presets/work-song.json
 

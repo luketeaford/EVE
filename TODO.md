@@ -2,8 +2,7 @@
 
 # NEXT STEPS:
 * consistent font for inputs (radio buttons should match knobs)
-* Firefox knob fixes
-* IE knob fixes
+* Test Firefox/IE knob fixes
 * clean up scss
 * MAKE SURE MIDI STILL WORKS PROPERLY
 * MAKE ENVELOPE FUNCTIONS -- and now() is kind of worthless
