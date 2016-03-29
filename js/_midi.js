@@ -35,14 +35,14 @@ EVE = (function (module) {
                     if (event.data[2] >= 1) {
                         if (module.midi.active === null) {
                             module.midi.active = n;
-                            module.gate();
+                            module.gate(event);
                         }
                         module.calculatePitch(null, module.midi.toCents(n));
                     } else {
                         // Cheap MIDI controller note off
                         if (module.midi.active === n) {
                             module.midi.active = null;
-                            module.gate();
+                            module.gate(event);
                         } else {
                             // Return to initial note (for legato playing)
                             module.calculatePitch(null, module.midi.toCents(module.midi.active));
@@ -52,7 +52,7 @@ EVE = (function (module) {
                     break;
                 case module.midi.messages.noteOff:
                     module.midi.active = null;
-                    module.gate();
+                    module.gate(event);
                     module.midi.highlightKey(n);
                     break;
                 case module.midi.messages.pitchWheel:

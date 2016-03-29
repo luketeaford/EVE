@@ -17,7 +17,7 @@ EVE = (function (module) {
                 (event.type === 'touchend' && event.touches.length === 0)
             );
 
-        if (mutexEvent || touchGate) {
+        if (mutexEvent || touchGate || event.type === 'midimessage') {
             gateOn = !gateOn;
             document.dispatchEvent(module.events[gateEvent]);
         }
