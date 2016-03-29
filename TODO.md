@@ -1,7 +1,6 @@
 # EVE Web Audio Synthesizer
 
 # NEXT STEPS:
-* consistent font for inputs (radio buttons should match knobs)
 * clean up scss
 
 # BEFORE MAKING PRESETS

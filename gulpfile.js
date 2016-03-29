@@ -123,7 +123,6 @@ gulp.task('minifyJSON', function () {
 
 gulp.task('minifyManifest', function () {
     return gulp.src('./manifest.appcache')
-        .pipe(jsonminify())
         .pipe(gulp.dest('./dist'))
 });
 

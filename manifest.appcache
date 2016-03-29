@@ -1,31 +1,31 @@
-#CACHE MANIFEST
-# March 27
+CACHE MANIFEST
+# March 28-2
 
 CACHE:
-# css/eve.css
-# js/eve.js
-# index.html
+css/eve.min.css
+js/eve.min.js
+index.html
 apple-touch-icon.png
 img/logo-icon1x.png
 img/logo-icon2x.png
 img/logo-icon3x.png
-# presets/cool-sci-fi-sound.json
-# presets/dawn.json
-# presets/distorted-sawtooth.json
-# presets/glimmer.json
-# presets/init.json
-# presets/mirage.json
-# presets/miranda.json
-# presets/modern-bass.json
-# presets/oranges.json
-# presets/peach-fuzz.json
-# presets/percusso.json
-# presets/square-overtone.json
-# presets/vocal-bass.json
-# presets/work-song.json
+presets/cool-sci-fi-sound.json
+presets/dawn.json
+presets/distorted-sawtooth.json
+presets/glimmer.json
+presets/init.json
+presets/mirage.json
+presets/miranda.json
+presets/modern-bass.json
+presets/oranges.json
+presets/peach-fuzz.json
+presets/percusso.json
+presets/square-overtone.json
+presets/vocal-bass.json
+presets/work-song.json
 
 NETWORK:
-# *
+*
 
 FALLBACK:
-# index.html
+index.html
