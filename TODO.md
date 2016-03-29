@@ -2,10 +2,7 @@
 
 # NEXT STEPS:
 * consistent font for inputs (radio buttons should match knobs)
-* Test Firefox/IE knob fixes
 * clean up scss
-* MAKE ENVELOPE FUNCTIONS -- and now() is kind of worthless
-* analytics?
 
 # BEFORE MAKING PRESETS
 * fine tune envelopes
@@ -24,6 +21,7 @@
 # 2.0 FEATURES
 * keyboard control of selected knobs
 * make config editable
+* MAKE ENVELOPE FUNCTIONS -- and now() is kind of worthless
 * MIDI modwheel should control lfo2 gain (in a useful way)
 * top level nav for section to edit: (oscillator, timbre envelope, config, etc)
 * add midi learn
