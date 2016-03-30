@@ -1,11 +1,14 @@
-// TODO COLORS NEED TO BE RE-THOUGHT UNTIL CORRECT
+// APPROVED COLORS
+$black: #1b1f1c;
 $dark-grey: #333a34;
 $light-grey: #a3b8a4;
+$white: #c0cec0;
+
+
+// TODO COLORS NEED TO BE RE-THOUGHT UNTIL CORRECT
 $green: #89db8b;
-$red: #cc3345;
-$bright-green: saturate($green, 30%);
-$intense-green: darken($bright-green, 10%);
-$dark-green: darken($green, 10%);
-$pale-green: lighten($intense-green, 15%);
-$black: darken($dark-grey, 10%);
-$white: lighten($light-grey, 10%);
+$bright-green: saturate($green, 30%);// #72f275
+$intense-green: darken($bright-green, 10%);// #43ee47
+$dark-green: darken($green, 10%);// #62cf65
+$pale-green: lighten($intense-green, 15%);// #89f48c
+$darker-green: darken($dark-green, 20%);// #2f9c32

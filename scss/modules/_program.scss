@@ -3,7 +3,9 @@
   $height: 65;// Of the program bar
 
   align-items: stretch;
+  @warn 'COLOR PROBLEM';
   background: #8ea580;
+  @warn 'COLOR PROBLEM';
   color: #000;
   cursor: pointer;
   display: flex;
@@ -15,6 +17,7 @@
   }
 
   [data-cycle] {
+    @warn 'COLOR PROBLEM';
     background: #333;
     border: 0;
     color: $pale-green;
@@ -54,6 +57,7 @@
     }
 
     .preset-bank {
+      @warn 'COLOR PROBLEM';
       background: transparentize(#f00, 0.2);
       bottom: 0;
       display: flex;

@@ -1,6 +1,9 @@
 # EVE Web Audio Synthesizer
 
 # NEXT STEPS:
+* Fix colors
+* Rename all derived colors
+* Consolidate to fewer values
 * clean up scss
 
 # BEFORE MAKING PRESETS

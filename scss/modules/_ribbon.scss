@@ -6,7 +6,8 @@
   background-image: radial-gradient($green $polka-dot-size, transparent $polka-dot-size);
   background-size: $image-size $image-size;
   box-shadow: inset 0 0 10px -2px $black;
-  border-bottom: 0.7rem solid darken($dark-grey, 3%);
+  @warn 'NEEDS A COLOR VARIABLE';
+  border-bottom: 0.7rem solid darken($dark-grey, 3%);// USE VARIABLE
   border-top: 0.8rem solid $black;
   border-left: 0;
   border-right: 0;

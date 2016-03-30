@@ -4,7 +4,7 @@
   $scale-x: map-get($keys, scale-x);
 
   $background-color: if($type == natural, $white, $black);
-  $background-color-active: if($type == natural, $green, darken($dark-green, 20%));
+  $background-color-active: if($type == natural, $green, $darker-green);
   $border-color: $light-grey;
   $border-left-and-right: $border-size * 1px solid $border-color;
   $border-offset: $border-size * -1px;

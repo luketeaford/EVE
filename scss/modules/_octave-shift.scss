@@ -1,4 +1,5 @@
 .octave-shift {
+  @warn 'NEEDS COLOR VARIABLE';
   background: rgba(0, 0, 0, 0.2);
   display: flex;
   flex-wrap: wrap;
@@ -25,6 +26,7 @@
     }
 
     [data-light=off] {
+      @warn 'NEEDS COLOR VARIABLE';
       background: #666;
     }
 
@@ -33,6 +35,7 @@
     }
 
     [data-shift] {
+      @warn 'NEEDS COLOR VARIABLE';
       background: #ccc;
       border: 0;
       border-radius: 0.25rem;
