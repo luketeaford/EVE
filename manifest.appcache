@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# March 30
+# March 31
 
 CACHE:
 css/eve.min.css
@@ -24,6 +24,7 @@ presets/oranges.json
 presets/peach-fuzz.json
 presets/percusso.json
 presets/square-overtone.json
+presets/talking-tennis-ball.json
 presets/vocal-bass.json
 presets/work-song.json
 
