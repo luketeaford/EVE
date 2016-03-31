@@ -3,43 +3,42 @@
   $height: 65;// Of the program bar
 
   align-items: stretch;
-  @warn 'COLOR PROBLEM';
-  background: #8ea580;
-  @warn 'COLOR PROBLEM';
-  color: #000;
+  background: $light-grey;
+  color: $black;
   cursor: pointer;
   display: flex;
   position: relative;
 
   > h2 {
-    // Only here for semantic meaning
     font-size: 0;
-  }
-
-  [data-cycle] {
-    @warn 'COLOR PROBLEM';
-    background: #333;
-    border: 0;
-    color: $pale-green;
-    font-family: $monospace;
-    font-size: 0;
-    height: $height * 0.1rem;
-    width: $height * 0.1rem;
-
-    &::after {
-      font-size: 5rem;
-    }
-  }
-
-  [data-cycle="-1"]::after {
-    content: '<';
-  }
-
-  [data-cycle="1"]::after {
-    content: '>';
   }
 
   @at-root {
+    [data-cycle] {
+      background: $darker-grey;
+      border: 0;
+      color: $light-grey;
+      font-family: $monospace;
+      font-size: 0;
+      height: $height * 0.1rem;
+      width: $height * 0.1rem;
+      &:focus {
+        color: $green;
+      }
+
+      &::after {
+        font-size: 5rem;
+      }
+    }
+
+    [data-cycle="-1"]::after {
+      content: '<';
+    }
+
+    [data-cycle="1"]::after {
+      content: '>';
+    }
+
     .display {
       flex: 1;
       font-family: $monospace;
@@ -57,8 +56,6 @@
     }
 
     .preset-bank {
-      @warn 'COLOR PROBLEM';
-      background: transparentize(#f00, 0.2);
       bottom: 0;
       display: flex;
       flex-wrap: wrap;

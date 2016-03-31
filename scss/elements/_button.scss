@@ -1,4 +1,8 @@
 button {
   cursor: pointer;
   font-family: sans-serif;
+
+  &:focus {
+    outline: none;
+  }
 }

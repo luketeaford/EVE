@@ -1,10 +1,8 @@
 .octave-shift {
-  @warn 'NEEDS COLOR VARIABLE';
-  background: rgba(0, 0, 0, 0.2);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 1rem;
+
   > label {
     @include panel-label(button);
     display: block;
@@ -26,8 +24,7 @@
     }
 
     [data-light=off] {
-      @warn 'NEEDS COLOR VARIABLE';
-      background: #666;
+      background: $grey;
     }
 
     [data-light=on] {
@@ -35,16 +32,19 @@
     }
 
     [data-shift] {
-      @warn 'NEEDS COLOR VARIABLE';
-      background: #ccc;
+      background: $light-grey;
       border: 0;
       border-radius: 0.25rem;
-      color: $dark-grey;
+      color: $darker-grey;
       flex: 1 1 auto;
       font-size: 2rem;
       line-height: 1;
       max-width: 48%;
       padding: 2rem;
+      &:active,
+      &:focus {
+        background: $green;
+      }
     }
   }
 }

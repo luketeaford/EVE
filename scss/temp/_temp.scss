@@ -46,17 +46,14 @@
 
     // THE LABEL IS THE KNOB
     + label {
-      @warn 'COLOR PROBLEMS';
-      background-image: radial-gradient(#000, #000),
-                        linear-gradient(#fff 50%, #fff 50%);
+      background-image: radial-gradient($black, $black),
+                        linear-gradient($white 50%, $white 50%);
       background-size: 5px 20px, cover;
       background-position: top center;
       background-repeat: no-repeat, repeat;
-      @warn 'COLOR PROBLEM';
-      border: 5px solid #000;
+      border: 5px solid $black;
       border-radius: 50%;
-      @warn 'COLOR PROBLEM';
-      color: #000;
+      color: $black;
       display: block;
       font-size: 0;
       height: $knob-size * 0.1rem;
@@ -67,9 +64,8 @@
       width: $knob-size * 0.1rem;
     }
     &:focus + label {
-      @warn 'COLOR PROBLEM';
-      background-image: radial-gradient(#000, #000),
-                        linear-gradient($pale-green 50%, $intense-green 50%);
+      background-image: radial-gradient($black, $black),
+                        linear-gradient($green 50%, $green 50%);
     }
   }
 
@@ -121,7 +117,6 @@
 // CONSENT PROMPT
 .consent-prompt {
   align-items: center;
-  @warn 'COLOR PROBLEM';
   background: transparentize($black, 0.1);
   bottom: 0;
   display: none;

@@ -1,14 +1,22 @@
 // APPROVED COLORS
 $black: #1b1f1c;
+$darker-grey: #2c322d;
 $dark-grey: #333a34;
+$grey: #5e6b60;
 $light-grey: #a3b8a4;
 $white: #c0cec0;
 
-
-// TODO COLORS NEED TO BE RE-THOUGHT UNTIL CORRECT
 $green: #89db8b;
-$bright-green: saturate($green, 30%);// #72f275
+$bright-green: #72f275;// WHERE IS THIS USED?
+
+// PROBLEM COLORS
 $intense-green: darken($bright-green, 10%);// #43ee47
 $dark-green: darken($green, 10%);// #62cf65
 $pale-green: lighten($intense-green, 15%);// #89f48c
 $darker-green: darken($dark-green, 20%);// #2f9c32
+
+
+// DERIVED COLORS
+//$darker-grey: darken($dark-grey, 3%);
+//$grey: lighten($dark-grey, 18%);// #5e6b60
+//$bright-green: saturate($green, 30%);// #72f275
