@@ -16,6 +16,7 @@ EVE = (function (module) {
         'peach-fuzz',
         'percusso',
         'square-overtone',
+        'talking-tennis-ball',
         'vocal-bass',
         'work-song'
     ],
