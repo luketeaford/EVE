@@ -1,5 +1,9 @@
 # EVE Web Audio Synthesizer
 
+# LFO TRACKING:
+* Both LFOs need to track pitch
+* This is more of a preset honestly than a config
+
 # NEXT STEPS:
 * Fix colors
 * Rename all derived colors
@@ -42,6 +46,3 @@
 
 # POSSIBLE ISSUES
 * iOS gets awful distortion when the app is launched as an installable web app
-
-# ATOM CONFIGURATION
-* Find a way to use the terminal with a keyboard shortcut

@@ -64,6 +64,11 @@ gulp.task('js', function () {
     }))
 });
 
+gulp.task('copyManifest', function () {
+    return gulp.src('./manifest.appcache')
+        .pipe(gulp.dest('./dist'))
+});
+
 gulp.task('htmlReplace', function() {
   return gulp.src('./index.html')
     .pipe(htmlReplace({
@@ -121,10 +126,6 @@ gulp.task('minifyJSON', function () {
         .pipe(gulp.dest('./dist/presets'))
 });
 
-gulp.task('minifyManifest', function () {
-    return gulp.src('./manifest.appcache')
-        .pipe(gulp.dest('./dist'))
-});
 
 gulp.task('moveFilesToRoot', function (done) {
     gulp.src(specialFiles)
@@ -168,14 +169,14 @@ gulp.task('minify', [
     'minifyHTML',
     'minifyImages',
     'minifyJS',
-    'minifyJSON',
-    'minifyManifest'
+    'minifyJSON'
 ]);
 
 gulp.task('release', function (done) {
     runSequence(
         ['build', 'htmlReplace'],
         'minify',
+        'copyManifest',
         'moveFilesToRoot',
         done);
 });

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# March 31
+# April 5 10:15 AM
 
 CACHE:
 css/eve.min.css
@@ -13,6 +13,7 @@ presets/cool-sci-fi-sound.json
 presets/dawn.json
 presets/distorted-sawtooth.json
 presets/glimmer.json
+presets/hawaiian-tropic.json
 presets/init.json
 presets/joeys-didgeridoo.json
 presets/johnnys-didgeridoo.json
