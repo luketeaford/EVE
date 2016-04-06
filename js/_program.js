@@ -2,11 +2,11 @@ EVE = (function (module) {
     'use strict';
     var bank = [
         'init',
-        'hawaiian-tropic',
         'cool-sci-fi-sound',
         'dawn',
         'distorted-sawtooth',
         'glimmer',
+        'hawaiian-tropic',
         'joeys-didgeridoo',
         'johnnys-didgeridoo',
         'kangaroo',

@@ -97,6 +97,9 @@ EVE = (function (module) {
             module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.config.lfo2AmpMaxDepth * module.preset.lfo2_polarity, module.now());
             module.lfo2_pitch.gain.setValueAtTime(module.preset.lfo2_pitch * module.config.lfo2PitchMaxDepth * module.preset.lfo2_polarity, module.now());
             break;
+        case 'lfo2_tracking':
+            module.lfo.togglePitchTracking('lfo2');
+            break;
         case 'lfo2_rate':
             module.lfo2.frequency.setValueAtTime(module.preset.lfo2_rate * module.config.lfo2RateMax, module.now());
             break;

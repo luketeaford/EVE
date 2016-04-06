@@ -1,8 +1,7 @@
 # EVE Web Audio Synthesizer
 
 # LFO TRACKING:
-* Both LFOs need to track pitch
-* This is more of a preset honestly than a config
+* Does trackedOscs belong to the config?
 
 # NEXT STEPS:
 * Fix colors
@@ -17,15 +16,18 @@
 
 # ENVELOPES
 * The peak variable is weirdly named inside attack -- it IS the peak, but it's also the attack time
-* Determine if slightly slower envelopes would be better (now that vca is fixed)
+* Determine if slightly slower envelopes would be better
 
 # CLEAN UP IDEAS
 * keyboard/performance separated and gate organized better
 * Eliminate switches where feasible
 * value as number instead of parseFloat
 
+# ACCESSIBILITY PROBLEMS
+* tabbing is fucking confusing (because of display none on radio buttons)
+
 # 2.0 FEATURES
-* keyboard control of selected knobs
+* qwerty keyboard control of selected knobs
 * make config editable
 * MAKE ENVELOPE FUNCTIONS -- and now() is kind of worthless
 * MIDI modwheel should control lfo2 gain (in a useful way)

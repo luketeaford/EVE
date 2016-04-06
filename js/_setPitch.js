@@ -7,6 +7,8 @@ EVE = (function (module) {
         for (i = 0; i < module.config.trackedOscs.length; i += 1) {
             module.config.trackedOscs[i].detune.setTargetAtTime(pitch, module.currentTime, glide);
         }
+
+        return;
     };
 
     return module;

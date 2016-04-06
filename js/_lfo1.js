@@ -1,4 +1,3 @@
-// TODO The way the LFO pitch tracking is set up is very sloppy
 EVE = (function (module) {
     'use strict';
     var debug = false,
@@ -52,13 +51,10 @@ EVE = (function (module) {
             break;
         case 'lfo1_range':
         case 'lfo1_rate':
-            // TODO Clean this up
-            if (module.preset.lfo1_range === 'track') {
-                module.config.trackedOscs.push(module.lfo1);
-            } else {
-                module.config.trackedOscs.splice(module.config.trackedOscs.indexOf(module.lfo1));
-            }
             module.lfo1.frequency.setValueAtTime(module.preset.lfo1_rate * lfoRanges[module.preset.lfo1_range], module.now());
+            break;
+        case 'lfo1_tracking':
+            module.lfo.togglePitchTracking('lfo1');
             break;
         case 'osc1_lfo':
         case 'osc2_lfo':

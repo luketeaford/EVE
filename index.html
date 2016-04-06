@@ -200,8 +200,16 @@
       <label for=lfo1-mid>Middle</label>
       <input id=lfo1-high name=lfo1_range type=radio value=high>
       <label for=lfo1-high>High</label>
+      <!-- TODO: CONSIDERING DELETING (POSSIBLY EXCESSIVE) -->
       <input id=lfo1-track name=lfo1_range type=radio value=track>
       <label for=lfo1-track>Track</label>
+    </div>
+    <div class=fieldset>
+      <legend>Keyboard Tracking</legend>
+      <input checked id=lfo1-track-off name=lfo1_tracking type=radio value=off>
+      <label for=lfo1-track-off>Off</label>
+      <input id=lfo1-track-on name=lfo1_tracking type=radio value=on>
+      <label for=lfo1-track-on>On</label>
     </div>
     <div class=knob-group>
       <!-- WHAT THE HELL IS THIS!? -->
@@ -263,6 +271,13 @@
       <label for=lfo2-positive>Positive</label>
       <input id=lfo2-negative name=lfo2_polarity type=radio value=-1>
       <label for=lfo2-negative>Negative</label>
+    </div>
+    <div class=fieldset>
+      <legend>Keyboard Tracking</legend>
+      <input checked id=lfo2-track-off name=lfo2_tracking type=radio value=off>
+      <label for=lfo2-track-off>Off</label>
+      <input id=lfo2-track-on name=lfo2_tracking type=radio value=on>
+      <label for=lfo2-track-on>On</label>
     </div>
     <div class=knob-group>
       <div class=knob data-label=rate>
