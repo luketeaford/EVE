@@ -75,6 +75,7 @@
       }
 
       &[data-state=open] {
+        cursor: pointer;
         z-index: 2;
       }
 
@@ -89,6 +90,10 @@
         outline-offset: -2px;
         text-transform: uppercase;
         width: (100% / $columns);
+
+        &:focus {
+          background: $green;
+        }
       }
     }
   }

@@ -21,7 +21,6 @@ EVE = (function (module) {
         'vocal-bass',
         'work-song'
     ],
-        display = document.getElementById('display'),
         displayName = document.querySelector('#display > h3'),
         number = 0,
         numberOfPresets = bank.length - 1,
@@ -46,10 +45,6 @@ EVE = (function (module) {
                 // Click display to open/close preset bank
                 if (event.target === displayName) {
                     module.program.togglePresetBank();
-                }
-                // FOOL JSLINT
-                if (display === 'js lint') {
-                    console.log('Temporary workaround for unused display');
                 }
                 // Load selected preset and close preset bank
                 if (event.target.value) {
@@ -102,10 +97,8 @@ EVE = (function (module) {
     };
 
     document.addEventListener('loadpreset', module.program.load);
-    // CLICK AND TOUCHEND DO NOT WORK WELL TOGETHER
-    program.addEventListener('click', module.program.cycle);
 
-//    program.addEventListener('touchstart', module.program.cycle);
+    program.addEventListener('click', module.program.cycle);
 
     return module;
 }(EVE));

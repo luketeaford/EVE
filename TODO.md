@@ -1,13 +1,15 @@
 # EVE Web Audio Synthesizer
 
-# LFO TRACKING:
-* Does trackedOscs belong to the config?
-
 # NEXT STEPS:
+* Add focus highlighting to preset buttons
 * Fix colors
 * Rename all derived colors
 * Consolidate to fewer values
 * clean up scss
+
+# LFO TRACKING:
+* Does trackedOscs belong to the config?
+* Need to make sure that property is saved to preset
 
 # BEFORE MAKING PRESETS
 * fine tune envelopes
@@ -22,9 +24,6 @@
 * keyboard/performance separated and gate organized better
 * Eliminate switches where feasible
 * value as number instead of parseFloat
-
-# ACCESSIBILITY PROBLEMS
-* tabbing is fucking confusing (because of display none on radio buttons)
 
 # 2.0 FEATURES
 * qwerty keyboard control of selected knobs
