@@ -13,44 +13,99 @@
 
 <header>
   <h1>Eve <span>Web Audio Synthesizer</span></h1>
+  <nav>
+    <button type=button value=edit>Edit</button>
+    <button type=button value=config>Config</button>
+  </nav>
 </header>
 
-<main>
-
-  <div class=consent-prompt id=consent-prompt>
-    <div class=consent-message>
-      <button type=button>Enable Web Audio</button>
-    </div>
+<div class=consent-prompt id=consent-prompt>
+  <div class=consent-message>
+    <button type=button>Enable Web Audio</button>
   </div>
+</div>
 
-  <section class=program id=program>
-      <h2>Program</h2>
-      <button data-cycle=-1 type=button>Previous</button>
-      <div class=display id=display>
-        <h3>Sample Program</h3>
-      </div>
-      <div class=preset-bank data-state=closed id=preset-bank>
-        <button type=button value=init>INIT</button>
-        <button type=button value=hawaiian-tropic>Hawaiian Tropic</button>
-        <button type=button value=cool-sci-fi-sound>Cool Sci-Fi Sound</button>
-        <button type=button value=dawn>Dawn</button>
-        <button type=button value=distorted-sawtooth>Distorted Sawtooth</button>
-        <button type=button value=glimmer>Glimmer</button>
-        <button type=button value=joeys-didgeridoo>Joey's Didgeridoo</button>
-        <button type=button value=johnnys-didgeridoo>Johnny's Didgeridoo</button>
-        <button type=button value=kangaroo>Kangaroo</button>
-        <button type=button value=mirage>Mirage</button>
-        <button type=button value=miranda>Miranda</button>
-        <button type=button value=modern-bass>Modern Bass</button>
-        <button type=button value=oranges>Oranges</button>
-        <button type=button value=peach-fuzz>Peach Fuzz</button>
-        <button type=button value=percusso>Percusso</button>
-        <button type=button value=square-overtone>Square Overtone</button>
-        <button type=button value=talking-tennis-ball>Talking Tennis Ball</button>
-        <button type=button value=vocal-bass>Vocal Bass</button>
-        <button type=button value=work-song>Work Song</button>
-      </div>
-      <button data-cycle=1 type=button>Next</button>
+<section class=program id=program>
+    <h2>Program</h2>
+    <button data-cycle=-1 type=button>Previous</button>
+    <div class=display id=display>
+      <h3>Sample Program</h3>
+    </div>
+    <div class=preset-bank data-state=closed id=preset-bank>
+      <button type=button value=init>INIT</button>
+      <button type=button value=hawaiian-tropic>Hawaiian Tropic</button>
+      <button type=button value=cool-sci-fi-sound>Cool Sci-Fi Sound</button>
+      <button type=button value=dawn>Dawn</button>
+      <button type=button value=distorted-sawtooth>Distorted Sawtooth</button>
+      <button type=button value=glimmer>Glimmer</button>
+      <button type=button value=joeys-didgeridoo>Joey's Didgeridoo</button>
+      <button type=button value=johnnys-didgeridoo>Johnny's Didgeridoo</button>
+      <button type=button value=kangaroo>Kangaroo</button>
+      <button type=button value=mirage>Mirage</button>
+      <button type=button value=miranda>Miranda</button>
+      <button type=button value=modern-bass>Modern Bass</button>
+      <button type=button value=oranges>Oranges</button>
+      <button type=button value=peach-fuzz>Peach Fuzz</button>
+      <button type=button value=percusso>Percusso</button>
+      <button type=button value=square-overtone>Square Overtone</button>
+      <button type=button value=talking-tennis-ball>Talking Tennis Ball</button>
+      <button type=button value=vocal-bass>Vocal Bass</button>
+      <button type=button value=work-song>Work Song</button>
+    </div>
+    <button data-cycle=1 type=button>Next</button>
+</section>
+
+<main data-visible=config>
+  <section class=config>
+
+    <h2>Envelope Generators</h2>
+
+    <label for=eg-max>Maximum Time</label>
+    <input data-config=eg-max id=eg-max placeholder=2.125 step=0.001 type=number>
+
+    <label for=eg-min>Minimum Time</label>
+    <input data-config=eg-min id=eg-min placeholder=0.025 step=0.001 type=number>
+
+    <h2>Glide</h2>
+
+    <label for=glide-max>Maximum Glide</label>
+    <input data-config=glide-max id=glide-max placeholder=0.165 step=0.001 type=number>
+
+    <label for=glide-min>Minimum Glide</label>
+    <input data-config=glide-min id=glide-min placeholder=0.0001 step=0.00001 type=number>
+
+    <h2>LFO 2</h2>
+
+    <label for=lfo2-delay-max>Maximum Delay Time</label>
+    <input data-config=lfo2-delay-max id=lfo2-delay-max placeholder=2 step=0.001>
+
+    <label for=lfo2-amp-max-depth>Maximum Amp Depth</label>
+    <input data-config=lfo2-amp-max-depth id=lfo2-amp-max-depth placeholder=1.28 step=0.001 type=number>
+
+    <label for=lfo2-pitch-max-depth>Maximum Pitch Depth</label>
+    <input data-config=lfo2-pitch-max-depth id=lfo2-pitch-max-depth placeholder=3520 step=1 type=number>
+
+    <label for=lfo2-rate-max>Maximum Rate</label>
+    <input data-config=lfo2-rate-max id=lfo2-rate-max placeholder=139 step=0.1 type=number>
+
+    <h2>Tuning</h2>
+
+    <label for=master-freq>Master Frequency</label>
+    <input data-config=master-freq id=master-freq placeholder=440 step=1 type-number>
+
+    <label for=fine-tune-range>Fine Tune Range</label>
+    <input data-config=fine-tune-range id=fine-tune-range placeholder=51 step=1 type=number>
+
+    <h2>Pitch Bend</h2>
+    <label for=pitch-bend-range>Range</label>
+    <input data-config=pitch-bend-range id=pitch-bend-range placeholder=1200 step=100 type=number>
+
+    <label for=pitch-bend-slew>Slew</label>
+    <input data-config=pitch-bend-slew id=pitch-bend-slew placeholder=0.0001 step=0.0001 type=number>
+
+    <h2>Ribbon Controller</h2>
+    <!-- TWO MODES ARE 'pitch control' and 'pitch bend' -->
+
   </section>
 
   <section class=module>
@@ -310,64 +365,60 @@
       </div>
     </div>
   </section>
-
-  <section class=module id=performance>
-    <h2>Performance Controls</h2>
-    <div class=octave-shift id=octave-shift>
-      <label>Octave Shift</label>
-      <div class=lights>
-        <span data-light=off>-2</span>
-        <span data-light=off>-1</span>
-        <span data-light=on>0</span>
-        <span data-light=off>1</span>
-        <span data-light=off>2</span>
-      </div>
-      <button data-shift=-1 type=button>-1</button>
-      <button data-shift=1 type=button>+1</button>
-    </div>
-    <div class=knob-group>
-      <div class=knob data-label=glide>
-        <input data-curve=lin data-program=glide max=1 min=0 step=0.0001 type=range value=0>
-        <label>Glide</label>
-      </div>
-    </div>
-  </section>
-
-  <div class=ribbon id=ribbon></div>
-
-  <div class=keyboard id=keyboard>
-    <button class=key data-active=false data-note-value=-2100 type=button>C</button>
-    <button class=key-sharp data-active=false data-note-value=-2000 type=button>C<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=-1900 type=button>D</button>
-    <button class=key-sharp data-active=false data-note-value=-1800 type=button>D<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=-1700 type=button>E</button>
-    <button class=key data-active=false data-note-value=-1600 type=button>F</button>
-    <button class=key-sharp data-active=false data-note-value=-1500 type=button>F<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=-1400 type=button>G</button>
-    <button class=key-sharp data-active=false data-note-value=-1300 type=button>G<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=-1200 type=button>A</button>
-    <button class=key-sharp data-active=false data-note-value=-1100 type=button>A<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=-1000 type=button>B</button>
-    <button class=key data-active=false data-note-value=-900 type=button>C</button>
-    <button class=key-sharp data-active=false data-note-value=-800 type=button>C<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=-700 type=button>D</button>
-    <button class=key-sharp data-active=false data-note-value=-600 type=button>D<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=-500 type=button>E</button>
-    <button class=key data-active=false data-note-value=-400 type=button>F</button>
-    <button class=key-sharp data-active=false data-note-value=-300 type=button>F<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=-200 type=button>G</button>
-    <button class=key-sharp data-active=false data-note-value=-100 type=button>G<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=0 type=button>A</button>
-    <button class=key-sharp data-active=false data-note-value=100 type=button>A<sup>#</sup></button>
-    <button class=key data-active=false data-note-value=200 type=button>B</button>
-    <button class=key data-active=false data-note-value=300 type=button>C</button>
-  </div>
-
 </main>
+<section class=module id=performance>
+  <h2>Performance Controls</h2>
+  <div class=octave-shift id=octave-shift>
+    <label>Octave Shift</label>
+    <div class=lights>
+      <span data-light=off>-2</span>
+      <span data-light=off>-1</span>
+      <span data-light=on>0</span>
+      <span data-light=off>1</span>
+      <span data-light=off>2</span>
+    </div>
+    <button data-shift=-1 type=button>-1</button>
+    <button data-shift=1 type=button>+1</button>
+  </div>
+  <div class=knob-group>
+    <div class=knob data-label=glide>
+      <input data-curve=lin data-program=glide max=1 min=0 step=0.0001 type=range value=0>
+      <label>Glide</label>
+    </div>
+  </div>
+</section>
 
-<footer>
-  Copyright © 2015–2016 Luke Teaford.
-</footer>
+<div class=ribbon id=ribbon></div>
+
+<div class=keyboard id=keyboard>
+  <button class=key data-active=false data-note-value=-2100 type=button>C</button>
+  <button class=key-sharp data-active=false data-note-value=-2000 type=button>C<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=-1900 type=button>D</button>
+  <button class=key-sharp data-active=false data-note-value=-1800 type=button>D<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=-1700 type=button>E</button>
+  <button class=key data-active=false data-note-value=-1600 type=button>F</button>
+  <button class=key-sharp data-active=false data-note-value=-1500 type=button>F<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=-1400 type=button>G</button>
+  <button class=key-sharp data-active=false data-note-value=-1300 type=button>G<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=-1200 type=button>A</button>
+  <button class=key-sharp data-active=false data-note-value=-1100 type=button>A<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=-1000 type=button>B</button>
+  <button class=key data-active=false data-note-value=-900 type=button>C</button>
+  <button class=key-sharp data-active=false data-note-value=-800 type=button>C<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=-700 type=button>D</button>
+  <button class=key-sharp data-active=false data-note-value=-600 type=button>D<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=-500 type=button>E</button>
+  <button class=key data-active=false data-note-value=-400 type=button>F</button>
+  <button class=key-sharp data-active=false data-note-value=-300 type=button>F<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=-200 type=button>G</button>
+  <button class=key-sharp data-active=false data-note-value=-100 type=button>G<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=0 type=button>A</button>
+  <button class=key-sharp data-active=false data-note-value=100 type=button>A<sup>#</sup></button>
+  <button class=key data-active=false data-note-value=200 type=button>B</button>
+  <button class=key data-active=false data-note-value=300 type=button>C</button>
+</div>
+
+<footer>Copyright © 2015–2016 Luke Teaford.</footer>
 
 <!-- build:js -->
 <script src=js/eve.js></script>

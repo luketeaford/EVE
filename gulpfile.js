@@ -19,6 +19,7 @@ var browserSync = require('browser-sync'),
         'js/_eve.js',
         'js/_prompt.js',
         'js/_events.js',
+        'js/_header.js',
         'js/_config.js',
         'js/_preset.js',
         // SYNTH

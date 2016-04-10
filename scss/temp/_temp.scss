@@ -103,6 +103,13 @@
   height: 0;
 }
 
+[data-visible] .module {
+  display: none;
+}
+
+[data-visible=edit] .module {
+  display: block;
+}
 
 // KNOB GROUPINGS
 // TODO inside knob-group, the first div would be fine
@@ -143,4 +150,107 @@
     text-transform: uppercase;
     width: calc(100% - 4rem);
   }
+}
+
+
+// REWORKING THE HEADER
+header {
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  padding: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 2;
+
+  > h1 {
+    padding: 1rem;
+  }
+}
+
+nav {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  margin-left: 2rem;
+
+  > button {
+    background: none;
+    border: 0;
+    border-left: 1px solid $light-grey;
+    color: $light-grey;
+    flex: 1;
+    max-width: 100px;
+    text-transform: uppercase;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// CONFIG
+[data-visible] .config {
+  display: none;
+}
+
+[data-visible=config] .config {
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// JUST RESETTING THIS SO I CAN FOCUS ON THE HEADER
+$focus-on-header: false;
+@if $focus-on-header == true {
+  html,
+  body {
+    background: #ccc;
+
+    main {
+      display: none;
+    }
+  }
+}
+
+.program {
+  margin-top: 5rem;
 }

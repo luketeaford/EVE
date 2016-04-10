@@ -1,11 +1,14 @@
 # EVE Web Audio Synthesizer
 
 # NEXT STEPS:
-* Add focus highlighting to preset buttons
-* Fix colors
-* Rename all derived colors
-* Consolidate to fewer values
+* Add a means to hide editing
+
+# SCSS
+* Check CSS for colors / Rename all derived colors
 * clean up scss
+
+# BROWSERSYNC
+* Get live reload working
 
 # LFO TRACKING:
 * Does trackedOscs belong to the config?
