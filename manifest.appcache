@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# April 9 10:59 AM
+# April 13 9:03 PM
 
 CACHE:
 css/eve.min.css
@@ -31,6 +31,3 @@ presets/work-song.json
 
 NETWORK:
 *
-
-FALLBACK:
-index.html

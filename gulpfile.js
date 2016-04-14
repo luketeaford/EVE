@@ -14,34 +14,34 @@ var browserSync = require('browser-sync'),
 
     scripts = [
         // LICENSE
-        'js/legal/_license.js',
+        'src/legal/_license.js',
         // GENERAL SET-UP
-        'js/_eve.js',
-        'js/_prompt.js',
-        'js/_events.js',
-        'js/_header.js',
-        'js/_config.js',
-        'js/_preset.js',
+        'src/_eve.js',
+        'src/_prompt.js',
+        'src/_events.js',
+        'src/_config.js',
+        'src/_preset.js',
         // SYNTH
-        'js/_oscilloscope.js',
-        'js/_vca.js',
-        'js/_harmonicOscillator.js',
-        'js/_lfo.js',
-        'js/_lfo1.js',
-        'js/_lfo2.js',
-        'js/_performance.js',
-        'js/_timbreEnv.js',
+        'src/_oscilloscope.js',
+        'src/_vca.js',
+        'src/_harmonicOscillator.js',
+        'src/_lfo.js',
+        'src/_lfo1.js',
+        'src/_lfo2.js',
+        'src/_performance.js',
+        'src/_timbreEnv.js',
         // FUNCTIONALITY
-        'js/_button.js',
-        'js/_calculatePitch.js',
-        'js/_keyboard.js',
-        'js/_midi.js',
-        'js/_program.js',
-        'js/_setPitch.js',
-        'js/_slider.js',
-        'js/_startSynth.js',
-        'js/_now.js',
-        'js/_gate.js'
+        'src/_button.js',
+        'src/_calculatePitch.js',
+        'src/_keyboard.js',
+        'src/_midi.js',
+        'src/_navigation.js',
+        'src/_program.js',
+        'src/_setPitch.js',
+        'src/_slider.js',
+        'src/_startSynth.js',
+        'src/_now.js',
+        'src/_gate.js'
     ],
 
     specialFiles = [
@@ -112,7 +112,7 @@ gulp.task('minifyImages', function () {
 });
 
 gulp.task('minifyJS', function () {
-    return gulp.src('./js/eve.js')
+    return gulp.src('./src/eve.js')
         .pipe(uglify({
             preserveComments: 'license'
         }))
@@ -150,7 +150,7 @@ gulp.task('serve', function() {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./js/**/*.js', ['js']);
+    gulp.watch('./src/**/*.js', ['js']);
     gulp.watch('./scss/**/*.scss', ['sass']);
 });
 
