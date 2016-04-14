@@ -1,7 +1,8 @@
 .oscilloscope {
+  $global-padding: map-get($config, global-padding);
   background: $light-grey;
   box-shadow: inset 0 0.3rem 2.2rem -0.2rem $dark-grey;
-  margin: 0 1rem;// GLOBAL PADDING
+  margin: 0 $global-padding * 0.1rem;
   max-width: 30rem;
   width: 100%;
 }

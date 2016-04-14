@@ -1,8 +1,9 @@
 .module {
+  $global-padding: map-get($config, global-padding);
   $knob-size: 65;
 
   > h2 {
-    margin: 2rem 1rem;// GLOBAL PADDING
+    margin: 2rem $global-padding * 0.1rem;
     text-transform: uppercase;
   }
 

@@ -26,10 +26,8 @@
 
 # 2.0 FEATURES
 * qwerty keyboard control of selected knobs
-* make config editable
 * MAKE ENVELOPE FUNCTIONS -- and now() is kind of worthless
 * MIDI modwheel should control something (in a useful way)
-* top level nav for section to edit: (oscillator, timbre envelope, config, etc)
 * midi learn
 * cache the data-note-value for keyboard presses AND inputs
 

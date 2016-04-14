@@ -1,9 +1,7 @@
-// TODO PADDING NEEDS A VARIABLE
 header {
   $heading-size: 30;
 
   background: $black;
-  padding: 1rem;
 
   > h1 {
     font-size: $heading-size * 0.1rem;

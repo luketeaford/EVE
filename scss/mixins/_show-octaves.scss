@@ -1,4 +1,5 @@
 // TODO Improve this so I don't need to define inbetween MQs
+@warn 'Improve show-octaves so I do not need inbetween MQs';
 @mixin show-octaves($octaves: 1) {
   $scale-x: map-get($keys, scale-x);
   $scale-y: map-get($keys, scale-y);
