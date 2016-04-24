@@ -1,11 +1,7 @@
 # EVE Web Audio Synthesizer
 
 # SCSS
-* Check CSS for colors / Rename all derived colors
 * clean up scss
-
-# BROWSERSYNC
-* Get live reload working
 
 # LFO TRACKING:
 * Does trackedOscs belong to the config?
@@ -18,7 +14,6 @@
 
 # ENVELOPES
 * The peak variable is weirdly named inside attack -- it IS the peak, but it's also the attack time
-* Determine if slightly slower envelopes would be better
 
 # CLEAN UP IDEAS
 * keyboard/performance separated and gate organized better

@@ -128,7 +128,6 @@ gulp.task('minifyJSON', function () {
         .pipe(gulp.dest('./dist/presets'))
 });
 
-
 gulp.task('moveFilesToRoot', function (done) {
     gulp.src(specialFiles)
         .pipe(gulp.dest('./dist'))
@@ -141,7 +140,7 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('css'))
 });
 
-gulp.task('serve', function() {
+gulp.task('serve', function () {
     browserSync({
         server: {
             baseDir: "./"
@@ -150,9 +149,13 @@ gulp.task('serve', function() {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./src/**/*.js', ['js']);
-    gulp.watch('./scss/**/*.scss', ['sass']);
+    gulp.watch('./src/**/*.js', ['watch-js']);
+    gulp.watch('./scss/**/*.scss', ['watch-sass']);
 });
+
+gulp.task('watch-js', ['js'], browserSync.reload);
+
+gulp.task('watch-sass', ['sass'], browserSync.reload);
 
 // CONVENIENT ALIASES FOR RELATED TASKS
 gulp.task('build', [
