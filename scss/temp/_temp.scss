@@ -1,3 +1,10 @@
+// FIX HEADER TITLE
+h1 span {
+  display: none;
+}
+
+
+// MODULE
 .module {
   $global-padding: map-get($config, global-padding);
   $knob-size: 65;
@@ -16,7 +23,7 @@
 
     .knob {
       display: flex;
-      flex: 1 0 auto;
+      flex: 1 1 auto;
       font-family: $monospace;
       margin: 1rem 0;
       position: relative;
@@ -64,6 +71,7 @@
       right: calc(50% - #{$knob-size/2 * 0.1rem});// MAKE FUNCTION
       width: $knob-size * 0.1rem;
     }
+
     &:focus + label {
       background-image: radial-gradient($black, $black),
                         linear-gradient($green 50%, $green 50%);
@@ -175,6 +183,7 @@ nav {
   flex: 1;
   justify-content: flex-end;
   margin-left: 2rem;
+//  max-width: 100%;// HORIZONTAL
 
   > button {
     background: none;
@@ -208,49 +217,33 @@ nav {
   display: block;
 }
 
+.config {
+  label {
+    display: block;
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// JUST RESETTING THIS SO I CAN FOCUS ON THE HEADER
-$focus-on-header: false;
-@if $focus-on-header == true {
-  html,
-  body {
-    background: #ccc;
-
-    main {
-      display: none;
-    }
+  > input {
+    max-width: 80%;
   }
 }
+
+
+
+
+
+// RANDOM GUESSWORK
+@function rem($n) {
+  @return $n * 0.1rem;
+}
+
+
+
+
+
+
+
+
+
 
 .program {
   margin-top: 5rem;

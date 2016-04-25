@@ -3,9 +3,7 @@ input {
 }
 
 [type=radio] {
-  position: absolute;
-  width: 0;
-  z-index: -1;
+  display: none;
 
   + label {
     color: $black;

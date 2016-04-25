@@ -1,7 +1,11 @@
 # EVE Web Audio Synthesizer
 
-# SCSS
-* clean up scss
+# SCSS CLEANUP
+* figure out why horizontal scrolling possible on edit in iOS
+* mixins/show-octaves needs work (media query)
+* modules/keyboard needs work (media query)
+* modules/program is fishy
+
 
 # LFO TRACKING:
 * Does trackedOscs belong to the config?

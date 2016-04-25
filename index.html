@@ -8,8 +8,6 @@
 <meta name=apple-mobile-web-app-capable content=yes>
 <meta name=apple-mobile-web-app-status-bar-style content=black>
 <title>EVE Web Audio Synthesizer by Luke Teaford</title>
-<script src=//use.typekit.net/tpk3tna.js></script>
-<script>try{Typekit.load({ async: true });}catch(e){}</script>
 
 <body>
 
@@ -57,10 +55,12 @@
     <button data-cycle=1 type=button>Next</button>
 </section>
 
-<main data-visible=config>
+<main data-visible=edit>
   <section class=config>
 
     <h2>Envelope Generators</h2>
+
+    <div class=temp-hide>
 
     <label for=eg-max>Maximum Time</label>
     <input data-config=eg-max id=eg-max placeholder=2.125 step=0.001 type=number>
@@ -107,6 +107,7 @@
 
     <h2>Ribbon Controller</h2>
     <!-- TWO MODES ARE 'pitch control' and 'pitch bend' -->
+    </div><!-- TEMP HIDE CONFIG INPUTS -->
 
   </section>
 

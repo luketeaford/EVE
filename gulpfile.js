@@ -144,7 +144,9 @@ gulp.task('serve', function () {
     browserSync({
         server: {
             baseDir: "./"
-        }
+        },
+        ghostMode: false,
+        notify: false
     });
 });
 
