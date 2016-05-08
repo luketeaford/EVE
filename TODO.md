@@ -1,19 +1,15 @@
 # EVE Web Audio Synthesizer
 
 # SCSS CLEANUP
-* figure out why horizontal scrolling possible on edit in iOS
 * mixins/show-octaves needs work (media query)
 * modules/keyboard needs work (media query)
-* modules/program is fishy
-
+* clean up temp
 
 # LFO TRACKING:
 * Does trackedOscs belong to the config?
 * Need to make sure that property is saved to preset
 
 # BEFORE MAKING PRESETS
-* fine tune envelopes
-* fine tune lfo 1
 * fine tune lfo 2
 
 # ENVELOPES
@@ -26,8 +22,6 @@
 # 2.0 FEATURES
 * qwerty keyboard control of selected knobs
 * MAKE ENVELOPE FUNCTIONS -- and now() is kind of worthless
-* MIDI modwheel should control something (in a useful way)
-* midi learn
 * cache the data-note-value for keyboard presses AND inputs
 
 # FINE TUNE
@@ -36,7 +30,6 @@
 * [] fine tune must happen in real time
 
 # SMALL BUGS
-* ribbon controller won't scale properly with 1octave
 * Possible to latch gate on by playing ribbon and keyboard
 
 # POSSIBLE ISSUES
