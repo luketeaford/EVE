@@ -5,17 +5,6 @@
 * modules/keyboard needs work (media query)
 * clean up temp
 
-# LFO TRACKING:
-* Does trackedOscs belong to the config?
-* Need to make sure that property is saved to preset
-
-# ENVELOPES
-* The peak variable is weirdly named inside attack -- it IS the peak, but it's also the attack time
-
-# CLEAN UP IDEAS
-* keyboard/performance separated and gate organized better
-* Eliminate switches where feasible
-
 # 2.0 FEATURES
 * qwerty keyboard control of selected knobs
 * cache the data-note-value for keyboard presses AND inputs
@@ -27,6 +16,8 @@
 
 # SMALL BUGS
 * Possible to latch gate on by playing ribbon and keyboard
-
-# POSSIBLE ISSUES
 * iOS gets awful distortion when the app is launched as an installable web app
+
+# CLEAN UP IDEAS
+* The peak variable is weirdly named -- it IS the peak, and the attack time
+* keyboard/performance separated and gate organized better
