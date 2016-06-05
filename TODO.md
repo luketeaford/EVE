@@ -9,9 +9,6 @@
 * Does trackedOscs belong to the config?
 * Need to make sure that property is saved to preset
 
-# BEFORE MAKING PRESETS
-* fine tune lfo 2
-
 # ENVELOPES
 * The peak variable is weirdly named inside attack -- it IS the peak, but it's also the attack time
 
@@ -21,7 +18,6 @@
 
 # 2.0 FEATURES
 * qwerty keyboard control of selected knobs
-* MAKE ENVELOPE FUNCTIONS -- and now() is kind of worthless
 * cache the data-note-value for keyboard presses AND inputs
 
 # FINE TUNE

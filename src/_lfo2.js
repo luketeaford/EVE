@@ -13,9 +13,8 @@ EVE = (function (module) {
             'square': document.querySelector('#lfo2 [value=square]'),
             'triangle': document.querySelector('#lfo2 [value=triangle]')
         },
-        negative = document.querySelectorAll('[name=lfo2_polarity]')[1],
         pitch = document.querySelector('[data-program=lfo2_pitch]'),
-        positive = document.querySelectorAll('[name=lfo2_polarity]')[0],
+        polarity,
         rate = document.querySelector('[data-program=lfo2_rate]'),
         release = document.querySelector('[data-program=lfo2_r]');
 
@@ -156,11 +155,10 @@ EVE = (function (module) {
         rate.value = Math.sqrt(module.preset.lfo2_rate);
 
         // POLARITY
-        if (module.preset.lfo2_polarity > 0) {
-            positive.checked = true;
-        } else {
-            negative.checked = true;
-        }
+        polarity = module.preset.lfo2_polarity > 0 ?
+                document.getElementById('lfo2-positive') :
+                document.getElementById('lfo2-negative');
+        polarity.checked = true;
 
         // AMP
         module.lfo2_amp.gain.setValueAtTime(module.preset.lfo2_amp * module.config.lfo2AmpMaxDepth * module.preset.lfo2_polarity, module.now());
