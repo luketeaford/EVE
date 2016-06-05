@@ -1,6 +1,6 @@
 EVE = (function (module) {
     'use strict';
-    var debug = false,
+    var debug = true,
         i,
         osc;
 
@@ -8,33 +8,42 @@ EVE = (function (module) {
         inputs: document.querySelectorAll('#harmonic-oscillator input')
     };
 
-    module.harmonicOscillator.mixer = module.createGain();
-    module.harmonicOscillator.mixer.gain.value = -1;
 
-    for (i = 1; i <= 8; i += 1) {
-        osc = 'osc' + i;
+    module.harmonicOscillator.init = function () {
+        module.harmonicOscillator.mixer = module.createGain();
+        module.harmonicOscillator.mixer.gain.value = -1;
 
-        // Create oscillators
-        module.harmonicOscillator[osc] = module.createOscillator();
-        module.harmonicOscillator[osc].frequency.value = module.config.masterFreq * i;
-        module.harmonicOscillator[osc].type = 'sine';
+        for (i = 1; i <= 8; i += 1) {
+            osc = 'osc' + i;
 
-        // Add each oscillator to tracked oscillators
-        module.config.trackedOscs.push(module.harmonicOscillator[osc]);
+            // Create oscillators
+            module.harmonicOscillator[osc] = module.createOscillator();
+            module.harmonicOscillator[osc].frequency.value = i === 7 ?
+                    module.config.masterFreq * 7.199984710649034 :
+                    module.config.masterFreq * i;
+            module.harmonicOscillator[osc].type = 'sine';
 
-        // Create VCAs
-        module.harmonicOscillator[osc].vca = module.createGain();
-        module.harmonicOscillator[osc].vca.gain.value = module.preset[osc];
+            // Add each oscillator to tracked oscillators
+            module.config.trackedOscs.push(module.harmonicOscillator[osc]);
 
-        // Connect each oscillator to its VCA
-        module.harmonicOscillator[osc].connect(module.harmonicOscillator[osc].vca);
+            // Create VCAs
+            module.harmonicOscillator[osc].vca = module.createGain();
+            module.harmonicOscillator[osc].vca.gain.value = module.preset[osc];
 
-        // Connect each VCA to the harmonic oscillator mixer
-        module.harmonicOscillator[osc].vca.connect(module.harmonicOscillator.mixer);
-    }
+            // Connect each oscillator to its VCA
+            module.harmonicOscillator[osc].connect(module.harmonicOscillator[osc].vca);
 
-    // Connect the mixer to the master VCA
-    module.harmonicOscillator.mixer.connect(module.vca);
+            // Connect each VCA to the harmonic oscillator mixer
+            module.harmonicOscillator[osc].vca.connect(module.harmonicOscillator.mixer);
+        }
+
+        // Connect the mixer to the master VCA
+        module.harmonicOscillator.mixer.connect(module.vca);
+
+        if (debug && console) {
+            console.log('Harmonic oscillator initialized');
+        }
+    };
 
     module.harmonicOscillator.update = function (event) {
         var harmonicOsc = module.harmonicOscillator,
@@ -67,6 +76,8 @@ EVE = (function (module) {
 
     document.addEventListener('updateharmonicoscillator', module.harmonicOscillator.update);
     document.addEventListener('loadpreset', module.harmonicOscillator.load);
+
+    module.harmonicOscillator.init();
 
     return module;
 }(EVE));
